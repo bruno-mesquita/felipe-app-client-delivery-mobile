@@ -5,8 +5,12 @@ import {
   Content,
   ContainerLogo,
   LogoTestText,
-  Item,
+  ContainerBotton,
+  ContainerInput,
   Input,
+  ForgotPassword,
+  ForgotPasswordBotton,
+  ForgotPasswordText,
   LoginBotton,
   LoginBottonText,
 } from './styles';
@@ -20,10 +24,18 @@ function login(): JSX.Element {
       </ContainerLogo>
 
       <Content>
-        <Input />
-        <Input />
+        <ContainerInput>
+          <Input />
+          <Input />
+        </ContainerInput>
 
-        <Item>
+        <ForgotPassword>
+          <ForgotPasswordBotton>
+            <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
+          </ForgotPasswordBotton>
+        </ForgotPassword>
+
+        <ContainerBotton>
           <LoginBotton>
             <LoginBottonText>Login</LoginBottonText>
           </LoginBotton>
@@ -31,7 +43,7 @@ function login(): JSX.Element {
           <LoginBotton>
             <LoginBottonText>Criar conta</LoginBottonText>
           </LoginBotton>
-        </Item>
+        </ContainerBotton>
       </Content>
     </Container>
   );

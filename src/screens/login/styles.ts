@@ -3,6 +3,7 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper'; // para usuá
 
 export const Container = styled.View`
   flex: 1;
+  justify-content: center;
   padding-top: ${getStatusBarHeight()}px;
   background-color: #b90000;
   color: #fff;
@@ -12,12 +13,11 @@ export const Content = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-top: 30%;
 `;
 
 export const ContainerLogo = styled.View`
-  margin-top: 30%;
   align-items: center;
+  margin-bottom: 10%;
 `;
 
 export const Logo = styled.Image``;
@@ -27,11 +27,10 @@ export const LogoTestText = styled.Text`
   font-size: 28px;
 `;
 
-export const Item = styled.View`
+export const ContainerInput = styled.View`
   width: 100%;
   align-items: center;
-
-  margin-top: 30px;
+  margin-top: 20%;
 `;
 
 export const Input = styled.TextInput`
@@ -47,6 +46,27 @@ export const Input = styled.TextInput`
   margin-bottom: 10px;
 `;
 
+export const ForgotPassword = styled.View`
+  height: 80px;
+  width: 100%;
+  align-items: flex-end;
+  margin-top: 10px;
+`;
+
+export const ForgotPasswordBotton = styled.TouchableOpacity`
+  margin-right: 45px;
+`;
+
+export const ForgotPasswordText = styled.Text`
+  color: #fff;
+  font-size: 14px;
+`;
+
+export const ContainerBotton = styled.View`
+  width: 100%;
+  align-items: center;
+`;
+
 export const LoginBotton = styled.TouchableOpacity`
   background-color: #fff;
   width: 50%;
@@ -55,8 +75,8 @@ export const LoginBotton = styled.TouchableOpacity`
 
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  margin-top: 15px;
+  padding: 4px;
+  margin-bottom: 14px;
 `;
 
 export const LoginBottonText = styled.Text`
