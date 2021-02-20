@@ -2,20 +2,20 @@ import * as React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from '../screens/home';
+import Login from '../screens/login';
 
 const { Navigator, Screen } = createStackNavigator();
 
-export default function NativeStackRoutes() {
+export default function NavigationStackNotAuth() {
   return (
     <Navigator
-      initialRouteName="Home"
+      initialRouteName="Login"
       screenOptions={{
         headerShown: false,
         cardStyle: { backgroundColor: '#f2f3f5' },
       }}
     >
-      <Screen name="Home" component={Home} />
+      <Screen name="Login" component={Login} />
     </Navigator>
   );
 }
