@@ -34,7 +34,7 @@ function login() {
   return (
     <Container>
       <ContainerLogo>
-        <LogoTestText>FLIPP</LogoTestText>
+        <LogoTestText>Flipp</LogoTestText>
         <LogoTestText>Delivery</LogoTestText>
       </ContainerLogo>
 
@@ -50,12 +50,16 @@ function login() {
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
+                placeholder="E-mail"
+                placeholderTextColor="#fff"
               />
               <ErrorMessage name="email" component={Text} />
               <Input
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
+                placeholder="Senha"
+                placeholderTextColor="#fff"
                 secureTextEntry
               />
               <ErrorMessage name="password" component={Text} />
