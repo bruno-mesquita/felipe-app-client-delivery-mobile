@@ -1,6 +1,8 @@
 import produce from 'immer';
 
-const INITIAL_STATE = {
+import { UserState, AUTH_LOGOUT, UserActionTypes } from './user.types';
+
+const INITIAL_STATE: UserState = {
   id: null,
   name: null,
   email: null,
@@ -8,11 +10,11 @@ const INITIAL_STATE = {
   addressActive: null,
 };
 
-const user = (state = INITIAL_STATE, action: any) => {
+const user = (state = INITIAL_STATE, action: UserActionTypes) => {
   return produce(state, draft => {
-    switch (action.key) {
-      case '@auth/LOGOUT': {
-        draft = INITIAL_STATE;
+    switch (action.type) {
+      case AUTH_LOGOUT: {
+        draft = { ...INITIAL_STATE };
         break;
       }
 

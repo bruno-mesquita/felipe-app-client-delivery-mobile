@@ -8,7 +8,14 @@ import {
   openOrderRequestFailure,
 } from './cart.actions';
 
-export function* openOrderRequest({ payload }) {
+import {
+  OpenOrderRequestAction,
+  DeleteOrderRequestAction,
+  CART_OPEN_ORDER_REQUEST,
+  CART_DELETE_ORDER_REQUEST,
+} from './cart.types';
+
+export function* openOrderRequest({ payload }: OpenOrderRequestAction) {
   try {
     const { establishmentId } = payload;
 
@@ -20,11 +27,11 @@ export function* openOrderRequest({ payload }) {
   }
 }
 
-export function* deleteOrderRequest({ payload }) {
+export function* deleteOrderRequest({ payload }: DeleteOrderRequestAction) {
   try {
-    const { establishmentId } = payload;
+    const { orderId } = payload;
 
-    yield call(api.delete, `/orders/${establishmentId}`);
+    yield call(api.delete, `/orders/${orderId}`);
 
     yield put(deleteOrderRequestSuccess());
   } catch (err) {
@@ -33,6 +40,6 @@ export function* deleteOrderRequest({ payload }) {
 }
 
 export default all([
-  takeLatest('@cart/OPEN_ORDER_REQUEST' as any, openOrderRequest),
-  takeLatest('@cart/DELETE_ORDER_REQUEST' as any, deleteOrderRequest),
+  takeLatest(CART_OPEN_ORDER_REQUEST, openOrderRequest),
+  takeLatest(CART_DELETE_ORDER_REQUEST, deleteOrderRequest),
 ]);

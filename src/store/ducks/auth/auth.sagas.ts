@@ -1,9 +1,11 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { DefaultRootState } from 'react-redux';
 
 import api from '../../../services/api';
 import { requestLoginFailure, requestLoginSuccess } from './auth.actions';
+import { RequestLoginAction } from './auth.types';
 
-export function* signIn({ payload }) {
+export function* signIn({ payload }: RequestLoginAction) {
   try {
     const { email, password } = payload;
 
@@ -22,7 +24,7 @@ export function* signIn({ payload }) {
   }
 }
 
-export function setToken({ payload }) {
+export function setToken({ payload }: { payload: DefaultRootState }) {
   if (!payload) return;
 
   const { token } = payload.auth;

@@ -1,21 +1,36 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Formik, ErrorMessage } from 'formik';
+import { Text } from 'react-native';
 
 import {
   Container,
-  Content,
+  Form,
   ContainerLogo,
   LogoTestText,
-  ContainerBotton,
+  ContainerButton,
   ContainerInput,
   Input,
   ForgotPassword,
-  ForgotPasswordBotton,
+  ForgotPasswordButton,
   ForgotPasswordText,
-  LoginBotton,
-  LoginBottonText,
+  LoginButton,
+  LoginButtonText,
 } from './styles';
 
+import { requestLogin } from '../../store/ducks/auth/auth.actions';
+import schema from './schema';
+import { Values } from './types';
+
 function login() {
+  /* const dispatch = useDispatch(); */
+
+  const onSubmit = ({ email, password }: Values) => {
+    console.log(email);
+    console.log(password);
+    /* dispatch(requestLogin(email, password)); */
+  };
+
   return (
     <Container>
       <ContainerLogo>
@@ -23,28 +38,47 @@ function login() {
         <LogoTestText>Delivery</LogoTestText>
       </ContainerLogo>
 
-      <Content>
-        <ContainerInput>
-          <Input />
-          <Input />
-        </ContainerInput>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={onSubmit}
+        validationSchema={schema}
+      >
+        {({ handleBlur, handleSubmit, handleChange, values }) => (
+          <Form>
+            <ContainerInput>
+              <Input
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              <ErrorMessage name="email" component={Text} />
+              <Input
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry
+              />
+              <ErrorMessage name="password" component={Text} />
+            </ContainerInput>
 
-        <ForgotPassword>
-          <ForgotPasswordBotton>
-            <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
-          </ForgotPasswordBotton>
-        </ForgotPassword>
+            <ForgotPassword>
+              <ForgotPasswordButton>
+                <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
+              </ForgotPasswordButton>
+            </ForgotPassword>
 
-        <ContainerBotton>
-          <LoginBotton>
-            <LoginBottonText>Login</LoginBottonText>
-          </LoginBotton>
+            <ContainerButton>
+              <LoginButton onPress={() => handleSubmit()}>
+                <LoginButtonText>Login</LoginButtonText>
+              </LoginButton>
 
-          <LoginBotton>
-            <LoginBottonText>Criar conta</LoginBottonText>
-          </LoginBotton>
-        </ContainerBotton>
-      </Content>
+              <LoginButton>
+                <LoginButtonText>Criar conta</LoginButtonText>
+              </LoginButton>
+            </ContainerButton>
+          </Form>
+        )}
+      </Formik>
     </Container>
   );
 }

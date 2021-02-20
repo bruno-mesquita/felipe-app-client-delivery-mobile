@@ -9,7 +9,7 @@ export const Container = styled.View`
   color: #fff;
 `;
 
-export const Content = styled.View`
+export const Form = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -53,7 +53,7 @@ export const ForgotPassword = styled.View`
   margin-top: 10px;
 `;
 
-export const ForgotPasswordBotton = styled.TouchableOpacity`
+export const ForgotPasswordButton = styled.TouchableOpacity`
   margin-right: 45px;
 `;
 
@@ -62,12 +62,12 @@ export const ForgotPasswordText = styled.Text`
   font-size: 14px;
 `;
 
-export const ContainerBotton = styled.View`
+export const ContainerButton = styled.View`
   width: 100%;
   align-items: center;
 `;
 
-export const LoginBotton = styled.TouchableOpacity`
+export const LoginButton = styled.TouchableOpacity`
   background-color: #fff;
   width: 50%;
   border-color: rgba(255, 255, 255, 0.3);
@@ -79,7 +79,7 @@ export const LoginBotton = styled.TouchableOpacity`
   margin-bottom: 14px;
 `;
 
-export const LoginBottonText = styled.Text`
+export const LoginButtonText = styled.Text`
   color: #b90000;
   font-size: 28px;
 `;

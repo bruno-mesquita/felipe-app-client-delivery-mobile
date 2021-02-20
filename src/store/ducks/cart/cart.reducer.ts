@@ -1,6 +1,8 @@
 import produce from 'immer';
 
-const INITIAL_STATE = {
+import { CartState, CartActionTypes } from './cart.types';
+
+const INITIAL_STATE: CartState = {
   orderId: null,
   establishmentId: null,
   items: [],
@@ -11,7 +13,7 @@ const INITIAL_STATE = {
   errorMessage: null,
 };
 
-const cart = (state = INITIAL_STATE, action: any) => {
+const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
   return produce(state, draft => {
     switch (action.type) {
       case '@cart/OPEN_ORDER_REQUEST_SUCCESS': {
@@ -69,7 +71,7 @@ const cart = (state = INITIAL_STATE, action: any) => {
       }
 
       case '@cart/DELETE_ORDER_REQUEST_SUCCESS': {
-        draft = INITIAL_STATE;
+        draft = { ...INITIAL_STATE };
         break;
       }
 

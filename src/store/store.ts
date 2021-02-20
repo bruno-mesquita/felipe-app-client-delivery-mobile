@@ -9,7 +9,7 @@ import rootSaga from './ducks/root-saga';
 
 const sagaMonitor =
   process.env.NODE_ENV === 'development'
-    ? console.tron.createSagaMonitor()
+    ? /* console.tron.createSagaMonitor() */ null
     : null;
 
 const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
