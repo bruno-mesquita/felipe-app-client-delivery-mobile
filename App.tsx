@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-// TESTE!
-import Login from './src/screens/login';
 
-export default function App(): JSX.Element {
+import Routes from './src/navigation/drawer.routes';
+
+export default function App() {
   return (
     <>
-      {/* TESTE! */}
-      <Login />
+      <Routes />
       <StatusBar style="light" backgroundColor="#b90000" />
     </>
   );
