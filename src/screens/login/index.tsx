@@ -15,7 +15,7 @@ import {
   LoginBottonText,
 } from './styles';
 
-function login(): JSX.Element {
+function login() {
   return (
     <Container>
       <ContainerLogo>
