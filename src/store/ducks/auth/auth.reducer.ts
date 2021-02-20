@@ -2,6 +2,7 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   token: null,
+  logged: false,
 };
 
 const auth = (state = INITIAL_STATE, action: any) => {
