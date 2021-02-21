@@ -3,15 +3,13 @@ import { reactotronRedux } from 'reactotron-redux';
 import reactotronSaga from 'reactotron-redux-saga';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-if (process.env.NODE_ENV === 'development') {
-  const tron = Reactotron.setAsyncStorageHandler(AsyncStorage)
-    .configure({ name: 'Flipp-Delivery' })
-    .useReactNative()
-    .use(reactotronRedux())
-    .use(reactotronSaga({}))
-    .connect();
+const tron = Reactotron.setAsyncStorageHandler(AsyncStorage)
+  .configure({ name: 'Flipp-Delivery' })
+  .useReactNative()
+  .use(reactotronRedux())
+  .use(reactotronSaga({}))
+  .connect();
 
-  tron.clear();
+tron.clear();
 
-  console.tron = tron;
-}
+console.tron = tron;

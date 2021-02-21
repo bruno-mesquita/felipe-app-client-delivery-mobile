@@ -1,24 +1,22 @@
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
+import 'react-native-gesture-handler';
 
 import React from 'react';
+import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import { StatusBar } from 'expo-status-bar';
 
-import Routes from './navigation/drawer.routes';
-import StackNotAuth from './navigation/stack-not-auth.routes';
-import Store from './store';
-import Styled from './styles/styled';
-/* import useReduxAuth from './store/hooks/use-redux-auth'; */
 import './config/reactotron';
 
-export default function App() {
-  /* const { logged } = useReduxAuth(); */
-  return (
+import Store from './store';
+import Styled from './styles/styled';
+import Navigation from './navigation';
+
+const App = () => (
+  <Store>
     <Styled>
-      {/* {logged ? <Routes /> : <StackNotAuth />} */}
-      <StackNotAuth />
+      <Navigation />
       <StatusBar style="light" backgroundColor="#b90000" />
     </Styled>
-  );
-}
+  </Store>
+);
 
 registerRootComponent(App);

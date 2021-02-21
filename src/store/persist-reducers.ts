@@ -1,13 +1,15 @@
-import storage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer } from 'redux-persist';
 
-export default (reducers: any) => {
+const persistReducers = (reducers: any) => {
   return persistReducer(
     {
-      key: '@flipp-delivery',
-      storage,
+      key: 'flipp-delivery',
+      storage: AsyncStorage,
       whitelist: ['auth', 'user', 'cart'],
     },
     reducers,
   );
 };
+
+export default persistReducers;
