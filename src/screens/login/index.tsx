@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 
 import {
   Container,
@@ -18,17 +19,21 @@ import {
   LoginButtonText,
 } from './styles';
 
-import { requestLogin } from '../../store/ducks/auth/auth.actions';
+import {
+  requestLogin,
+  requestLoginSuccess,
+} from '../../store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
 function login() {
-  /* const dispatch = useDispatch(); */
+  const dispatch = useDispatch();
 
   const onSubmit = ({ email, password }: Values) => {
-    console.log(email);
-    console.log(password);
     /* dispatch(requestLogin(email, password)); */
+
+    /* Login Mock */
+    dispatch(requestLoginSuccess({ email, name: 'Bruno' }, 'token'));
   };
 
   return (

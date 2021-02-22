@@ -13,8 +13,8 @@ import Navigation from './navigation';
 const App = () => (
   <Store>
     <Styled>
-      <Navigation />
       <StatusBar style="light" backgroundColor="#b90000" />
+      <Navigation />
     </Styled>
   </Store>
 );

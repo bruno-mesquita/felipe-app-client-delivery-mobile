@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
-  padding-left: 40px;
+  margin-top: 40px;
 `;
 
 export const Content = styled.View`
@@ -11,6 +11,6 @@ export const Content = styled.View`
 `;
 
 export const ShowScreenTest = styled.Text`
-  color: #b90000;
+  color: black;
   font-size: 16px;
 `;

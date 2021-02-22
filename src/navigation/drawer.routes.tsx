@@ -3,15 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import NativeStackRoutes from './native-stack.routes';
+import Drawer from '../components/Drawer';
 
-const Drawer = createDrawerNavigator();
+const { Navigator, Screen } = createDrawerNavigator();
 
 export default function drawerRoutes() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Home" component={NativeStackRoutes} />
-      </Drawer.Navigator>
+      <Navigator drawerContent={props => <Drawer {...props} />}>
+        <Screen name="Home" component={NativeStackRoutes} />
+      </Navigator>
     </NavigationContainer>
   );
 }

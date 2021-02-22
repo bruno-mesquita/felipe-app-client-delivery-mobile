@@ -17,11 +17,13 @@ const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
     switch (action.type) {
       case AUTH_REQUEST_LOGIN_SUCCESS: {
         draft.token = action.payload.token;
+        draft.logged = true;
         break;
       }
 
       case AUTH_LOGOUT: {
-        draft = INITIAL_STATE;
+        draft.logged = false;
+        draft.token = null;
         break;
       }
 
