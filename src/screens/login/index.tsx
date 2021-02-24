@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   Container,
@@ -17,6 +17,7 @@ import {
   ForgotPasswordText,
   LoginButton,
   LoginButtonText,
+  Item,
 } from './styles';
 
 import {
@@ -28,12 +29,17 @@ import { Values } from './types';
 
 function login() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const onSubmit = ({ email, password }: Values) => {
     /* dispatch(requestLogin(email, password)); */
 
     /* Login Mock */
     dispatch(requestLoginSuccess({ email, name: 'Bruno' }, 'token'));
+  };
+
+  const goRegister = () => {
+    navigation.navigate('Register');
   };
 
   return (
@@ -51,22 +57,25 @@ function login() {
         {({ handleBlur, handleSubmit, handleChange, values }) => (
           <Form>
             <ContainerInput>
-              <Input
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                placeholder="E-mail"
-                placeholderTextColor="#fff"
-              />
+              <Item rounded style={{ borderColor: '#770202' }}>
+                <Input
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  placeholder="E-mail"
+                />
+              </Item>
               <ErrorMessage name="email" component={Text} />
-              <Input
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                placeholder="Senha"
-                placeholderTextColor="#fff"
-                secureTextEntry
-              />
+
+              <Item rounded secureTextEntry style={{ borderColor: '#770202' }}>
+                <Input
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  placeholder="Senha"
+                  secureTextEntry
+                />
+              </Item>
               <ErrorMessage name="password" component={Text} />
             </ContainerInput>
 
@@ -81,7 +90,7 @@ function login() {
                 <LoginButtonText>Login</LoginButtonText>
               </LoginButton>
 
-              <LoginButton>
+              <LoginButton onPress={goRegister}>
                 <LoginButtonText>Criar conta</LoginButtonText>
               </LoginButton>
             </ContainerButton>

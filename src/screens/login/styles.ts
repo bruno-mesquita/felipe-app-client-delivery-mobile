@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'; // para usuário de Iphone
+import { Input as NBInput, Item as NBItem, Button, Text } from 'native-base';
+
+export const Item = styled(NBItem)`
+  margin-top: 25px;
+`;
 
 export const Container = styled.View`
   flex: 1;
@@ -28,22 +33,18 @@ export const LogoTestText = styled.Text`
 `;
 
 export const ContainerInput = styled.View`
-  width: 100%;
+  width: 90%;
   align-items: center;
-  margin-top: 20%;
+  margin-top: 10%;
 `;
 
-export const Input = styled.TextInput`
+export const Input = styled(NBInput).attrs(props => ({
+  placeholderTextColor: '#fff',
+  ...props,
+}))`
   background-color: #770202;
   color: #fff;
-  border-radius: 8px;
-  font-size: 14px;
-
-  height: 50px;
-  width: 80%;
-
-  padding-left: 10px;
-  margin-bottom: 10px;
+  border-radius: 25px;
 `;
 
 export const ForgotPassword = styled.View`
@@ -67,19 +68,18 @@ export const ContainerButton = styled.View`
   align-items: center;
 `;
 
-export const LoginButton = styled.TouchableOpacity`
+export const LoginButton = styled(Button)`
   background-color: #fff;
+  border-radius: 11px;
   width: 50%;
-  border-color: rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-
+  align-self: center;
+  margin-bottom: 14px;
   justify-content: center;
   align-items: center;
-  padding: 4px;
-  margin-bottom: 14px;
 `;
 
-export const LoginButtonText = styled.Text`
+export const LoginButtonText = styled(Text)`
   color: #b90000;
-  font-size: 28px;
+  font-size: 17px;
+  font-weight: bold;
 `;
