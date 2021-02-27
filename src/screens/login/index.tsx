@@ -4,6 +4,7 @@ import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { Field } from '../../components/Field';
 import {
   Container,
   Form,
@@ -11,7 +12,6 @@ import {
   LogoTestText,
   ContainerButton,
   ContainerInput,
-  Input,
   ForgotPassword,
   ForgotPasswordButton,
   ForgotPasswordText,
@@ -57,25 +57,23 @@ function login() {
         {({ handleBlur, handleSubmit, handleChange, values }) => (
           <Form>
             <ContainerInput>
-              <Item rounded style={{ borderColor: '#770202' }}>
-                <Input
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  placeholder="E-mail"
-                />
-              </Item>
+              <Field
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                placeholder="E-mail"
+                textValue="E-mail"
+              />
               <ErrorMessage name="email" component={Text} />
 
-              <Item rounded secureTextEntry style={{ borderColor: '#770202' }}>
-                <Input
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                  placeholder="Senha"
-                  secureTextEntry
-                />
-              </Item>
+              <Field
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                placeholder="Senha"
+                secureTextEntry
+                textValue="Senha"
+              />
               <ErrorMessage name="password" component={Text} />
             </ContainerInput>
 
