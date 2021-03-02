@@ -4,20 +4,22 @@ import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import logo from '../../assets/images/logo.png';
 import { Field } from '../../components/Field';
+import { Button } from '../../components/Button';
+import CheckBox from '../../components/CheckBox';
+
 import {
   Container,
   Form,
   ContainerLogo,
-  LogoTestText,
+  Logo,
   ContainerButton,
   ContainerInput,
   ForgotPassword,
   ForgotPasswordButton,
   ForgotPasswordText,
-  LoginButton,
-  LoginButtonText,
-  Item,
+  StayConnect,
 } from './styles';
 
 import {
@@ -45,8 +47,7 @@ function login() {
   return (
     <Container>
       <ContainerLogo>
-        <LogoTestText>Flipp</LogoTestText>
-        <LogoTestText>Delivery</LogoTestText>
+        <Logo source={logo} />
       </ContainerLogo>
 
       <Formik
@@ -58,7 +59,7 @@ function login() {
           <Form>
             <ContainerInput>
               <Field
-                onChangeText={handleChange('email')}
+                onChangeText={handleChange('email')} // Aqui ta bugado.
                 onBlur={handleBlur('email')}
                 value={values.email}
                 placeholder="E-mail"
@@ -83,14 +84,22 @@ function login() {
               </ForgotPasswordButton>
             </ForgotPassword>
 
-            <ContainerButton>
-              <LoginButton onPress={() => handleSubmit()}>
-                <LoginButtonText>Login</LoginButtonText>
-              </LoginButton>
+            <StayConnect>
+              <CheckBox />
+            </StayConnect>
 
-              <LoginButton onPress={goRegister}>
-                <LoginButtonText>Criar conta</LoginButtonText>
-              </LoginButton>
+            <ContainerButton>
+              <Button
+                onPress={() => handleSubmit()}
+                key={values.email}
+                value="Login"
+              />
+
+              <Button
+                onPress={() => handleSubmit()}
+                key={values.email}
+                value="Criar conta"
+              />
             </ContainerButton>
           </Form>
         )}
