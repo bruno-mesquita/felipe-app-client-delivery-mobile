@@ -35,7 +35,7 @@ const App = () => {
       {isReady ? (
         <Store>
           <Styled>
-            <StatusBar style="light" backgroundColor="#b90000" />
+            <StatusBar style="light" backgroundColor="#770202" />
             <Navigation />
           </Styled>
         </Store>

@@ -10,6 +10,7 @@ import CheckBox from '../../components/CheckBox';
 
 import {
   Container,
+  BackGround,
   Form,
   ContainerLogo,
   Logo,
@@ -45,72 +46,80 @@ function login() {
 
   return (
     <Container>
-      <ContainerLogo>
-        <Logo source={require('../../assets/images/logo.png')} />
-      </ContainerLogo>
+      <BackGround source={require('../../assets/images/fundo.png')}>
+        <ContainerLogo>
+          <Logo source={require('../../assets/images/logo.png')} />
+        </ContainerLogo>
 
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={onSubmit}
-        validationSchema={schema}
-      >
-        {({ handleBlur, handleSubmit, handleChange, values }) => (
-          <Form>
-            <ContainerInput>
-              <Field
-                onChangeText={handleChange('email')} // Aqui ta bugado.
-                onBlur={handleBlur('email')}
-                value={values.email}
-                placeholder="E-mail"
-                textValue="E-mail"
-              />
-              <ErrorMessage
-                style={{ color: '#fff' }}
-                name="email"
-                component={Text}
-              />
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={onSubmit}
+          validationSchema={schema}
+        >
+          {({ handleBlur, handleSubmit, handleChange, values }) => (
+            <Form>
+              <ContainerInput>
+                <Field
+                  onChangeText={handleChange('email')} // Aqui ta bugado.
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  placeholder="E-mail"
+                  textValue="E-mail"
+                />
+                <ErrorMessage
+                  style={{ color: '#fff' }}
+                  name="email"
+                  component={Text}
+                />
 
-              <Field
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                placeholder="Senha"
-                secureTextEntry
-                textValue="Senha"
-              />
-              <ErrorMessage name="password" component={Text} />
-            </ContainerInput>
+                <Field
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  placeholder="Senha"
+                  secureTextEntry
+                  textValue="Senha"
+                />
+                <ErrorMessage
+                  style={{ color: '#fff' }}
+                  name="password"
+                  component={Text}
+                />
+              </ContainerInput>
 
-            <ForgotPassword>
-              <ForgotPasswordButton>
-                <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
-              </ForgotPasswordButton>
-            </ForgotPassword>
+              <ForgotPassword>
+                <ForgotPasswordButton>
+                  <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
+                </ForgotPasswordButton>
+              </ForgotPassword>
 
-            <StayConnect>
-              <CheckBox />
-            </StayConnect>
+              <StayConnect>
+                <CheckBox children="Mantenhe-me conectado" borderRadius={6} />
+              </StayConnect>
 
-            <ContainerButton>
-              <ButtonLogin
-                color="#ffffff"
-                textColor="#b90000"
-                onPress={() => handleSubmit()}
-              >
-                Login
-              </ButtonLogin>
+              <ContainerButton>
+                <ButtonLogin
+                  color="#ffffff"
+                  textColor="#b90000"
+                  onPress={() => handleSubmit()}
+                >
+                  Login
+                </ButtonLogin>
 
-              <ButtonLogin
-                color="#ffffff"
-                textColor="#b90000"
-                onPress={() => handleSubmit()}
-              >
-                Criar conta
-              </ButtonLogin>
-            </ContainerButton>
-          </Form>
-        )}
-      </Formik>
+                <ButtonLogin
+                  color="#ffffff"
+                  textColor="#b90000"
+                  onPress={() => {
+                    ('');
+                  }}
+                >
+                  Criar conta
+                </ButtonLogin>
+              </ContainerButton>
+            </Form>
+          )}
+        </Formik>
+      </BackGround>
     </Container>
   );
 }

@@ -4,10 +4,13 @@ import { Input as NBInput, Item as NBItem, Button, Text } from 'native-base';
 
 export const Container = styled.View`
   flex: 1;
-  justify-content: center;
   padding-top: ${getStatusBarHeight()}px;
-  background-color: #b90000;
-  color: #fff;
+`;
+
+export const BackGround = styled.ImageBackground`
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const Form = styled.View`

@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
-import { ListItem, CheckBox, Text, Content } from 'native-base';
+import { ListItem, Text, Content, NativeBase } from 'native-base';
 
-export default class CheckBoxExample extends Component {
-  state = {
-    one: true,
-    two: false,
-  };
+import { Check } from './styles';
 
-  onePressed() {
-    alert('Sim');
-  }
+type Props = NativeBase.CheckBox & {
+  children: React.ReactNode;
+  borderRadius: number;
+};
 
-  render() {
-    return (
-      <Content style={{ flexDirection: 'row' }}>
-        <ListItem>
-          <CheckBox
-            style={{ marginRight: 20, borderRadius: 4 }}
-            checked={this.state.one}
-            onPress={() => this.onePressed()}
-            color="#ffffff"
-          />
-          <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
-        </ListItem>
-      </Content>
-    );
-  }
-}
+const CheckBoxExample = (props: Props) => {
+  return (
+    <Content style={{ flexDirection: 'row' }}>
+      <ListItem>
+        <Check
+          style={{
+            borderRadius: props.borderRadius,
+            shadowColor: '#000000',
+            shadowOffset: { width: 5, height: 5 },
+            shadowOpacity: 1.0,
+            shadowRadius: 1.27,
+            elevation: 4,
+          }}
+          checked={true}
+          color="#ffffff"
+          {...props}
+        />
+        <Text style={{ color: '#fff' }}>{props.children}</Text>
+      </ListItem>
+    </Content>
+  );
+};
+
+export default CheckBoxExample;

@@ -10,7 +10,7 @@ export const TextField = styled(NBInput).attrs(props => ({
   shadowOpacity: 0.34,
   shadowRadius: 6.27,
 
-  elevation: 10,
+  elevation: 5,
   placeholderTextColor: '#C4C4C4',
   ...props,
 }))`
