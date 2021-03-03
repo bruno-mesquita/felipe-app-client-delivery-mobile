@@ -4,9 +4,8 @@ import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import logo from '../../assets/images/logo.png';
 import { Field } from '../../components/Field';
-import { Button } from '../../components/Button';
+import { Button as ButtonLogin } from '../../components/Button';
 import CheckBox from '../../components/CheckBox';
 
 import {
@@ -47,7 +46,7 @@ function login() {
   return (
     <Container>
       <ContainerLogo>
-        <Logo source={logo} />
+        <Logo source={require('../../assets/images/logo.png')} />
       </ContainerLogo>
 
       <Formik
@@ -65,7 +64,11 @@ function login() {
                 placeholder="E-mail"
                 textValue="E-mail"
               />
-              <ErrorMessage name="email" component={Text} />
+              <ErrorMessage
+                style={{ color: '#fff' }}
+                name="email"
+                component={Text}
+              />
 
               <Field
                 onChangeText={handleChange('password')}
@@ -89,17 +92,21 @@ function login() {
             </StayConnect>
 
             <ContainerButton>
-              <Button
+              <ButtonLogin
+                color="#ffffff"
+                textColor="#b90000"
                 onPress={() => handleSubmit()}
-                key={values.email}
-                value="Login"
-              />
+              >
+                Login
+              </ButtonLogin>
 
-              <Button
+              <ButtonLogin
+                color="#ffffff"
+                textColor="#b90000"
                 onPress={() => handleSubmit()}
-                key={values.email}
-                value="Criar conta"
-              />
+              >
+                Criar conta
+              </ButtonLogin>
             </ContainerButton>
           </Form>
         )}
