@@ -1,3 +1,5 @@
+declare module '*.png';
+
 import { ReactotronReactNative } from 'reactotron-react-native';
 import { Reactotron } from 'reactotron-core-client';
 
