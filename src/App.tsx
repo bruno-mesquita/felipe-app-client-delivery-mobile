@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
@@ -16,19 +16,17 @@ import Navigation from './navigation';
 const App = () => {
   const [isReady, setIsReady] = useState(false);
 
-  const loading = useCallback(async () => {
-    await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font,
-    });
-
-    setIsReady(true);
-  }, []);
-
   useEffect(() => {
-    loading();
-  }, [loading]);
+    (async () => {
+      await Font.loadAsync({
+        Roboto: require('native-base/Fonts/Roboto.ttf'),
+        Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+        ...Ionicons.font,
+      });
+
+      setIsReady(true);
+    })();
+  }, []);
 
   return (
     <>

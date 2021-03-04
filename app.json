@@ -4,11 +4,10 @@
     "slug": "flipp-delivery",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": ".src/assets/images/logo.png",
+    "icon": "./src/assets/images/logo.png",
     "splash": {
-      "image": ".src/assets/images/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./src/assets/images/splash.jpg",
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,12 +20,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": ".src/assets/images/logo.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./src/assets/images/logo.png",
+        "backgroundColor": "#9E0404"
       }
     },
     "web": {
-      "favicon": ".src/assets/images/logo.png"
+      "favicon": "./src/assets/images/logo.png"
     }
   }
 }
