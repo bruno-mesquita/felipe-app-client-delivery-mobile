@@ -6,3 +6,8 @@ export const Container = styled.View`
   box-shadow: 100px 100px 100px #000;
   margin: 4px;
 `;
+
+export const IconPassword = styled.Image`
+  height: 24px;
+  width: 24px;
+`;
