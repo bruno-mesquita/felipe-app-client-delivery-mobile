@@ -3,19 +3,16 @@ import { NativeBase } from 'native-base';
 
 import { Container, ButtonConfig, TextConfig } from './styles';
 
-type Props = NativeBase.Button & {
+export type Props = NativeBase.Button & {
   children: React.ReactNode;
-  textColor: string;
-  color: string;
+  primaryColor?: boolean;
 };
 
-const Button = (props: Props) => {
+const Button = ({ primaryColor = false, children, ...rest }: Props) => {
   return (
     <Container>
-      <ButtonConfig style={{ backgroundColor: props.color }} {...props}>
-        <TextConfig style={{ color: props.textColor }}>
-          {props.children}
-        </TextConfig>
+      <ButtonConfig {...rest} primaryColor={primaryColor}>
+        <TextConfig primaryColor={primaryColor}>{children}</TextConfig>
       </ButtonConfig>
     </Container>
   );

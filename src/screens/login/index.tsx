@@ -98,17 +98,8 @@ function login() {
               </StayConnect>
 
               <ContainerButton>
+                <ButtonLogin onPress={() => handleSubmit()}>Login</ButtonLogin>
                 <ButtonLogin
-                  color="#ffffff"
-                  textColor="#b90000"
-                  onPress={() => handleSubmit()}
-                >
-                  Login
-                </ButtonLogin>
-
-                <ButtonLogin
-                  color="#ffffff"
-                  textColor="#b90000"
                   onPress={() => {
                     ('');
                   }}

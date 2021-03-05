@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 
 import React, { useEffect, useState } from 'react';
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +11,7 @@ import './config/reactotron';
 import Store from './store';
 import Styled from './styles/styled';
 import Navigation from './navigation';
+import StatusBar from './components/StatusBar';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
@@ -33,7 +33,7 @@ const App = () => {
       {isReady ? (
         <Store>
           <Styled>
-            <StatusBar style="light" backgroundColor="#770202" />
+            <StatusBar />
             <Navigation />
           </Styled>
         </Store>
