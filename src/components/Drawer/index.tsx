@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   DrawerContentComponentProps,
   DrawerContentOptions,
@@ -12,15 +12,13 @@ import {
   ListItemText,
   User,
   UserAvatar,
-  Username,
+  Divider,
 } from './styles';
 
 import { logout } from '../../store/ducks/auth/auth.actions';
 
 const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   const dispatch = useDispatch();
-
-  const user = useSelector(({ user }) => user);
 
   const goLogout = () => {
     dispatch(logout());
@@ -33,15 +31,24 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   return (
     <Container {...props}>
       <User>
-        <Username>{user.profile.name}</Username>
-        {/* <UserAvatar/> */}
+        <UserAvatar source={require('../../assets/images/mocks/perfil.jpeg')} />
       </User>
       <List>
         <ListItem onPress={() => goProfile()}>
           <ListItemText>Perfil</ListItemText>
+          <Divider />
         </ListItem>
         <ListItem>
-          <ListItemText>Configurações</ListItemText>
+          <ListItemText>Pedidos</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem>
+          <ListItemText>Endereços</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem>
+          <ListItemText>Alterar senha</ListItemText>
+          <Divider />
         </ListItem>
         <ListItem onPress={goLogout}>
           <ListItemText>Sair</ListItemText>
