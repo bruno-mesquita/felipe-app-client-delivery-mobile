@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Input as NBInput } from 'native-base';
+import { Input as NBInput, Button as NBButton } from 'native-base';
 import { Ionicons as IconPassword } from '@expo/vector-icons';
 
 export const Container = styled.View`
@@ -18,12 +18,17 @@ export const TextField = styled(NBInput).attrs(props => ({
   ...props,
 }))`
   height: 43px;
-  /* width: 295px; */
 
   border-radius: 10px;
+  padding-left: 15px;
 
   background-color: #770202;
   color: #fff;
+`;
+
+export const PasswordButton = styled(NBButton)`
+  background-color: #770202;
+  border-radius: 10px;
 `;
 
 export const PasswordIcon = styled(IconPassword)`
