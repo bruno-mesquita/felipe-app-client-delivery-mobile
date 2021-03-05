@@ -2,8 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 
-import Home from '../screens/home';
-import Profile from '../screens/profile';
+import { Home, Profile } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
 

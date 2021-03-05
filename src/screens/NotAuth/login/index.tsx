@@ -4,9 +4,9 @@ import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Field } from '../../components/Field';
-import { Button as ButtonLogin } from '../../components/Button';
-import CheckBox from '../../components/CheckBox';
+import { Field } from '../../../components/Field';
+import { Button as ButtonLogin } from '../../../components/Button';
+import CheckBox from '../../../components/CheckBox';
 
 import {
   Container,
@@ -25,7 +25,7 @@ import {
 import {
   requestLogin,
   requestLoginSuccess,
-} from '../../store/ducks/auth/auth.actions';
+} from '../../../store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
@@ -46,9 +46,9 @@ function login() {
 
   return (
     <Container>
-      <BackGround source={require('../../assets/images/fundo.png')}>
+      <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
-          <Logo source={require('../../assets/images/logo.png')} />
+          <Logo source={require('../../../assets/images/logo.png')} />
         </ContainerLogo>
 
         <Formik
