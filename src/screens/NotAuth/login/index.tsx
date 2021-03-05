@@ -46,9 +46,9 @@ function login() {
 
   return (
     <Container>
-      <BackGround source={require('../../assets/images/fundo.png')}>
+      <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
-          <Logo source={require('../../assets/images/logo.png')} />
+          <Logo source={require('../../../assets/images/logo.png')} />
         </ContainerLogo>
 
         <Formik
