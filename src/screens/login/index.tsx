@@ -79,6 +79,9 @@ function login() {
                   placeholder="Senha"
                   secureTextEntry
                   textValue="Senha"
+                  iconName="eye"
+                  iconColor="white"
+                  iconSize={24}
                 />
                 <ErrorMessage
                   style={{ color: '#fff' }}
