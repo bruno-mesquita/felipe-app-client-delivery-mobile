@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'; // para usuário de Iphone
-import RNPickerSelect from 'react-native-picker-select';
 
 export const Container = styled.View`
   flex: 1;
@@ -23,6 +22,7 @@ export const Logo = styled.Image`
 
 export const ContentForm = styled.View`
   align-items: center;
+  height: 1080px;
 `;
 
 export const SelectContainer = styled.View`
@@ -30,8 +30,6 @@ export const SelectContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   border-radius: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
 `;
 
 export const SelectContent = styled.View`
@@ -42,6 +40,4 @@ export const DivField = styled.View`
   width: 295px;
   flex-direction: column;
   border-radius: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
 `;
