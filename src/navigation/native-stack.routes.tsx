@@ -27,7 +27,18 @@ export default function NativeStackRoutes() {
           headerTitle: () => <Header />,
         }}
       />
-      <Screen name="Profile" component={Profile} />
+      <Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTitle: 'Perfil',
+          headerTintColor: '#ffffff',
+        }}
+      />
     </Navigator>
   );
 }

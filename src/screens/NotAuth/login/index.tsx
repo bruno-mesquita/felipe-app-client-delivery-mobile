@@ -37,7 +37,12 @@ function login() {
     /* dispatch(requestLogin(email, password)); */
 
     /* Login Mock */
-    dispatch(requestLoginSuccess({ email, name: 'Bruno' }, 'token'));
+    dispatch(
+      requestLoginSuccess(
+        { email, name: 'Bruno', phone: '00000000000', cpf: '00000000000' },
+        'token',
+      ),
+    );
   };
 
   const goRegister = () => {

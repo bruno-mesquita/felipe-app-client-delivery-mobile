@@ -6,10 +6,4 @@ interface IPropsLabel {
   value: string;
 }
 
-export const Label = (props: IPropsLabel) => {
-  return (
-    <>
-      <Labels>{props.value}</Labels>
-    </>
-  );
-};
+export const Label = (props: IPropsLabel) => <Labels>{props.value}</Labels>;

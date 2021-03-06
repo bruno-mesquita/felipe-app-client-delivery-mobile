@@ -5,6 +5,11 @@ export const REGISTER_USER_REQUEST_SUCCESS =
   '@user/REGISTER_USER_REQUEST_SUCCESS';
 export const REGISTER_USER_REQUEST_FAILURE =
   '@user/REGISTER_USER_REQUEST_FAILURE';
+export const UPDATE_PROFILE_REQUEST = '@user/UPDATE_PROFILE_REQUEST';
+export const UPDATE_PROFILE_REQUEST_SUCCESS =
+  '@user/UPDATE_PROFILE_REQUEST_SUCCESS';
+export const UPDATE_PROFILE_REQUEST_FAILURE =
+  '@user/UPDATE_PROFILE_REQUEST_FAILURE';
 
 export interface RegisterUser {
   name: string;
@@ -14,6 +19,20 @@ export interface RegisterUser {
   dateOfBirth: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface UpdateProfileRequest {
+  type: typeof UPDATE_PROFILE_REQUEST;
+  payload: { profile: any };
+}
+
+export interface UpdateProfileRequestSuccess {
+  type: typeof UPDATE_PROFILE_REQUEST_SUCCESS;
+  payload: { profile: any };
+}
+
+export interface UpdateProfileRequestFailure {
+  type: typeof UPDATE_PROFILE_REQUEST_FAILURE;
 }
 
 export interface RegisterUserRequestAction {
@@ -38,13 +57,19 @@ export type UserActionTypes =
   | RequestLoginSuccessAction
   | RegisterUserRequestAction
   | RegisterUserRequestSuccessAction
-  | RegisterUserRequestFailureAction;
+  | RegisterUserRequestFailureAction
+  | UpdateProfileRequest
+  | UpdateProfileRequestSuccess
+  | UpdateProfileRequestFailure;
 
 export interface UserState {
   id: string;
   profile: {
-    name: string | null;
+    avatar: string | null;
     email: string | null;
+    name: string | null;
+    cpf: string | null;
+    phone: string | null;
     adresses: any | null;
   };
   addressActive: any | null;

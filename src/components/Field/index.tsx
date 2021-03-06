@@ -1,18 +1,36 @@
 import React from 'react';
+import { NativeBase } from 'native-base';
 
-import { Label } from '../Label';
-import { Input, PropsInput } from '../Input';
-import { Container } from './styles';
+import {
+  Container,
+  ContainerTextField,
+  Label,
+  PasswordIcon,
+  TextField,
+} from './styles';
 
-interface InputLabel extends PropsInput {
+interface FieldProps extends NativeBase.Input {
   textValue: string;
+  textColor?: string;
+  iconName?: string;
+  iconSize?: number;
+  iconColor?: string;
 }
 
-const Field = (props: InputLabel) => {
+const Field = (props: FieldProps) => {
   return (
     <Container>
-      <Label value={props.textValue} />
-      <Input {...props} />
+      <Label style={{ color: props.textColor || '#FFFFFF' }}>
+        {props.textValue}
+      </Label>
+      <ContainerTextField>
+        <TextField {...props} />
+        <PasswordIcon
+          name={props.iconName}
+          size={props.iconSize}
+          color={props.iconColor}
+        />
+      </ContainerTextField>
     </Container>
   );
 };

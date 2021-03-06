@@ -1,12 +1,19 @@
 import produce from 'immer';
 
-import { UserState, UserActionTypes } from './user.types';
+import {
+  UserState,
+  UserActionTypes,
+  UPDATE_PROFILE_REQUEST_SUCCESS,
+} from './user.types';
 import { AUTH_REQUEST_LOGIN_SUCCESS, AUTH_LOGOUT } from '../auth/auth.types';
 
 const INITIAL_STATE: UserState = {
   id: null,
   profile: {
     name: null,
+    avatar: null,
+    cpf: null,
+    phone: null,
     email: null,
     adresses: [],
   },
@@ -23,6 +30,9 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
         draft.profile = {
           name: user.name,
           email: user.email,
+          cpf: user.cpf,
+          avatar: user.avatar,
+          phone: user.phone,
           adresses: user.addresses,
         };
         break;
@@ -30,8 +40,22 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
 
       case AUTH_LOGOUT: {
         draft.id = null;
-        draft.profile = { name: null, email: null, adresses: [] };
+        draft.profile = {
+          name: null,
+          email: null,
+          phone: null,
+          cpf: null,
+          avatar: null,
+          adresses: [],
+        };
         draft.addressActive = null;
+        break;
+      }
+
+      case UPDATE_PROFILE_REQUEST_SUCCESS: {
+        const { profile } = action.payload;
+
+        draft.profile = { ...draft.profile, ...profile };
         break;
       }
 

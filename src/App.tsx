@@ -5,6 +5,7 @@ import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { Ionicons } from '@expo/vector-icons';
+import { Root } from 'native-base';
 
 import './config/reactotron';
 
@@ -31,12 +32,14 @@ const App = () => {
   return (
     <>
       {isReady ? (
-        <Store>
-          <Styled>
-            <StatusBar />
-            <Navigation />
-          </Styled>
-        </Store>
+        <Root>
+          <Store>
+            <Styled>
+              <StatusBar />
+              <Navigation />
+            </Styled>
+          </Store>
+        </Root>
       ) : (
         <AppLoading />
       )}
