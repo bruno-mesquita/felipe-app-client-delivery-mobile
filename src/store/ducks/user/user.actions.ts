@@ -5,6 +5,9 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_REQUEST_FAILURE,
   UPDATE_PROFILE_REQUEST_SUCCESS,
+  CHANGE_USER_PASSWORD_REQUEST,
+  CHANGE_USER_PASSWORD_REQUEST_FAILURE,
+  CHANGE_USER_PASSWORD_REQUEST_SUCCESS,
   UserActionTypes,
   RegisterUser,
 } from './user.types';
@@ -37,4 +40,17 @@ export const updateProfileRequestSuccess = (profile: any): UserActionTypes => ({
 
 export const updateProfileRequestFailure = (): UserActionTypes => ({
   type: UPDATE_PROFILE_REQUEST_FAILURE,
+});
+
+export const changeUserPasswordRequest = (values: any): UserActionTypes => ({
+  type: CHANGE_USER_PASSWORD_REQUEST,
+  payload: { ...values },
+});
+
+export const changeUserPasswordRequestSuccess = (): UserActionTypes => ({
+  type: CHANGE_USER_PASSWORD_REQUEST_SUCCESS,
+});
+
+export const changeUserPasswordRequestFailure = (): UserActionTypes => ({
+  type: CHANGE_USER_PASSWORD_REQUEST_FAILURE,
 });

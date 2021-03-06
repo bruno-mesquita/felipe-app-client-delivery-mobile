@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 
-import { Home, Profile } from '../screens/Auth';
+import { Home, Profile, ChangePassword } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -36,6 +36,18 @@ export default function NativeStackRoutes() {
             backgroundColor: '#9E0404',
           },
           headerTitle: 'Perfil',
+          headerTintColor: '#ffffff',
+        }}
+      />
+      <Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTitle: 'Alterar senha',
           headerTintColor: '#ffffff',
         }}
       />

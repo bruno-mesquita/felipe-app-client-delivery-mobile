@@ -11,6 +11,13 @@ export const UPDATE_PROFILE_REQUEST_SUCCESS =
 export const UPDATE_PROFILE_REQUEST_FAILURE =
   '@user/UPDATE_PROFILE_REQUEST_FAILURE';
 
+export const CHANGE_USER_PASSWORD_REQUEST =
+  '@user/CHANGE_USER_PASSWORD_REQUEST';
+export const CHANGE_USER_PASSWORD_REQUEST_SUCCESS =
+  '@user/CHANGE_USER_PASSWORD_REQUEST_SUCCESS';
+export const CHANGE_USER_PASSWORD_REQUEST_FAILURE =
+  '@user/CHANGE_USER_PASSWORD_REQUEST_FAILURE';
+
 export interface RegisterUser {
   name: string;
   email: string;
@@ -19,6 +26,23 @@ export interface RegisterUser {
   dateOfBirth: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface ChangeUserPasswordRequest {
+  type: typeof CHANGE_USER_PASSWORD_REQUEST;
+  payload: {
+    currentPassoword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+  };
+}
+
+export interface ChangeUserPasswordRequestSuccess {
+  type: typeof CHANGE_USER_PASSWORD_REQUEST_SUCCESS;
+}
+
+export interface ChangeUserPasswordRequestFailure {
+  type: typeof CHANGE_USER_PASSWORD_REQUEST_FAILURE;
 }
 
 export interface UpdateProfileRequest {
@@ -60,7 +84,10 @@ export type UserActionTypes =
   | RegisterUserRequestFailureAction
   | UpdateProfileRequest
   | UpdateProfileRequestSuccess
-  | UpdateProfileRequestFailure;
+  | UpdateProfileRequestFailure
+  | ChangeUserPasswordRequest
+  | ChangeUserPasswordRequestSuccess
+  | ChangeUserPasswordRequestFailure;
 
 export interface UserState {
   id: string;
