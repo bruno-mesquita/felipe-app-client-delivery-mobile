@@ -8,6 +8,7 @@ import {
   CHANGE_USER_PASSWORD_REQUEST,
   CHANGE_USER_PASSWORD_REQUEST_FAILURE,
   CHANGE_USER_PASSWORD_REQUEST_SUCCESS,
+  ADD_USER_ADDRESS,
   UserActionTypes,
   RegisterUser,
 } from './user.types';
@@ -53,4 +54,9 @@ export const changeUserPasswordRequestSuccess = (): UserActionTypes => ({
 
 export const changeUserPasswordRequestFailure = (): UserActionTypes => ({
   type: CHANGE_USER_PASSWORD_REQUEST_FAILURE,
+});
+
+export const addUserAddress = (address: any): UserActionTypes => ({
+  type: ADD_USER_ADDRESS,
+  payload: { address },
 });

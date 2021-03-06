@@ -4,6 +4,7 @@ import {
   UserState,
   UserActionTypes,
   UPDATE_PROFILE_REQUEST_SUCCESS,
+  ADD_USER_ADDRESS,
 } from './user.types';
 import { AUTH_REQUEST_LOGIN_SUCCESS, AUTH_LOGOUT } from '../auth/auth.types';
 
@@ -56,6 +57,13 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
         const { profile } = action.payload;
 
         draft.profile = { ...draft.profile, ...profile };
+        break;
+      }
+
+      case ADD_USER_ADDRESS: {
+        const { address } = action.payload;
+
+        draft.profile.adresses.push(address);
         break;
       }
 

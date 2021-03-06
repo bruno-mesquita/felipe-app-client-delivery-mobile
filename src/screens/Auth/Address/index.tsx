@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
@@ -8,7 +9,10 @@ import { Container, ButtonAdd, Empty } from './styles';
 
 const Address = () => {
   const { colors } = useTheme();
+  const { navigate } = useNavigation();
   const { adresses } = useSelector(({ user }) => user.profile);
+
+  const addAddress = () => navigate('AddAddress');
 
   return (
     <Container>
@@ -22,7 +26,12 @@ const Address = () => {
       )}
       <ButtonAdd>
         <Text>
-          <Ionicons name="add" size={30} color={colors.secundary} />
+          <Ionicons
+            name="add"
+            size={30}
+            color={colors.secundary}
+            onPress={addAddress}
+          />
         </Text>
       </ButtonAdd>
     </Container>

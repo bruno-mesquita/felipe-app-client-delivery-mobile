@@ -18,6 +18,8 @@ export const CHANGE_USER_PASSWORD_REQUEST_SUCCESS =
 export const CHANGE_USER_PASSWORD_REQUEST_FAILURE =
   '@user/CHANGE_USER_PASSWORD_REQUEST_FAILURE';
 
+export const ADD_USER_ADDRESS = '@user/ADD_USER_ADDRESS';
+
 export interface RegisterUser {
   name: string;
   email: string;
@@ -28,6 +30,10 @@ export interface RegisterUser {
   confirmPassword: string;
 }
 
+export interface AddUserAddress {
+  type: typeof ADD_USER_ADDRESS;
+  payload: { address: any };
+}
 export interface ChangeUserPasswordRequest {
   type: typeof CHANGE_USER_PASSWORD_REQUEST;
   payload: {
@@ -87,7 +93,8 @@ export type UserActionTypes =
   | UpdateProfileRequestFailure
   | ChangeUserPasswordRequest
   | ChangeUserPasswordRequestSuccess
-  | ChangeUserPasswordRequestFailure;
+  | ChangeUserPasswordRequestFailure
+  | AddUserAddress;
 
 export interface UserState {
   id: string;

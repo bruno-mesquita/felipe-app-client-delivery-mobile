@@ -2,7 +2,13 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 
-import { Home, Profile, ChangePassword, Address } from '../screens/Auth';
+import {
+  Home,
+  Profile,
+  ChangePassword,
+  Address,
+  AddAddress,
+} from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -60,6 +66,18 @@ export default function NativeStackRoutes() {
             backgroundColor: '#9E0404',
           },
           headerTitle: 'Endereços',
+          headerTintColor: '#ffffff',
+        }}
+      />
+      <Screen
+        name="AddAddress"
+        component={AddAddress}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTitle: 'Cadastro de endereço',
           headerTintColor: '#ffffff',
         }}
       />
