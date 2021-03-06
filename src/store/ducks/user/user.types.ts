@@ -19,6 +19,8 @@ export const CHANGE_USER_PASSWORD_REQUEST_FAILURE =
   '@user/CHANGE_USER_PASSWORD_REQUEST_FAILURE';
 
 export const ADD_USER_ADDRESS = '@user/ADD_USER_ADDRESS';
+export const UPDATE_USER_ADDRESS = '@user/UPDATE_USER_ADDRESS';
+export const REMOVE_USER_ADDRESS = '@user/REMOVE_USER_ADDRESS';
 
 export interface RegisterUser {
   name: string;
@@ -28,6 +30,16 @@ export interface RegisterUser {
   dateOfBirth: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface RemoveUserAddress {
+  type: typeof REMOVE_USER_ADDRESS;
+  payload: { id: string };
+}
+
+export interface UpdateUserAddress {
+  type: typeof UPDATE_USER_ADDRESS;
+  payload: { values: any };
 }
 
 export interface AddUserAddress {
@@ -94,7 +106,9 @@ export type UserActionTypes =
   | ChangeUserPasswordRequest
   | ChangeUserPasswordRequestSuccess
   | ChangeUserPasswordRequestFailure
-  | AddUserAddress;
+  | AddUserAddress
+  | UpdateUserAddress
+  | RemoveUserAddress;
 
 export interface UserState {
   id: string;
