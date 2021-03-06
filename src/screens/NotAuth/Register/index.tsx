@@ -138,7 +138,7 @@ const Register = () => {
                   <Text
                     style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}
                   >
-                    Cidade
+                    Estado
                   </Text>
                   <RNPickerSelect
                     placeholder={{ label: 'Estado' }}
