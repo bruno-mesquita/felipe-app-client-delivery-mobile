@@ -18,6 +18,7 @@ export const TextField = styled(NBInput).attrs(props => ({
   ...props,
 }))`
   height: 43px;
+  border-radius: 10px;
 
   border-radius: 10px;
   padding-left: 15px;
@@ -27,6 +28,9 @@ export const TextField = styled(NBInput).attrs(props => ({
 `;
 
 export const PasswordButton = styled(NBButton)`
+  height: 90%;
+  margin-top: 2.5px;
+  margin-right: 1.5px;
   background-color: #770202;
   border-radius: 10px;
 `;

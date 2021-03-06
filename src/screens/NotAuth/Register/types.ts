@@ -4,6 +4,7 @@ export interface Values {
   email: string;
   password: string;
   cellphone: string;
+  city: string;
+  state: string;
   confirmPassword: string;
-  dateOfBirth: string;
 }
