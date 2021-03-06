@@ -3,13 +3,15 @@ import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
 import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
 import { Button as ButtonLogin } from '../../../components/Button';
-// import { registerUserRequest } from '../../store/ducks/user/user.actions';
 import {
   Container,
   BackGround,
+  BackButton,
+  BackScreen,
   ContainerLogo,
   ContentForm,
   Logo,
@@ -18,10 +20,11 @@ import {
   SelectContent,
 } from './styles';
 import { Values } from './types';
-/* import schema from './schema'; */
+import { requestLogin } from '../../../store/ducks/auth/auth.actions';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const initialValues: Values = {
     name: '',
@@ -39,10 +42,17 @@ const Register = () => {
     // dispatch(registerUserRequest(values));
   };
 
+  const goBackToLogin = () => {
+    navigation.navigate('Login');
+  };
+
   return (
     <Container>
       <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
+          <BackButton onPress={() => goBackToLogin()}>
+            <BackScreen name="arrow-back" />
+          </BackButton>
           <Logo source={require('../../../assets/images/logo.png')} />
         </ContainerLogo>
 
