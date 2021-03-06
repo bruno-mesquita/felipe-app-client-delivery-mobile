@@ -115,7 +115,7 @@ function login() {
                 <ButtonLogin onPress={() => handleSubmit()}>Login</ButtonLogin>
                 <ButtonLogin
                   onPress={() => {
-                    ('');
+                    goRegister();
                   }}
                 >
                   Criar conta
