@@ -97,7 +97,7 @@ export interface UserState {
     name: string | null;
     cpf: string | null;
     phone: string | null;
-    adresses: any | null;
+    adresses: any[];
   };
   addressActive: any | null;
 }

@@ -39,7 +39,13 @@ function login() {
     /* Login Mock */
     dispatch(
       requestLoginSuccess(
-        { email, name: 'Bruno', phone: '00000000000', cpf: '00000000000' },
+        {
+          email,
+          name: 'Mia khalifa',
+          phone: '00000000000',
+          cpf: '00000000000',
+          addresses: [],
+        },
         'token',
       ),
     );

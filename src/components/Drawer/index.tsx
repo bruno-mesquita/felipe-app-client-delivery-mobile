@@ -32,6 +32,10 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
     props.navigation.navigate('ChangePassword');
   };
 
+  const goAdresses = () => {
+    props.navigation.navigate('Address');
+  };
+
   return (
     <Container {...props}>
       <User>
@@ -46,7 +50,7 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
           <ListItemText>Pedidos</ListItemText>
           <Divider />
         </ListItem>
-        <ListItem>
+        <ListItem onPress={goAdresses}>
           <ListItemText>Endereços</ListItemText>
           <Divider />
         </ListItem>
