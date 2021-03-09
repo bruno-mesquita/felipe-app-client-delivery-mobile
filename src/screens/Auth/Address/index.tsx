@@ -9,10 +9,10 @@ import { Container, ButtonAdd, Empty } from './styles';
 
 const Address = () => {
   const { colors } = useTheme();
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
   const { adresses } = useSelector(({ user }) => user.profile);
 
-  const addAddress = () => navigate('AddAddress');
+  const addAddress = () => navigation.navigate('AddAddress');
 
   return (
     <Container>
