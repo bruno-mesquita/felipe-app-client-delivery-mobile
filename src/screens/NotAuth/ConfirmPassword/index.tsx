@@ -53,9 +53,9 @@ const CodeToPassword = () => {
               <ContainerInput>
                 <Field
                   value={values.code}
-                  placeholder="Senha"
+                  placeholder="Nova senha"
                   onChangeText={handleChange('password')}
-                  textValue="Senha"
+                  textValue="Nova senha"
                 />
                 <ErrorMessage component={Text} name="password" />
               </ContainerInput>
