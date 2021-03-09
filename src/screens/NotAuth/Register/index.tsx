@@ -10,8 +10,6 @@ import { Button as ButtonLogin } from '../../../components/Button';
 import {
   Container,
   BackGround,
-  BackButton,
-  BackScreen,
   ContainerLogo,
   ContentForm,
   Logo,
@@ -54,9 +52,6 @@ const Register = () => {
     <Container>
       <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
-          <BackButton onPress={() => goBackToLogin()}>
-            <BackScreen name="arrow-back" />
-          </BackButton>
           <Logo source={require('../../../assets/images/logo.png')} />
         </ContainerLogo>
 
@@ -188,7 +183,7 @@ const Register = () => {
                 <ErrorMessage component={Text} name="dateOfBirth" />
               </DivField>
 
-              <DivField style={{ marginTop: 20 }}>
+              <DivField style={{ marginTop: 15 }}>
                 <ButtonLogin onPress={() => takeCode()}>Cadastrar</ButtonLogin>
               </DivField>
             </ContentForm>
