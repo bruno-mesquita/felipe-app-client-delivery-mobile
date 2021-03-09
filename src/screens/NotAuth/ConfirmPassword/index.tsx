@@ -20,7 +20,7 @@ interface Values {
   code: string;
 }
 
-const ForgotPassword = () => {
+const CodeToPassword = () => {
   const navigation = useNavigation();
 
   const codeValue: Values = {
@@ -29,7 +29,11 @@ const ForgotPassword = () => {
 
   const onSubmit = (values: Values) => {
     console.log(values);
-    navigation.navigate('Codepassword');
+    navigation.navigate('Code');
+  };
+
+  const confirmCodeToPassword = () => {
+    navigation.navigate('Login');
   };
 
   const goBackToRegister = () => {
@@ -49,15 +53,25 @@ const ForgotPassword = () => {
               <ContainerInput>
                 <Field
                   value={values.code}
-                  placeholder="E-mail"
-                  onChangeText={handleChange('code')}
-                  textValue="E-mail"
+                  placeholder="Senha"
+                  onChangeText={handleChange('password')}
+                  textValue="Senha"
                 />
-                <ErrorMessage component={Text} name="code" />
+                <ErrorMessage component={Text} name="password" />
+              </ContainerInput>
+
+              <ContainerInput>
+                <Field
+                  value={values.code}
+                  placeholder="Confirmar senha"
+                  onChangeText={handleChange('confirmPassword')}
+                  textValue="Confirmar senha"
+                />
+                <ErrorMessage component={Text} name="confirmPassword" />
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={() => handleSubmit()}>Enviar</Button>
+                <Button onPress={() => confirmCodeToPassword()}>Salvar</Button>
               </ContainerButton>
             </ContentForm>
           )}
@@ -67,4 +81,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default CodeToPassword;

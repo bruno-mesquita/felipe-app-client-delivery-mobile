@@ -32,6 +32,10 @@ const CodeToRegister = () => {
     navigation.navigate('Code');
   };
 
+  const changePassword = () => {
+    navigation.navigate('Login');
+  };
+
   const goBackToRegister = () => {
     navigation.navigate('Register');
   };
@@ -64,7 +68,7 @@ const CodeToRegister = () => {
                   Reenviar código
                 </Button>
 
-                <Button onPress={() => handleSubmit()}>Confirmar</Button>
+                <Button onPress={() => changePassword()}>Confirmar</Button>
               </ContainerButton>
             </ContentForm>
           )}

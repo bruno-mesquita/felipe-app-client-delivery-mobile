@@ -20,7 +20,7 @@ interface Values {
   code: string;
 }
 
-const ForgotPassword = () => {
+const CodeToForgotPassword = () => {
   const navigation = useNavigation();
 
   const codeValue: Values = {
@@ -29,7 +29,11 @@ const ForgotPassword = () => {
 
   const onSubmit = (values: Values) => {
     console.log(values);
-    navigation.navigate('Codepassword');
+    navigation.navigate('Code');
+  };
+
+  const changePassword = () => {
+    navigation.navigate('Changeconfirmpassword');
   };
 
   const goBackToRegister = () => {
@@ -49,15 +53,22 @@ const ForgotPassword = () => {
               <ContainerInput>
                 <Field
                   value={values.code}
-                  placeholder="E-mail"
+                  placeholder="Código"
                   onChangeText={handleChange('code')}
-                  textValue="E-mail"
+                  textValue="Código"
                 />
                 <ErrorMessage component={Text} name="code" />
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={() => handleSubmit()}>Enviar</Button>
+                <Button
+                  style={{ marginBottom: 50 }}
+                  onPress={() => handleSubmit()}
+                >
+                  Reenviar código
+                </Button>
+
+                <Button onPress={() => changePassword()}>Confirmar</Button>
               </ContainerButton>
             </ContentForm>
           )}
@@ -67,4 +78,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default CodeToForgotPassword;
