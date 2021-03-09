@@ -24,7 +24,18 @@ export default function NavigationStackNotAuth() {
         <Screen name="Register" component={Register} />
         <Screen name="Code" component={CodeToRegister} />
 
-        <Screen name="Forgotpassword" component={ForgotPassword} />
+        <Screen
+          name="Forgotpassword"
+          component={ForgotPassword}
+          options={{
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#9E0404',
+            },
+            headerTitle: 'Esqueci minha senha',
+            headerTintColor: '#fff',
+          }}
+        />
         <Screen name="Codepassword" component={CodeToPassword} />
         <Screen name="Changeconfirmpassword" component={ConfirmaPassword} />
       </Navigator>

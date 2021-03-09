@@ -17,14 +17,14 @@ import {
 } from './styles';
 
 interface Values {
-  code: string;
+  email: string;
 }
 
 const ForgotPassword = () => {
   const navigation = useNavigation();
 
   const codeValue: Values = {
-    code: '',
+    email: '',
   };
 
   const onSubmit = (values: Values) => {
@@ -48,12 +48,12 @@ const ForgotPassword = () => {
             <ContentForm>
               <ContainerInput>
                 <Field
-                  value={values.code}
+                  value={values.email}
                   placeholder="E-mail"
-                  onChangeText={handleChange('code')}
+                  onChangeText={handleChange('email')}
                   textValue="E-mail"
                 />
-                <ErrorMessage component={Text} name="code" />
+                <ErrorMessage component={Text} name="email" />
               </ContainerInput>
 
               <ContainerButton>

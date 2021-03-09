@@ -17,19 +17,20 @@ import {
 } from './styles';
 
 interface Values {
-  code: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 const CodeToPassword = () => {
   const navigation = useNavigation();
 
   const codeValue: Values = {
-    code: '',
+    newPassword: '',
+    confirmPassword: '',
   };
 
   const onSubmit = (values: Values) => {
     console.log(values);
-    navigation.navigate('Code');
   };
 
   const confirmCodeToPassword = () => {
@@ -52,7 +53,7 @@ const CodeToPassword = () => {
             <ContentForm>
               <ContainerInput>
                 <Field
-                  value={values.code}
+                  value={values.newPassword}
                   placeholder="Nova senha"
                   onChangeText={handleChange('password')}
                   textValue="Nova senha"
@@ -62,7 +63,7 @@ const CodeToPassword = () => {
 
               <ContainerInput>
                 <Field
-                  value={values.code}
+                  value={values.confirmPassword}
                   placeholder="Confirmar senha"
                   onChangeText={handleChange('confirmPassword')}
                   textValue="Confirmar senha"
