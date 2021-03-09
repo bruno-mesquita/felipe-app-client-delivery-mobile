@@ -51,6 +51,10 @@ function login() {
     );
   };
 
+  const forgotPassword = () => {
+    navigation.navigate('Forgotpassword');
+  };
+
   const goRegister = () => {
     navigation.navigate('Register');
   };
@@ -103,7 +107,9 @@ function login() {
 
               <ForgotPassword>
                 <ForgotPasswordButton>
-                  <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
+                  <ForgotPasswordText onPress={() => forgotPassword()}>
+                    Esqueci minha senha
+                  </ForgotPasswordText>
                 </ForgotPasswordButton>
               </ForgotPassword>
 
