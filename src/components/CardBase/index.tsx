@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { Props } from '../../utils/props';
+import { Props } from './props';
 
 const CardBase = ({ children }: Props) => {
   return (
@@ -16,6 +16,7 @@ const CardBase = ({ children }: Props) => {
         shadowColor: '#000',
         shadowOpacity: 0.9,
         shadowRadius: 5,
+        marginBottom: 30,
       }}
     >
       {children}
