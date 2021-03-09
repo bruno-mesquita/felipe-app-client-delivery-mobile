@@ -42,6 +42,10 @@ const Register = () => {
     // dispatch(registerUserRequest(values));
   };
 
+  const takeCode = () => {
+    navigation.navigate('Code');
+  };
+
   const goBackToLogin = () => {
     navigation.navigate('Login');
   };
@@ -185,9 +189,7 @@ const Register = () => {
               </DivField>
 
               <DivField style={{ marginTop: 20 }}>
-                <ButtonLogin onPress={() => handleSubmit()}>
-                  Cadastrar
-                </ButtonLogin>
+                <ButtonLogin onPress={() => takeCode()}>Cadastrar</ButtonLogin>
               </DivField>
             </ContentForm>
           )}
