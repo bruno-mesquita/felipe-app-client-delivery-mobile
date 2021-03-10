@@ -21,13 +21,38 @@ export default function NavigationStackNotAuth() {
         }}
       >
         <Screen name="Login" component={Login} />
-        <Screen name="Register" component={Register} />
-        <Screen name="Code" component={CodeToRegister} />
+        <Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerShown: true,
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#9E0404',
+            },
+            headerTitle: 'Cadastro',
+            headerTintColor: '#fff',
+          }}
+        />
+        <Screen
+          name="Code"
+          component={CodeToRegister}
+          options={{
+            headerShown: true,
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#9E0404',
+            },
+            headerTitle: 'Código de cadastro',
+            headerTintColor: '#fff',
+          }}
+        />
 
         <Screen
           name="Forgotpassword"
           component={ForgotPassword}
           options={{
+            headerShown: true,
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#9E0404',
@@ -36,7 +61,19 @@ export default function NavigationStackNotAuth() {
             headerTintColor: '#fff',
           }}
         />
-        <Screen name="Codepassword" component={CodeToPassword} />
+        <Screen
+          name="Codepassword"
+          component={CodeToPassword}
+          options={{
+            headerShown: true,
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#9E0404',
+            },
+            headerTitle: 'Código de trocar senha',
+            headerTintColor: '#fff',
+          }}
+        />
         <Screen name="Changeconfirmpassword" component={ConfirmaPassword} />
       </Navigator>
     </NavigationContainer>

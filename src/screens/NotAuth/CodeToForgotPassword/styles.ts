@@ -1,9 +1,7 @@
 import styled from 'styled-components/native';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
-  padding-top: ${getStatusBarHeight()}px;
   flex-direction: column;
 `;
 
@@ -26,7 +24,7 @@ export const Logo = styled.Image`
 
 export const ContentForm = styled.View`
   align-items: center;
-  margin-top: 45%;
+  margin-top: 40%;
 `;
 
 export const ContainerInput = styled.View`
@@ -37,5 +35,5 @@ export const ContainerButton = styled.View`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50%;
+  margin-top: 40%;
 `;

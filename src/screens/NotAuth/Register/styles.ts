@@ -1,10 +1,7 @@
 import styled from 'styled-components/native';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'; // para usuário de Iphone
-import { Ionicons } from '@expo/vector-icons';
 
 export const Container = styled.View`
   flex: 1;
-  padding-top: ${getStatusBarHeight()}px;
   background-color: #b90000;
 `;
 
@@ -13,22 +10,7 @@ export const BackGround = styled.ImageBackground`
 `;
 
 export const ContainerLogo = styled.View`
-  flex-direction: row;
   align-items: center;
-`;
-
-export const BackButton = styled.TouchableOpacity`
-  height: 47px;
-  margin: 0px 0px 70px 10px;
-`;
-
-export const BackScreen = styled(Ionicons).attrs(props => ({
-  ...props,
-  size: 45,
-}))`
-  width: 42px;
-  height: 47px;
-  color: #fff;
 `;
 
 export const Logo = styled.Image`
