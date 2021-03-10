@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Animated, Text, SafeAreaView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from 'styled-components/native';
+import { Animated, SafeAreaView } from 'react-native';
 
 import FieldSearch from '../../../components/Home/FieldSearch';
-import Tab from '../../../components/Home/Tab';
-import Tabs from '../../../components/Home/Tabs';
+import Tab from '../../../components/Tab';
+import Tabs from '../../../components/Tabs';
+import CartButton from '../../../components/CartButton';
 import Card from '../../../components/Home/Card';
 
 import api from '../../../services/api';
-import { Container, Content, ButtonAdd, Establishments } from './styles';
+import { Container, Content, Establishments } from './styles';
 
 interface Category {
   id: string;
@@ -31,7 +30,6 @@ interface Establishment {
 
 function Home() {
   const translateY = new Animated.Value(0);
-  const { colors } = useTheme();
   const [text, setText] = useState('');
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [categorySelected, setCategorySelected] = useState<string | null>(null);
@@ -155,11 +153,7 @@ function Home() {
             renderItem={({ item }: any) => <Card {...item} />}
           />
         </SafeAreaView>
-        <ButtonAdd>
-          <Text>
-            <Ionicons name="cart-outline" size={30} color={colors.secundary} />
-          </Text>
-        </ButtonAdd>
+        <CartButton />
       </Content>
     </Container>
   );

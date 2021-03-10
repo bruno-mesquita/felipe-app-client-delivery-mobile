@@ -8,6 +8,7 @@ import {
   ChangePassword,
   Address,
   AddAddress,
+  Establishment,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -79,6 +80,18 @@ export default function NativeStackRoutes() {
           },
           headerTitle: 'Cadastro de endereço',
           headerTintColor: '#ffffff',
+        }}
+      />
+      <Screen
+        name="Establishment"
+        component={Establishment}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: () => <Header />,
         }}
       />
     </Navigator>

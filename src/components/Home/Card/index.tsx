@@ -13,7 +13,7 @@ const Card = ({ name, id, photo, rate, time, fee }: Props) => {
   const { colors } = useTheme();
 
   const toStoreDetail = () => {
-    // navigation.navigate('', { id })
+    navigation.navigate('Establishment', { id });
     console.log('Detalhes do estabelecimento');
   };
 

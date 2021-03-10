@@ -1,26 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 import { Props } from './props';
+import styles from './styles';
 
-const CardBase = ({ children }: Props) => {
+const CardBase = ({ children, onPress }: Props) => {
   return (
-    <View
-      style={{
-        height: 110,
-        width: '80%',
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 10,
-        elevation: 7,
-        shadowColor: '#000',
-        shadowOpacity: 0.9,
-        shadowRadius: 5,
-        marginBottom: 30,
-      }}
-    >
-      {children}
-    </View>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <View>{children}</View>
+    </TouchableOpacity>
   );
 };
 
