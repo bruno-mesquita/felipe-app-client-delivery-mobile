@@ -108,7 +108,6 @@ function Home() {
 
   const onChangeTextSearch = (value: string) => {
     setText(value);
-    console.log(value);
   };
 
   const onChangeCategory = (id: string) => {
