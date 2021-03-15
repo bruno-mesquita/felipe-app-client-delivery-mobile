@@ -9,6 +9,7 @@ import {
   Address,
   AddAddress,
   Establishment,
+  Cart,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -92,6 +93,18 @@ export default function NativeStackRoutes() {
           },
           headerTintColor: '#ffffff',
           headerTitle: () => <Header />,
+        }}
+      />
+      <Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: 'Carrinho',
         }}
       />
     </Navigator>

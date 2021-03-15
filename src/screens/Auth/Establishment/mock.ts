@@ -51,6 +51,26 @@ const data: Establishment = {
           },
           price: 40,
         },
+        {
+          id: '5',
+          name: 'X - Ratão',
+          description: 'Tudo que for encontrado embaixo da pia',
+          image: {
+            id: '1',
+            encoded: require('../../../assets/images/mocks/pizza.png'),
+          },
+          price: 40,
+        },
+        {
+          id: '6',
+          name: 'X - Ratão',
+          description: 'Tudo que for encontrado embaixo da pia',
+          image: {
+            id: '1',
+            encoded: require('../../../assets/images/mocks/pizza.png'),
+          },
+          price: 40,
+        },
       ],
     },
     {

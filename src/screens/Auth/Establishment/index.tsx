@@ -116,7 +116,6 @@ const EstablishmentScreen = () => {
         </SafeAreaView>
       </Content>
       <CartButton />
-      {/* <Menus /> */}
     </Container>
   );
 };

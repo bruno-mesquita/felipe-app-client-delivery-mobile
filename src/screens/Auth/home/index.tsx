@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Animated, SafeAreaView } from 'react-native';
+import { Animated, SafeAreaView, View } from 'react-native';
 
 import FieldSearch from '../../../components/Home/FieldSearch';
 import Tab from '../../../components/Tab';
@@ -117,7 +117,9 @@ function Home() {
   return (
     <Container>
       <Content>
-        <FieldSearch onChangeText={onChangeTextSearch} text={text} />
+        <View style={{ alignItems: 'center', paddingTop: 25 }}>
+          <FieldSearch onChangeText={onChangeTextSearch} text={text} />
+        </View>
         <Tabs translateY={translateY}>
           <Tab
             {...categories[0]}
@@ -152,8 +154,8 @@ function Home() {
             renderItem={({ item }: any) => <Card {...item} />}
           />
         </SafeAreaView>
-        <CartButton />
       </Content>
+      <CartButton />
     </Container>
   );
 }

@@ -64,6 +64,7 @@ const ModalItem = ({
         amount,
         itemId: id,
         image,
+        name,
       }),
     );
     onCloseModal();

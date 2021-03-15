@@ -16,6 +16,8 @@ export interface IAddItem {
   itemId: string;
   amount: number;
   price: number;
+  image: string;
+  name: string;
 }
 
 export interface OpenOrderRequestAction {
@@ -80,6 +82,8 @@ export interface Item {
   amount: number;
   price: number;
   total: number;
+  image: string;
+  name: string;
 }
 
 export interface CartState {
