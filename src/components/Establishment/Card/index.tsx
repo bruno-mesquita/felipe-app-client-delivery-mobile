@@ -1,6 +1,7 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useRef } from 'react';
 
+import ModalItem from '../../ModalItem';
+import { ModalBaseHandle } from '../../ModalBase/props';
 import CardBase from '../../CardBase';
 import { Props } from './props';
 import {
@@ -11,11 +12,10 @@ import {
   Description,
   Price,
 } from './styles';
+import formatNumber from '../../../utils/format-number';
 
 const Card = ({ description, id, image, name, price }: Props) => {
-  const navigation = useNavigation();
-
-  const openModal = () => {};
+  const modalItemRef = useRef<ModalBaseHandle>(null);
 
   const formattedDescription = (text: string) => {
     if (text.length > 60) {
@@ -25,17 +25,31 @@ const Card = ({ description, id, image, name, price }: Props) => {
     return text;
   };
 
+  const openModal = () => {
+    modalItemRef.current.open();
+  };
+
   return (
-    <CardBase onPress={openModal}>
-      <Container>
-        <ImageProduct style={{ resizeMode: 'cover' }} source={image} />
-        <Content>
-          <Title>{name}</Title>
-          <Description>{formattedDescription(description)}</Description>
-          <Price>R${price}</Price>
-        </Content>
-      </Container>
-    </CardBase>
+    <>
+      <ModalItem
+        modalRef={modalItemRef}
+        id={id}
+        name={name}
+        image={image}
+        price={price}
+        description={formattedDescription(description)}
+      />
+      <CardBase onPress={openModal}>
+        <Container>
+          <ImageProduct style={{ resizeMode: 'cover' }} source={image} />
+          <Content>
+            <Title>{name}</Title>
+            <Description>{formattedDescription(description)}</Description>
+            <Price>{formatNumber(price)}</Price>
+          </Content>
+        </Container>
+      </CardBase>
+    </>
   );
 };
 

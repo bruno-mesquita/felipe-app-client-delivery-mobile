@@ -1,4 +1,4 @@
-/* import * as Yup from 'yup';
+import { SchemaOf, object, string } from 'yup';
 
 import { Values } from './types';
 
@@ -10,9 +10,8 @@ const schema: SchemaOf<Values> = object().shape({
   cpf: string().required(REQUIRED),
   cellphone: string().required(REQUIRED),
   confirmPassword: string().required(REQUIRED),
-  dateOfBirth: string().required(REQUIRED),
   password: string().required(REQUIRED),
+  city: string().uuid().required(REQUIRED),
 });
 
 export default schema;
- */

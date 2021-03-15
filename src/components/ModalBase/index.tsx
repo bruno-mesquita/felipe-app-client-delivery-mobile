@@ -1,29 +1,36 @@
-import {
+import React, {
   useImperativeHandle,
   forwardRef,
-  ForwardRefRenderFunction,
   useState,
+  useCallback,
 } from 'react';
-import { Modal } from 'react-native';
+import { Modal, View } from 'react-native';
 
 import { ModalBaseHandle, Props } from './props';
+import { Container, styles } from './styles';
 
-const ModalBase: ForwardRefRenderFunction<ModalBaseHandle, Props> = (
-  { children, ...rest },
-  ref,
-) => {
-  const [visible, setVisible] = useState(false);
+const ModalBase = forwardRef<ModalBaseHandle, Props>(
+  ({ children, ...rest }, ref) => {
+    const [visible, setVisible] = useState(false);
 
-  const open = () => setVisible(true);
-  const close = () => setVisible(false);
+    const open = useCallback(() => setVisible(true), []);
+    const close = useCallback(() => setVisible(false), []);
 
-  useImperativeHandle(ref, () => ({ open, close }));
+    useImperativeHandle(ref, () => ({ open, close }));
 
-  return (
-    <Modal visible={visible} {...rest}>
-      {children}
-    </Modal>
-  );
-};
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}
+        {...rest}
+      >
+        <Container>
+          <View style={styles.modalView}>{children}</View>
+        </Container>
+      </Modal>
+    );
+  },
+);
 
-export default forwardRef(ModalBase);
+export default ModalBase;

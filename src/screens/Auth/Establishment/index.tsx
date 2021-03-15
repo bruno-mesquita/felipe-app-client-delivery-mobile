@@ -43,6 +43,7 @@ const EstablishmentScreen = () => {
 
   const onPressMenu = (id: string) => {
     setMenuSelected(id);
+    setMenu(establishment.menus.find(item => item.id === id));
   };
 
   return (

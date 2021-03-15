@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect, { Item } from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
@@ -16,15 +15,29 @@ import {
   DivField,
   SelectContainer,
   SelectContent,
+  styles,
 } from './styles';
 import { Values } from './types';
-import { requestLogin } from '../../../store/ducks/auth/auth.actions';
-import { registerUserRequest } from '../../../store/ducks/user/user.actions';
 import api from '../../../services/api';
+import schema from './schema';
 
 const Register = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [states, setStates] = useState<Item[]>([]);
+  const [cities, setCities] = useState<Item[]>([]);
+
+  useEffect(() => {
+    /* api.get('/states').then(({ data }) => {
+      setStates(data.map(state => ({ label: state.name, value: state.id })));
+    }); */
+  }, []);
+
+  const onChangeState = (stateId: string) => {
+    api.get(`/cities/${stateId}`).then(({ data }) => {
+      setCities(data.map(city => ({ label: city.name, value: city.id })));
+    });
+  };
 
   const initialValues: Values = {
     name: '',
@@ -32,23 +45,20 @@ const Register = () => {
     email: '',
     cellphone: '',
     city: '',
-    state: '',
     password: '',
     confirmPassword: '',
   };
 
   const onSubmit = async (values: Values) => {
-    console.log(values);
+    const { status, data } = await api.post('/users/register', values);
 
-    try {
-      api.post('/admin/stateCity/cities');
-    } catch (err) {
-      console.log(err);
+    if (status === 201) {
+      takeCode(data);
     }
   };
 
-  const takeCode = () => {
-    navigation.navigate('Code');
+  const takeCode = (id: string) => {
+    navigation.navigate('Code', { id });
   };
 
   const goBackToLogin = () => {
@@ -65,12 +75,11 @@ const Register = () => {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          /* validationSchema={schema} */
+          validationSchema={schema}
         >
-          {({ values, handleSubmit, handleChange }) => (
+          {({ values, handleSubmit, handleChange, setFieldValue }) => (
             <ContentForm>
               <DivField>
-                {/* <Input value={values.name} onChangeText={handleChange('name')} /> */}
                 <Field
                   value={values.name}
                   placeholder="Nome"
@@ -115,23 +124,14 @@ const Register = () => {
                   <Text
                     style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}
                   >
-                    Cidade
+                    Estado
                   </Text>
                   <RNPickerSelect
-                    placeholder={{ label: 'Cidade' }}
+                    placeholder={{ label: 'Estado' }}
                     useNativeAndroidPickerStyle={false}
-                    style={{
-                      inputAndroid: {
-                        width: 120,
-                        height: 43,
-                        paddingLeft: 8,
-                        backgroundColor: '#770202',
-                        color: '#fff',
-                        borderRadius: 10,
-                      },
-                    }}
-                    onValueChange={value => console.log(value)}
-                    items={[{ label: 'São José', value: 'São José' }]}
+                    style={{ inputAndroid: styles.select }}
+                    onValueChange={onChangeState}
+                    items={states}
                   />
                   <ErrorMessage component={Text} name="confirmPassword" />
                 </SelectContent>
@@ -140,23 +140,14 @@ const Register = () => {
                   <Text
                     style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}
                   >
-                    Estado
+                    Cidade
                   </Text>
                   <RNPickerSelect
-                    placeholder={{ label: 'Estado' }}
+                    placeholder={{ label: 'Cidade' }}
                     useNativeAndroidPickerStyle={false}
-                    style={{
-                      inputAndroid: {
-                        width: 120,
-                        height: 43,
-                        paddingLeft: 8,
-                        backgroundColor: '#770202',
-                        color: '#fff',
-                        borderRadius: 10,
-                      },
-                    }}
-                    onValueChange={value => console.log(value)}
-                    items={[{ label: 'São Paulo', value: 'São Paulo' }]}
+                    style={{ inputAndroid: styles.select }}
+                    onValueChange={value => setFieldValue('city', value)}
+                    items={cities}
                   />
                   <ErrorMessage component={Text} name="confirmPassword" />
                 </SelectContent>
@@ -183,9 +174,7 @@ const Register = () => {
               </DivField>
 
               <DivField style={{ marginTop: 15 }}>
-                <ButtonLogin onPress={() => handleSubmit()}>
-                  Cadastrar
-                </ButtonLogin>
+                <ButtonLogin onPress={handleSubmit}>Cadastrar</ButtonLogin>
               </DivField>
             </ContentForm>
           )}

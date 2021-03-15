@@ -56,7 +56,18 @@ const data: Establishment = {
     {
       id: '2',
       name: 'Açais',
-      products: [],
+      products: [
+        {
+          id: '1',
+          name: 'Açai 300ml',
+          description: 'Açai da marca Rio puro',
+          image: {
+            id: '1',
+            encoded: require('../../../assets/images/mocks/pizza.png'),
+          },
+          price: 10,
+        },
+      ],
     },
     {
       id: '3',

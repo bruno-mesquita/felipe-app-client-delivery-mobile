@@ -5,6 +5,5 @@ export interface Values {
   password: string;
   cellphone: string;
   city: string;
-  state: string;
   confirmPassword: string;
 }
