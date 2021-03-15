@@ -19,6 +19,8 @@ import {
 } from './styles';
 import { Values } from './types';
 import { requestLogin } from '../../../store/ducks/auth/auth.actions';
+import { registerUserRequest } from '../../../store/ducks/user/user.actions';
+import api from '../../../services/api';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -35,9 +37,14 @@ const Register = () => {
     confirmPassword: '',
   };
 
-  const onSubmit = (values: Values) => {
+  const onSubmit = async (values: Values) => {
     console.log(values);
-    // dispatch(registerUserRequest(values));
+
+    try {
+      api.post('/admin/stateCity/cities');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const takeCode = () => {
@@ -124,11 +131,7 @@ const Register = () => {
                       },
                     }}
                     onValueChange={value => console.log(value)}
-                    items={[
-                      { label: 'São José', value: 'São José' },
-                      { label: 'Taubaté', value: 'Taubaté' },
-                      { label: 'Pinda', value: 'Pinda' },
-                    ]}
+                    items={[{ label: 'São José', value: 'São José' }]}
                   />
                   <ErrorMessage component={Text} name="confirmPassword" />
                 </SelectContent>
@@ -153,11 +156,7 @@ const Register = () => {
                       },
                     }}
                     onValueChange={value => console.log(value)}
-                    items={[
-                      { label: 'São Paulo', value: 'São Paulo' },
-                      { label: 'Rio de Janeiro', value: 'Rio de Janeiro' },
-                      { label: 'Bahia', value: 'Bahia' },
-                    ]}
+                    items={[{ label: 'São Paulo', value: 'São Paulo' }]}
                   />
                   <ErrorMessage component={Text} name="confirmPassword" />
                 </SelectContent>
@@ -184,7 +183,9 @@ const Register = () => {
               </DivField>
 
               <DivField style={{ marginTop: 15 }}>
-                <ButtonLogin onPress={() => takeCode()}>Cadastrar</ButtonLogin>
+                <ButtonLogin onPress={() => handleSubmit()}>
+                  Cadastrar
+                </ButtonLogin>
               </DivField>
             </ContentForm>
           )}
