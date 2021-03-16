@@ -6,4 +6,5 @@ export interface ModalItemProps extends ModalBaseProps {
   name: string;
   description: string;
   price: number;
+  establishmentId: string;
 }

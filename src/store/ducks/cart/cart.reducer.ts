@@ -23,12 +23,24 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
       }
 
       case '@cart/ADD_ITEM': {
-        const { price, amount } = action.payload;
+        const { price, amount, establishmentId } = action.payload;
 
-        const total = price * amount;
+        const add = () => {
+          const total = price * amount;
 
-        draft.items.push({ ...action.payload, total });
-        draft.total += total;
+          draft.items.push({ ...action.payload, total });
+          draft.total += total;
+        };
+
+        if (draft.items.length !== 0) {
+          if (draft.establishmentId === establishmentId) {
+            add();
+          }
+        } else {
+          add();
+          draft.establishmentId = establishmentId;
+        }
+
         break;
       }
 
@@ -42,6 +54,10 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
 
           draft.items.splice(itemIndex, 1);
           draft.total -= item.total;
+
+          if (draft.items.length === 0) {
+            draft.establishmentId = null;
+          }
         }
 
         break;

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 
 import ModalItem from '../../ModalItem';
 import { ModalBaseHandle } from '../../ModalBase/props';
@@ -14,7 +14,14 @@ import {
 } from './styles';
 import formatNumber from '../../../utils/format-number';
 
-const Card = ({ description, id, image, name, price }: Props) => {
+const Card = ({
+  description,
+  id,
+  image,
+  name,
+  price,
+  establishmentId,
+}: Props) => {
   const modalItemRef = useRef<ModalBaseHandle>(null);
 
   const formattedDescription = (text: string) => {
@@ -25,9 +32,9 @@ const Card = ({ description, id, image, name, price }: Props) => {
     return text;
   };
 
-  const openModal = () => {
-    modalItemRef.current.open();
-  };
+  const openModal = useCallback(() => {
+    modalItemRef.current?.open();
+  }, []);
 
   return (
     <>
@@ -38,6 +45,7 @@ const Card = ({ description, id, image, name, price }: Props) => {
         image={image}
         price={price}
         description={formattedDescription(description)}
+        establishmentId={establishmentId}
       />
       <CardBase onPress={openModal}>
         <Container>

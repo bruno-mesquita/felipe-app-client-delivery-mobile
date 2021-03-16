@@ -12,12 +12,9 @@ import {
   IAddItem,
 } from './cart.types';
 
-export const openOrderRequest = (
-  userId: string,
-  establishmentId: string,
-): CartActionTypes => ({
+export const openOrderRequest = (object: any): CartActionTypes => ({
   type: CART_OPEN_ORDER_REQUEST,
-  payload: { userId, establishmentId },
+  payload: { ...object },
 });
 
 export const openOrderRequestSuccess = (

@@ -18,6 +18,7 @@ export interface IAddItem {
   price: number;
   image: string;
   name: string;
+  establishmentId: string;
 }
 
 export interface OpenOrderRequestAction {
