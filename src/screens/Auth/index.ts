@@ -5,3 +5,4 @@ export { default as Address } from './Address';
 export { default as AddAddress } from './AddAddress';
 export { default as Establishment } from './Establishment';
 export { Cart } from './Cart';
+export { TrackOrder } from './TrackOrder';

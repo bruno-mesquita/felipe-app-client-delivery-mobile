@@ -54,6 +54,8 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   }, []);
 
   const purchase = () => {
+    navigation.navigate('TrackOrder', { id: '' });
+    onClose();
     // dispatch(openOrderRequest(userId, establishmentId));
   };
 
