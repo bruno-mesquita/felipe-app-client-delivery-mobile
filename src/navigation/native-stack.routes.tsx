@@ -11,6 +11,7 @@ import {
   Establishment,
   Cart,
   TrackOrder,
+  Orders,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -118,6 +119,18 @@ export default function NativeStackRoutes() {
           },
           headerTintColor: '#ffffff',
           headerTitle: 'Acompanhar pedido',
+        }}
+      />
+      <Screen
+        name="Orders"
+        component={Orders}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: 'Pedidos',
         }}
       />
     </Navigator>
