@@ -4,4 +4,5 @@ export interface Props {
   description: string;
   image: string;
   price: number;
+  establishmentId: string;
 }

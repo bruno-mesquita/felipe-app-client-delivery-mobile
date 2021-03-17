@@ -9,6 +9,8 @@ import {
   Address,
   AddAddress,
   Establishment,
+  Cart,
+  TrackOrder,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -92,6 +94,30 @@ export default function NativeStackRoutes() {
           },
           headerTintColor: '#ffffff',
           headerTitle: () => <Header />,
+        }}
+      />
+      <Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: 'Carrinho',
+        }}
+      />
+      <Screen
+        name="TrackOrder"
+        component={TrackOrder}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: 'Acompanhar pedido',
         }}
       />
     </Navigator>

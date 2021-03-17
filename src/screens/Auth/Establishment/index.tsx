@@ -22,7 +22,7 @@ import { Establishment, Menu } from './props';
 import apiMock from './mock';
 
 const EstablishmentScreen = () => {
-  const { id } = useRoute();
+  const { id } = useRoute().params as { id: string };
   const { colors } = useTheme();
 
   const [establishment, setEstablishment] = useState<Establishment>(null);
@@ -110,13 +110,12 @@ const EstablishmentScreen = () => {
             showsVerticalScrollIndicator={false}
             data={menu?.products}
             renderItem={({ item }) => (
-              <Card {...item} image={item.image.encoded} />
+              <Card {...item} image={item.image.encoded} establishmentId={id} />
             )}
           />
         </SafeAreaView>
       </Content>
       <CartButton />
-      {/* <Menus /> */}
     </Container>
   );
 };

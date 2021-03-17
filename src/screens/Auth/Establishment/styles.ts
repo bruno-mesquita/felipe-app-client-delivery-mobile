@@ -2,16 +2,12 @@ import styled, { css } from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
-  padding-top: ${getStatusBarHeight()}px;
   flex: 1;
   justify-content: center;
 `;
 
-export const Content = styled.View`
+export const Content = styled.ScrollView`
   width: 100%;
-  flex: 1;
-  align-items: center;
-  justify-content: flex-start;
 `;
 
 export const Divider = styled.View`
@@ -27,6 +23,7 @@ export const Divider = styled.View`
 
 export const Header = styled.View`
   padding-left: ${getStatusBarHeight()}px;
+  padding-top: ${getStatusBarHeight()}px;
   width: 100%;
   flex-direction: row;
 `;

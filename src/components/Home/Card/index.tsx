@@ -14,7 +14,6 @@ const Card = ({ name, id, photo, rate, time, fee }: Props) => {
 
   const toStoreDetail = () => {
     navigation.navigate('Establishment', { id });
-    console.log('Detalhes do estabelecimento');
   };
 
   const formattedDate = (date: string) => {};

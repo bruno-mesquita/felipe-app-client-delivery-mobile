@@ -28,6 +28,7 @@ const ModalItem = ({
   description,
   image,
   price,
+  establishmentId,
 }: ModalItemProps) => {
   const dispatch = useDispatch();
   const { colors } = useTheme();
@@ -64,6 +65,8 @@ const ModalItem = ({
         amount,
         itemId: id,
         image,
+        name,
+        establishmentId,
       }),
     );
     onCloseModal();

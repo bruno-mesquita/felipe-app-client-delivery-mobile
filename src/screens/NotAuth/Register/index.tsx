@@ -6,6 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
 import { Button as ButtonLogin } from '../../../components/Button';
+import { Values } from './types';
+import api from '../../../services/api';
+import schema from './schema';
+import { AxiosError, AxiosResponse } from 'axios';
+import { ApiResult } from '../../../utils/ApiResult';
+
 import {
   Container,
   BackGround,
@@ -17,9 +23,6 @@ import {
   SelectContent,
   styles,
 } from './styles';
-import { Values } from './types';
-import api from '../../../services/api';
-import schema from './schema';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -55,10 +58,16 @@ const Register = () => {
   };
 
   const onSubmit = async (values: Values) => {
-    const { status, data } = await api.post('/client', values);
+    try {
+      const { data }: AxiosResponse<ApiResult<string>> = await api.post(
+        '/client',
+        values,
+      );
 
-    if (status === 201) {
-      takeCode(data);
+      takeCode(data.result);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log(error.response.data);
     }
   };
 
