@@ -46,6 +46,10 @@ const CodeToRegister = ({ route }) => {
     }
   };
 
+  const resendCode = async () => {
+    console.log('Parei aqui !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  }
+
   const login = () => {
     navigation.navigate('Login');
   };
