@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
+import { AxiosError } from 'axios';
 
 import { Button } from '../../../components/Button';
 import { Field } from '../../../components/Field';
@@ -15,29 +16,42 @@ import {
   ContainerInput,
   ContainerButton,
 } from './styles';
+import api from '../../../services/api';
 
 interface Values {
+  id: string;
   code: string;
 }
 
-const CodeToRegister = () => {
+const CodeToRegister = ({ route }) => {
   const navigation = useNavigation();
 
   const codeValue: Values = {
+    id: route.params.id,
     code: '',
   };
 
-  const onSubmit = (values: Values) => {
-    console.log(values);
-    navigation.navigate('Code');
+  const onSubmit = async (values: Values) => {
+    try {
+      console.log(values);
+
+      const { status } = await api.post('/client/activate', values);
+
+      if (status === 200) {
+        login();
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      // console.log(error.request);
+    }
   };
 
-  const changePassword = () => {
+  const resendCode = async () => {
+    console.log('Parei aqui !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  }
+
+  const login = () => {
     navigation.navigate('Login');
-  };
-
-  const goBackToRegister = () => {
-    navigation.navigate('Register');
   };
 
   return (
@@ -68,7 +82,7 @@ const CodeToRegister = () => {
                   Reenviar código
                 </Button>
 
-                <Button onPress={() => changePassword()}>Confirmar</Button>
+                <Button onPress={() => handleSubmit()}>Confirmar</Button>
               </ContainerButton>
             </ContentForm>
           )}

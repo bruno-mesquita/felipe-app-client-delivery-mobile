@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 import RNPickerSelect, { Item } from 'react-native-picker-select';
@@ -6,6 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
 import { Button as ButtonLogin } from '../../../components/Button';
+import { Values } from './types';
+import api from '../../../services/api';
+import schema from './schema';
+import { AxiosError, AxiosResponse } from 'axios';
+import { ApiResult } from '../../../utils/ApiResult';
+
 import {
   Container,
   BackGround,
@@ -17,9 +23,6 @@ import {
   SelectContent,
   styles,
 } from './styles';
-import { Values } from './types';
-import api from '../../../services/api';
-import schema from './schema';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -28,16 +31,21 @@ const Register = () => {
   const [cities, setCities] = useState<Item[]>([]);
 
   useEffect(() => {
-    /* api.get('/states').then(({ data }) => {
+    api.get(`/client/address/states`).then(({ data }) => {
       setStates(data.map(state => ({ label: state.name, value: state.id })));
-    }); */
+    });
   }, []);
 
-  const onChangeState = (stateId: string) => {
-    api.get(`/cities/${stateId}`).then(({ data }) => {
-      setCities(data.map(city => ({ label: city.name, value: city.id })));
+  const onChangeState = useCallback((stateId: string) => {
+    api.get(`/client/address/state/${stateId}`).then(({ data }) => {
+      setCities(
+        data.cities.map(cities => ({
+          value: cities.id,
+          label: cities.name,
+        })),
+      );
     });
-  };
+  }, []);
 
   const initialValues: Values = {
     name: '',
@@ -50,19 +58,21 @@ const Register = () => {
   };
 
   const onSubmit = async (values: Values) => {
-    const { status, data } = await api.post('/users/register', values);
+    try {
+      const { data }: AxiosResponse<ApiResult<string>> = await api.post(
+        '/client',
+        values,
+      );
 
-    if (status === 201) {
-      takeCode(data);
+      takeCode(data.result);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log(error.response.data);
     }
   };
 
   const takeCode = (id: string) => {
     navigation.navigate('Code', { id });
-  };
-
-  const goBackToLogin = () => {
-    navigation.navigate('Login');
   };
 
   return (
@@ -130,7 +140,7 @@ const Register = () => {
                     placeholder={{ label: 'Estado' }}
                     useNativeAndroidPickerStyle={false}
                     style={{ inputAndroid: styles.select }}
-                    onValueChange={onChangeState}
+                    onValueChange={(value, index) => onChangeState(value)}
                     items={states}
                   />
                   <ErrorMessage component={Text} name="confirmPassword" />
@@ -145,6 +155,7 @@ const Register = () => {
                   <RNPickerSelect
                     placeholder={{ label: 'Cidade' }}
                     useNativeAndroidPickerStyle={false}
+                    value={values.city}
                     style={{ inputAndroid: styles.select }}
                     onValueChange={value => setFieldValue('city', value)}
                     items={cities}
