@@ -3,22 +3,22 @@ import { DefaultRootState } from 'react-redux';
 
 import api from '../../../services/api';
 import { requestLoginFailure, requestLoginSuccess } from './auth.actions';
-import { RequestLoginAction } from './auth.types';
+import { RequestLoginAction, AUTH_REQUEST_LOGIN } from './auth.types';
 
 export function* signIn({ payload }: RequestLoginAction) {
   try {
     const { email, password } = payload;
 
-    const { data } = yield call(api.post, '/login', {
+    const { data } = yield call(api.post, '/auth/login', {
       email,
       password,
     });
 
-    const { token, user } = data;
+    const { token, client } = data;
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(requestLoginSuccess(user, token));
+    yield put(requestLoginSuccess(client, token));
   } catch (err) {
     yield put(requestLoginFailure(err.message));
   }
@@ -36,5 +36,5 @@ export function setToken({ payload }: { payload: DefaultRootState }) {
 
 export default all([
   takeLatest('persist/REHYDRATE' as any, setToken),
-  takeLatest('@auth/REQUEST_LOGIN' as any, signIn),
+  takeLatest(AUTH_REQUEST_LOGIN as any, signIn),
 ]);

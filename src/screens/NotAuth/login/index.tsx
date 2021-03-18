@@ -34,21 +34,7 @@ function login() {
   const navigation = useNavigation();
 
   const onSubmit = ({ email, password }: Values) => {
-    /* dispatch(requestLogin(email, password)); */
-
-    /* Login Mock */
-    dispatch(
-      requestLoginSuccess(
-        {
-          email,
-          name: 'Mia khalifa',
-          phone: '00000000000',
-          cpf: '00000000000',
-          addresses: [],
-        },
-        'token',
-      ),
-    );
+    dispatch(requestLogin(email, password));
   };
 
   const forgotPassword = () => {
