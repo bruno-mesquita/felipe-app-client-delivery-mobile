@@ -47,7 +47,7 @@ const CodeToRegister = ({ route }) => {
   };
 
   const resendCode = async () => {
-    console.log('Parei aqui !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log('Reenviar código de ativação do cliente');
   }
 
   const login = () => {
