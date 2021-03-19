@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Button } from 'native-base';
 
 export const Container = styled.View`
   flex: 1;
@@ -36,6 +37,8 @@ export const ViewUserData = styled.View`
   align-items: center;
   width: 60%;
 `;
+
+export const ButtonAvatar = styled.Button``;
 
 export const UserAvatar = styled.Image`
   height: 100px;

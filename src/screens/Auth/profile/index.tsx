@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 
 import { Button } from '../../../components/Button';
 import { Field } from '../../../components/Field';
+import * as ImagePicker from 'expo-image-picker';
 
 import { updateProfileRequest } from '../../../store/ducks/user/user.actions';
 
@@ -14,6 +15,7 @@ import {
   ViewForm,
   ViewFields,
   ViewUser,
+  ButtonAvatar,
   UserAvatar,
   ViewUserData,
 } from './styles';
@@ -43,7 +45,7 @@ const Profile = () => {
   };
 
   const onSubmit = (values: typeof initialValues) => {
-    /* dispatch(updateProfileRequest(values)); */
+    dispatch(updateProfileRequest(values));
   };
 
   const formattedCpf = (value: string) => {
@@ -54,6 +56,57 @@ const Profile = () => {
 
     return `${part1}.${part2}.${part3}-${part4}`;
   };
+
+  function toDataURL(url, callback) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        callback(reader.result);
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'android') {
+        const {
+          status,
+        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert(
+            'Precisamos da sua permissão para adicionar sua foto do perfil!',
+          );
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      avatar;
+    }
+  };
+
+  // Teste da função que edita
+
+  toDataURL('../../../assets/images/mocks/perfil.jpeg', function (dataUrl) {
+    console.log('RESULT:', dataUrl);
+  });
 
   return (
     <Container>
@@ -69,6 +122,7 @@ const Profile = () => {
                 <UserAvatar
                   source={require('../../../assets/images/mocks/perfil.jpeg')}
                 />
+                <ButtonAvatar title="Editar" onPress={() => pickImage()} />
               </View>
               <ViewUserData>
                 <Text style={{ fontWeight: 'bold' }}>{name}</Text>

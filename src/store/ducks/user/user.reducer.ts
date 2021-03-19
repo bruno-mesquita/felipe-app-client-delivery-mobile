@@ -35,7 +35,7 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
           cpf: user.cpf,
           avatar: user.avatar,
           phone: user.phone,
-          adresses: user.addresses,
+          adresses: user.adresses,
         };
         break;
       }
