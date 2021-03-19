@@ -1,34 +1,26 @@
 import React from 'react';
-import { ListItem, Text, Content, NativeBase } from 'native-base';
+import { Text } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useTheme } from 'styled-components/native';
 
-import { Check } from './styles';
+import { Container, ContainerCheckbox, ContainerCheckboxIcon } from './styles';
+import { CheckboxProps } from './props';
 
-type Props = NativeBase.CheckBox & {
-  children: React.ReactNode;
-  borderRadius: number;
-};
+export const Checkbox = ({ children, checked, onChange }: CheckboxProps) => {
+  const { colors } = useTheme();
 
-const CheckBoxExample = (props: Props) => {
   return (
-    <Content style={{ flexDirection: 'row' }}>
-      <ListItem>
-        <Check
-          style={{
-            borderRadius: props.borderRadius,
-            shadowColor: '#000000',
-            shadowOffset: { width: 5, height: 5 },
-            shadowOpacity: 1.0,
-            shadowRadius: 1.27,
-            elevation: 4,
-          }}
-          checked={true}
-          color="#ffffff"
-          {...props}
-        />
-        <Text style={{ color: '#fff' }}>{props.children}</Text>
-      </ListItem>
-    </Content>
+    <Container>
+      <ContainerCheckbox onPress={() => onChange(!checked)}>
+        <ContainerCheckboxIcon>
+          <MaterialIcons
+            name="check"
+            size={20}
+            color={checked ? colors.primary : colors.secundary}
+          />
+        </ContainerCheckboxIcon>
+      </ContainerCheckbox>
+      <Text>{children}</Text>
+    </Container>
   );
 };
-
-export default CheckBoxExample;

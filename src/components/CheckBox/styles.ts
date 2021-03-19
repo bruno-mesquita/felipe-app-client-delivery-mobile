@@ -1,10 +1,14 @@
 import styled from 'styled-components/native';
-import { CheckBox } from 'native-base';
 
-export const Check = styled(CheckBox)`
-  height: 25px;
-  width: 25px;
-  border: transparent;
-  margin-right: 15px;
-  align-items: center;
+export const Container = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 49%;
+`;
+
+export const ContainerCheckbox = styled.TouchableOpacity``;
+
+export const ContainerCheckboxIcon = styled.View`
+  border-radius: 7px;
+  border: 1px solid #eee;
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
 import { Button as ButtonLogin } from '../../../components/Button';
-import CheckBox from '../../../components/CheckBox';
+import { Checkbox } from '../../../components/CheckBox';
 
 import {
   Container,
@@ -32,6 +32,8 @@ import { Values } from './types';
 function login() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [options, setOptions] = useState({ invoice: false });
 
   const onSubmit = ({ email, password }: Values) => {
     dispatch(requestLogin(email, password));
@@ -100,7 +102,9 @@ function login() {
               </ForgotPassword>
 
               <StayConnect>
-                <CheckBox children="Mantenhe-me conectado" borderRadius={6} />
+                <Checkbox checked={options.invoice} onChange={() => true}>
+                  <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
+                </Checkbox>
               </StayConnect>
 
               <ContainerButton>
