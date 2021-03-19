@@ -36,17 +36,21 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
     props.navigation.navigate('Address');
   };
 
+  const goOrders = () => {
+    props.navigation.navigate('Orders');
+  };
+
   return (
     <Container {...props}>
       <User>
         <UserAvatar source={require('../../assets/images/mocks/perfil.jpeg')} />
       </User>
       <List>
-        <ListItem onPress={() => goProfile()}>
+        <ListItem onPress={goProfile}>
           <ListItemText>Perfil</ListItemText>
           <Divider />
         </ListItem>
-        <ListItem>
+        <ListItem onPress={goOrders}>
           <ListItemText>Pedidos</ListItemText>
           <Divider />
         </ListItem>
