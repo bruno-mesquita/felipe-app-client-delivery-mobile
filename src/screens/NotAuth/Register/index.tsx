@@ -31,13 +31,13 @@ const Register = () => {
   const [cities, setCities] = useState<Item[]>([]);
 
   useEffect(() => {
-    api.get(`/client/address/states`).then(({ data }) => {
+    api.get(`/states`).then(({ data }) => {
       setStates(data.map(state => ({ label: state.name, value: state.id })));
     });
   }, []);
 
   const onChangeState = useCallback((stateId: string) => {
-    api.get(`/client/address/state/${stateId}`).then(({ data }) => {
+    api.get(`/state/${stateId}`).then(({ data }) => {
       setCities(
         data.cities.map(cities => ({
           value: cities.id,
@@ -60,7 +60,7 @@ const Register = () => {
   const onSubmit = async (values: Values) => {
     try {
       const { data }: AxiosResponse<ApiResult<string>> = await api.post(
-        '/client',
+        '/clients',
         values,
       );
 
