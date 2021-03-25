@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DrawerContentComponentProps,
   DrawerContentOptions,
@@ -19,6 +19,8 @@ import { logout } from '../../store/ducks/auth/auth.actions';
 
 const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   const dispatch = useDispatch();
+
+  const avatar = useSelector(({ user }) => user.profile.avatar);
 
   const goLogout = () => {
     dispatch(logout());
@@ -43,7 +45,13 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   return (
     <Container {...props}>
       <User>
-        <UserAvatar source={require('../../assets/images/mocks/perfil.jpeg')} />
+        <UserAvatar
+          source={
+            avatar
+              ? { uri: avatar }
+              : require('../../assets/images/mocks/perfil.jpeg')
+          }
+        />
       </User>
       <List>
         <ListItem onPress={goProfile}>

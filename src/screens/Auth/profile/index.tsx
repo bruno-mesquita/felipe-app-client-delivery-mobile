@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Platform, Text, View } from 'react-native';
+import { Platform, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
+import * as ImagePicker from 'expo-image-picker';
 
 import { Button } from '../../../components/Button';
 import { Field } from '../../../components/Field';
-import * as ImagePicker from 'expo-image-picker';
 
-import { updateProfileRequest } from '../../../store/ducks/user/user.actions';
+import {
+  updateProfileRequest,
+  updateAvatarRequest,
+} from '../../../store/ducks/user/user.actions';
 
 import {
   Container,
@@ -15,7 +18,6 @@ import {
   ViewForm,
   ViewFields,
   ViewUser,
-  ButtonAvatar,
   UserAvatar,
   ViewUserData,
 } from './styles';
@@ -23,9 +25,14 @@ import {
 const Profile = () => {
   const dispatch = useDispatch();
 
-  const { name, email, phone, avatar, cpf } = useSelector(
-    ({ user }) => user.profile,
-  );
+  const {
+    name,
+    email,
+    phone,
+    avatar,
+    cpf,
+    error,
+  } = useSelector(({ user }) => ({ ...user.profile, error: user.error }));
 
   const formattedPhone = (value: string) => {
     if (value.length === 11) {
@@ -37,15 +44,22 @@ const Profile = () => {
     }
   };
 
+  const revertFormattedPhone = (value: string) =>
+    value.replace(/[()\- ]/gi, '');
+
   const initialValues = {
     name,
     email,
     phone: formattedPhone(phone),
-    avatar,
   };
 
   const onSubmit = (values: typeof initialValues) => {
-    dispatch(updateProfileRequest(values));
+    dispatch(
+      updateProfileRequest({
+        ...values,
+        cellphone: revertFormattedPhone(values.phone),
+      }),
+    );
   };
 
   const formattedCpf = (value: string) => {
@@ -56,21 +70,6 @@ const Profile = () => {
 
     return `${part1}.${part2}.${part3}-${part4}`;
   };
-
-  function toDataURL(url, callback) {
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = function () {
-      const reader = new FileReader();
-      reader.onloadend = function () {
-        callback(reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
 
   useEffect(() => {
     (async () => {
@@ -85,28 +84,32 @@ const Profile = () => {
         }
       }
     })();
-  }, []);
+
+    if (error) {
+      Alert.alert(error);
+    } else {
+      console.log('entrei');
+    }
+  }, [error]);
 
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
+    const result = (await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    });
-
-    console.log(result);
+      base64: true,
+    })) as any;
 
     if (!result.cancelled) {
-      avatar;
+      const pathArray = result.uri.split('.') as string[];
+      const ext = pathArray[pathArray.length - 1];
+
+      const encoded = `data:image/${ext};base64,${result.base64}`;
+
+      dispatch(updateAvatarRequest(encoded, `${name}-avatar`));
     }
   };
-
-  // Teste da função que edita
-
-  toDataURL('../../../assets/images/mocks/perfil.jpeg', function (dataUrl) {
-    console.log('RESULT:', dataUrl);
-  });
 
   return (
     <Container>
@@ -118,12 +121,15 @@ const Profile = () => {
         {({ values, handleChange, handleSubmit }) => (
           <ViewForm>
             <ViewUser>
-              <View>
+              <TouchableOpacity onPress={pickImage}>
                 <UserAvatar
-                  source={require('../../../assets/images/mocks/perfil.jpeg')}
+                  source={
+                    avatar
+                      ? { uri: avatar }
+                      : require('../../../assets/images/mocks/perfil.jpeg')
+                  }
                 />
-                <ButtonAvatar title="Editar" onPress={() => pickImage()} />
-              </View>
+              </TouchableOpacity>
               <ViewUserData>
                 <Text style={{ fontWeight: 'bold' }}>{name}</Text>
                 <Text style={{ fontWeight: 'bold' }}>{formattedCpf(cpf)}</Text>

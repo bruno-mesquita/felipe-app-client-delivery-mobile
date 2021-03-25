@@ -6,6 +6,9 @@ import {
   UPDATE_PROFILE_REQUEST_SUCCESS,
   ADD_USER_ADDRESS,
   REMOVE_USER_ADDRESS,
+  UPDATE_AVATAR_REQUEST_FAILURE,
+  UPDATE_AVATAR_REQUEST_SUCCESS,
+  UPDATE_PROFILE_REQUEST_FAILURE,
 } from './user.types';
 import { AUTH_REQUEST_LOGIN_SUCCESS, AUTH_LOGOUT } from '../auth/auth.types';
 
@@ -20,6 +23,7 @@ const INITIAL_STATE: UserState = {
     adresses: [],
   },
   addressActive: null,
+  error: null,
 };
 
 const user = (state = INITIAL_STATE, action: UserActionTypes) => {
@@ -55,9 +59,12 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
       }
 
       case UPDATE_PROFILE_REQUEST_SUCCESS: {
-        const { profile } = action.payload;
+        const { name, cellphone, email } = action.payload.profile;
 
-        draft.profile = { ...draft.profile, ...profile };
+        draft.profile.name = name;
+        draft.profile.email = email;
+        draft.profile.phone = cellphone;
+        draft.error = null;
         break;
       }
 
@@ -74,6 +81,28 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
         const index = draft.profile.adresses.findIndex(item => item.id === id);
 
         draft.profile.adresses.slice(index, 1);
+        break;
+      }
+
+      case UPDATE_AVATAR_REQUEST_SUCCESS: {
+        const { encoded } = action.payload;
+
+        draft.profile.avatar = encoded;
+        draft.error = null;
+        break;
+      }
+
+      case UPDATE_AVATAR_REQUEST_FAILURE: {
+        const { message } = action.payload;
+
+        draft.error = message;
+        break;
+      }
+
+      case UPDATE_PROFILE_REQUEST_FAILURE: {
+        const { message } = action.payload;
+
+        draft.error = message;
         break;
       }
 

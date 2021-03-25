@@ -22,6 +22,18 @@ export const ADD_USER_ADDRESS = '@user/ADD_USER_ADDRESS';
 export const UPDATE_USER_ADDRESS = '@user/UPDATE_USER_ADDRESS';
 export const REMOVE_USER_ADDRESS = '@user/REMOVE_USER_ADDRESS';
 
+export const UPDATE_AVATAR_REQUEST = '@user/UPDATE_AVATAR_REQUEST';
+export const UPDATE_AVATAR_REQUEST_SUCCESS =
+  '@user/UPDATE_AVATAR_REQUEST_SUCCESS';
+export const UPDATE_AVATAR_REQUEST_FAILURE =
+  '@user/UPDATE_AVATAR_REQUEST_FAILURE';
+
+export interface ProfileUpdate {
+  name: string;
+  email: string;
+  cellphone: string;
+}
+
 export interface RegisterUser {
   name: string;
   email: string;
@@ -30,6 +42,21 @@ export interface RegisterUser {
   dateOfBirth: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface UpdateAvatarRequest {
+  type: typeof UPDATE_AVATAR_REQUEST;
+  payload: { encoded: string; name: string };
+}
+
+export interface UpdateAvatarRequestSuccess {
+  type: typeof UPDATE_AVATAR_REQUEST_SUCCESS;
+  payload: { encoded: string; name: string };
+}
+
+export interface UpdateAvatarRequestFailure {
+  type: typeof UPDATE_AVATAR_REQUEST_FAILURE;
+  payload: { message: string };
 }
 
 export interface RemoveUserAddress {
@@ -65,16 +92,17 @@ export interface ChangeUserPasswordRequestFailure {
 
 export interface UpdateProfileRequest {
   type: typeof UPDATE_PROFILE_REQUEST;
-  payload: { profile: any };
+  payload: { profile: ProfileUpdate };
 }
 
 export interface UpdateProfileRequestSuccess {
   type: typeof UPDATE_PROFILE_REQUEST_SUCCESS;
-  payload: { profile: any };
+  payload: { profile: ProfileUpdate };
 }
 
 export interface UpdateProfileRequestFailure {
   type: typeof UPDATE_PROFILE_REQUEST_FAILURE;
+  payload: { message: string };
 }
 
 export interface RegisterUserRequestAction {
@@ -108,7 +136,21 @@ export type UserActionTypes =
   | ChangeUserPasswordRequestFailure
   | AddUserAddress
   | UpdateUserAddress
-  | RemoveUserAddress;
+  | RemoveUserAddress
+  | UpdateAvatarRequest
+  | UpdateAvatarRequestSuccess
+  | UpdateAvatarRequestFailure;
+
+export interface Address {
+  clientAddressId: string;
+  addressId: string;
+  nickname: string;
+  city: string;
+  street: string;
+  number: number;
+  neighborhood: string;
+  cep: string;
+}
 
 export interface UserState {
   id: string;
@@ -118,7 +160,8 @@ export interface UserState {
     name: string | null;
     cpf: string | null;
     phone: string | null;
-    adresses: any[];
+    adresses: Address[];
   };
-  addressActive: any | null;
+  addressActive: Address | null;
+  error: string | null;
 }

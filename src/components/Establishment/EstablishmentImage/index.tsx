@@ -15,7 +15,7 @@ const EstablishmentImage = ({ image, loading }: Props) => {
       {loading ? (
         <View
           style={{
-            borderRadius: 100,
+            borderRadius: 50,
             height: 90,
             width: 90,
             justifyContent: 'center',

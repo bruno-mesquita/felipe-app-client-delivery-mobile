@@ -11,8 +11,12 @@ import {
   REMOVE_USER_ADDRESS,
   ADD_USER_ADDRESS,
   UPDATE_USER_ADDRESS,
+  UPDATE_AVATAR_REQUEST,
+  UPDATE_AVATAR_REQUEST_SUCCESS,
+  UPDATE_AVATAR_REQUEST_FAILURE,
   UserActionTypes,
   RegisterUser,
+  ProfileUpdate,
 } from './user.types';
 
 export const registerUserRequest = (user: RegisterUser): UserActionTypes => ({
@@ -31,18 +35,25 @@ export const registerUserRequestFailure = (
   payload: { message },
 });
 
-export const updateProfileRequest = (profile: any): UserActionTypes => ({
+export const updateProfileRequest = (
+  profile: ProfileUpdate,
+): UserActionTypes => ({
   type: UPDATE_PROFILE_REQUEST,
   payload: { profile },
 });
 
-export const updateProfileRequestSuccess = (profile: any): UserActionTypes => ({
+export const updateProfileRequestSuccess = (
+  profile: ProfileUpdate,
+): UserActionTypes => ({
   type: UPDATE_PROFILE_REQUEST_SUCCESS,
   payload: { profile },
 });
 
-export const updateProfileRequestFailure = (): UserActionTypes => ({
+export const updateProfileRequestFailure = (
+  message: string,
+): UserActionTypes => ({
   type: UPDATE_PROFILE_REQUEST_FAILURE,
+  payload: { message },
 });
 
 export const changeUserPasswordRequest = (values: any): UserActionTypes => ({
@@ -71,4 +82,27 @@ export const removeUserAddress = (id: string): UserActionTypes => ({
 export const updateUserAddress = (values: any): UserActionTypes => ({
   type: UPDATE_USER_ADDRESS,
   payload: { values },
+});
+
+export const updateAvatarRequest = (
+  encoded: string,
+  name: string,
+): UserActionTypes => ({
+  type: UPDATE_AVATAR_REQUEST,
+  payload: { encoded, name },
+});
+
+export const updateAvatarRequestSuccess = (
+  encoded: string,
+  name: string,
+): UserActionTypes => ({
+  type: UPDATE_AVATAR_REQUEST_SUCCESS,
+  payload: { encoded, name },
+});
+
+export const updateAvatarRequestFailure = (
+  message: string,
+): UserActionTypes => ({
+  type: UPDATE_AVATAR_REQUEST_FAILURE,
+  payload: { message },
 });

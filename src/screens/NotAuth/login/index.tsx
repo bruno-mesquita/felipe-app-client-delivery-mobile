@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
 import { Text } from 'react-native';
@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
 import { Button as ButtonLogin } from '../../../components/Button';
-import { Checkbox } from '../../../components/CheckBox';
+import { Checkbox } from './Components';
 
 import {
   Container,
@@ -22,18 +22,13 @@ import {
   StayConnect,
 } from './styles';
 
-import {
-  requestLogin,
-  requestLoginSuccess,
-} from '../../../store/ducks/auth/auth.actions';
+import { requestLogin } from '../../../store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
 function login() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [options, setOptions] = useState({ invoice: false });
 
   const onSubmit = ({ email, password }: Values) => {
     dispatch(requestLogin(email, password));
@@ -55,11 +50,17 @@ function login() {
         </ContainerLogo>
 
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: '', password: '', checked: false }}
           onSubmit={onSubmit}
           validationSchema={schema}
         >
-          {({ handleBlur, handleSubmit, handleChange, values }) => (
+          {({
+            handleBlur,
+            handleSubmit,
+            handleChange,
+            values,
+            setFieldValue,
+          }) => (
             <Form>
               <ContainerInput>
                 <Field
@@ -82,9 +83,6 @@ function login() {
                   placeholder="Senha"
                   secureTextEntry
                   textValue="Senha"
-                  iconName="eye"
-                  iconColor="white"
-                  iconSize={24}
                 />
                 <ErrorMessage
                   style={{ color: '#fff' }}
@@ -95,27 +93,24 @@ function login() {
 
               <ForgotPassword>
                 <ForgotPasswordButton>
-                  <ForgotPasswordText onPress={() => forgotPassword()}>
+                  <ForgotPasswordText onPress={forgotPassword}>
                     Esqueci minha senha
                   </ForgotPasswordText>
                 </ForgotPasswordButton>
               </ForgotPassword>
 
               <StayConnect>
-                <Checkbox checked={options.invoice} onChange={() => true}>
+                <Checkbox
+                  checked={values.checked}
+                  onChange={value => setFieldValue('checked', value)}
+                >
                   <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
                 </Checkbox>
               </StayConnect>
 
               <ContainerButton>
-                <ButtonLogin onPress={() => handleSubmit()}>Login</ButtonLogin>
-                <ButtonLogin
-                  onPress={() => {
-                    goRegister();
-                  }}
-                >
-                  Criar conta
-                </ButtonLogin>
+                <ButtonLogin onPress={handleSubmit}>Login</ButtonLogin>
+                <ButtonLogin onPress={goRegister}>Criar conta</ButtonLogin>
               </ContainerButton>
             </Form>
           )}
