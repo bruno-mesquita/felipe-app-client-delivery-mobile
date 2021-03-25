@@ -38,19 +38,13 @@ function Home() {
     { id: '2', name: '', loading: true },
     { id: '3', name: '', loading: true },
     { id: '4', name: '', loading: true },
+    { id: '5', name: '', loading: true },
   ]);
 
   useEffect(() => {
-    /* api.get('/categories').then(({ data }) => setCategories(data)); */
-
-    setTimeout(() => {
-      setCategories([
-        { id: '1', name: 'Pizzarias', loading: false },
-        { id: '2', name: 'Lanchonetes', loading: false },
-        { id: '3', name: 'Padarias', loading: false },
-        { id: '4', name: 'Supermercados', loading: false },
-      ]);
-    }, 2000);
+    api.get('/establishments-categories').then(({ data }) => {
+      setCategories(data.result.map(item => ({ ...item, loading: false })));
+    });
 
     setEstablishments([
       {
@@ -138,6 +132,11 @@ function Home() {
           />
           <Tab
             {...categories[3]}
+            selected={categorySelected}
+            onPress={onChangeCategory}
+          />
+          <Tab
+            {...categories[4]}
             selected={categorySelected}
             onPress={onChangeCategory}
           />
