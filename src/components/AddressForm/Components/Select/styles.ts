@@ -4,10 +4,10 @@ const { width } = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
   pickerAndroid: {
-    width: width * 0.7,
+    width: width * 0.4,
     height: 40,
     borderRadius: 11,
-    backgroundColor: '#9E0404',
+    backgroundColor: '#770202',
     color: '#ffffff',
     paddingLeft: 15,
   },

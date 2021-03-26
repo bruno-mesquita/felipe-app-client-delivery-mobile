@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { View } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
+import { Item } from 'react-native-picker-select';
 
 import { Button } from '../../components/Button';
 import { Field } from '../../components/Field';
+import { Select } from './Components';
 
 import api from '../../services/api';
 import {
@@ -14,23 +15,28 @@ import {
   ViewFields,
   ScrollView,
 } from './styles';
-import { Props, Values } from './props';
+import { Props } from './props';
 
 const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
-  const dispatch = useDispatch();
-
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
+  const [states, setStates] = useState<Item[]>([]);
+  const [cities, setCities] = useState<Item[]>([]);
 
   useEffect(() => {
-    /* api.get('/states').then(({ data }) => setStates(data)); */
+    api.get(`/states`).then(({ data }) => {
+      setStates(data.map(state => ({ label: state.name, value: state.id })));
+    });
   }, []);
 
-  /* const getCities = async (stateId: string) => {
-    const { data } = await api.get(`/cities/${stateId}`);
-
-    setCities(data);
-  } */
+  const onChangeState = (stateId: string) => {
+    api.get(`/state/${stateId}`).then(({ data }) => {
+      setCities(
+        data.map(cities => ({
+          value: cities.id,
+          label: cities.name,
+        })),
+      );
+    });
+  };
 
   return (
     <Container>
@@ -40,7 +46,7 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
           onSubmit={onSubmit}
           enableReinitialize
         >
-          {({ values, handleChange, handleSubmit }) => (
+          {({ values, handleChange, handleSubmit, setFieldValue }) => (
             <ViewForm>
               <ViewFields>
                 <ViewField>
@@ -48,7 +54,6 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
                     textValue="Apelido"
                     textColor="black"
                     value={values.nickname}
-                    secureTextEntry
                     onChangeText={handleChange('nickname')}
                   />
                   <ErrorMessage component={View} name="nickname" />
@@ -57,18 +62,16 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
                   <Field
                     textValue="CEP"
                     textColor="black"
-                    value={values.zipCode}
-                    secureTextEntry
-                    onChangeText={handleChange('zipCode')}
+                    value={values.cep}
+                    onChangeText={handleChange('cep')}
                   />
-                  <ErrorMessage component={View} name="zipCode" />
+                  <ErrorMessage component={View} name="cep" />
                 </ViewField>
                 <ViewField>
                   <Field
                     textValue="Rua"
                     textColor="black"
                     value={values.street}
-                    secureTextEntry
                     onChangeText={handleChange('street')}
                   />
                   <ErrorMessage component={View} name="street" />
@@ -78,7 +81,6 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
                     textValue="Bairro"
                     textColor="black"
                     value={values.neighborhood}
-                    secureTextEntry
                     onChangeText={handleChange('neighborhood')}
                   />
                   <ErrorMessage component={View} name="neighborhood" />
@@ -88,30 +90,44 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
                     textValue="Número"
                     textColor="black"
                     value={values.number}
-                    secureTextEntry
                     onChangeText={handleChange('number')}
                   />
                   <ErrorMessage component={View} name="number" />
                 </ViewField>
-                <ViewField>
-                  <Field
-                    textValue="Cidade"
-                    textColor="black"
-                    value={values.city}
-                    secureTextEntry
-                    onChangeText={handleChange('city')}
-                  />
-                  <ErrorMessage component={View} name="city" />
-                </ViewField>
-                <ViewField>
-                  <Field
-                    textValue="Estado"
-                    textColor="black"
+                <ViewField
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '90%',
+                    paddingTop: 25,
+                  }}
+                >
+                  <Select
+                    items={states}
                     value={values.state}
-                    secureTextEntry
-                    onChangeText={handleChange('state')}
+                    placeholder={{
+                      value: 'Estado',
+                      label: 'Estado',
+                      color: '#000',
+                    }}
+                    onValueChange={value => {
+                      setFieldValue('state', value);
+                      onChangeState(value);
+                    }}
                   />
                   <ErrorMessage component={View} name="state" />
+                  <Select
+                    items={cities}
+                    value={values.city}
+                    placeholder={{
+                      value: 'Cidade',
+                      label: 'Cidade',
+                      color: '#000',
+                    }}
+                    onValueChange={value => setFieldValue('city', value)}
+                  />
+                  <ErrorMessage component={View} name="city" />
                 </ViewField>
               </ViewFields>
               <View style={{ marginBottom: 50 }}>

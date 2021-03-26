@@ -28,6 +28,8 @@ export const UPDATE_AVATAR_REQUEST_SUCCESS =
 export const UPDATE_AVATAR_REQUEST_FAILURE =
   '@user/UPDATE_AVATAR_REQUEST_FAILURE';
 
+export const SET_ADDRESS_ACTIVE = '@user/SET_ADDRESS_ACTIVE';
+
 export interface ProfileUpdate {
   name: string;
   email: string;
@@ -42,6 +44,11 @@ export interface RegisterUser {
   dateOfBirth: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface SetAddressActive {
+  type: typeof SET_ADDRESS_ACTIVE;
+  payload: { addressClientId: string | null };
 }
 
 export interface UpdateAvatarRequest {
@@ -139,7 +146,8 @@ export type UserActionTypes =
   | RemoveUserAddress
   | UpdateAvatarRequest
   | UpdateAvatarRequestSuccess
-  | UpdateAvatarRequestFailure;
+  | UpdateAvatarRequestFailure
+  | SetAddressActive;
 
 export interface Address {
   clientAddressId: string;
@@ -162,6 +170,6 @@ export interface UserState {
     phone: string | null;
     adresses: Address[];
   };
-  addressActive: Address | null;
+  addressActive: string | null;
   error: string | null;
 }

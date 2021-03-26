@@ -1,26 +1,34 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 
 import { Button } from '../../../components/Button';
 import { Field } from '../../../components/Field';
-
-import { changeUserPasswordRequest } from '../../../store/ducks/user/user.actions';
+import api from '../../../services/api';
 
 import { Container, ViewField, ViewForm, ViewFields } from './styles';
 
 const ChangePassword = () => {
-  const dispatch = useDispatch();
-
   const initialValues = {
-    currentPassoword: '',
+    currentPassword: '',
     newPassword: '',
     confirmNewPassword: '',
   };
 
-  const onSubmit = (values: typeof initialValues) => {
-    /* dispatch(changeUserPasswordRequest(values)); */
+  const onSubmit = async (values: typeof initialValues) => {
+    try {
+      if (values.newPassword === values.confirmNewPassword) {
+        await api.put('/clients/update-password', values);
+
+        Alert.alert('Senha atualizada');
+      } else {
+        Alert.alert('Senhas iguais');
+      }
+    } catch (err) {
+      console.log(err.response);
+
+      Alert.alert('Erro ao atualizar a senha');
+    }
   };
 
   return (
@@ -37,11 +45,11 @@ const ChangePassword = () => {
                 <Field
                   textValue="Senha atual"
                   textColor="black"
-                  value={values.currentPassoword}
+                  value={values.currentPassword}
                   secureTextEntry
-                  onChangeText={handleChange('currentPassoword')}
+                  onChangeText={handleChange('currentPassword')}
                 />
-                <ErrorMessage component={View} name="currentPassoword" />
+                <ErrorMessage component={View} name="currentPassword" />
               </ViewField>
               <ViewField>
                 <Field

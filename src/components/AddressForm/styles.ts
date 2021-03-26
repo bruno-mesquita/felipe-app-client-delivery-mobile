@@ -10,7 +10,7 @@ export const ScrollView = styled.ScrollView`
 
 export const ViewField = styled.View`
   align-items: center;
-  width: 90%;
+  width: 95%;
 `;
 
 export const ViewForm = styled.View`

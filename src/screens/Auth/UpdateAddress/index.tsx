@@ -1,42 +1,51 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 import AddressForm from '../../../components/AddressForm';
 
-import { updateUserAddress } from '../../../store/ducks/user/user.actions';
 import api from '../../../services/api';
 import { Container } from './styles';
+import { Address } from './props';
 
-const AddAddress = () => {
-  const dispatch = useDispatch();
+export const UpdateAddress = () => {
   const { id } = useRoute<any>().params;
 
-  const address = useSelector(({ user }) =>
-    user.profile.adresses.find(item => item.id === id),
-  );
+  const [address, setAddress] = useState<Address>({
+    id: '',
+    street: '',
+    cep: '',
+    city: '',
+    neighborhood: '',
+    nickname: '',
+    number: null,
+    state: '',
+  });
 
-  const initialValues = { ...address };
+  useEffect(() => {
+    api.get<{ result: Address }>(`/adresses-client/${id}`).then(({ data }) => {
+      setAddress(data.result);
+    });
+  }, []);
 
-  const onSubmit = async (values: typeof initialValues) => {
-    /* const { data, status } = await api.put(`/addresses/${id}`, values);
+  const onSubmit = async (values: Address) => {
+    try {
+      await api.put(`/adresses-client/${id}`, values);
 
-    if(status === 200) {
-      dispatch(updateUserAddress(values));
+      Alert.alert('Endereço atualizado com sucesso');
+    } catch (err) {
+      Alert.alert('Erro ao atualizar');
+      console.log(err.response);
     }
-     */
-    console.log(values);
   };
 
   return (
     <Container>
       <AddressForm
         onSubmit={onSubmit}
-        initialValues={initialValues}
+        initialValues={address}
         textButton="Atualizar"
       />
     </Container>
   );
 };
-
-export default AddAddress;

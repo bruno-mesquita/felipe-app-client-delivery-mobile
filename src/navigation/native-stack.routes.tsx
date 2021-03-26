@@ -12,6 +12,7 @@ import {
   Cart,
   TrackOrder,
   Orders,
+  UpdateAddress,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -81,10 +82,23 @@ export default function NativeStackRoutes() {
           headerStyle: {
             backgroundColor: '#9E0404',
           },
-          headerTitle: 'Cadastro de endereço',
+          headerTitle: 'Adicionar endereço',
           headerTintColor: '#ffffff',
         }}
       />
+      <Screen
+        name="UpdateAddress"
+        component={UpdateAddress}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTitle: 'Atualizar endereço',
+          headerTintColor: '#ffffff',
+        }}
+      />
+
       <Screen
         name="Establishment"
         component={Establishment}

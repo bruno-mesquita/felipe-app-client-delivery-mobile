@@ -1,9 +1,9 @@
 export interface Values {
   nickname: string;
-  zipCode: string;
+  cep: string;
   street: string;
   neighborhood: string;
-  number: string;
+  number: number;
   city: string;
   state: string;
 }

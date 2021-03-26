@@ -7,3 +7,4 @@ export { default as Establishment } from './Establishment';
 export { Cart } from './Cart';
 export { TrackOrder } from './TrackOrder';
 export { Orders } from './Orders';
+export { UpdateAddress } from './UpdateAddress';

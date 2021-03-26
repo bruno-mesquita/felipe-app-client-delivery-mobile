@@ -9,6 +9,7 @@ import {
   UPDATE_AVATAR_REQUEST_FAILURE,
   UPDATE_AVATAR_REQUEST_SUCCESS,
   UPDATE_PROFILE_REQUEST_FAILURE,
+  SET_ADDRESS_ACTIVE,
 } from './user.types';
 import { AUTH_REQUEST_LOGIN_SUCCESS, AUTH_LOGOUT } from '../auth/auth.types';
 
@@ -103,6 +104,13 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
         const { message } = action.payload;
 
         draft.error = message;
+        break;
+      }
+
+      case SET_ADDRESS_ACTIVE: {
+        const { addressClientId } = action.payload;
+
+        draft.addressActive = addressClientId;
         break;
       }
 

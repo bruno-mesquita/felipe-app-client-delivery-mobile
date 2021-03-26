@@ -14,6 +14,7 @@ import {
   UPDATE_AVATAR_REQUEST,
   UPDATE_AVATAR_REQUEST_SUCCESS,
   UPDATE_AVATAR_REQUEST_FAILURE,
+  SET_ADDRESS_ACTIVE,
   UserActionTypes,
   RegisterUser,
   ProfileUpdate,
@@ -105,4 +106,11 @@ export const updateAvatarRequestFailure = (
 ): UserActionTypes => ({
   type: UPDATE_AVATAR_REQUEST_FAILURE,
   payload: { message },
+});
+
+export const setAddressActive = (
+  addressClientId: string | null,
+): UserActionTypes => ({
+  type: SET_ADDRESS_ACTIVE,
+  payload: { addressClientId },
 });
