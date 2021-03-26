@@ -4,13 +4,12 @@ import { AirbnbRating } from 'react-native-ratings';
 import { Form, Textarea } from 'native-base';
 import { AxiosError } from 'axios';
 import { useTheme } from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
 
 import ModalBase from '../../../../../components/ModalBase';
 import ModalButton from '../../../../../components/ModalButton';
 
 import api from '../../../../../services/api';
-import { Container, Header } from './styles';
+import { Container } from './styles';
 import { EvaluationProps } from './props';
 
 export const EvaluationModal = ({
@@ -54,14 +53,6 @@ export const EvaluationModal = ({
   return (
     <ModalBase ref={modalRef}>
       <Container>
-        <Header>
-          <Ionicons
-            onPress={onClose}
-            name="close-circle"
-            size={20}
-            color={colors.primary}
-          />
-        </Header>
         <Form>
           <Textarea
             rowSpan={5}

@@ -3,8 +3,6 @@ import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from 'styled-components/native';
 
 import ModalBase from '../../../../../components/ModalBase';
 import Select from '../../../../../components/Select';
@@ -13,11 +11,10 @@ import { ModalBaseProps } from '../../../../../components/ModalBase/props';
 import Button from '../../../../../components/ModalButton';
 import { Checkbox } from '../Checkbox';
 
-import { Container, Header, Content } from './styles';
+import { Container, Content } from './styles';
 import api from '../../../../../services/api';
 
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
-  const { colors } = useTheme();
   const navigation = useNavigation();
 
   const { addressActive, establishmentId, userId } = useSelector(
@@ -72,14 +69,6 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     <ModalBase ref={modalRef}>
       <Container>
         <Content payment={options.payment}>
-          <Header>
-            <Ionicons
-              onPress={onClose}
-              name="close-circle"
-              size={20}
-              color={colors.primary}
-            />
-          </Header>
           <Select
             items={payments}
             placeholder={{

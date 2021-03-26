@@ -11,13 +11,7 @@ interface ContentProps extends ViewProps {
 
 export const Container = styled.View`
   width: ${width * 0.9}px;
-  padding: 10px;
-`;
-
-export const Header = styled.View`
-  flex-direction: row;
-  width: ${width * 0.8}px;
-  justify-content: flex-end;
+  padding: 20px;
 `;
 
 export const Content = styled<ComponentType<ContentProps>>(View as any)`

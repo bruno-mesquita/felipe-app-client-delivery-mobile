@@ -25,7 +25,7 @@ const ModalBase = forwardRef<ModalBaseHandle, Props>(
         visible={visible}
         {...rest}
       >
-        <Container>
+        <Container onPress={close} activeOpacity={0}>
           <View style={styles.modalView}>{children}</View>
         </Container>
       </Modal>
