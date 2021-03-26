@@ -18,6 +18,7 @@ const Address = () => {
   const getAdresses = useCallback(async () => {
     try {
       const { data } = await api.get('/adresses-client');
+
       setAdresses(data.result);
       setLoading(false);
     } catch (err) {
@@ -48,7 +49,7 @@ const Address = () => {
           style={{ width: '100%' }}
           data={adresses}
           renderItem={({ item }) => <Card {...item} />}
-          keyExtractor={item => item.addressId}
+          keyExtractor={item => item.id}
         />
       )}
       <ButtonAdd onPress={addAddress}>
