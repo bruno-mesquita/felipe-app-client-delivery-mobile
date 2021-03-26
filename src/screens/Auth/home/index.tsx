@@ -42,7 +42,7 @@ function Home() {
   ]);
 
   useEffect(() => {
-    api.get('/establishments-categories').then(({ data }) => {
+    api.get('/categories').then(({ data }) => {
       setCategories(data.result.map(item => ({ ...item, loading: false })));
     });
 
