@@ -11,26 +11,29 @@ import { Address } from './props';
 export const UpdateAddress = () => {
   const { id } = useRoute<any>().params;
 
-  const [address, setAddress] = useState<Address>({
+  const [address, setAddress] = useState({
     id: '',
     street: '',
     cep: '',
     city: '',
     neighborhood: '',
     nickname: '',
-    number: null,
+    number: '0',
     state: '',
   });
 
   useEffect(() => {
-    api.get<{ result: Address }>(`/adresses-client/${id}`).then(({ data }) => {
-      setAddress(data.result);
+    api.get(`/adresses-client/${id}`).then(({ data }) => {
+      setAddress({ ...data.result, number: data.result.number.toString() });
     });
   }, []);
 
   const onSubmit = async (values: Address) => {
     try {
-      await api.put(`/adresses-client/${id}`, values);
+      await api.put(`/adresses-client/${id}`, {
+        ...values,
+        number: Number(values.number),
+      });
 
       Alert.alert('Endereço atualizado com sucesso');
     } catch (err) {

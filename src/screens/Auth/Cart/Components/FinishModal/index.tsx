@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,24 +13,23 @@ import { ModalBaseProps } from '../../../../../components/ModalBase/props';
 import Button from '../../../../../components/ModalButton';
 import { Checkbox } from '../Checkbox';
 
-import { openOrderRequest } from '../../../../../store/ducks/cart/cart.actions';
 import { Container, Header, Content } from './styles';
+import api from '../../../../../services/api';
 
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
-  const { adresses, addressActive, establishmentId, userId } = useSelector(
+  const { addressActive, establishmentId, userId } = useSelector(
     ({ user, cart }) => ({
       addressActive: user.addressActive,
-      adresses: user.profile.adresses,
       userId: user.id,
       establishmentId: cart.establishmentId,
     }),
   );
 
   const [payments, setPayments] = useState<Item[]>([]);
+  const [adresses, setAdresses] = useState<any[]>([]);
   const [options, setOptions] = useState({
     address: '',
     payment: '',
@@ -38,7 +37,18 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     invoice: false,
   });
 
+  const getAdresses = useCallback(async () => {
+    try {
+      const { data } = await api.get('/adresses-client');
+
+      setAdresses(data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
   useEffect(() => {
+    getAdresses();
     setPayments([
       { label: 'Dinheiro', value: 'Dinheiro', color: '#000' },
       { label: 'Cartão de crédito', value: 'Cartão de crédito', color: '#000' },
@@ -56,7 +66,6 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const purchase = () => {
     navigation.navigate('TrackOrder', { id: '' });
     onClose();
-    // dispatch(openOrderRequest(userId, establishmentId));
   };
 
   return (
@@ -82,6 +91,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
           />
 
           <Select
+            value={addressActive || adresses[0].id}
             items={adresses.map(item => ({
               label: item.nickname,
               value: item.id,

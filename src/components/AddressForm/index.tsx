@@ -90,6 +90,7 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
                     textValue="Número"
                     textColor="black"
                     value={values.number}
+                    keyboardType="number-pad"
                     onChangeText={handleChange('number')}
                   />
                   <ErrorMessage component={View} name="number" />

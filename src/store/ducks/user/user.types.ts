@@ -18,10 +18,6 @@ export const CHANGE_USER_PASSWORD_REQUEST_SUCCESS =
 export const CHANGE_USER_PASSWORD_REQUEST_FAILURE =
   '@user/CHANGE_USER_PASSWORD_REQUEST_FAILURE';
 
-export const ADD_USER_ADDRESS = '@user/ADD_USER_ADDRESS';
-export const UPDATE_USER_ADDRESS = '@user/UPDATE_USER_ADDRESS';
-export const REMOVE_USER_ADDRESS = '@user/REMOVE_USER_ADDRESS';
-
 export const UPDATE_AVATAR_REQUEST = '@user/UPDATE_AVATAR_REQUEST';
 export const UPDATE_AVATAR_REQUEST_SUCCESS =
   '@user/UPDATE_AVATAR_REQUEST_SUCCESS';
@@ -66,20 +62,6 @@ export interface UpdateAvatarRequestFailure {
   payload: { message: string };
 }
 
-export interface RemoveUserAddress {
-  type: typeof REMOVE_USER_ADDRESS;
-  payload: { id: string };
-}
-
-export interface UpdateUserAddress {
-  type: typeof UPDATE_USER_ADDRESS;
-  payload: { values: any };
-}
-
-export interface AddUserAddress {
-  type: typeof ADD_USER_ADDRESS;
-  payload: { address: any };
-}
 export interface ChangeUserPasswordRequest {
   type: typeof CHANGE_USER_PASSWORD_REQUEST;
   payload: {
@@ -141,24 +123,10 @@ export type UserActionTypes =
   | ChangeUserPasswordRequest
   | ChangeUserPasswordRequestSuccess
   | ChangeUserPasswordRequestFailure
-  | AddUserAddress
-  | UpdateUserAddress
-  | RemoveUserAddress
   | UpdateAvatarRequest
   | UpdateAvatarRequestSuccess
   | UpdateAvatarRequestFailure
   | SetAddressActive;
-
-export interface Address {
-  clientAddressId: string;
-  addressId: string;
-  nickname: string;
-  city: string;
-  street: string;
-  number: number;
-  neighborhood: string;
-  cep: string;
-}
 
 export interface UserState {
   id: string;
@@ -168,7 +136,6 @@ export interface UserState {
     name: string | null;
     cpf: string | null;
     phone: string | null;
-    adresses: Address[];
   };
   addressActive: string | null;
   error: string | null;

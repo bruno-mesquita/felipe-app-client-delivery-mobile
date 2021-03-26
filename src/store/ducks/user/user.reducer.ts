@@ -4,8 +4,6 @@ import {
   UserState,
   UserActionTypes,
   UPDATE_PROFILE_REQUEST_SUCCESS,
-  ADD_USER_ADDRESS,
-  REMOVE_USER_ADDRESS,
   UPDATE_AVATAR_REQUEST_FAILURE,
   UPDATE_AVATAR_REQUEST_SUCCESS,
   UPDATE_PROFILE_REQUEST_FAILURE,
@@ -66,22 +64,6 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
         draft.profile.email = email;
         draft.profile.phone = cellphone;
         draft.error = null;
-        break;
-      }
-
-      case ADD_USER_ADDRESS: {
-        const { address } = action.payload;
-
-        draft.profile.adresses.push(address);
-        break;
-      }
-
-      case REMOVE_USER_ADDRESS: {
-        const { id } = action.payload;
-
-        const index = draft.profile.adresses.findIndex(item => item.id === id);
-
-        draft.profile.adresses.slice(index, 1);
         break;
       }
 

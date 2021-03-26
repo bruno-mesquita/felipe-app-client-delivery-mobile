@@ -8,9 +8,6 @@ import {
   CHANGE_USER_PASSWORD_REQUEST,
   CHANGE_USER_PASSWORD_REQUEST_FAILURE,
   CHANGE_USER_PASSWORD_REQUEST_SUCCESS,
-  REMOVE_USER_ADDRESS,
-  ADD_USER_ADDRESS,
-  UPDATE_USER_ADDRESS,
   UPDATE_AVATAR_REQUEST,
   UPDATE_AVATAR_REQUEST_SUCCESS,
   UPDATE_AVATAR_REQUEST_FAILURE,
@@ -68,21 +65,6 @@ export const changeUserPasswordRequestSuccess = (): UserActionTypes => ({
 
 export const changeUserPasswordRequestFailure = (): UserActionTypes => ({
   type: CHANGE_USER_PASSWORD_REQUEST_FAILURE,
-});
-
-export const addUserAddress = (address: any): UserActionTypes => ({
-  type: ADD_USER_ADDRESS,
-  payload: { address },
-});
-
-export const removeUserAddress = (id: string): UserActionTypes => ({
-  type: REMOVE_USER_ADDRESS,
-  payload: { id },
-});
-
-export const updateUserAddress = (values: any): UserActionTypes => ({
-  type: UPDATE_USER_ADDRESS,
-  payload: { values },
 });
 
 export const updateAvatarRequest = (
