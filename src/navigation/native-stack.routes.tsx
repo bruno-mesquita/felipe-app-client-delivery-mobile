@@ -13,6 +13,9 @@ import {
   TrackOrder,
   Orders,
   UpdateAddress,
+  Configuration,
+  AboutApp,
+  TermsUse,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -145,6 +148,37 @@ export default function NativeStackRoutes() {
           },
           headerTintColor: '#ffffff',
           headerTitle: 'Pedidos',
+        }}
+      />
+      <Screen
+        name="Configuration"
+        component={Configuration}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: 'Configurações',
+        }}
+      />
+      <Screen
+        name="TermsUse"
+        component={TermsUse}
+        options={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#9E0404',
+          },
+          headerTintColor: '#ffffff',
+          headerTitle: 'Termos de uso',
+        }}
+      />
+      <Screen
+        name="AboutApp"
+        component={AboutApp}
+        options={{
+          headerShown: false,
         }}
       />
     </Navigator>

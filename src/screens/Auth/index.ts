@@ -8,3 +8,6 @@ export { Cart } from './Cart';
 export { TrackOrder } from './TrackOrder';
 export { Orders } from './Orders';
 export { UpdateAddress } from './UpdateAddress';
+export { Configuration } from './Configuration';
+export { AboutApp } from './AboutApp';
+export { TermsUse } from './TermsUse';

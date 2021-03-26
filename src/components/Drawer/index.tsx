@@ -30,8 +30,8 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
     props.navigation.navigate('Profile');
   };
 
-  const goChangePassword = () => {
-    props.navigation.navigate('ChangePassword');
+  const goConfiguration = () => {
+    props.navigation.navigate('Configuration');
   };
 
   const goAdresses = () => {
@@ -66,8 +66,8 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
           <ListItemText>Endereços</ListItemText>
           <Divider />
         </ListItem>
-        <ListItem onPress={goChangePassword}>
-          <ListItemText>Alterar senha</ListItemText>
+        <ListItem onPress={goConfiguration}>
+          <ListItemText>Configurações</ListItemText>
           <Divider />
         </ListItem>
         <ListItem onPress={goLogout}>
