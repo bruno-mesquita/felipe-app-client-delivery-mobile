@@ -18,3 +18,8 @@ export const Establishments = styled.FlatList.attrs(props => ({
 }))`
   width: 100%;
 `;
+
+export const SafeArea = styled.SafeAreaView`
+  flex: 1;
+  width: 100%;
+`;

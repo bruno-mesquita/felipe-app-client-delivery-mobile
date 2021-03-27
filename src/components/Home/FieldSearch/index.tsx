@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import api from '../../../services/api';
 import { Input, styles } from './styles';
 import { Props } from './props';
 
-const FieldSearch = ({ onChangeText, text }: Props) => {
+const FieldSearch = ({ response }: Props) => {
+  const [text, setText] = useState('');
+
+  const searchForEstablishment = async () => {
+    try {
+      const { data } = await api.post(`/establishments`, {
+        search: text,
+      });
+
+      console.log(data.result);
+
+      response(data.result);
+    } catch (err) {
+      console.log(err);
+      response({});
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Input
-        placeholder="Pesquise aqui"
-        value={text}
-        onChangeText={onChangeText}
-      />
-      <TouchableOpacity>
+      <Input placeholder="Pesquise aqui" value={text} onChangeText={setText} />
+      <TouchableOpacity onPress={searchForEstablishment}>
         <Ionicons name="search" size={24} style={{ color: '#727272' }} />
       </TouchableOpacity>
     </View>

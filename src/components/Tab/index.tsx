@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  TouchableHighlight,
-} from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 import { Props } from './props';
 import { styles } from './styles';
 
-const Tab = ({ loading, id, name, selected, onPress }: Props) => {
+const Tab = ({ id, name, selected, onPress }: Props) => {
   const { colors } = useTheme();
   const [color, setColor] = useState({
     container: colors.secundary,
@@ -35,11 +30,7 @@ const Tab = ({ loading, id, name, selected, onPress }: Props) => {
       style={{ ...styles.container, backgroundColor: color.container }}
     >
       <View>
-        {loading ? (
-          <ActivityIndicator color={colors.primary} size={25} />
-        ) : (
-          <Text style={{ color: color.text }}>{name}</Text>
-        )}
+        <Text style={{ color: color.text }}>{name}</Text>
       </View>
     </TouchableHighlight>
   );
