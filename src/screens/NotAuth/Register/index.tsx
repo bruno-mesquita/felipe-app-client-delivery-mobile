@@ -38,8 +38,9 @@ const Register = () => {
 
   const onChangeState = useCallback((stateId: string) => {
     api.get(`/state/${stateId}`).then(({ data }) => {
+      console.log(data);
       setCities(
-        data.cities.map(cities => ({
+        data.result.map(cities => ({
           value: cities.id,
           label: cities.name,
         })),

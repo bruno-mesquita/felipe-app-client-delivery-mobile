@@ -35,14 +35,13 @@ const CodeToRegister = ({ route }) => {
     try {
       console.log(values);
 
-      const { status } = await api.post('/client/activate', values);
+      const { status } = await api.post('/clients/activate', values);
 
       if (status === 200) {
         login();
       }
     } catch (err) {
       const error = err as AxiosError;
-      // console.log(error.request);
     }
   };
 

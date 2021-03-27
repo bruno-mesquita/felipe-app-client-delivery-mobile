@@ -30,7 +30,7 @@ const AddAddress = ({ onSubmit, initialValues, textButton }: Props) => {
   const onChangeState = (stateId: string) => {
     api.get(`/state/${stateId}`).then(({ data }) => {
       setCities(
-        data.map(cities => ({
+        data.result.map(cities => ({
           value: cities.id,
           label: cities.name,
         })),
