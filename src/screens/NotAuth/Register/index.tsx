@@ -67,7 +67,6 @@ const Register = () => {
       takeCode(data.result);
     } catch (err) {
       const error = err as AxiosError;
-      console.log(error.response.data);
     }
   };
 
