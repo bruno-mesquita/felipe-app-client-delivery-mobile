@@ -3,6 +3,7 @@ import { Input as NBInput } from 'native-base';
 
 export const Container = styled.View`
   height: 69px;
+
   box-shadow: 100px 100px 100px #000;
   margin: 4px;
 `;
@@ -24,6 +25,7 @@ export const ContainerTextField = styled.View`
   background-color: #770202;
 
   padding-left: 5px;
+  padding-right: 17px;
 `;
 
 export const TextField = styled(NBInput).attrs(props => ({
@@ -31,6 +33,7 @@ export const TextField = styled(NBInput).attrs(props => ({
   ...props,
 }))`
   height: 43px;
+  /* width: 295px; */
 
   border-radius: 10px;
 

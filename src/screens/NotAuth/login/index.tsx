@@ -5,6 +5,7 @@ import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Field } from '../../../components/Field';
+import { FieldSecure } from '../../../components/FieldSecure';
 import { Button as ButtonLogin } from '../../../components/Button';
 import { Checkbox } from './Components';
 
@@ -64,7 +65,7 @@ function login() {
             <Form>
               <ContainerInput>
                 <Field
-                  onChangeText={handleChange('email')} // Aqui ta bugado.
+                  onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
                   value={values.email}
                   placeholder="E-mail"
@@ -76,12 +77,11 @@ function login() {
                   component={Text}
                 />
 
-                <Field
+                <FieldSecure
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                   value={values.password}
                   placeholder="Senha"
-                  secureTextEntry
                   textValue="Senha"
                 />
                 <ErrorMessage
