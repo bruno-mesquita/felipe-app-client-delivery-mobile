@@ -47,7 +47,10 @@ function login() {
     <Container>
       <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
+          <Logo
+            resizeMode="contain"
+            source={require('../../../assets/images/logo.png')}
+          />
         </ContainerLogo>
 
         <Formik

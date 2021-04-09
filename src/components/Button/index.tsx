@@ -8,14 +8,10 @@ export type Props = NativeBase.Button & {
   primaryColor?: boolean;
 };
 
-const Button = ({ primaryColor = false, children, ...rest }: Props) => {
-  return (
-    <Container>
-      <ButtonConfig {...rest} primaryColor={primaryColor}>
-        <TextConfig primaryColor={primaryColor}>{children}</TextConfig>
-      </ButtonConfig>
-    </Container>
-  );
-};
-
-export { Button };
+export const Button = ({ primaryColor = false, children, ...rest }: Props) => (
+  <Container>
+    <ButtonConfig {...rest} primaryColor={primaryColor}>
+      <TextConfig primaryColor={primaryColor}>{children}</TextConfig>
+    </ButtonConfig>
+  </Container>
+);

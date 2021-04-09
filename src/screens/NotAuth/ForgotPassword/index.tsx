@@ -28,7 +28,6 @@ const ForgotPassword = () => {
   };
 
   const onSubmit = (values: Values) => {
-    console.log(values);
     navigation.navigate('Codepassword');
   };
 
@@ -53,7 +52,7 @@ const ForgotPassword = () => {
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={() => handleSubmit()}>Enviar</Button>
+                <Button onPress={handleSubmit}>Enviar</Button>
               </ContainerButton>
             </ContentForm>
           )}

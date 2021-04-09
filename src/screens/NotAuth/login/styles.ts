@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'; // para usuário de Iphone
-import { Input as NBInput, Item as NBItem, Button, Text } from 'native-base';
+import { Input as NBInput } from 'native-base';
 
 export const Container = styled.View`
   flex: 1;
@@ -70,10 +70,8 @@ export const StayConnect = styled.View`
   height: 50px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 `;
-
-// export const checkUserConnect = styled.check
 
 export const ContainerButton = styled.View`
   width: 100%;

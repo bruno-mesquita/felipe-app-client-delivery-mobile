@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text } from 'react-native';
-import { Formik, ErrorMessage } from 'formik';
+import { Text, ScrollView } from 'react-native';
 import RNPickerSelect, { Item } from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
+import { Formik, ErrorMessage } from 'formik';
+import { AxiosError } from 'axios';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { Field } from '../../../components/Field';
 import { Button as ButtonLogin } from '../../../components/Button';
 import { Values } from './types';
 import api from '../../../services/api';
 import schema from './schema';
-import { AxiosError, AxiosResponse } from 'axios';
+
 import { ApiResult } from '../../../utils/ApiResult';
 
 import {
-  Container,
   BackGround,
   ContainerLogo,
   ContentForm,
@@ -30,23 +31,35 @@ const Register = () => {
   const [states, setStates] = useState<Item[]>([]);
   const [cities, setCities] = useState<Item[]>([]);
 
-  useEffect(() => {
-    api.get(`/states`).then(({ data }) => {
+  const getStates = useCallback(async () => {
+    try {
+      const { data } = await api.get(`/states`);
+
       setStates(data.map(state => ({ label: state.name, value: state.id })));
-    });
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log(error);
+    }
   }, []);
 
-  const onChangeState = useCallback((stateId: string) => {
-    api.get(`/state/${stateId}`).then(({ data }) => {
-      console.log(data);
+  useEffect(() => {
+    getStates();
+  }, [getStates]);
+
+  const onChangeState = async (stateId: string) => {
+    try {
+      const { data } = await api.get(`/state/${stateId}`);
+
       setCities(
         data.result.map(cities => ({
           value: cities.id,
           label: cities.name,
         })),
       );
-    });
-  }, []);
+    } catch (err) {
+      const error = err as AxiosError;
+    }
+  };
 
   const initialValues: Values = {
     name: '',
@@ -60,10 +73,7 @@ const Register = () => {
 
   const onSubmit = async (values: Values) => {
     try {
-      const { data }: AxiosResponse<ApiResult<string>> = await api.post(
-        '/clients',
-        values,
-      );
+      const { data } = await api.post<ApiResult<string>>('/clients', values);
 
       takeCode(data.result);
     } catch (err) {
@@ -75,11 +85,23 @@ const Register = () => {
     navigation.navigate('Code', { id });
   };
 
+  const LabelSelect = ({ children }) => (
+    <Text style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}>
+      {children}
+    </Text>
+  );
+
   return (
-    <Container>
-      <BackGround source={require('../../../assets/images/fundo.png')}>
+    <ScrollView>
+      <BackGround
+        style={{ flex: 1 }}
+        source={require('../../../assets/images/fundo.png')}
+      >
         <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
+          <Logo
+            resizeMode="cover"
+            source={require('../../../assets/images/logo.png')}
+          />
         </ContainerLogo>
 
         <Formik
@@ -106,7 +128,7 @@ const Register = () => {
                   onChangeText={handleChange('cpf')}
                   textValue="CPF"
                 />
-                <ErrorMessage component={Text} name="email" />
+                <ErrorMessage component={Text} name="cpf" />
               </DivField>
 
               <DivField>
@@ -116,7 +138,7 @@ const Register = () => {
                   onChangeText={handleChange('email')}
                   textValue="E-mail"
                 />
-                <ErrorMessage component={Text} name="password" />
+                <ErrorMessage component={Text} name="email" />
               </DivField>
 
               <DivField>
@@ -126,41 +148,57 @@ const Register = () => {
                   onChangeText={handleChange('cellphone')}
                   textValue="Celular"
                 />
-                <ErrorMessage component={Text} name="confirmPassword" />
+                <ErrorMessage component={Text} name="cellphone" />
               </DivField>
 
               <SelectContainer>
                 <SelectContent>
-                  <Text
-                    style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}
-                  >
-                    Estado
-                  </Text>
+                  <LabelSelect>Estado</LabelSelect>
                   <RNPickerSelect
                     placeholder={{ label: 'Estado' }}
+                    Icon={() => (
+                      <MaterialIcons
+                        name="arrow-drop-down"
+                        color="#fff"
+                        size={25}
+                        style={{
+                          paddingTop: 8,
+                          height: 43,
+                        }}
+                      />
+                    )}
                     useNativeAndroidPickerStyle={false}
-                    style={{ inputAndroid: styles.select }}
-                    onValueChange={(value, index) => onChangeState(value)}
+                    style={{
+                      inputAndroid: styles.select,
+                    }}
+                    onValueChange={onChangeState}
                     items={states}
                   />
-                  <ErrorMessage component={Text} name="confirmPassword" />
+                  <ErrorMessage component={Text} name="state" />
                 </SelectContent>
 
                 <SelectContent>
-                  <Text
-                    style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}
-                  >
-                    Cidade
-                  </Text>
+                  <LabelSelect>Cidade</LabelSelect>
                   <RNPickerSelect
                     placeholder={{ label: 'Cidade' }}
+                    Icon={() => (
+                      <MaterialIcons
+                        name="arrow-drop-down"
+                        color="#fff"
+                        size={25}
+                        style={{
+                          paddingTop: 8,
+                          height: 43,
+                        }}
+                      />
+                    )}
                     useNativeAndroidPickerStyle={false}
                     value={values.city}
                     style={{ inputAndroid: styles.select }}
                     onValueChange={value => setFieldValue('city', value)}
                     items={cities}
                   />
-                  <ErrorMessage component={Text} name="confirmPassword" />
+                  <ErrorMessage component={Text} name="city" />
                 </SelectContent>
               </SelectContainer>
 
@@ -171,7 +209,7 @@ const Register = () => {
                   onChangeText={handleChange('password')}
                   textValue="Senha"
                 />
-                <ErrorMessage component={Text} name="dateOfBirth" />
+                <ErrorMessage component={Text} name="password" />
               </DivField>
 
               <DivField>
@@ -181,7 +219,7 @@ const Register = () => {
                   onChangeText={handleChange('confirmPassword')}
                   textValue="Confimar senha"
                 />
-                <ErrorMessage component={Text} name="dateOfBirth" />
+                <ErrorMessage component={Text} name="confirmPassword" />
               </DivField>
 
               <DivField style={{ marginTop: 15 }}>
@@ -191,7 +229,7 @@ const Register = () => {
           )}
         </Formik>
       </BackGround>
-    </Container>
+    </ScrollView>
   );
 };
 

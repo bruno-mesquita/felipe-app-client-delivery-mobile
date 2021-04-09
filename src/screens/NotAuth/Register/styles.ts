@@ -1,16 +1,17 @@
+import { StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { StyleSheet } from 'react-native';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
-export const Container = styled.View`
-  flex: 1;
-`;
+const { width } = Dimensions.get('screen');
 
 export const BackGround = styled.ImageBackground`
   flex: 1;
+  padding-top: ${getStatusBarHeight()}px;
 `;
 
 export const ContainerLogo = styled.View`
   align-items: center;
+  margin-top: 50px;
 `;
 
 export const Logo = styled.Image`
@@ -20,14 +21,12 @@ export const Logo = styled.Image`
 
 export const ContentForm = styled.View`
   align-items: center;
-  height: 1080px;
 `;
 
 export const SelectContainer = styled.View`
-  width: 290px;
+  width: ${width * 0.85}px;
   flex-direction: row;
-  justify-content: center;
-  border-radius: 10px;
+  justify-content: space-between;
 `;
 
 export const SelectContent = styled.View`
@@ -35,8 +34,8 @@ export const SelectContent = styled.View`
 `;
 
 export const DivField = styled.View`
-  width: 295px;
-  flex-direction: column;
+  width: ${width * 0.85}px;
+  padding: 1px;
   border-radius: 10px;
 `;
 

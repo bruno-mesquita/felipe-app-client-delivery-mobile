@@ -15,64 +15,29 @@ export default function NavigationStackNotAuth() {
     <NavigationContainer>
       <Navigator
         initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-          /* cardStyle: { backgroundColor: '#f2f3f5' }, */
-        }}
+        screenOptions={{ headerShown: false }}
       >
         <Screen name="Login" component={Login} />
         <Screen
           name="Register"
           component={Register}
-          options={{
-            headerShown: true,
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#9E0404',
-            },
-            headerTitle: 'Cadastro',
-            headerTintColor: '#fff',
-          }}
+          options={{ headerShown: false }}
         />
         <Screen
           name="Code"
           component={CodeToRegister}
-          options={{
-            headerShown: true,
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#9E0404',
-            },
-            headerTitle: 'Código de cadastro',
-            headerTintColor: '#fff',
-          }}
+          options={{ headerShown: false }}
         />
 
         <Screen
           name="Forgotpassword"
           component={ForgotPassword}
-          options={{
-            headerShown: true,
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#9E0404',
-            },
-            headerTitle: 'Esqueci minha senha',
-            headerTintColor: '#fff',
-          }}
+          options={{ headerShown: false }}
         />
         <Screen
           name="Codepassword"
           component={CodeToPassword}
-          options={{
-            headerShown: true,
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#9E0404',
-            },
-            headerTitle: 'Código de trocar senha',
-            headerTintColor: '#fff',
-          }}
+          options={{ headerShown: false }}
         />
         <Screen name="Changeconfirmpassword" component={ConfirmaPassword} />
       </Navigator>
