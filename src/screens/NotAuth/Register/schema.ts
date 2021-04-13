@@ -11,7 +11,8 @@ const schema: SchemaOf<Values> = object().shape({
   cellphone: string().required(REQUIRED),
   confirmPassword: string().required(REQUIRED),
   password: string().required(REQUIRED),
-  city: string().uuid().required(REQUIRED),
+  city: string().required(REQUIRED).nullable(),
+  state: string().required(REQUIRED).nullable(),
 });
 
 export default schema;

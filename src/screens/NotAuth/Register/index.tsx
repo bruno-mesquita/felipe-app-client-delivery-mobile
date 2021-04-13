@@ -1,65 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Text, ScrollView } from 'react-native';
-import RNPickerSelect, { Item } from 'react-native-picker-select';
-import { useNavigation } from '@react-navigation/native';
-import { Formik, ErrorMessage } from 'formik';
-import { AxiosError } from 'axios';
-import { MaterialIcons } from '@expo/vector-icons';
+import React, { useRef } from 'react';
+import { ScrollView, Alert } from 'react-native';
+import { Formik } from 'formik';
+import { TextInputMasked } from 'react-native-masked-text';
 
-import { Field } from '../../../components/Field';
-import { Button as ButtonLogin } from '../../../components/Button';
+import { Layout } from '../_Layout';
+import {
+  Field,
+  Select,
+  FieldMask,
+  FieldSecure,
+} from '../../../components/FormUtils';
+import { Button } from '../../../components';
 import { Values } from './types';
 import api from '../../../services/api';
 import schema from './schema';
 
-import { ApiResult } from '../../../utils/ApiResult';
+import { ApiResult, ApiError } from '../../../utils/ApiResult';
 
-import {
-  BackGround,
-  ContainerLogo,
-  ContentForm,
-  Logo,
-  DivField,
-  SelectContainer,
-  SelectContent,
-  styles,
-} from './styles';
+import { ContentForm, DivField, Error } from './styles';
 
-const Register = () => {
-  const navigation = useNavigation();
-
-  const [states, setStates] = useState<Item[]>([]);
-  const [cities, setCities] = useState<Item[]>([]);
-
-  const getStates = useCallback(async () => {
-    try {
-      const { data } = await api.get(`/states`);
-
-      setStates(data.map(state => ({ label: state.name, value: state.id })));
-    } catch (err) {
-      const error = err as AxiosError;
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    getStates();
-  }, [getStates]);
-
-  const onChangeState = async (stateId: string) => {
-    try {
-      const { data } = await api.get(`/state/${stateId}`);
-
-      setCities(
-        data.result.map(cities => ({
-          value: cities.id,
-          label: cities.name,
-        })),
-      );
-    } catch (err) {
-      const error = err as AxiosError;
-    }
-  };
+const Register = ({ navigation }) => {
+  const cpfInputRef = useRef<TextInputMasked>(null);
+  const celInputRef = useRef<TextInputMasked>(null);
 
   const initialValues: Values = {
     name: '',
@@ -67,43 +29,31 @@ const Register = () => {
     email: '',
     cellphone: '',
     city: '',
+    state: '',
     password: '',
     confirmPassword: '',
   };
 
   const onSubmit = async (values: Values) => {
     try {
-      const { data } = await api.post<ApiResult<string>>('/clients', values);
+      const body = {
+        ...values,
+        cellphone: celInputRef.current?.getRawValue(),
+        cpf: cpfInputRef.current?.getRawValue(),
+      };
+      const { data } = await api.post<ApiResult<string>>('/clients', body);
 
-      takeCode(data.result);
+      navigation.navigate('Code', { id: data.result });
     } catch (err) {
-      const error = err as AxiosError;
+      const error = err as ApiError;
+      console.log(error.response.data);
+      Alert.alert('Erro ao criar o usuário, reveja seus dados');
     }
   };
 
-  const takeCode = (id: string) => {
-    navigation.navigate('Code', { id });
-  };
-
-  const LabelSelect = ({ children }) => (
-    <Text style={{ color: '#fff', fontSize: 16, marginBottom: 2 }}>
-      {children}
-    </Text>
-  );
-
   return (
     <ScrollView>
-      <BackGround
-        style={{ flex: 1 }}
-        source={require('../../../assets/images/fundo.png')}
-      >
-        <ContainerLogo>
-          <Logo
-            resizeMode="cover"
-            source={require('../../../assets/images/logo.png')}
-          />
-        </ContainerLogo>
-
+      <Layout>
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -116,119 +66,100 @@ const Register = () => {
                   value={values.name}
                   placeholder="Nome"
                   onChangeText={handleChange('name')}
-                  textValue="Nome"
+                  label="Nome"
                 />
-                <ErrorMessage component={Text} name="name" />
               </DivField>
+              <Error name="name" />
 
               <DivField>
-                <Field
+                <FieldMask
+                  type="cpf"
                   value={values.cpf}
                   placeholder="CPF"
                   onChangeText={handleChange('cpf')}
-                  textValue="CPF"
+                  label="CPF"
+                  maskRef={cpfInputRef}
                 />
-                <ErrorMessage component={Text} name="cpf" />
               </DivField>
+              <Error name="cpf" />
 
               <DivField>
                 <Field
+                  autoCapitalize="none"
                   value={values.email}
                   placeholder="E-mail"
                   onChangeText={handleChange('email')}
-                  textValue="E-mail"
+                  label="E-mail"
                 />
-                <ErrorMessage component={Text} name="email" />
               </DivField>
+              <Error name="email" />
 
               <DivField>
-                <Field
+                <FieldMask
+                  type={'cel-phone'}
+                  options={{
+                    maskType: 'BRL',
+                    withDDD: true,
+                    dddMask: '(99) ',
+                  }}
                   value={values.cellphone}
                   placeholder="Celular"
                   onChangeText={handleChange('cellphone')}
-                  textValue="Celular"
+                  label="Celular"
+                  maskRef={celInputRef}
                 />
-                <ErrorMessage component={Text} name="cellphone" />
               </DivField>
-
-              <SelectContainer>
-                <SelectContent>
-                  <LabelSelect>Estado</LabelSelect>
-                  <RNPickerSelect
-                    placeholder={{ label: 'Estado' }}
-                    Icon={() => (
-                      <MaterialIcons
-                        name="arrow-drop-down"
-                        color="#fff"
-                        size={25}
-                        style={{
-                          paddingTop: 8,
-                          height: 43,
-                        }}
-                      />
-                    )}
-                    useNativeAndroidPickerStyle={false}
-                    style={{
-                      inputAndroid: styles.select,
-                    }}
-                    onValueChange={onChangeState}
-                    items={states}
-                  />
-                  <ErrorMessage component={Text} name="state" />
-                </SelectContent>
-
-                <SelectContent>
-                  <LabelSelect>Cidade</LabelSelect>
-                  <RNPickerSelect
-                    placeholder={{ label: 'Cidade' }}
-                    Icon={() => (
-                      <MaterialIcons
-                        name="arrow-drop-down"
-                        color="#fff"
-                        size={25}
-                        style={{
-                          paddingTop: 8,
-                          height: 43,
-                        }}
-                      />
-                    )}
-                    useNativeAndroidPickerStyle={false}
-                    value={values.city}
-                    style={{ inputAndroid: styles.select }}
-                    onValueChange={value => setFieldValue('city', value)}
-                    items={cities}
-                  />
-                  <ErrorMessage component={Text} name="city" />
-                </SelectContent>
-              </SelectContainer>
+              <Error name="cellphone" />
 
               <DivField>
-                <Field
+                <Select
+                  label="Estado"
+                  onChange={value => setFieldValue('state', value)}
+                  path="/states"
+                  value={values.state}
+                  placeholder="Selecione um estado"
+                />
+              </DivField>
+              <Error name="state" />
+
+              <DivField>
+                <Select
+                  label="Cidade"
+                  onChange={value => setFieldValue('city', value)}
+                  path={`/cities/${values.state}`}
+                  value={values.city}
+                  placeholder="Selecione uma cidade"
+                />
+              </DivField>
+              <Error name="city" />
+
+              <DivField>
+                <FieldSecure
                   value={values.password}
                   placeholder="Senha"
                   onChangeText={handleChange('password')}
-                  textValue="Senha"
+                  label="Senha"
                 />
-                <ErrorMessage component={Text} name="password" />
               </DivField>
+              <Error name="password" />
 
               <DivField>
-                <Field
+                <FieldSecure
                   value={values.confirmPassword}
                   placeholder="Confimar senha"
                   onChangeText={handleChange('confirmPassword')}
-                  textValue="Confimar senha"
+                  label="Confimar senha"
                 />
-                <ErrorMessage component={Text} name="confirmPassword" />
               </DivField>
+              <Error name="confirmPassword" />
 
               <DivField style={{ marginTop: 15 }}>
-                <ButtonLogin onPress={handleSubmit}>Cadastrar</ButtonLogin>
+                <Button onPress={() => handleSubmit()}>Cadastrar</Button>
               </DivField>
             </ContentForm>
           )}
         </Formik>
-      </BackGround>
+      </Layout>
     </ScrollView>
   );
 };

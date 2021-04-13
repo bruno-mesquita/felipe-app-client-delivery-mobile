@@ -33,4 +33,5 @@ export const TextField = styled(TextInput).attrs(props => ({
   border-radius: 10px;
   background-color: #770202;
   color: #fff;
+  width: 100%;
 `;

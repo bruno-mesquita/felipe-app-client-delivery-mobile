@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { TextInput } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 export const Container = styled.View`
   height: 69px;
@@ -25,7 +25,7 @@ export const ContainerTextField = styled.View`
   padding-left: 10px;
 `;
 
-export const TextField = styled(TextInput).attrs(props => ({
+export const TextField = styled(TextInputMask).attrs(props => ({
   placeholderTextColor: '#C4C4C4',
   ...props,
 }))`
@@ -33,4 +33,5 @@ export const TextField = styled(TextInput).attrs(props => ({
   border-radius: 10px;
   background-color: #770202;
   color: #fff;
+  width: 100%;
 `;

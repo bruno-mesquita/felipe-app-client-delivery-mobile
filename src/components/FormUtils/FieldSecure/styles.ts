@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const Label = styled.Text`
   font-size: 16px;
   color: #fff;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 `;
 
 export const ContainerTextField = styled.View`
@@ -23,6 +23,7 @@ export const ContainerTextField = styled.View`
   background-color: #770202;
 
   padding-left: 10px;
+  padding-right: 17px;
 `;
 
 export const TextField = styled(TextInput).attrs(props => ({
@@ -33,4 +34,5 @@ export const TextField = styled(TextInput).attrs(props => ({
   border-radius: 10px;
   background-color: #770202;
   color: #fff;
+  width: 80%;
 `;
