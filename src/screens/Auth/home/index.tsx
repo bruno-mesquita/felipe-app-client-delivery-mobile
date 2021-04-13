@@ -11,7 +11,7 @@ import api from '../../../services/api';
 import { Container, Content, Establishments, SafeArea } from './styles';
 import { Category, Establishment } from './props';
 
-function Home() {
+const Home = () => {
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [categorySelected, setCategorySelected] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -127,6 +127,6 @@ function Home() {
       <CartButton />
     </Container>
   );
-}
+};
 
 export default Home;

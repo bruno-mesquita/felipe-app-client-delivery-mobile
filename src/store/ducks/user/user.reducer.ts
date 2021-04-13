@@ -9,7 +9,7 @@ import {
   UPDATE_PROFILE_REQUEST_FAILURE,
   SET_ADDRESS_ACTIVE,
 } from './user.types';
-import { AUTH_REQUEST_LOGIN_SUCCESS, AUTH_LOGOUT } from '../auth/auth.types';
+import { AUTH_LOGOUT } from '../auth/auth.types';
 
 const INITIAL_STATE: UserState = {
   id: null,
@@ -19,7 +19,6 @@ const INITIAL_STATE: UserState = {
     cpf: null,
     phone: null,
     email: null,
-    adresses: [],
   },
   addressActive: null,
   error: null,
@@ -28,21 +27,6 @@ const INITIAL_STATE: UserState = {
 const user = (state = INITIAL_STATE, action: UserActionTypes) => {
   return produce(state, draft => {
     switch (action.type) {
-      case AUTH_REQUEST_LOGIN_SUCCESS: {
-        const { user } = action.payload;
-
-        draft.id = user.id;
-        draft.profile = {
-          name: user.name,
-          email: user.email,
-          cpf: user.cpf,
-          avatar: user.avatar,
-          phone: user.phone,
-          adresses: user.adresses,
-        };
-        break;
-      }
-
       case AUTH_LOGOUT: {
         draft.id = null;
         draft.profile = {
@@ -51,7 +35,6 @@ const user = (state = INITIAL_STATE, action: UserActionTypes) => {
           phone: null,
           cpf: null,
           avatar: null,
-          adresses: [],
         };
         draft.addressActive = null;
         break;

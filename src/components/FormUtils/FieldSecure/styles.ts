@@ -4,6 +4,7 @@ import { TextInput } from 'react-native';
 export const Container = styled.View`
   height: 69px;
   margin: 4px;
+  width: 100%;
 `;
 
 export const Label = styled.Text`
@@ -18,12 +19,11 @@ export const ContainerTextField = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   border-radius: 10px;
   background-color: #770202;
 
   padding-left: 10px;
-  padding-right: 17px;
+  padding-right: 10px;
 `;
 
 export const TextField = styled(TextInput).attrs(props => ({
@@ -34,5 +34,5 @@ export const TextField = styled(TextInput).attrs(props => ({
   border-radius: 10px;
   background-color: #770202;
   color: #fff;
-  width: 80%;
+  width: 70%;
 `;

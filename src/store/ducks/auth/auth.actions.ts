@@ -14,12 +14,9 @@ export const requestLogin = (
   payload: { email, password },
 });
 
-export const requestLoginSuccess = (
-  user: any,
-  token: string,
-): AuthActionTypes => ({
+export const requestLoginSuccess = (token: string): AuthActionTypes => ({
   type: AUTH_REQUEST_LOGIN_SUCCESS,
-  payload: { user, token },
+  payload: { token },
 });
 
 export const requestLoginFailure = (errorMessage: string): AuthActionTypes => ({

@@ -13,7 +13,7 @@ export const FieldSecure = (props: FieldProps) => {
     <Container>
       <Label>{props.label}</Label>
       <ContainerTextField>
-        <TextField {...props} secureTextEntry={visible} />
+        <TextField {...props} secureTextEntry={!visible} />
         <TouchableOpacity onPress={() => setVisible(old => !old)}>
           {visible ? (
             <Ionicons name="eye-off" size={30} color="#fff" />

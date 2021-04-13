@@ -1,20 +1,17 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Formik, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Field } from '../../../components/Field';
-import { FieldSecure } from '../../../components/FieldSecure';
-import { Button as ButtonLogin } from '../../../components/Button';
+import { Field, FieldSecure } from '../../../components/FormUtils';
+import { Button } from '../../../components';
 import { Checkbox } from './Components';
+import { Layout } from '../_Layout';
 
 import {
-  Container,
-  BackGround,
+  Error,
   Form,
-  ContainerLogo,
-  Logo,
   ContainerButton,
   ContainerInput,
   ForgotPassword,
@@ -27,11 +24,11 @@ import { requestLogin } from '../../../store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
-function login() {
+const Login = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const onSubmit = ({ email, password }: Values) => {
+  const onSubmit = ({ email, password, checked }: Values) => {
     dispatch(requestLogin(email, password));
   };
 
@@ -44,83 +41,59 @@ function login() {
   };
 
   return (
-    <Container>
-      <BackGround source={require('../../../assets/images/fundo.png')}>
-        <ContainerLogo>
-          <Logo
-            resizeMode="contain"
-            source={require('../../../assets/images/logo.png')}
-          />
-        </ContainerLogo>
+    <Layout>
+      <Formik
+        initialValues={{ email: '', password: '', checked: false }}
+        onSubmit={onSubmit}
+        validationSchema={schema}
+      >
+        {({ handleSubmit, handleChange, values, setFieldValue }) => (
+          <Form>
+            <ContainerInput>
+              <Field
+                autoCapitalize="none"
+                onChangeText={handleChange('email')}
+                value={values.email}
+                placeholder="E-mail"
+                label="E-mail"
+              />
+              <Error name="email" />
 
-        <Formik
-          initialValues={{ email: '', password: '', checked: false }}
-          onSubmit={onSubmit}
-          validationSchema={schema}
-        >
-          {({
-            handleBlur,
-            handleSubmit,
-            handleChange,
-            values,
-            setFieldValue,
-          }) => (
-            <Form>
-              <ContainerInput>
-                <Field
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  placeholder="E-mail"
-                  textValue="E-mail"
-                />
-                <ErrorMessage
-                  style={{ color: '#fff' }}
-                  name="email"
-                  component={Text}
-                />
+              <FieldSecure
+                onChangeText={handleChange('password')}
+                value={values.password}
+                placeholder="Senha"
+                label="Senha"
+              />
+              <Error name="password" />
+            </ContainerInput>
 
-                <FieldSecure
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                  placeholder="Senha"
-                  textValue="Senha"
-                />
-                <ErrorMessage
-                  style={{ color: '#fff' }}
-                  name="password"
-                  component={Text}
-                />
-              </ContainerInput>
+            <ForgotPassword>
+              <ForgotPasswordButton>
+                <ForgotPasswordText onPress={forgotPassword}>
+                  Esqueci minha senha
+                </ForgotPasswordText>
+              </ForgotPasswordButton>
+            </ForgotPassword>
 
-              <ForgotPassword>
-                <ForgotPasswordButton>
-                  <ForgotPasswordText onPress={forgotPassword}>
-                    Esqueci minha senha
-                  </ForgotPasswordText>
-                </ForgotPasswordButton>
-              </ForgotPassword>
+            <StayConnect>
+              <Checkbox
+                checked={values.checked}
+                onChange={value => setFieldValue('checked', value)}
+              >
+                <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
+              </Checkbox>
+            </StayConnect>
 
-              <StayConnect>
-                <Checkbox
-                  checked={values.checked}
-                  onChange={value => setFieldValue('checked', value)}
-                >
-                  <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
-                </Checkbox>
-              </StayConnect>
-
-              <ContainerButton>
-                <ButtonLogin onPress={handleSubmit}>Login</ButtonLogin>
-                <ButtonLogin onPress={goRegister}>Criar conta</ButtonLogin>
-              </ContainerButton>
-            </Form>
-          )}
-        </Formik>
-      </BackGround>
-    </Container>
+            <ContainerButton>
+              <Button onPress={handleSubmit}>Login</Button>
+              <Button onPress={goRegister}>Criar conta</Button>
+            </ContainerButton>
+          </Form>
+        )}
+      </Formik>
+    </Layout>
   );
-}
+};
 
-export default login;
+export default Login;

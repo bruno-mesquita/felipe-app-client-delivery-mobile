@@ -8,7 +8,7 @@ export default StyleSheet.create({
     color: '#ffffff',
     height: 43,
     justifyContent: 'center',
-    width: '99%',
+    width: '100%',
   },
   inputAndroid: {
     color: '#C4C4C4',

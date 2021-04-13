@@ -14,11 +14,11 @@ export function* signIn({ payload }: RequestLoginAction) {
       password,
     });
 
-    const { token, client } = data;
+    const { token } = data;
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(requestLoginSuccess(client, token));
+    yield put(requestLoginSuccess(token));
   } catch (err) {
     yield put(requestLoginFailure(err.message));
   }
