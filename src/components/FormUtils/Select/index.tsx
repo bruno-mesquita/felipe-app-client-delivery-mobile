@@ -12,6 +12,7 @@ export const Select = ({
   value,
   placeholder = 'Selecione um item',
   label,
+  labelColor = '#fff',
 }: SelectProps) => {
   const [items, setItems] = useState<Item[]>([]);
 
@@ -31,7 +32,7 @@ export const Select = ({
 
   return (
     <Container>
-      <Label>{label}</Label>
+      <Label style={labelColor ? { color: labelColor } : {}}>{label}</Label>
       <RNPickerSelect
         style={styles}
         value={value}

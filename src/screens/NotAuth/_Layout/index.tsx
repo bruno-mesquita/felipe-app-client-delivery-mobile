@@ -1,12 +1,11 @@
 import React from 'react';
-import { ImageBackground } from 'react-native';
 
-import { Container, ContainerLogo, Logo } from './styles';
+import { Container, ContainerLogo, Logo, BackGround } from './styles';
 import { LayoutProps } from './props';
 
 export const Layout = ({ children }: LayoutProps) => (
   <Container>
-    <ImageBackground
+    <BackGround
       style={{ flex: 1 }}
       source={require('../../../assets/images/fundo.png')}
     >
@@ -14,6 +13,6 @@ export const Layout = ({ children }: LayoutProps) => (
         <Logo source={require('../../../assets/images/logo.png')} />
       </ContainerLogo>
       {children}
-    </ImageBackground>
+    </BackGround>
   </Container>
 );

@@ -1,30 +1,32 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { FormikHelpers, Formik } from 'formik';
 
-import AddressForm from '../../../components/AddressForm';
+import { AddressForm } from '../../../components';
 
 import api from '../../../services/api';
 import { Container } from './styles';
 
 const AddAddress = () => {
-  const navigation = useNavigation();
-
   const initialValues = {
     nickname: '',
     cep: '',
     street: '',
     neighborhood: '',
-    number: null,
+    number: '',
     city: '',
     state: '',
   };
 
-  const onSubmit = async (values: typeof initialValues) => {
+  const onSubmit = async (
+    values: typeof initialValues,
+    { resetForm }: FormikHelpers<typeof initialValues>,
+  ) => {
     try {
       await api.post('/adresses-client', values);
 
-      navigation.navigate('Address');
+      Alert.alert('Endereço adicionado com sucesso');
+      resetForm();
     } catch (err) {
       Alert.alert('Erro ao criar');
     }
@@ -32,10 +34,10 @@ const AddAddress = () => {
 
   return (
     <Container>
-      <AddressForm
+      <Formik
         onSubmit={onSubmit}
         initialValues={initialValues}
-        textButton="Cadastrar"
+        component={AddressForm}
       />
     </Container>
   );

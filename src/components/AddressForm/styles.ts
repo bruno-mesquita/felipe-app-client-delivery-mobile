@@ -1,10 +1,15 @@
+import { Text } from 'react-native';
 import styled from 'styled-components/native';
+import { ErrorMessage } from 'formik';
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   flex: 1;
 `;
 
-export const ScrollView = styled.ScrollView`
+export const ScrollView = styled.ScrollView.attrs(props => ({
+  ...props,
+  showsVerticalScrollIndicator: false,
+}))`
   margin: -40px 0 -40px 0;
 `;
 
@@ -24,4 +29,11 @@ export const ViewForm = styled.View`
 export const ViewFields = styled.View`
   width: 90%;
   align-items: center;
+`;
+
+export const Error = styled(ErrorMessage).attrs(props => ({
+  ...props,
+  component: Text,
+}))`
+  color: #000;
 `;

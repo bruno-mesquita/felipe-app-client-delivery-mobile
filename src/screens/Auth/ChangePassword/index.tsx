@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Alert } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 
-import { Button } from '../../../components/Button';
-import { Field } from '../../../components/Field';
+import { FieldSecure } from '../../../components/FormUtils';
+import { Button } from '../../../components';
+
 import api from '../../../services/api';
 
 import { Container, ViewField, ViewForm, ViewFields } from './styles';
@@ -22,11 +23,9 @@ const ChangePassword = () => {
 
         Alert.alert('Senha atualizada');
       } else {
-        Alert.alert('Senhas iguais');
+        Alert.alert('Senhas não são iguais');
       }
     } catch (err) {
-      console.log(err.response);
-
       Alert.alert('Erro ao atualizar a senha');
     }
   };
@@ -42,38 +41,35 @@ const ChangePassword = () => {
           <ViewForm>
             <ViewFields>
               <ViewField>
-                <Field
-                  textValue="Senha atual"
-                  textColor="black"
+                <FieldSecure
+                  label="Senha atual"
+                  labelColor="black"
                   value={values.currentPassword}
-                  secureTextEntry
                   onChangeText={handleChange('currentPassword')}
                 />
                 <ErrorMessage component={View} name="currentPassword" />
               </ViewField>
               <ViewField>
-                <Field
-                  textValue="Nova senha"
-                  textColor="black"
+                <FieldSecure
+                  label="Nova senha"
+                  labelColor="black"
                   value={values.newPassword}
-                  secureTextEntry
                   onChangeText={handleChange('newPassword')}
                 />
                 <ErrorMessage component={View} name="newPassword" />
               </ViewField>
               <ViewField>
-                <Field
-                  textValue="Confirmar senha"
-                  textColor="black"
+                <FieldSecure
+                  label="Confirmar senha"
+                  labelColor="black"
                   value={values.confirmNewPassword}
-                  secureTextEntry
                   onChangeText={handleChange('confirmNewPassword')}
                 />
                 <ErrorMessage component={View} name="confirmNewPassword" />
               </ViewField>
             </ViewFields>
             <View>
-              <Button primaryColor onPress={handleSubmit}>
+              <Button primaryColor onPress={() => handleSubmit()}>
                 Atualizar
               </Button>
             </View>

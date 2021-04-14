@@ -86,7 +86,7 @@ const Login = () => {
             </StayConnect>
 
             <ContainerButton>
-              <Button onPress={handleSubmit}>Login</Button>
+              <Button onPress={() => handleSubmit()}>Login</Button>
               <Button onPress={goRegister}>Criar conta</Button>
             </ContainerButton>
           </Form>

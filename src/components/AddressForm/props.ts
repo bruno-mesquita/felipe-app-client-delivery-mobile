@@ -1,15 +1,10 @@
 export interface Values {
+  id?: string | undefined;
   nickname: string;
   cep: string;
   street: string;
   neighborhood: string;
-  number: number;
+  number: string;
   city: string;
   state: string;
-}
-
-export interface Props {
-  onSubmit: (values: any) => void;
-  textButton: string;
-  initialValues: Values;
 }

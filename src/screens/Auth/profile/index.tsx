@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Platform, Text, View, TouchableOpacity, Alert } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { Button } from '../../../components/Button';
-import { Field } from '../../../components/Field';
+import api from '../../../services/api';
 
-import {
-  updateProfileRequest,
-  updateAvatarRequest,
-} from '../../../store/ducks/user/user.actions';
+import { Field, FieldMask } from '../../../components/FormUtils';
+import { Button } from '../../../components';
 
 import {
   Container,
@@ -22,44 +19,37 @@ import {
   ViewUserData,
 } from './styles';
 
+import { UserProfile } from './props';
+
 const Profile = () => {
-  const dispatch = useDispatch();
+  const [user, setUser] = useState<UserProfile>(null);
 
-  const {
-    name,
-    email,
-    phone,
-    avatar,
-    cpf,
-    error,
-  } = useSelector(({ user }) => ({ ...user.profile, error: user.error }));
+  const getUser = useCallback(async () => {
+    try {
+      const { data } = await api.post('/clients/me', {
+        selects: ['name', 'email', 'cellphone', 'avatar', 'cpf'],
+      });
 
-  const formattedPhone = (value: string) => {
-    if (value.length === 11) {
-      const part1 = value.substring(0, 2);
-      const part2 = value.substring(2, 7);
-      const part3 = value.substring(7, 11);
-
-      return `(${part1}) ${part2}-${part3}`;
+      setUser(data.result);
+    } catch (err) {
+      Alert.alert('Erro ao buscar dados do usuário');
     }
-  };
-
-  const revertFormattedPhone = (value: string) =>
-    value.replace(/[()\- ]/gi, '');
+  }, []);
 
   const initialValues = {
-    name,
-    email,
-    phone: formattedPhone(phone),
+    name: user?.name,
+    email: user?.email,
+    cellphone: user?.cellphone,
   };
 
-  const onSubmit = (values: typeof initialValues) => {
-    dispatch(
-      updateProfileRequest({
-        ...values,
-        cellphone: revertFormattedPhone(values.phone),
-      }),
-    );
+  const onSubmit = async (values: typeof initialValues) => {
+    try {
+      await api.put('/clients', values);
+
+      Alert.alert('Perfil atualizado com sucesso');
+    } catch (err) {
+      Alert.alert('Erro ao atualizar o perfil');
+    }
   };
 
   const formattedCpf = (value: string) => {
@@ -71,43 +61,39 @@ const Profile = () => {
     return `${part1}.${part2}.${part3}-${part4}`;
   };
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'android') {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert(
-            'Precisamos da sua permissão para adicionar sua foto do perfil!',
-          );
-        }
-      }
-    })();
-
-    if (error) {
-      Alert.alert(error);
-    } else {
-      console.log('entrei');
+  const permissions = useCallback(async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert(
+        'Precisamos da sua permissão para adicionar sua foto do perfil!',
+      );
     }
-  }, [error]);
+  }, []);
+
+  useEffect(() => {
+    permissions();
+    getUser();
+  }, []);
 
   const pickImage = async () => {
-    const result = (await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true,
-    })) as any;
+    try {
+      const result = (await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        base64: true,
+      })) as any;
 
-    if (!result.cancelled) {
-      const pathArray = result.uri.split('.') as string[];
-      const ext = pathArray[pathArray.length - 1];
+      if (!result.cancelled) {
+        const pathArray = result.uri.split('.') as string[];
+        const ext = pathArray[pathArray.length - 1];
 
-      const encoded = `data:image/${ext};base64,${result.base64}`;
+        const encoded = `data:image/${ext};base64,${result.base64}`;
 
-      dispatch(updateAvatarRequest(encoded, `${name}-avatar`));
+        await api.post('/avatar', { encoded, name: `${user.name}-image` });
+
+        setUser(old => ({ ...old, avatar: encoded }));
+      }
+    } catch (err) {
+      Alert.alert('Erro ao atualizar imagem');
     }
   };
 
@@ -122,25 +108,29 @@ const Profile = () => {
           <ViewForm>
             <ViewUser>
               <TouchableOpacity onPress={pickImage}>
-                <UserAvatar
-                  source={
-                    avatar
-                      ? { uri: avatar }
-                      : require('../../../assets/images/mocks/perfil.jpeg')
-                  }
-                />
+                {user?.avatar ? (
+                  <UserAvatar source={{ uri: user?.avatar }} />
+                ) : (
+                  <MaterialIcons
+                    name="account-circle"
+                    size={100}
+                    color="#c4c4c4"
+                  />
+                )}
               </TouchableOpacity>
               <ViewUserData>
-                <Text style={{ fontWeight: 'bold' }}>{name}</Text>
-                <Text style={{ fontWeight: 'bold' }}>{formattedCpf(cpf)}</Text>
-                <Text style={{ fontWeight: 'bold' }}>{email}</Text>
+                <Text style={{ fontWeight: 'bold' }}>{values.name}</Text>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {user?.cpf ? formattedCpf(user?.cpf) : null}
+                </Text>
+                <Text style={{ fontWeight: 'bold' }}>{values.email}</Text>
               </ViewUserData>
             </ViewUser>
             <ViewFields>
               <ViewField>
                 <Field
-                  textValue="Nome Completo"
-                  textColor="black"
+                  labelColor="#000"
+                  label="Nome Completo"
                   value={values.name}
                   onChangeText={handleChange('name')}
                 />
@@ -148,32 +138,27 @@ const Profile = () => {
               </ViewField>
               <ViewField>
                 <Field
-                  textValue="Email"
-                  textColor="black"
+                  labelColor="#000"
+                  label="Email"
                   value={values.email}
                   onChangeText={handleChange('email')}
                 />
                 <ErrorMessage component={View} name="email" />
               </ViewField>
               <ViewField>
-                <Field
-                  textValue="Celular"
-                  textColor="black"
-                  value={values.phone}
-                  keyboardType="number-pad"
-                  onChangeText={e => {
-                    if (e.length === 11) {
-                      handleChange('phone')(formattedPhone(e));
-                    } else {
-                      handleChange('phone')(e);
-                    }
-                  }}
+                <FieldMask
+                  labelColor="#000"
+                  type="cel-phone"
+                  options={{ withDDD: true }}
+                  label="Celular"
+                  value={values.cellphone}
+                  onChangeText={handleChange('phone')}
                 />
                 <ErrorMessage component={View} name="phone" />
               </ViewField>
             </ViewFields>
             <View>
-              <Button primaryColor onPress={handleSubmit}>
+              <Button primaryColor onPress={() => handleSubmit()}>
                 Atualizar
               </Button>
             </View>

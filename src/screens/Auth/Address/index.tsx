@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, FlatList, RefreshControl } from 'react-native';
+import { Text, FlatList, RefreshControl, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
@@ -7,12 +7,13 @@ import { useTheme } from 'styled-components/native';
 import { Card } from './Components';
 import { Container, ButtonAdd, Empty } from './styles';
 import api from '../../../services/api';
+import { Address } from './props';
 
-const Address = () => {
+const Adresses = () => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
-  const [adresses, setAdresses] = useState([]);
+  const [adresses, setAdresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getAdresses = useCallback(async () => {
@@ -23,7 +24,7 @@ const Address = () => {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      console.log(err);
+      Alert.alert('Erro ao buscar endereços');
     }
   }, []);
 
@@ -61,4 +62,4 @@ const Address = () => {
   );
 };
 
-export default Address;
+export default Adresses;

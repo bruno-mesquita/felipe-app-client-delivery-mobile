@@ -1,9 +1,10 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState, memo } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   DrawerContentComponentProps,
   DrawerContentOptions,
 } from '@react-navigation/drawer';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import {
   Container,
@@ -16,11 +17,28 @@ import {
 } from './styles';
 
 import { logout } from '../../store/ducks/auth/auth.actions';
+import api from '../../services/api';
 
 const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   const dispatch = useDispatch();
 
-  const avatar = useSelector(({ user }) => user.profile.avatar);
+  const [avatar, setAvatar] = useState(null);
+
+  const getAvatar = useCallback(async () => {
+    try {
+      const { data } = await api.post('/clients/me', {
+        selects: ['avatar'],
+      });
+
+      setAvatar(data.result.avatar);
+    } catch (err) {
+      setAvatar(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    getAvatar();
+  }, [getAvatar]);
 
   const goLogout = () => {
     dispatch(logout());
@@ -45,13 +63,11 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   return (
     <Container {...props}>
       <User>
-        <UserAvatar
-          source={
-            avatar
-              ? { uri: avatar }
-              : require('../../assets/images/mocks/perfil.jpeg')
-          }
-        />
+        {avatar ? (
+          <UserAvatar source={{ uri: avatar }} />
+        ) : (
+          <MaterialIcons name="account-circle" size={125} color="#c4c4c4" />
+        )}
       </User>
       <List>
         <ListItem onPress={goProfile}>
@@ -78,4 +94,4 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   );
 };
 
-export default Drawer;
+export default memo(Drawer);

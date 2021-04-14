@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, FlatList, Alert } from 'react-native';
 
 import FieldSearch from '../../../components/Home/FieldSearch';
 import Tab from '../../../components/Tab';
@@ -10,6 +10,7 @@ import { NotFound } from './Components';
 import api from '../../../services/api';
 import { Container, Content, Establishments, SafeArea } from './styles';
 import { Category, Establishment } from './props';
+import stores from './mock';
 
 const Home = () => {
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
@@ -17,68 +18,46 @@ const Home = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api
-      .get('/categories')
-      .then(({ data }) => {
-        setCategories(data.result.map(item => ({ ...item, loading: false })));
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
+  const getCategories = useCallback(async (): Promise<string> => {
+    try {
+      const { data } = await api.get('/categories');
 
-    setEstablishments([
-      {
-        id: '1',
-        name: 'Lanchonete Raio de Luz',
-        rate: 6,
-        photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
-        time: { open: 17, close: 22 },
-        fee: 5.5,
-      },
-      {
-        id: '2',
-        name: 'Pizzaria Roma',
-        rate: 6,
-        photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
-        time: { open: 17, close: 22 },
-        fee: 5.5,
-      },
-      {
-        id: '3',
-        name: 'Lanchonete Raio de Luz',
-        rate: 6,
-        photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
-        time: { open: 17, close: 22 },
-        fee: 5.5,
-      },
-      {
-        id: '4',
-        name: 'Lanchonete Raio de Luz',
-        rate: 6,
-        photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
-        time: { open: 17, close: 22 },
-        fee: 5.5,
-      },
-      {
-        id: '6',
-        name: 'Lanchonete Raio de Luz',
-        rate: 6,
-        photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
-        time: { open: 17, close: 22 },
-        fee: 5.5,
-      },
-    ]);
+      const values = data.result.map(item => ({ ...item, loading: false }));
+
+      setCategories(values);
+
+      return values[0].id;
+    } catch (err) {
+      Alert.alert('Erro ao buscar categorias, por favor tente novamente');
+    }
   }, []);
+
+  const getEstablishments = useCallback(async (categoryId: string) => {
+    try {
+      /* const { data } = await api.get('/establishments', {
+        params: {
+          categoryId,
+        },
+      }); */
+
+      setEstablishments(stores);
+    } catch (err) {
+      Alert.alert('Erro ao buscar estabelecimentos, por favor tente novamente');
+    }
+  }, []);
+
+  useEffect(() => {
+    getCategories().then(categoryId => {
+      getEstablishments(categoryId);
+    });
+  }, [getCategories, getEstablishments]);
 
   const onChangeCategory = async (id: string) => {
     try {
       setLoading(true);
       setCategorySelected(id);
 
-      const { data } = await api.get(`/establishments/${id}/category`);
+      const { data } = await api.get(`/categories/${id}/establishments`);
 
       setEstablishments(data.result);
       setLoading(false);
@@ -98,6 +77,7 @@ const Home = () => {
         <View style={{ alignItems: 'center', paddingTop: 25 }}>
           <FieldSearch response={searchResult} />
         </View>
+
         <SafeArea>
           <FlatList
             contentContainerStyle={{ paddingVertical: 30 }}

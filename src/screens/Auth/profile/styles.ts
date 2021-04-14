@@ -40,5 +40,5 @@ export const ViewUserData = styled.View`
 export const UserAvatar = styled.Image`
   height: 100px;
   width: 100px;
-  border-radius: 100;
+  border-radius: 50px;
 `;

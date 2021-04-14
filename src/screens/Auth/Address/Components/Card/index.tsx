@@ -1,43 +1,55 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import CardBase from '../../../../../components/CardBase';
 import { Checkbox } from '../Checkbox';
 
-import { setAddressActive } from '../../../../../store/ducks/user/user.actions';
-import { Container, Header, Body, Footer, Nickname } from './styles';
-import { CardProps } from './props';
+import { Container, Header, Body, Footer, Nickname, Content } from './styles';
+import { Address } from '../../props';
+import api from '../../../../../services/api';
 
-export const Card = ({ id, region, street, nickname }: CardProps) => {
+export const Card = (props: Address) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
-  const addressActive = useSelector(({ user }) => user.addressActive);
+  const [address, setAddress] = useState<any>(null);
 
-  const edit = () => navigation.navigate('UpdateAddress', { id });
+  useEffect(() => {
+    setAddress(props);
+  }, [props]);
 
-  const onChangeActive = () => {
-    dispatch(setAddressActive(addressActive === id ? null : id));
+  const toGoEdit = () => navigation.navigate('UpdateAddress', { id: props.id });
+
+  const onChange = async () => {
+    try {
+      if (address.active) {
+        await api.put(`/adresses-client/${props.id}/deactivate`);
+      } else {
+        await api.put(`/adresses-client/${props.id}/active`);
+      }
+
+      setAddress(old => ({ ...old, active: !old.active }));
+      Alert.alert('Endereço padrão atualizado com sucesso');
+    } catch (err) {
+      Alert.alert('Erro ao atualizar um endereço como padrão');
+    }
   };
 
   return (
-    <CardBase onPress={edit}>
+    <CardBase onPress={toGoEdit}>
       <Container>
-        <Header>
-          <Checkbox
-            checked={addressActive === id}
-            onChange={() => onChangeActive()}
-          />
-          <Nickname>{nickname}</Nickname>
-        </Header>
-        <Body>
-          <Text>{street}</Text>
-        </Body>
-        <Footer>
-          <Text>{region}</Text>
-        </Footer>
+        <Content>
+          <Header>
+            <Checkbox checked={address?.active} onChange={() => onChange()} />
+            <Nickname>{address?.nickname}</Nickname>
+          </Header>
+          <Body>
+            <Text>{`${address?.street}, ${address?.number} - ${address?.neighborhood}`}</Text>
+          </Body>
+          <Footer>
+            <Text>{`${address?.city} - ${address?.state}`}</Text>
+          </Footer>
+        </Content>
       </Container>
     </CardBase>
   );

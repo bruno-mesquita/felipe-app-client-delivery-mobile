@@ -29,7 +29,7 @@ export const User = styled.View`
 export const UserAvatar = styled.Image`
   height: 125px;
   width: 125px;
-  border-radius: 100;
+  border-radius: 100px;
 `;
 
 export const List = styled.ScrollView``;

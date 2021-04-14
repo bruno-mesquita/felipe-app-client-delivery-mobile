@@ -11,11 +11,9 @@ const FieldSearch = ({ response }: Props) => {
 
   const searchForEstablishment = async () => {
     try {
-      const { data } = await api.post(`/establishments`, {
-        search: text,
+      const { data } = await api.post(`/establishments-by-name`, {
+        name: text,
       });
-
-      console.log(data.result);
 
       response(data.result);
     } catch (err) {

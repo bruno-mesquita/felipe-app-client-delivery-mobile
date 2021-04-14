@@ -1,0 +1,42 @@
+export default [
+  {
+    id: '1',
+    name: 'Lanchonete Raio de Luz',
+    rate: 6,
+    photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
+    time: { open: 17, close: 22 },
+    fee: 5.5,
+  },
+  {
+    id: '2',
+    name: 'Pizzaria Roma',
+    rate: 6,
+    photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
+    time: { open: 17, close: 22 },
+    fee: 5.5,
+  },
+  {
+    id: '3',
+    name: 'Lanchonete Raio de Luz',
+    rate: 6,
+    photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
+    time: { open: 17, close: 22 },
+    fee: 5.5,
+  },
+  {
+    id: '4',
+    name: 'Lanchonete Raio de Luz',
+    rate: 6,
+    photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
+    time: { open: 17, close: 22 },
+    fee: 5.5,
+  },
+  {
+    id: '6',
+    name: 'Lanchonete Raio de Luz',
+    rate: 6,
+    photo: require('../../../assets/images/mocks/raio_de_luz.jpg'),
+    time: { open: 17, close: 22 },
+    fee: 5.5,
+  },
+];

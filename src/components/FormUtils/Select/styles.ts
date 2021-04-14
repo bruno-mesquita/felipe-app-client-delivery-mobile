@@ -22,6 +22,7 @@ export default StyleSheet.create({
 export const Container = styled.View`
   height: 69px;
   margin: 4px;
+  width: 100%;
 `;
 
 export const Label = styled.Text`

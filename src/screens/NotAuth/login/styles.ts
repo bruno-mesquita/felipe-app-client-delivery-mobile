@@ -15,7 +15,7 @@ export const ContainerInput = styled.View`
 `;
 
 export const ForgotPassword = styled.View`
-  height: 40px;
+  height: 30px;
   width: 100%;
   align-items: flex-end;
   margin-top: 10px;
@@ -32,10 +32,10 @@ export const ForgotPasswordText = styled.Text`
 
 export const StayConnect = styled.View`
   width: 100%;
-  height: 50px;
+  height: 40px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
 export const ContainerButton = styled.View`

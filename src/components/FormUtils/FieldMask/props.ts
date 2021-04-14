@@ -2,5 +2,6 @@ import { TextInputMaskProps } from 'react-native-masked-text';
 
 export interface FieldProps extends TextInputMaskProps {
   label: string;
-  maskRef: any;
+  maskRef?: any;
+  labelColor?: string;
 }

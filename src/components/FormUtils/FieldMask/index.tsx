@@ -3,11 +3,20 @@ import React from 'react';
 import { Container, ContainerTextField, Label, TextField } from './styles';
 import { FieldProps } from './props';
 
-export const FieldMask = ({ label, maskRef, ...rest }: FieldProps) => (
+export const FieldMask = ({
+  label,
+  maskRef,
+  labelColor,
+  ...rest
+}: FieldProps) => (
   <Container>
-    <Label>{label}</Label>
+    <Label style={labelColor ? { color: labelColor } : {}}>{label}</Label>
     <ContainerTextField>
-      <TextField {...rest} ref={maskRef} />
+      {maskRef ? (
+        <TextField {...rest} ref={maskRef} />
+      ) : (
+        <TextField {...rest} />
+      )}
     </ContainerTextField>
   </Container>
 );

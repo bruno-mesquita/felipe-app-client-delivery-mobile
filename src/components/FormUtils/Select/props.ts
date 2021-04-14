@@ -4,4 +4,5 @@ export interface SelectProps {
   onChange: (value: any) => void;
   placeholder?: string;
   label: string;
+  labelColor?: string | undefined;
 }

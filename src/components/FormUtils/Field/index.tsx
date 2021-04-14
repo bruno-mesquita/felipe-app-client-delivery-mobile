@@ -3,11 +3,11 @@ import React from 'react';
 import { Container, ContainerTextField, Label, TextField } from './styles';
 import { FieldProps } from './props';
 
-export const Field = (props: FieldProps) => (
+export const Field = ({ label, labelColor, ...rest }: FieldProps) => (
   <Container>
-    <Label>{props.label}</Label>
+    <Label style={labelColor ? { color: labelColor } : {}}>{label}</Label>
     <ContainerTextField>
-      <TextField {...props} />
+      <TextField {...rest} />
     </ContainerTextField>
   </Container>
 );
