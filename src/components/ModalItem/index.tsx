@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Image, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
@@ -56,7 +56,9 @@ const ModalItem = ({
     });
   };
 
-  const onCloseModal = () => modalRef.current.close();
+  const onCloseModal = useCallback(() => {
+    modalRef.current.close();
+  }, []);
 
   const addItemCart = () => {
     dispatch(

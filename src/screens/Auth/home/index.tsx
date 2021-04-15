@@ -79,6 +79,7 @@ export const Home = () => {
           showsHorizontalScrollIndicator={false}
           data={categories}
           horizontal
+          keyExtractor={({ id }) => String(id)}
           renderItem={({ item }) => (
             <Tab
               {...item}
@@ -90,7 +91,7 @@ export const Home = () => {
         <Establishments
           data={establishments}
           ListEmptyComponent={NotFound}
-          keyExtractor={(item: any) => item.id.toString()}
+          keyExtractor={(item: any) => String(item.id)}
           renderItem={({ item }: any) => <Card {...item} />}
         />
       </Content>
