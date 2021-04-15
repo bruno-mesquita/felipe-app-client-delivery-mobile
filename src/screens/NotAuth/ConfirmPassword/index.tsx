@@ -55,10 +55,10 @@ const CodeToPassword = () => {
                 <Field
                   value={values.newPassword}
                   placeholder="Nova senha"
-                  onChangeText={handleChange('password')}
+                  onChangeText={handleChange('newPassword')}
                   label="Nova senha"
                 />
-                <ErrorMessage component={Text} name="password" />
+                <ErrorMessage component={Text} name="newPassword" />
               </ContainerInput>
 
               <ContainerInput>
