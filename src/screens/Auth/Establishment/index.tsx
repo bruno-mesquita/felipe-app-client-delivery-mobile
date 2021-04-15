@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, View, Text } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { FlatList, View, Text, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 
@@ -8,6 +7,7 @@ import CartButton from '../../../components/CartButton';
 import { EstablishmentImage, Card } from '../../../components/Establishment';
 import Tab from '../../../components/Tab';
 
+import formatPrice from '../../../utils/format-number';
 import api from '../../../services/api';
 import {
   Container,
@@ -17,43 +17,73 @@ import {
   EstablishmentDetail,
   EstablishmentDetailTitle,
   EstablishmentDetailInfo,
+  styles,
+  Flatlists,
 } from './styles';
-import { Establishment, Menu } from './props';
+import { Establishment, Menu, Product } from './props';
 import apiMock from './mock';
 
-const EstablishmentScreen = () => {
-  const { id } = useRoute().params as { id: string };
+const EstablishmentScreen = ({ route: { params } }) => {
   const { colors } = useTheme();
 
   const [establishment, setEstablishment] = useState<Establishment>(null);
-  const [loading, setLoading] = useState(true);
-  const [menuSelected, setMenuSelected] = useState<string>('');
-  const [menu, setMenu] = useState<Menu>(null);
+  const [menuSelected, setMenuSelected] = useState<number>(null);
+  const [menus, setMenus] = useState<Menu[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      apiMock.get(`/establishment/${id}`).then(data => {
-        setEstablishment(data);
-        setMenuSelected(data.menus[0].id);
-        setMenu(data.menus[0]);
-        setLoading(false);
-      });
-    }, 2000);
+  const getEstablishment = useCallback(async () => {
+    try {
+      const { data } = await apiMock.get(`/establishment/${params.id}`);
+
+      setEstablishment(data.result);
+    } catch (err) {
+      Alert.alert('Erro ao recuperar os dados do estabelecimento');
+    }
   }, []);
 
-  const onPressMenu = (id: string) => {
+  const getMenus = useCallback(async () => {
+    try {
+      // `/establishment/${params.id}/menus`
+      const { data } = await apiMock.getMenus();
+
+      setMenus(data.result);
+      setMenuSelected(data.result[0].id);
+    } catch (err) {
+      Alert.alert('Erro ao recuperar os dados do estabelecimento');
+    }
+  }, []);
+
+  const getProducts = useCallback(async (menuId: number) => {
+    try {
+      // `/menus/${menuId}/products`
+      const { data } = await apiMock.getProducts(menuId);
+
+      setProducts(data.result);
+    } catch (err) {
+      Alert.alert('Erro ao recuperar os dados do estabelecimento');
+    }
+  }, []);
+
+  useEffect(() => {
+    getEstablishment();
+    getMenus();
+  }, [getEstablishment, getMenus]);
+
+  useEffect(() => {
+    if (menuSelected) {
+      getProducts(menuSelected);
+    }
+  }, [menuSelected, getProducts]);
+
+  const onPressMenu = (id: number) => {
     setMenuSelected(id);
-    setMenu(establishment.menus.find(item => item.id === id));
   };
 
   return (
     <Container>
       <Content>
         <Header>
-          <EstablishmentImage
-            loading={loading}
-            image={establishment?.image.encoded}
-          />
+          <EstablishmentImage image={establishment?.image} />
           <EstablishmentDetail>
             <EstablishmentDetailTitle>
               {establishment?.name}
@@ -61,7 +91,9 @@ const EstablishmentScreen = () => {
             <EstablishmentDetailInfo>
               <Text>Aberto</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text>R${establishment?.fee}</Text>
+                <Text>
+                  {establishment?.fee ? formatPrice(establishment.fee) : null}
+                </Text>
                 <MaterialIcons name="motorcycle" size={25} />
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
@@ -76,44 +108,26 @@ const EstablishmentScreen = () => {
           </EstablishmentDetail>
         </Header>
         <Divider />
-        <SafeAreaView
-          style={{
-            justifyContent: 'flex-start',
-            flex: 1,
-          }}
-        >
+        <Flatlists>
           <FlatList
             contentContainerStyle={{ paddingBottom: 10 }}
             showsHorizontalScrollIndicator={false}
-            data={establishment?.menus.map(menu => ({
-              id: menu.id,
-              name: menu.name,
-            }))}
-            renderItem={({ item }) => (
-              <Tab
-                {...item}
-                loading={loading}
-                onPress={onPressMenu}
-                selected={menuSelected}
-              />
-            )}
+            data={menus}
             horizontal
+            renderItem={({ item }) => (
+              <Tab {...item} onPress={onPressMenu} selected={menuSelected} />
+            )}
           />
 
           <FlatList
-            contentContainerStyle={{
-              alignItems: 'center',
-              width: '100%',
-              paddingTop: 20,
-              paddingBottom: 50,
-            }}
+            contentContainerStyle={styles.listProducts}
             showsVerticalScrollIndicator={false}
-            data={menu?.products}
+            data={products}
             renderItem={({ item }) => (
-              <Card {...item} image={item.image.encoded} establishmentId={id} />
+              <Card {...item} establishmentId={params.id} />
             )}
           />
-        </SafeAreaView>
+        </Flatlists>
       </Content>
       <CartButton />
     </Container>

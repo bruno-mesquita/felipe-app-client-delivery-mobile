@@ -1,21 +1,15 @@
-import { ComponentType } from 'react';
-import { ViewProps, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
-const { width, height } = Dimensions.get('screen');
-
-interface ContentProps extends ViewProps {
-  payment: string;
-}
+const { width } = Dimensions.get('window');
 
 export const Container = styled.View`
   width: ${width * 0.9}px;
   padding: 20px;
 `;
 
-export const Content = styled<ComponentType<ContentProps>>(View as any)`
+export const Content = styled.View`
   justify-content: space-between;
   align-items: center;
-  height: ${props => height * (props.payment === 'Dinheiro' ? 0.4 : 0.3)}px;
+  height: auto;
 `;

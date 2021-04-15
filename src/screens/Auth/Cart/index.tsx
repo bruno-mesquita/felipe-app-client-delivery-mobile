@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useCallback } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../../../components/Button';
@@ -14,6 +14,7 @@ import {
   Texts,
   Prices,
   ViewButton,
+  Divider,
 } from './styles';
 
 export const Cart = () => {
@@ -35,34 +36,39 @@ export const Cart = () => {
     modalRef.current?.open();
   }, []);
 
+  const Footer = () => (
+    <>
+      <ContainerInfo>
+        <Texts>
+          <Text>SubTotal:</Text>
+          <Text>Frete:</Text>
+          <Text>Total:</Text>
+        </Texts>
+        <Prices>
+          <Text>{formatNumber(subTotal)}</Text>
+          <Text>{formatNumber(fee)}</Text>
+          <Text>{formatNumber(total)}</Text>
+        </Prices>
+      </ContainerInfo>
+      <ViewButton>
+        <Button primaryColor onPress={openModalOrder}>
+          Proximo
+        </Button>
+      </ViewButton>
+    </>
+  );
+
   return (
     <>
       <FinishModal modalRef={modalRef} />
       <Container>
-        <SafeAreaView>
-          <FlatList
-            data={items}
-            keyExtractor={item => item.itemId}
-            renderItem={({ item }) => <Card {...item} />}
-          />
-        </SafeAreaView>
-        <ContainerInfo>
-          <Texts>
-            <Text>SubTotal:</Text>
-            <Text>Frete:</Text>
-            <Text>Total:</Text>
-          </Texts>
-          <Prices>
-            <Text>{formatNumber(subTotal)}</Text>
-            <Text>{formatNumber(fee)}</Text>
-            <Text>{formatNumber(total)}</Text>
-          </Prices>
-        </ContainerInfo>
-        <ViewButton>
-          <Button primaryColor onPress={openModalOrder}>
-            Proximo
-          </Button>
-        </ViewButton>
+        <FlatList
+          data={items}
+          keyExtractor={item => item.itemId}
+          renderItem={({ item }) => <Card {...item} />}
+          ListFooterComponent={Footer}
+          ItemSeparatorComponent={Divider}
+        />
       </Container>
     </>
   );

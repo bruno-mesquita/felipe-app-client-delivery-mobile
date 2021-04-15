@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, SafeAreaView, RefreshControl } from 'react-native';
+import { FlatList, Alert } from 'react-native';
 import { AxiosError } from 'axios';
 
 import { NoOrders, Card } from './Components';
 
 import api from '../../../services/api';
-import { Container } from './styles';
+import styles from './styles';
 
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -20,7 +20,7 @@ export const Orders = () => {
     } catch (err) {
       setLoading(false);
       const error = err as AxiosError;
-      console.log(error);
+      Alert.alert('Erro ao buscar os seus pedidos, tente novamente');
     }
   }, []);
 
@@ -29,28 +29,15 @@ export const Orders = () => {
   }, [getOrders]);
 
   return (
-    <Container>
-      {orders.length === 0 ? (
-        <NoOrders />
-      ) : (
-        <SafeAreaView>
-          <FlatList
-            refreshControl={
-              <RefreshControl refreshing={loading} onRefresh={getOrders} />
-            }
-            contentContainerStyle={{
-              alignItems: 'center',
-              width: '100%',
-              paddingTop: 20,
-              paddingBottom: 50,
-            }}
-            data={orders}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <Card {...item} />}
-          />
-        </SafeAreaView>
-      )}
-    </Container>
+    <FlatList
+      contentContainerStyle={styles.flatlist}
+      data={orders}
+      ListEmptyComponent={NoOrders}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={item => item.id}
+      renderItem={({ item }) => <Card {...item} />}
+      onRefresh={getOrders}
+      refreshing={loading}
+    />
   );
 };

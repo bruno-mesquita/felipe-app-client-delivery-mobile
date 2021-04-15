@@ -16,7 +16,7 @@ export const UpdateAddress = ({ route }) => {
     city: '',
     neighborhood: '',
     nickname: '',
-    number: '0',
+    number: '',
     state: '',
   });
 

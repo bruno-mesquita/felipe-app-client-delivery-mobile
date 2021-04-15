@@ -8,7 +8,7 @@ interface ITranslatey {
   children: React.ReactNode;
 }
 
-export default function Tabs({ translateY, children }: ITranslatey) {
+export const Tabs = ({ translateY, children }: ITranslatey) => {
   return (
     <Container
       style={{
@@ -31,4 +31,4 @@ export default function Tabs({ translateY, children }: ITranslatey) {
       <TabsContainer>{children}</TabsContainer>
     </Container>
   );
-}
+};

@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
@@ -13,8 +14,7 @@ export const Content = styled.ScrollView`
 export const Divider = styled.View`
   ${({ theme }) => css`
     background: ${theme.colors.primary};
-    width: 90%;
-
+    width: 100%;
     height: 0.7px;
     elevation: 10;
     margin: 25px 0 25px 0;
@@ -45,3 +45,17 @@ export const EstablishmentDetailInfo = styled.View`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const Flatlists = styled.View`
+  justify-content: flex-start;
+  flex: 1;
+`;
+
+export const styles = StyleSheet.create({
+  listProducts: {
+    alignItems: 'center',
+    width: '100%',
+    paddingTop: 20,
+    paddingBottom: 50,
+  },
+});

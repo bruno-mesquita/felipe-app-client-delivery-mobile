@@ -1,27 +1,20 @@
-interface Image {
-  id: string;
-  encoded: string;
-}
-
 export interface Product {
-  id: string;
+  id: number;
   name: string;
   description: string;
   price: number;
-  image: Image;
+  image: any;
 }
 
 export interface Menu {
-  id: string;
+  id: number;
   name: string;
-  products: Product[];
 }
 
 export interface Establishment {
-  id: string;
+  id: number;
   name: string;
   rate: number;
   fee: number;
-  image: Image;
-  menus: Menu[];
+  image: any;
 }

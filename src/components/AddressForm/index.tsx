@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { FormikProps } from 'formik';
 
-import { Field, Select, FieldMask } from '../../components/FormUtils';
-import { Button } from '../../components';
+import { Field, Select, FieldMask } from '../FormUtils';
+import { Button } from '../Button';
 
 import {
   Container,

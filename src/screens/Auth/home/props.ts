@@ -1,16 +1,13 @@
 export interface Category {
-  id: string;
+  id: number;
   name: string;
 }
 
 export interface Establishment {
-  id: string;
+  id: number;
   name: string;
-  rate: number;
-  photo: string;
-  fee: number;
-  time: {
-    open: number;
-    close: number;
-  };
+  image: any;
+  openingTime: number;
+  closingTime: number;
+  freightValue: number;
 }

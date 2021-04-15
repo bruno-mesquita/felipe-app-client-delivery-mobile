@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
 
 import { Button } from '../../../components/Button';
-import { Field } from '../../../components/Field';
+import { Field } from '../../../components/FormUtils';
 
 import {
   Container,
@@ -46,13 +46,13 @@ const ForgotPassword = () => {
                   value={values.email}
                   placeholder="E-mail"
                   onChangeText={handleChange('email')}
-                  textValue="E-mail"
+                  label="E-mail"
                 />
                 <ErrorMessage component={Text} name="email" />
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={handleSubmit}>Enviar</Button>
+                <Button onPress={() => handleSubmit()}>Enviar</Button>
               </ContainerButton>
             </ContentForm>
           )}

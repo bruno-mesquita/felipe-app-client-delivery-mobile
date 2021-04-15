@@ -1,8 +1,12 @@
-import styled from 'styled-components/native';
+import { StyleSheet } from 'react-native';
 
-export const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  padding-top: 15px;
-`;
+const styles = StyleSheet.create({
+  flatlist: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 15,
+  },
+});
+
+export default styles;

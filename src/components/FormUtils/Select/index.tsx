@@ -13,6 +13,7 @@ export const Select = ({
   placeholder = 'Selecione um item',
   label,
   labelColor = '#fff',
+  items: myItems,
 }: SelectProps) => {
   const [items, setItems] = useState<Item[]>([]);
 
@@ -27,7 +28,11 @@ export const Select = ({
   }, [path]);
 
   useEffect(() => {
-    getItems();
+    if (myItems && !path) {
+      setItems(myItems);
+    } else {
+      getItems();
+    }
   }, [getItems, value]);
 
   return (

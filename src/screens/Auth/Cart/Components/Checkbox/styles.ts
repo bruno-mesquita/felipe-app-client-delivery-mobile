@@ -3,10 +3,9 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  width: 33%;
+  width: 45%;
+  padding: 10px;
 `;
-
-export const ContainerCheckbox = styled.TouchableOpacity``;
 
 export const ContainerCheckboxIcon = styled.View`
   border-radius: 7px;

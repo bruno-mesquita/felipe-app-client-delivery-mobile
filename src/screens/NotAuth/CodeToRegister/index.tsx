@@ -5,7 +5,7 @@ import { ErrorMessage, Formik } from 'formik';
 import { AxiosError } from 'axios';
 
 import { Button } from '../../../components/Button';
-import { Field } from '../../../components/Field';
+import { Field } from '../../../components/FormUtils';
 
 import {
   Container,
@@ -47,7 +47,7 @@ const CodeToRegister = ({ route }) => {
 
   const resendCode = async () => {
     console.log('Reenviar código de ativação do cliente');
-  }
+  };
 
   const login = () => {
     navigation.navigate('Login');
@@ -68,7 +68,7 @@ const CodeToRegister = ({ route }) => {
                   value={values.code}
                   placeholder="Código"
                   onChangeText={handleChange('code')}
-                  textValue="Código"
+                  label="Código"
                 />
                 <ErrorMessage component={Text} name="code" />
               </ContainerInput>

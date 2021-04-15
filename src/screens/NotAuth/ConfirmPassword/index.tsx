@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
 
 import { Button } from '../../../components/Button';
-import { Field } from '../../../components/Field';
+import { Field } from '../../../components/FormUtils';
 
 import {
   Container,
@@ -56,7 +56,7 @@ const CodeToPassword = () => {
                   value={values.newPassword}
                   placeholder="Nova senha"
                   onChangeText={handleChange('password')}
-                  textValue="Nova senha"
+                  label="Nova senha"
                 />
                 <ErrorMessage component={Text} name="password" />
               </ContainerInput>
@@ -66,7 +66,7 @@ const CodeToPassword = () => {
                   value={values.confirmPassword}
                   placeholder="Confirmar senha"
                   onChangeText={handleChange('confirmPassword')}
-                  textValue="Confirmar senha"
+                  label="Confirmar senha"
                 />
                 <ErrorMessage component={Text} name="confirmPassword" />
               </ContainerInput>

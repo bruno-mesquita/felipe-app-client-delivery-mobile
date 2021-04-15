@@ -12,7 +12,7 @@ import './config/reactotron';
 import Store from './store';
 import Styled from './styles/styled';
 import Navigation from './navigation';
-import StatusBar from './components/StatusBar';
+import { StatusBar } from './components';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);

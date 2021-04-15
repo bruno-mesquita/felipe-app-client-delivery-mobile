@@ -1,12 +1,10 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 
 import { useTheme } from 'styled-components/native';
 
-const MyStatusBar = () => {
+export const StatusBar = () => {
   const { colors } = useTheme();
 
-  return <StatusBar style="light" backgroundColor={colors.primary} />;
+  return <ExpoStatusBar style="light" backgroundColor={colors.primary} />;
 };
-
-export default MyStatusBar;

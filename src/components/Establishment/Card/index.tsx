@@ -14,14 +14,7 @@ import {
 } from './styles';
 import formatNumber from '../../../utils/format-number';
 
-const Card = ({
-  description,
-  id,
-  image,
-  name,
-  price,
-  establishmentId,
-}: Props) => {
+const Card = (props: Props) => {
   const modalItemRef = useRef<ModalBaseHandle>(null);
 
   const formattedDescription = (text: string) => {
@@ -40,20 +33,16 @@ const Card = ({
     <>
       <ModalItem
         modalRef={modalItemRef}
-        id={id}
-        name={name}
-        image={image}
-        price={price}
-        description={formattedDescription(description)}
-        establishmentId={establishmentId}
+        {...props}
+        description={formattedDescription(props.description)}
       />
       <CardBase onPress={openModal}>
         <Container>
-          <ImageProduct style={{ resizeMode: 'cover' }} source={image} />
+          <ImageProduct style={{ resizeMode: 'cover' }} source={props.image} />
           <Content>
-            <Title>{name}</Title>
-            <Description>{formattedDescription(description)}</Description>
-            <Price>{formatNumber(price)}</Price>
+            <Title>{props.name}</Title>
+            <Description>{formattedDescription(props.description)}</Description>
+            <Price>{formatNumber(props.price)}</Price>
           </Content>
         </Container>
       </CardBase>

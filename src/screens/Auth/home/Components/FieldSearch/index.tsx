@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import api from '../../../services/api';
+import api from '../../../../../services/api';
 import { Input, styles } from './styles';
 import { Props } from './props';
 
-const FieldSearch = ({ response }: Props) => {
+export const FieldSearch = ({ response }: Props) => {
   const [text, setText] = useState('');
 
   const searchForEstablishment = async () => {
@@ -31,5 +31,3 @@ const FieldSearch = ({ response }: Props) => {
     </View>
   );
 };
-
-export default FieldSearch;

@@ -1,10 +1,13 @@
-import styled, { css } from 'styled-components/native';
+import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('screen');
 
 export const Container = styled.View`
   padding: 10px;
+  margin: 10px;
+  border: 1px solid #c4c4c4;
+  border-radius: 11px;
 `;
 
 export const Content = styled.View`
@@ -15,43 +18,34 @@ export const Content = styled.View`
 export const Info = styled.View`
   justify-content: space-between;
   align-items: center;
-  width: ${width * 0.66}px;
+  width: 75%;
   padding: 5px;
 `;
 
-export const Image = styled.Image``;
+export const Image = styled.Image`
+  height: 100%;
+  width: ${width * 0.25}px;
+  border: 1px solid #c4c4c4;
+  border-radius: 11px;
+`;
 
 export const Title = styled.Text`
   font-weight: bold;
 `;
 
 export const Prices = styled.View`
-  flex-direction: row;
-  width: ${width * 0.35}px;
+  width: 50%;
   justify-content: space-around;
-`;
-
-export const Divider = styled.View`
-  ${({ theme }) => css`
-    background: ${theme.colors.primary};
-    width: 100%;
-
-    height: 0.7px;
-    elevation: 10;
-    margin: 7px 0 7px 0;
-  `}
 `;
 
 export const ViewValues = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  width: ${width * 0.66}px;
-  padding: 0 5px 0 5px;
+  width: 100%;
   align-items: flex-end;
 `;
 
 export const ViewButton = styled.View`
   align-items: flex-end;
-  padding-right: 5px;
-  width: ${width * 0.66}px;
+  width: 100%;
 `;

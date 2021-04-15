@@ -1,38 +1,37 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Alert } from 'react-native';
+import { useHeaderHeight } from '@react-navigation/stack';
 
-import FieldSearch from '../../../components/Home/FieldSearch';
-import Tab from '../../../components/Tab';
 import CartButton from '../../../components/CartButton';
-import Card from '../../../components/Home/Card';
-import { NotFound } from './Components';
+import { NotFound, Card, FieldSearch, Tab } from './Components';
 
 import api from '../../../services/api';
-import { Container, Content, Establishments, SafeArea } from './styles';
+import { Container, Content, Establishments } from './styles';
 import { Category, Establishment } from './props';
 import stores from './mock';
 
-const Home = () => {
-  const [establishments, setEstablishments] = useState<Establishment[]>([]);
-  const [categorySelected, setCategorySelected] = useState<string | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+export const Home = () => {
+  const headerHeight = useHeaderHeight();
 
-  const getCategories = useCallback(async (): Promise<string> => {
+  const [establishments, setEstablishments] = useState<Establishment[]>([]);
+  const [categorySelected, setCategorySelected] = useState<number | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const getCategories = useCallback(async (): Promise<number> => {
     try {
       const { data } = await api.get('/categories');
 
       const values = data.result.map(item => ({ ...item, loading: false }));
 
       setCategories(values);
-
+      setCategorySelected(values[0].id);
       return values[0].id;
     } catch (err) {
       Alert.alert('Erro ao buscar categorias, por favor tente novamente');
     }
   }, []);
 
-  const getEstablishments = useCallback(async (categoryId: string) => {
+  const getEstablishments = useCallback(async (categoryId: number) => {
     try {
       /* const { data } = await api.get('/establishments', {
         params: {
@@ -52,17 +51,14 @@ const Home = () => {
     });
   }, [getCategories, getEstablishments]);
 
-  const onChangeCategory = async (id: string) => {
+  const onChangeCategory = async (id: number) => {
     try {
-      setLoading(true);
       setCategorySelected(id);
 
       const { data } = await api.get(`/categories/${id}/establishments`);
 
       setEstablishments(data.result);
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
       console.log(err.response);
     }
   };
@@ -74,39 +70,31 @@ const Home = () => {
   return (
     <Container>
       <Content>
-        <View style={{ alignItems: 'center', paddingTop: 25 }}>
+        <View style={{ alignItems: 'center', paddingTop: headerHeight * 0.3 }}>
           <FieldSearch response={searchResult} />
         </View>
 
-        <SafeArea>
-          <FlatList
-            contentContainerStyle={{ paddingVertical: 30 }}
-            showsHorizontalScrollIndicator={false}
-            data={categories}
-            renderItem={({ item }) => (
-              <Tab
-                {...item}
-                onPress={onChangeCategory}
-                selected={categorySelected}
-              />
-            )}
-            horizontal
-          />
-
-          {establishments.length === 0 ? (
-            <NotFound loading={loading} />
-          ) : (
-            <Establishments
-              data={establishments}
-              keyExtractor={(item: any) => item.id}
-              renderItem={({ item }: any) => <Card {...item} />}
+        <FlatList
+          contentContainerStyle={{ paddingVertical: 30 }}
+          showsHorizontalScrollIndicator={false}
+          data={categories}
+          horizontal
+          renderItem={({ item }) => (
+            <Tab
+              {...item}
+              onPress={onChangeCategory}
+              selected={categorySelected}
             />
           )}
-        </SafeArea>
+        />
+        <Establishments
+          data={establishments}
+          ListEmptyComponent={NotFound}
+          keyExtractor={(item: any) => item.id.toString()}
+          renderItem={({ item }: any) => <Card {...item} />}
+        />
       </Content>
       <CartButton />
     </Container>
   );
 };
-
-export default Home;

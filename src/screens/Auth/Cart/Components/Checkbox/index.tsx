@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import { Container, ContainerCheckbox, ContainerCheckboxIcon } from './styles';
+import { Container, ContainerCheckboxIcon } from './styles';
 import { CheckboxProps } from './props';
 
 export const Checkbox = ({ children, checked, onChange }: CheckboxProps) => {
@@ -11,7 +11,7 @@ export const Checkbox = ({ children, checked, onChange }: CheckboxProps) => {
 
   return (
     <Container>
-      <ContainerCheckbox onPress={() => onChange(!checked)}>
+      <TouchableOpacity onPress={() => onChange(!checked)}>
         <ContainerCheckboxIcon>
           <MaterialIcons
             name="check"
@@ -19,7 +19,7 @@ export const Checkbox = ({ children, checked, onChange }: CheckboxProps) => {
             color={checked ? colors.primary : colors.secundary}
           />
         </ContainerCheckboxIcon>
-      </ContainerCheckbox>
+      </TouchableOpacity>
       <Text>{children}</Text>
     </Container>
   );

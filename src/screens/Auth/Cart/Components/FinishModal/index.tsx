@@ -1,29 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
 
 import ModalBase from '../../../../../components/ModalBase';
-import Select from '../../../../../components/Select';
-import { Field } from '../../../../../components/Field';
 import { ModalBaseProps } from '../../../../../components/ModalBase/props';
+import { Field, Select } from '../../../../../components/FormUtils';
 import Button from '../../../../../components/ModalButton';
 import { Checkbox } from '../Checkbox';
 
 import { Container, Content } from './styles';
 import api from '../../../../../services/api';
 
+import paymentsOptions from './paymentOptions';
+import schema from './schema';
+
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation();
 
-  const { addressActive, establishmentId, userId } = useSelector(
-    ({ user, cart }) => ({
-      addressActive: user.addressActive,
-      userId: user.id,
-      establishmentId: cart.establishmentId,
-    }),
-  );
+  const { establishmentId, items, total } = useSelector(({ cart }) => cart);
 
   const [payments, setPayments] = useState<Item[]>([]);
   const [adresses, setAdresses] = useState<any[]>([]);
@@ -38,65 +34,94 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     try {
       const { data } = await api.get('/adresses-client');
 
-      setAdresses(data.result);
+      setAdresses(
+        data.result.map(item => ({
+          label: item.nickname,
+          value: item.id,
+          city: item.city,
+          active: item.active,
+        })),
+      );
+
+      setOptions(old => ({
+        ...old,
+        address: data.result.find(item => item.active === true).id,
+      }));
     } catch (err) {
-      console.log(err);
+      Alert.alert('Erro ao buscar endereços');
+      onClose();
     }
   }, []);
 
   useEffect(() => {
     getAdresses();
-    setPayments([
-      { label: 'Dinheiro', value: 'Dinheiro', color: '#000' },
-      { label: 'Cartão de crédito', value: 'Cartão de crédito', color: '#000' },
-      { label: 'Cartão de débito', value: 'Cartão de débito', color: '#000' },
-    ]);
+    setPayments(paymentsOptions);
   }, []);
 
   const onChange = (value: any, name: string) =>
     setOptions(old => ({ ...old, [name]: value }));
 
+  const onChangeCity = (value: number) => {
+    const item = adresses.find(item => item.value === value);
+
+    const currentItem = adresses.find(e => e.value === options.address);
+
+    if (item.city !== currentItem.city) {
+      Alert.alert('Você nã pode escolher um endereço de outra cidade');
+    } else {
+      setOptions(old => ({ ...old, address: value as any }));
+    }
+  };
+
   const onClose = useCallback(() => {
     modalRef.current?.close();
   }, []);
 
-  const purchase = () => {
-    navigation.navigate('TrackOrder', { id: '' });
-    onClose();
+  const purchase = async () => {
+    try {
+      const valid = schema.isValidSync({ ...options, establishmentId });
+
+      if (!valid) throw new Error();
+
+      const { data } = await api.post('/orders', {
+        ...options,
+        establishmentId,
+        items,
+        total,
+      });
+
+      navigation.navigate('TrackOrder', { id: data.result });
+      onClose();
+    } catch (err) {
+      Alert.alert('Erro ao faze pedido, reveja seus dados e tente novamente');
+    }
   };
 
   return (
     <ModalBase ref={modalRef}>
       <Container>
-        <Content payment={options.payment}>
+        <Content>
           <Select
             items={payments}
-            placeholder={{
-              value: 'Tipo de pagamento',
-              label: 'Tipo de pagamento',
-              color: '#000',
-            }}
-            onValueChange={value => onChange(value, 'payment')}
+            placeholder="Tipo de pagamento"
+            onChange={value => onChange(value, 'payment')}
+            label="Forma de pagamento"
+            labelColor="#000"
+            value={options.payment}
           />
-
           <Select
-            value={addressActive || adresses[0].id}
-            items={adresses.map(item => ({
-              label: item.nickname,
-              value: item.id,
-            }))}
-            placeholder={{
-              value: 'Endereço',
-              label: 'Endereço',
-              color: '#000',
-            }}
-            onValueChange={value => onChange(value, 'address')}
+            label="Endereço de entrega"
+            labelColor="#000"
+            value={options.address}
+            items={adresses}
+            placeholder="Endereço"
+            onChange={onChangeCity}
           />
 
           {options.payment === 'Dinheiro' ? (
             <Field
-              textValue="Troco (se não precisar deixe zerado)"
-              textColor="#000"
+              label="Troco (se não precisar deixe zerado)"
+              labelColor="#000"
               value={options.transshipment}
               onChangeText={value => onChange(value, 'transshipment')}
             />

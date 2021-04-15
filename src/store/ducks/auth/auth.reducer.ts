@@ -10,6 +10,7 @@ import {
 const INITIAL_STATE: AuthState = {
   token: null,
   logged: false,
+  keepMeConnected: false,
 };
 
 const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
@@ -18,6 +19,7 @@ const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
       case AUTH_REQUEST_LOGIN_SUCCESS: {
         draft.token = action.payload.token;
         draft.logged = true;
+        draft.keepMeConnected = action.payload.checked;
         break;
       }
 

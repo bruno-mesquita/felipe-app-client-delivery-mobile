@@ -18,8 +18,8 @@ export const ImageProduct = styled.Image`
 export const Content = styled.View`
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10px 10px 20px;
-  width: ${width * 0.52}px;
+  padding: 10px;
+  width: 65%;
 `;
 
 export const Title = styled.Text`

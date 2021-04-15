@@ -10,7 +10,6 @@ import {
   Title,
   Content,
   Image,
-  Divider,
   Info,
   ViewValues,
   ViewButton,
@@ -39,19 +38,12 @@ export const Card = ({
               <Text>qtd: {amount}</Text>
             </View>
             <Prices>
-              <View>
-                <Text>Preço:</Text>
-                <Text>Total:</Text>
-              </View>
-              <View>
-                <Text>{formatNumber(price)}</Text>
-                <Text>{formatNumber(total)}</Text>
-              </View>
+              <Text>{`Preço: ${formatNumber(price)}`}</Text>
+              <Text>{`Total: ${formatNumber(total)}`}</Text>
             </Prices>
           </ViewValues>
         </Info>
       </Content>
-      <Divider />
     </Container>
   );
 };

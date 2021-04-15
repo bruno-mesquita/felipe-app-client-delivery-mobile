@@ -1,10 +1,10 @@
 import { ModalBaseProps } from '../ModalBase/props';
 
 export interface ModalItemProps extends ModalBaseProps {
-  id: string;
-  image: string;
+  id: number;
+  image: any;
   name: string;
   description: string;
   price: number;
-  establishmentId: string;
+  establishmentId: number;
 }

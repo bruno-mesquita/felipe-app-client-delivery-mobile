@@ -3,25 +3,15 @@ import produce from 'immer';
 import { CartState, CartActionTypes } from './cart.types';
 
 const INITIAL_STATE: CartState = {
-  orderId: null,
-  establishmentId: null,
   items: [],
   fee: 0,
   total: 0,
-  payment: 'Dinheiro',
-  status: '',
-  errorMessage: null,
+  establishmentId: null,
 };
 
 const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
   return produce(state, draft => {
     switch (action.type) {
-      case '@cart/OPEN_ORDER_REQUEST_SUCCESS': {
-        draft.orderId = action.payload.orderId;
-        draft.establishmentId = action.payload.establishmentId;
-        break;
-      }
-
       case '@cart/ADD_ITEM': {
         const { price, amount, establishmentId } = action.payload;
 
@@ -82,25 +72,8 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
             draft.items[itemIndex] = { ...item, total: newTotalItem };
           }
         }
-
         break;
       }
-
-      case '@cart/DELETE_ORDER_REQUEST_SUCCESS': {
-        draft = { ...INITIAL_STATE };
-        break;
-      }
-
-      case '@cart/DELETE_ORDER_REQUEST_FAILURE': {
-        draft.errorMessage = action.payload.message;
-        break;
-      }
-
-      case '@cart/OPEN_ORDER_REQUEST_FAILURE': {
-        draft.errorMessage = action.payload.message;
-        break;
-      }
-
       default:
         break;
     }
