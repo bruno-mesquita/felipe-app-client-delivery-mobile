@@ -13,3 +13,10 @@ export const Content = styled.View`
   align-items: center;
   height: auto;
 `;
+
+export const Header = styled.View`
+  flex-direction: row;
+  width: ${width * 0.8}px;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+`;

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components/native';
 export const ButtonAdd = styled.TouchableOpacity`
   ${({ theme }) => css`
     background: ${theme.colors.primary};
-    border-radius: 100;
+    border-radius: 100px;
     height: 55px;
     width: 55px;
     justify-content: center;
