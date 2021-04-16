@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Image, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
@@ -21,26 +21,22 @@ import {
   Content,
 } from './styles';
 
-const ModalItem = ({
-  modalRef,
-  id,
-  name,
-  description,
-  image,
-  price,
-  establishmentId,
-}: ModalItemProps) => {
+const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const dispatch = useDispatch();
   const { colors } = useTheme();
 
-  const [total, setTotal] = useState(price);
+  const [total, setTotal] = useState(0);
   const [amount, setAmount] = useState(1);
+
+  useEffect(() => {
+    setTotal(rest.price);
+  }, [rest.price]);
 
   const plus = () => {
     setAmount(old => {
       const newCount = old + 1;
 
-      setTotal(price * newCount);
+      setTotal(rest.price * newCount);
       return newCount;
     });
   };
@@ -51,7 +47,7 @@ const ModalItem = ({
 
       const newCount = old - 1;
 
-      setTotal(price * newCount);
+      setTotal(rest.price * newCount);
       return newCount;
     });
   };
@@ -63,12 +59,9 @@ const ModalItem = ({
   const addItemCart = () => {
     dispatch(
       addItem({
-        price,
+        ...rest,
+        itemId: rest.id,
         amount,
-        itemId: id,
-        image,
-        name,
-        establishmentId,
       }),
     );
     onCloseModal();
@@ -87,12 +80,12 @@ const ModalItem = ({
         </Header>
         <ProductInfo>
           <Image
-            source={image}
+            source={rest.image}
             style={{ height: 80, width: 80, resizeMode: 'cover' }}
           />
           <ViewTexts>
-            <Title>{name}</Title>
-            <Description>{description}</Description>
+            <Title>{rest.name}</Title>
+            <Description>{rest.description}</Description>
           </ViewTexts>
         </ProductInfo>
         <Prices>
@@ -112,7 +105,7 @@ const ModalItem = ({
             />
           </PlusOrMin>
           <View>
-            <Text>Preço: {formatNumber(price)}</Text>
+            <Text>Preço: {formatNumber(rest.price)}</Text>
             <Text>Total: {formatNumber(total)}</Text>
           </View>
         </Prices>

@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import produce from 'immer';
 
 import { CartState, CartActionTypes } from './cart.types';
@@ -25,6 +26,10 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
         if (draft.items.length !== 0) {
           if (draft.establishmentId === establishmentId) {
             add();
+          } else {
+            Alert.alert(
+              'Você só pode adicionar produtos de um mesmo estabelecimento',
+            );
           }
         } else {
           add();
