@@ -64,7 +64,7 @@ export const Cart = () => {
       <Container>
         <FlatList
           data={items}
-          keyExtractor={item => item.itemId}
+          keyExtractor={item => String(item.itemId)}
           renderItem={({ item }) => <Card {...item} />}
           ListFooterComponent={Footer}
           ItemSeparatorComponent={Divider}

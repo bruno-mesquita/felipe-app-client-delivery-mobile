@@ -3,6 +3,8 @@ import { View, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from 'styled-components/native';
 
 import ModalBase from '../../../../../components/ModalBase';
 import { ModalBaseProps } from '../../../../../components/ModalBase/props';
@@ -10,7 +12,7 @@ import { Field, Select } from '../../../../../components/FormUtils';
 import Button from '../../../../../components/ModalButton';
 import { Checkbox } from '../Checkbox';
 
-import { Container, Content } from './styles';
+import { Container, Content, Header } from './styles';
 import api from '../../../../../services/api';
 
 import paymentsOptions from './paymentOptions';
@@ -18,6 +20,7 @@ import schema from './schema';
 
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation();
+  const { colors } = useTheme();
 
   const { establishmentId, items, total } = useSelector(({ cart }) => cart);
 
@@ -97,9 +100,21 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     }
   };
 
+  const onCloseModal = useCallback(() => {
+    modalRef.current.close();
+  }, []);
+
   return (
     <ModalBase ref={modalRef}>
       <Container>
+        <Header>
+          <Ionicons
+            onPress={onCloseModal}
+            name="close-circle"
+            size={20}
+            color={colors.primary}
+          />
+        </Header>
         <Content>
           <Select
             items={payments}
