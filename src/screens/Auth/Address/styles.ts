@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  margin: 40px 0 10px 0;
+  margin: 40px 0px 10px 0px;
   justify-content: center;
   align-items: center;
 `;
@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const ButtonAdd = styled.TouchableOpacity`
   ${({ theme }) => css`
     background: ${theme.colors.primary};
-    border-radius: 100;
+    border-radius: 100px;
     height: 55px;
     width: 55px;
     justify-content: center;
