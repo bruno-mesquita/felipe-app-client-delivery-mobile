@@ -37,10 +37,6 @@ const CodeToPassword = () => {
     navigation.navigate('Login');
   };
 
-  const goBackToRegister = () => {
-    navigation.navigate('Register');
-  };
-
   return (
     <Container>
       <BackGround source={require('../../../assets/images/fundo.png')}>

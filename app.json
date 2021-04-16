@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "flipp-delivery",
+    "name": "Flipp",
     "slug": "flipp-delivery",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "backgroundColor": "#9E0404",
         "foregroundImage": "./src/assets/images/icons/logo-app.png"
-      }
+      },
+      "package": "com.flipp"
     }
   }
 }
