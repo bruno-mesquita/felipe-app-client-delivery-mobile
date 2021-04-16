@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -6,8 +6,12 @@ import api from '../../../../../services/api';
 import { Input, styles } from './styles';
 import { Props } from './props';
 
-export const FieldSearch = ({ response }: Props) => {
+export const FieldSearch = ({ response, refreshing }: Props) => {
   const [text, setText] = useState('');
+
+  useEffect(() => {
+    if (refreshing) setText('');
+  }, [refreshing]);
 
   const searchForEstablishment = async () => {
     try {
