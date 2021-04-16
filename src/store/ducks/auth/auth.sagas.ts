@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { DefaultRootState } from 'react-redux';
 
@@ -20,6 +21,7 @@ export function* signIn({ payload }: RequestLoginAction) {
 
     yield put(requestLoginSuccess(token));
   } catch (err) {
+    Alert.alert('Erro no login');
     yield put(requestLoginFailure(err.message));
   }
 }

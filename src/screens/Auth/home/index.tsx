@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Alert } from 'react-native';
+import { View, FlatList, Alert, RefreshControl } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 
 import CartButton from '../../../components/CartButton';
@@ -16,6 +16,7 @@ export const Home = () => {
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [categorySelected, setCategorySelected] = useState<number | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const getCategories = useCallback(async (): Promise<number> => {
     try {
@@ -67,11 +68,23 @@ export const Home = () => {
     setEstablishments(values);
   };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    getCategories().then(categoryId => {
+      getEstablishments(categoryId);
+      setRefreshing(false);
+    });
+  };
+
+  const ContentRefresh = (
+    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+  );
+
   return (
     <Container>
-      <Content>
+      <Content refreshControl={ContentRefresh}>
         <View style={{ alignItems: 'center', paddingTop: headerHeight * 0.3 }}>
-          <FieldSearch response={searchResult} />
+          <FieldSearch refreshing={refreshing} response={searchResult} />
         </View>
 
         <FlatList
