@@ -34,25 +34,26 @@ const Adresses = () => {
 
   const addAddress = () => navigation.navigate('AddAddress');
 
+  const EmptyComponent = () => (
+    <Empty>
+      <Ionicons name="location-sharp" size={150} color={colors.primary} />
+      <Text style={{ fontSize: 20, marginTop: 20 }}>Sem endereços</Text>
+    </Empty>
+  );
+
   return (
     <Container>
-      {adresses.length === 0 ? (
-        <Empty>
-          <Ionicons name="location-sharp" size={150} color={colors.primary} />
-          <Text style={{ fontSize: 20, marginTop: 20 }}>Sem endereços</Text>
-        </Empty>
-      ) : (
-        <FlatList
-          refreshControl={
-            <RefreshControl refreshing={loading} onRefresh={getAdresses} />
-          }
-          contentContainerStyle={{ width: '100%', alignItems: 'center' }}
-          style={{ width: '100%' }}
-          data={adresses}
-          renderItem={({ item }) => <Card {...item} />}
-          keyExtractor={item => item.id}
-        />
-      )}
+      <FlatList
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={getAdresses} />
+        }
+        ListEmptyComponent={EmptyComponent}
+        contentContainerStyle={{ width: '100%', alignItems: 'center' }}
+        style={{ width: '100%' }}
+        data={adresses}
+        renderItem={({ item }) => <Card {...item} />}
+        keyExtractor={item => item.id}
+      />
       <ButtonAdd onPress={addAddress}>
         <Text>
           <Ionicons name="add" size={30} color={colors.secundary} />
