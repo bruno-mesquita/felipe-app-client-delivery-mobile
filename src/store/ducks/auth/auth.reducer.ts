@@ -40,6 +40,8 @@ const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
       case AUTH_LOGOUT: {
         draft.logged = false;
         draft.token = null;
+        draft.keepMeConnected = false;
+        draft.loading = false;
         break;
       }
 
