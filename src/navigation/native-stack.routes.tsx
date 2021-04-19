@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import {
   Home,
@@ -26,6 +27,8 @@ const Header = () => (
     source={require('../assets/images/logo.png')}
   />
 );
+
+// const Menu = () => <MaterialIcons name="menu" size={25} color="#fff" />;
 
 export default function NativeStackRoutes() {
   return (

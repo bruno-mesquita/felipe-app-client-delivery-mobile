@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -28,8 +28,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const { loading } = useSelector(({ auth }) => auth);
+
   const onSubmit = ({ email, password, checked }: Values) => {
-    dispatch(requestLogin(email, password));
+    dispatch(requestLogin(email, password, checked));
   };
 
   const forgotPassword = () => {
@@ -86,7 +88,9 @@ const Login = () => {
             </StayConnect>
 
             <ContainerButton>
-              <Button onPress={() => handleSubmit()}>Login</Button>
+              <Button loading={loading} onPress={() => handleSubmit()}>
+                Login
+              </Button>
               <Button onPress={goRegister}>Criar conta</Button>
             </ContainerButton>
           </Form>

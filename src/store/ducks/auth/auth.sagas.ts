@@ -8,7 +8,7 @@ import { RequestLoginAction, AUTH_REQUEST_LOGIN } from './auth.types';
 
 export function* signIn({ payload }: RequestLoginAction) {
   try {
-    const { email, password } = payload;
+    const { email, password, checked } = payload;
 
     const { data } = yield call(api.post, '/auth/login', {
       email,
@@ -19,9 +19,10 @@ export function* signIn({ payload }: RequestLoginAction) {
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(requestLoginSuccess(token));
+    yield put(requestLoginSuccess(token, checked));
   } catch (err) {
     Alert.alert('Erro no login');
+    console.log(err);
     yield put(requestLoginFailure(err.message));
   }
 }
