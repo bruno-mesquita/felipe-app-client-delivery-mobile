@@ -33,6 +33,7 @@ const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
         draft.token = token;
         draft.logged = true;
         draft.keepMeConnected = checked;
+        draft.loading = false;
         break;
       }
 
