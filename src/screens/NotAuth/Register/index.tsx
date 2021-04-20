@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { ScrollView, Alert } from 'react-native';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
 import { Layout } from '../_Layout';
@@ -15,7 +15,7 @@ import { Values } from './types';
 import api from '../../../services/api';
 import schema from './schema';
 
-import { ApiResult, ApiError } from '../../../utils/ApiResult';
+import { ApiResult } from '../../../utils/ApiResult';
 
 import { ContentForm, DivField, Error } from './styles';
 
@@ -34,19 +34,24 @@ const Register = ({ navigation }) => {
     confirmPassword: '',
   };
 
-  const onSubmit = async (values: Values) => {
+  const onSubmit = async (
+    values: Values,
+    { setSubmitting }: FormikHelpers<Values>,
+  ) => {
     try {
       const body = {
         ...values,
         cellphone: celInputRef.current?.getRawValue(),
         cpf: cpfInputRef.current?.getRawValue(),
       };
+
       const { data } = await api.post<ApiResult<string>>('/clients', body);
+
+      setSubmitting(false);
 
       navigation.navigate('Code', { id: data.result });
     } catch (err) {
-      const error = err as ApiError;
-      console.log(error.response.data);
+      setSubmitting(false);
       Alert.alert('Erro ao criar o usuário, reveja seus dados');
     }
   };
@@ -59,7 +64,13 @@ const Register = ({ navigation }) => {
           onSubmit={onSubmit}
           validationSchema={schema}
         >
-          {({ values, handleSubmit, handleChange, setFieldValue }) => (
+          {({
+            values,
+            handleSubmit,
+            handleChange,
+            setFieldValue,
+            isSubmitting,
+          }) => (
             <ContentForm>
               <DivField>
                 <Field
@@ -154,7 +165,9 @@ const Register = ({ navigation }) => {
               <Error name="confirmPassword" />
 
               <DivField style={{ marginTop: 15 }}>
-                <Button onPress={() => handleSubmit()}>Cadastrar</Button>
+                <Button loading={isSubmitting} onPress={() => handleSubmit()}>
+                  Cadastrar
+                </Button>
               </DivField>
             </ContentForm>
           )}
