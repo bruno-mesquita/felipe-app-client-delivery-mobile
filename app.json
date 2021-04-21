@@ -23,7 +23,10 @@
         "backgroundColor": "#9E0404",
         "foregroundImage": "./src/assets/images/icons/logo-app.png"
       },
-      "package": "com.flipp"
-    }
+      "package": "flipp.com"
+    },
+    "platforms": [
+      "android"
+    ]
   }
 }
