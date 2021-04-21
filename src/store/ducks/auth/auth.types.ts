@@ -30,6 +30,7 @@ export type AuthActionTypes =
 
 export interface AuthState {
   token: string | null;
+  refreshToken: string | null;
   logged: boolean;
   keepMeConnected: boolean;
   loading: boolean;
