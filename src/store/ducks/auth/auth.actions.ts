@@ -9,14 +9,18 @@ import {
 export const requestLogin = (
   email: string,
   password: string,
+  checked: boolean,
 ): AuthActionTypes => ({
   type: AUTH_REQUEST_LOGIN,
-  payload: { email, password },
+  payload: { email, password, checked },
 });
 
-export const requestLoginSuccess = (token: string): AuthActionTypes => ({
+export const requestLoginSuccess = (
+  token: string,
+  checked: boolean,
+): AuthActionTypes => ({
   type: AUTH_REQUEST_LOGIN_SUCCESS,
-  payload: { token },
+  payload: { token, checked },
 });
 
 export const requestLoginFailure = (errorMessage: string): AuthActionTypes => ({

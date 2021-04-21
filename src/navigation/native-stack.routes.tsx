@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import {
   Home,
@@ -27,7 +28,17 @@ const Header = () => (
   />
 );
 
-export default function NativeStackRoutes() {
+const Menu = ({ openDrawer }) => (
+  <MaterialIcons
+    name="menu"
+    size={25}
+    color="#fff"
+    style={{ paddingLeft: 10 }}
+    onPress={openDrawer}
+  />
+);
+
+export default function NativeStackRoutes({ navigation }) {
   return (
     <Navigator initialRouteName="Home">
       <Screen
@@ -39,6 +50,7 @@ export default function NativeStackRoutes() {
             backgroundColor: '#9E0404',
           },
           headerTitle: () => <Header />,
+          headerLeft: () => <Menu openDrawer={navigation.openDrawer} />,
         }}
       />
       <Screen

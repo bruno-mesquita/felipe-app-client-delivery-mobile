@@ -32,4 +32,5 @@ export interface AuthState {
   token: string | null;
   logged: boolean;
   keepMeConnected: boolean;
+  loading: boolean;
 }
