@@ -17,6 +17,7 @@ export const requestLogin = (
 
 export const requestLoginSuccess = (
   token: string,
+  refreshToken: string,
   checked: boolean,
 ): AuthActionTypes => ({
   type: AUTH_REQUEST_LOGIN_SUCCESS,
