@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import { removeItem } from '../../../../../store/ducks/cart/cart.actions';
+import { removeItem } from '@store/ducks/cart/cart.actions';
 
 import { Container } from './styles';
 import { RemoveButtonProps } from './props';

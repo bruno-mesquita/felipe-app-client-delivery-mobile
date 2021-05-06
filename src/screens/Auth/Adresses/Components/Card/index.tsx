@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import CardBase from '../../../../../components/CardBase';
-import { Checkbox } from '../Checkbox';
+import { CardBase } from '@components';
+import { getApi } from '@services/api';
+import { NavigationAuthHook } from '@utils/ScreenProps';
 
+import { Checkbox } from '../Checkbox';
 import { Container, Header, Body, Footer, Nickname, Content } from './styles';
 import { Address } from '../../props';
-import api from '../../../../../services/api';
 
 export const Card = (props: Address) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
 
   const [address, setAddress] = useState<any>(null);
 
@@ -22,6 +23,8 @@ export const Card = (props: Address) => {
 
   const onChange = async () => {
     try {
+      const api = getApi();
+
       if (address.active) {
         await api.put(`/adresses-client/${props.id}/deactivate`);
       } else {

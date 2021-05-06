@@ -1,6 +1,7 @@
 export const CART_ADD_ITEM = '@cart/ADD_ITEM';
 export const CART_REMOVE_ITEM = '@cart/REMOVE_ITEM';
 export const CART_UPDATE_ITEM = '@cart/UPDATE_ITEM';
+export const CART_CLEAR_CART = '@cart/CLEAR_CART';
 
 export interface IAddItem {
   itemId: number;
@@ -9,6 +10,10 @@ export interface IAddItem {
   image: string;
   name: string;
   establishmentId: number;
+}
+
+export interface ClearCartAction {
+  type: typeof CART_CLEAR_CART;
 }
 
 export interface AddItemAction {
@@ -29,7 +34,8 @@ export interface UpdateItemAction {
 export type CartActionTypes =
   | AddItemAction
   | RemoveItemAction
-  | UpdateItemAction;
+  | UpdateItemAction
+  | ClearCartAction;
 
 export type Payment = 'Dinheiro' | 'Débito' | 'Crédito';
 

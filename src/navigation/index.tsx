@@ -1,13 +1,18 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-import Routes from './drawer.routes';
-import StackNotAuth from './stack-not-auth.routes';
+import { DrawerNavigation } from './DrawerNavigation';
+import { StackNotAuthNavigation } from './StackNotAuthNavigation';
 
 const Navigation = () => {
   const { logged } = useSelector(({ auth }) => auth);
 
-  return <>{logged ? <Routes /> : <StackNotAuth />}</>;
+  return (
+    <NavigationContainer>
+      {logged ? <DrawerNavigation /> : <StackNotAuthNavigation />}
+    </NavigationContainer>
+  );
 };
 
 export default Navigation;

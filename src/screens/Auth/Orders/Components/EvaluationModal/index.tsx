@@ -5,10 +5,9 @@ import { Form, Textarea } from 'native-base';
 import { AxiosError } from 'axios';
 import { useTheme } from 'styled-components/native';
 
-import ModalBase from '../../../../../components/ModalBase';
-import ModalButton from '../../../../../components/ModalButton';
+import { ModalBase, ModalButton } from '@components';
+import { getApi } from '@services/api';
 
-import api from '../../../../../services/api';
 import { Container } from './styles';
 import { EvaluationProps } from './props';
 

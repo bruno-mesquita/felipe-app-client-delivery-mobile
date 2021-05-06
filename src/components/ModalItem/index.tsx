@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import ModalBase from '../ModalBase';
-import ModalButton from '../ModalButton';
+import { ModalBase } from '../ModalBase';
+import { ModalButton } from '../ModalButton';
 
-import { addItem } from '../../store/ducks/cart/cart.actions';
+import { addItem } from '@store/ducks/cart/cart.actions';
+import formatNumber from '@utils/format-number';
 import { ModalItemProps } from './props';
-import formatNumber from '../../utils/format-number';
 import {
   PlusOrMin,
   Prices,
@@ -21,7 +21,7 @@ import {
   Content,
 } from './styles';
 
-const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
+export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const dispatch = useDispatch();
   const { colors } = useTheme();
 
@@ -80,8 +80,13 @@ const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
         </Header>
         <ProductInfo>
           <Image
-            source={rest.image}
-            style={{ height: 80, width: 80, resizeMode: 'cover' }}
+            source={{ uri: rest.image }}
+            style={{
+              height: 80,
+              width: 80,
+              resizeMode: 'cover',
+              borderRadius: 11,
+            }}
           />
           <ViewTexts>
             <Title>{rest.name}</Title>
@@ -91,17 +96,17 @@ const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
         <Prices>
           <PlusOrMin>
             <MaterialIcons
-              name="add-circle"
-              color={colors.primary}
-              size={20}
-              onPress={plus}
-            />
-            <Text>{amount}</Text>
-            <MaterialIcons
               name="remove-circle"
               color={colors.primary}
               size={20}
               onPress={min}
+            />
+            <Text>{amount}</Text>
+            <MaterialIcons
+              name="add-circle"
+              color={colors.primary}
+              size={20}
+              onPress={plus}
             />
           </PlusOrMin>
           <View>
@@ -116,5 +121,3 @@ const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
     </ModalBase>
   );
 };
-
-export default ModalItem;

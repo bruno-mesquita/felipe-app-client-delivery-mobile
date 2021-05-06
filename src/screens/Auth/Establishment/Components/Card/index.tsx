@@ -1,8 +1,8 @@
 import React, { useRef, useCallback } from 'react';
 
-import ModalItem from '../../../../../components/ModalItem';
+import { ModalItem, CardBase } from '@components';
+import formatNumber from '@utils/format-number';
 import { ModalBaseHandle } from '../../../../../components/ModalBase/props';
-import CardBase from '../../../../../components/CardBase';
 import { Props } from './props';
 import {
   Container,
@@ -12,7 +12,6 @@ import {
   Description,
   Price,
 } from './styles';
-import formatNumber from '../../../../../utils/format-number';
 
 export const Card = (props: Props) => {
   const modalItemRef = useRef<ModalBaseHandle>(null);
@@ -34,11 +33,15 @@ export const Card = (props: Props) => {
       <ModalItem
         modalRef={modalItemRef}
         {...props}
+        image={props.photo.encoded}
         description={formattedDescription(props.description)}
       />
       <CardBase onPress={openModal}>
         <Container>
-          <ImageProduct style={{ resizeMode: 'cover' }} source={props.image} />
+          <ImageProduct
+            style={{ resizeMode: 'cover' }}
+            source={{ uri: props.photo.encoded }}
+          />
           <Content>
             <Title>{props.name}</Title>
             <Description>{formattedDescription(props.description)}</Description>

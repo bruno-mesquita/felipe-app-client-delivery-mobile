@@ -2,12 +2,25 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["./src/components"],
+      "@form": ["./src/components/FormUtils"],
+      "@utils/*": ["./src/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@store/*": ["./src/store/*"]
+    },
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": false,
     "noImplicitAny": false
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }

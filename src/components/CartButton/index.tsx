@@ -4,11 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
+import { NavigationAuthHook } from '@utils/ScreenProps';
+
 import { ButtonAdd } from './styles';
 
-const CartButton = () => {
+export const CartButton = () => {
   const { colors } = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationAuthHook<any>>();
 
   const goCart = () => {
     navigation.navigate('Cart');
@@ -22,5 +24,3 @@ const CartButton = () => {
     </ButtonAdd>
   );
 };
-
-export default CartButton;

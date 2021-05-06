@@ -17,81 +17,83 @@ import {
 } from './styles';
 
 import { logout } from '../../store/ducks/auth/auth.actions';
-import api from '../../services/api';
+import { getApi } from '@services/api';
 
-const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
-  const dispatch = useDispatch();
+export const Drawer = memo(
+  (props: DrawerContentComponentProps<DrawerContentOptions>) => {
+    const dispatch = useDispatch();
 
-  const [avatar, setAvatar] = useState(null);
+    const [avatar, setAvatar] = useState(null);
 
-  const getAvatar = useCallback(async () => {
-    try {
-      const { data } = await api.post('/clients/me', {
-        selects: ['avatar'],
-      });
+    const getAvatar = useCallback(async () => {
+      try {
+        const api = getApi();
 
-      setAvatar(data.result.avatar);
-    } catch (err) {
-      setAvatar(null);
-    }
-  }, []);
+        const { data } = await api.post('/clients/me', {
+          selects: ['avatar'],
+        });
 
-  useEffect(() => {
-    getAvatar();
-  }, [getAvatar]);
+        setAvatar(data.result.avatar);
+      } catch (err) {
+        setAvatar(null);
+      }
+    }, []);
 
-  const goLogout = () => {
-    dispatch(logout());
-  };
+    useEffect(() => {
+      getAvatar();
+    }, [getAvatar]);
 
-  const goProfile = () => {
-    props.navigation.navigate('Profile');
-  };
+    const goLogout = () => {
+      dispatch(logout());
+    };
 
-  const goConfiguration = () => {
-    props.navigation.navigate('Configuration');
-  };
+    const goProfile = () => {
+      props.navigation.navigate('Profile');
+    };
 
-  const goAdresses = () => {
-    props.navigation.navigate('Address');
-  };
+    const goConfiguration = () => {
+      props.navigation.navigate('Configuration');
+    };
 
-  const goOrders = () => {
-    props.navigation.navigate('Orders');
-  };
+    const goAdresses = () => {
+      props.navigation.navigate('Address');
+    };
 
-  return (
-    <Container {...props}>
-      <User>
-        {avatar ? (
-          <UserAvatar source={{ uri: avatar }} />
-        ) : (
-          <MaterialIcons name="account-circle" size={125} color="#c4c4c4" />
-        )}
-      </User>
-      <List>
-        <ListItem onPress={goProfile}>
-          <ListItemText>Perfil</ListItemText>
-          <Divider />
-        </ListItem>
-        <ListItem onPress={goOrders}>
-          <ListItemText>Pedidos</ListItemText>
-          <Divider />
-        </ListItem>
-        <ListItem onPress={goAdresses}>
-          <ListItemText>Endereços</ListItemText>
-          <Divider />
-        </ListItem>
-        <ListItem onPress={goConfiguration}>
-          <ListItemText>Configurações</ListItemText>
-          <Divider />
-        </ListItem>
-        <ListItem onPress={goLogout}>
-          <ListItemText>Sair</ListItemText>
-        </ListItem>
-      </List>
-    </Container>
-  );
-};
+    const goOrders = () => {
+      props.navigation.navigate('Orders');
+    };
 
-export default memo(Drawer);
+    return (
+      <Container {...props}>
+        <User>
+          {avatar ? (
+            <UserAvatar source={{ uri: avatar }} />
+          ) : (
+            <MaterialIcons name="account-circle" size={125} color="#c4c4c4" />
+          )}
+        </User>
+        <List>
+          <ListItem onPress={goProfile}>
+            <ListItemText>Perfil</ListItemText>
+            <Divider />
+          </ListItem>
+          <ListItem onPress={goOrders}>
+            <ListItemText>Pedidos</ListItemText>
+            <Divider />
+          </ListItem>
+          <ListItem onPress={goAdresses}>
+            <ListItemText>Endereços</ListItemText>
+            <Divider />
+          </ListItem>
+          <ListItem onPress={goConfiguration}>
+            <ListItemText>Configurações</ListItemText>
+            <Divider />
+          </ListItem>
+          <ListItem onPress={goLogout}>
+            <ListItemText>Sair</ListItemText>
+          </ListItem>
+        </List>
+      </Container>
+    );
+  },
+);

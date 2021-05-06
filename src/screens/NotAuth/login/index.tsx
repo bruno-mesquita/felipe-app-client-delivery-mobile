@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import { Field, FieldSecure } from '../../../components/FormUtils';
 import { Button } from '../../../components';
@@ -20,13 +19,13 @@ import {
   StayConnect,
 } from './styles';
 
-import { requestLogin } from '../../../store/ducks/auth/auth.actions';
+import { ScreenNotAuthProps } from '@utils/ScreenProps';
+import { requestLogin } from '@store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
-const Login = () => {
+export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const { loading } = useSelector(({ auth }) => auth);
 
@@ -35,7 +34,7 @@ const Login = () => {
   };
 
   const forgotPassword = () => {
-    navigation.navigate('Forgotpassword');
+    navigation.navigate('ForgotPassword');
   };
 
   const goRegister = () => {
@@ -88,7 +87,11 @@ const Login = () => {
             </StayConnect>
 
             <ContainerButton>
-              <Button loading={loading} onPress={() => handleSubmit()}>
+              <Button
+                disabled={loading}
+                loading={loading}
+                onPress={() => handleSubmit()}
+              >
                 Login
               </Button>
               <Button onPress={goRegister}>Criar conta</Button>
@@ -99,5 +102,3 @@ const Login = () => {
     </Layout>
   );
 };
-
-export default Login;

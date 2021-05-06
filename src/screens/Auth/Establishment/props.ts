@@ -3,7 +3,9 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  image: any;
+  photo: {
+    encoded: string;
+  };
 }
 
 export interface Menu {

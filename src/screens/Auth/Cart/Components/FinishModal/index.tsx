@@ -1,36 +1,38 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Alert } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import ModalBase from '../../../../../components/ModalBase';
+import { ModalBase, Button } from '@components';
+import { Field, Select } from '@form';
+import { getApi } from '@services/api';
+import { clearCart } from '../../../../../store/ducks/cart/cart.actions';
 import { ModalBaseProps } from '../../../../../components/ModalBase/props';
-import { Field, Select } from '../../../../../components/FormUtils';
-import Button from '../../../../../components/ModalButton';
-import { Checkbox } from '../Checkbox';
+import { NavigationAuthHook } from '@utils/ScreenProps';
 
 import { Container, Content, Header } from './styles';
-import api from '../../../../../services/api';
-
 import paymentsOptions from './paymentOptions';
 import schema from './schema';
 
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationAuthHook<'Cart'>>();
+  const dispatch = useDispatch();
   const { colors } = useTheme();
+  const api = getApi();
 
   const { establishmentId, items, total } = useSelector(({ cart }) => cart);
 
+  const [loading, setLoading] = useState(false);
   const [payments, setPayments] = useState<Item[]>([]);
   const [adresses, setAdresses] = useState<any[]>([]);
   const [options, setOptions] = useState({
-    address: '',
+    address_id: '',
     payment: '',
     transshipment: '0',
-    invoice: false,
+    note: '',
   });
 
   const getAdresses = useCallback(async () => {
@@ -41,14 +43,14 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
         data.result.map(item => ({
           label: item.nickname,
           value: item.id,
-          city: item.city,
+          city: item.city.name,
           active: item.active,
         })),
       );
 
       setOptions(old => ({
         ...old,
-        address: data.result.find(item => item.active === true).id,
+        address_id: data.result.find(item => item.active === true).id,
       }));
     } catch (err) {
       Alert.alert('Erro ao buscar endereços');
@@ -67,12 +69,12 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const onChangeCity = (value: number) => {
     const item = adresses.find(item => item.value === value);
 
-    const currentItem = adresses.find(e => e.value === options.address);
+    const currentItem = adresses.find(e => e.value === options.address_id);
 
     if (item.city !== currentItem.city) {
-      Alert.alert('Você nã pode escolher um endereço de outra cidade');
+      Alert.alert('Você não pode escolher um endereço de outra cidade');
     } else {
-      setOptions(old => ({ ...old, address: value as any }));
+      setOptions(old => ({ ...old, address_id: value as any }));
     }
   };
 
@@ -82,21 +84,36 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
 
   const purchase = async () => {
     try {
-      const valid = schema.isValidSync({ ...options, establishmentId });
+      setLoading(true);
 
-      if (!valid) throw new Error();
+      const body = {
+        ...options,
+        address_id: Number(options.address_id),
+        payment: options.payment,
+        transshipment: Number(options.transshipment),
+        establishment_id: establishmentId,
+        items,
+        total,
+      };
+
+      const isValid = schema.isValidSync(body);
+
+      if (!isValid) throw new Error();
 
       const { data } = await api.post('/orders', {
         ...options,
-        establishmentId,
+        establishment_id: establishmentId,
         items,
         total,
       });
 
+      dispatch(clearCart());
       navigation.navigate('TrackOrder', { id: data.result });
+      setLoading(false);
       onClose();
     } catch (err) {
-      Alert.alert('Erro ao faze pedido, reveja seus dados e tente novamente');
+      Alert.alert('Erro ao fazer pedido, reveja seus dados e tente novamente');
+      setLoading(false);
     }
   };
 
@@ -127,7 +144,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
           <Select
             label="Endereço de entrega"
             labelColor="#000"
-            value={options.address}
+            value={options.address_id}
             items={adresses}
             placeholder="Endereço"
             onChange={onChangeCity}
@@ -141,15 +158,10 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
               onChangeText={value => onChange(value, 'transshipment')}
             />
           ) : null}
-
-          <Checkbox
-            checked={options.invoice}
-            onChange={value => onChange(value, 'invoice')}
-          >
-            Nota fiscal
-          </Checkbox>
-          <View>
-            <Button onPress={purchase}>Comprar</Button>
+          <View style={{ paddingTop: 10 }}>
+            <Button disabled={loading} onPress={purchase}>
+              Comprar
+            </Button>
           </View>
         </Content>
       </Container>

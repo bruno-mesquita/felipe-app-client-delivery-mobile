@@ -11,28 +11,31 @@ const wait = require('../../../assets/images/esperando.png');
 const accept = require('../../../assets/images/pedido_aceito.png');
 const delivered = require('../../../assets/images/pedido_entregue.png');
 
-import api from '../../../services/api';
+import { getApi } from '@services/api';
 import { Container, Status, Icon, Title } from './styles';
+import { Alert } from 'react-native';
 
 export const TrackOrder = () => {
   const { id } = useRoute().params as { id: string };
 
   const [images] = useState([lineOne, lineTwo, lineThree, lineFour]);
   const [icons] = useState([accept, wait, way, delivered]);
-  const [texts] = useState([
-    'Pedido aceito',
+  const [status] = useState([
+    'Aceito',
     'Em preparo',
-    'A caminho',
+    'Saiu para entrega',
     'Entregue',
   ]);
   const [active, setActive] = useState(0);
   const [finish, setFinish] = useState(false);
   const [func, setFunc] = useState(null);
 
-  const nextActive = () => {
+  const nextActive = (value: string) => {
     setActive(old => {
+      const index = status.findIndex(s => value);
+
       if (old !== 3) {
-        return old + 1;
+        return index;
       }
       clearInterval(func);
       setFinish(true);
@@ -43,25 +46,31 @@ export const TrackOrder = () => {
   const verifyStatus = async () => {
     try {
       if (!finish) {
-        console.log('entrei');
-        /* const response = await api.get(`/orders/${id}`); */
+        const api = getApi();
+        const { data } = await api.get(`/orders/${id}/verify`);
 
-        nextActive();
+        console.log(id);
+
+        nextActive(data.result);
       }
     } catch (err) {
-      // Colocar um toast aqui
+      Alert.alert('Erro', 'Houve um erro ao atualizar o status do seu pedido');
     }
   };
 
   useEffect(() => {
-    setFunc(setInterval(verifyStatus, 2000));
+    const funcInterval = setInterval(verifyStatus, 2000);
+
+    setFunc(funcInterval);
+
+    return () => clearInterval(funcInterval);
   }, []);
 
   return (
     <Container>
       <Status source={images[active]} resizeMode="contain" />
       <Icon source={icons[active]} resizeMode="contain" />
-      <Title>{texts[active]}</Title>
+      <Title>{status[active]}</Title>
     </Container>
   );
 };

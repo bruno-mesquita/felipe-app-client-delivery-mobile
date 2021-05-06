@@ -1,23 +1,25 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Text, FlatList, RefreshControl, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
+import { getApi } from '@services/api';
+import { ScreenAuthProps } from '@utils/ScreenProps';
+
 import { Card } from './Components';
 import { Container, ButtonAdd, Empty } from './styles';
-import api from '../../../services/api';
 import { Address } from './props';
 
-const Adresses = () => {
+export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
   const { colors } = useTheme();
-  const navigation = useNavigation();
 
   const [adresses, setAdresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getAdresses = useCallback(async () => {
     try {
+      const api = getApi();
+
       const { data } = await api.get('/adresses-client');
 
       setAdresses(data.result);
@@ -52,7 +54,7 @@ const Adresses = () => {
         style={{ width: '100%' }}
         data={adresses}
         renderItem={({ item }) => <Card {...item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
       />
       <ButtonAdd onPress={addAddress}>
         <Text>
@@ -62,5 +64,3 @@ const Adresses = () => {
     </Container>
   );
 };
-
-export default Adresses;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { RemoveButton } from '../RemoveButton';
+import formatNumber from '@utils/format-number';
 
-import formatNumber from '../../../../../utils/format-number';
+import { RemoveButton } from '../RemoveButton';
 import {
   Container,
   Prices,
@@ -27,7 +27,7 @@ export const Card = ({
   return (
     <Container>
       <Content>
-        <Image source={image} resizeMode="cover" />
+        <Image source={{ uri: image }} resizeMode="cover" />
         <Info>
           <ViewButton>
             <RemoveButton id={itemId} />

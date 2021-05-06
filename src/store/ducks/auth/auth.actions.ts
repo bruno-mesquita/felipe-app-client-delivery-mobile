@@ -1,17 +1,11 @@
-import {
-  AUTH_LOGOUT,
-  AUTH_REQUEST_LOGIN,
-  AUTH_REQUEST_LOGIN_SUCCESS,
-  AUTH_REQUEST_LOGIN_FAILURE,
-  AuthActionTypes,
-} from './auth.types';
+import { AuthActionTypes } from './auth.types';
 
 export const requestLogin = (
   email: string,
   password: string,
   checked: boolean,
 ): AuthActionTypes => ({
-  type: AUTH_REQUEST_LOGIN,
+  type: '@auth/REQUEST_LOGIN',
   payload: { email, password, checked },
 });
 
@@ -20,15 +14,23 @@ export const requestLoginSuccess = (
   refreshToken: string,
   checked: boolean,
 ): AuthActionTypes => ({
-  type: AUTH_REQUEST_LOGIN_SUCCESS,
-  payload: { token, checked },
+  type: '@auth/REQUEST_LOGIN_SUCCESS',
+  payload: { token, checked, refreshToken },
 });
 
 export const requestLoginFailure = (errorMessage: string): AuthActionTypes => ({
-  type: AUTH_REQUEST_LOGIN_FAILURE,
+  type: '@auth/REQUEST_LOGIN_FAILURE',
   payload: { errorMessage },
 });
 
 export const logout = (): AuthActionTypes => ({
-  type: AUTH_LOGOUT,
+  type: '@auth/LOGOUT',
+});
+
+export const requestRefreshTokenSuccess = (
+  accessToken: string,
+  refreshToken: string,
+): AuthActionTypes => ({
+  type: '@auth/REFRESH_TOKEN_SUCCESS',
+  payload: { refreshToken, accessToken },
 });

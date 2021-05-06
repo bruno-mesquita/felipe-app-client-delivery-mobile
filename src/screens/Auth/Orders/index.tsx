@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
-import { AxiosError } from 'axios';
+
+import { getApi } from '@services/api';
 
 import { NoOrders, Card } from './Components';
-
-import api from '../../../services/api';
 import styles from './styles';
 
 export const Orders = () => {
@@ -13,13 +12,14 @@ export const Orders = () => {
 
   const getOrders = useCallback(async () => {
     try {
+      const api = getApi();
+
       const { data } = await api.get('/clients/orders');
 
       setOrders(data.result);
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      const error = err as AxiosError;
       Alert.alert('Erro ao buscar os seus pedidos, tente novamente');
     }
   }, []);

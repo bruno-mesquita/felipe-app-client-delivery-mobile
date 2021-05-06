@@ -16,14 +16,14 @@ import {
   ContainerInput,
   ContainerButton,
 } from './styles';
-import api from '../../../services/api';
+import { getApi } from '../../../services/api';
 
 interface Values {
   id: string;
   code: string;
 }
 
-const CodeToRegister = ({ route }) => {
+export const CodeToRegister = ({ route }) => {
   const navigation = useNavigation();
 
   const codeValue: Values = {
@@ -33,7 +33,7 @@ const CodeToRegister = ({ route }) => {
 
   const onSubmit = async (values: Values) => {
     try {
-      console.log(values);
+      const api = getApi();
 
       const { status } = await api.post('/clients/activate', values);
 
@@ -90,5 +90,3 @@ const CodeToRegister = ({ route }) => {
     </Container>
   );
 };
-
-export default CodeToRegister;

@@ -25,7 +25,6 @@ export const Info = styled.View`
 export const Image = styled.Image`
   height: 100%;
   width: ${width * 0.25}px;
-  border: 1px solid #c4c4c4;
   border-radius: 11px;
 `;
 

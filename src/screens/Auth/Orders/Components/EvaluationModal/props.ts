@@ -1,6 +1,6 @@
 import { ModalBaseProps } from '../../../../../components/ModalBase/props';
 
 export interface EvaluationProps extends ModalBaseProps {
-  orderId: string;
+  orderId: number;
   rate?: number;
 }

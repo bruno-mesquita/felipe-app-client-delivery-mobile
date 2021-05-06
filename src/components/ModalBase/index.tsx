@@ -9,7 +9,7 @@ import { Modal, View } from 'react-native';
 import { ModalBaseHandle, Props } from './props';
 import { Container, styles } from './styles';
 
-const ModalBase = forwardRef<ModalBaseHandle, Props>(
+export const ModalBase = forwardRef<ModalBaseHandle, Props>(
   ({ children, ...rest }, ref) => {
     const [visible, setVisible] = useState(false);
 
@@ -25,12 +25,10 @@ const ModalBase = forwardRef<ModalBaseHandle, Props>(
         visible={visible}
         {...rest}
       >
-        <Container activeOpacity={0}>
+        <Container>
           <View style={styles.modalView}>{children}</View>
         </Container>
       </Modal>
     );
   },
 );
-
-export default ModalBase;

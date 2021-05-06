@@ -2,12 +2,12 @@ import React from 'react';
 import { Alert } from 'react-native';
 import { FormikHelpers, Formik } from 'formik';
 
-import { AddressForm } from '../../../components';
+import { AddressForm } from '@components';
+import { getApi } from '@services/api';
 
-import api from '../../../services/api';
 import { Container } from './styles';
 
-const AddAddress = () => {
+export const AddAddress = () => {
   const initialValues = {
     nickname: '',
     cep: '',
@@ -23,6 +23,8 @@ const AddAddress = () => {
     { resetForm }: FormikHelpers<typeof initialValues>,
   ) => {
     try {
+      const api = getApi();
+
       await api.post('/adresses-client', values);
 
       Alert.alert('Endereço adicionado com sucesso');
@@ -42,5 +44,3 @@ const AddAddress = () => {
     </Container>
   );
 };
-
-export default AddAddress;

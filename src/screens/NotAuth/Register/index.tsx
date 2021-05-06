@@ -3,23 +3,18 @@ import { ScrollView, Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
+import { Field, Select, FieldMask, FieldSecure } from '@form';
+import { Button } from '@components';
+import { getApi } from '@services/api';
+import { ApiResult } from '@utils/ApiResult';
+import { ScreenNotAuthProps } from '@utils/ScreenProps';
+
 import { Layout } from '../_Layout';
-import {
-  Field,
-  Select,
-  FieldMask,
-  FieldSecure,
-} from '../../../components/FormUtils';
-import { Button } from '../../../components';
 import { Values } from './types';
-import api from '../../../services/api';
 import schema from './schema';
-
-import { ApiResult } from '../../../utils/ApiResult';
-
 import { ContentForm, DivField, Error } from './styles';
 
-const Register = ({ navigation }) => {
+export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
   const cpfInputRef = useRef<TextInputMasked>(null);
   const celInputRef = useRef<TextInputMasked>(null);
 
@@ -39,17 +34,19 @@ const Register = ({ navigation }) => {
     { setSubmitting }: FormikHelpers<Values>,
   ) => {
     try {
+      const api = getApi();
+
       const body = {
         ...values,
         cellphone: celInputRef.current?.getRawValue(),
         cpf: cpfInputRef.current?.getRawValue(),
       };
 
-      const { data } = await api.post<ApiResult<string>>('/clients', body);
+      const { data } = await api.post<ApiResult<number>>('/clients', body);
 
       setSubmitting(false);
 
-      navigation.navigate('Code', { id: data.result });
+      navigation.navigate('CodeToRegister', { id: data.result });
     } catch (err) {
       setSubmitting(false);
       Alert.alert('Erro ao criar o usuário, reveja seus dados');
@@ -176,5 +173,3 @@ const Register = ({ navigation }) => {
     </ScrollView>
   );
 };
-
-export default Register;

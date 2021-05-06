@@ -5,9 +5,9 @@ export const Container = styled.View`
 `;
 
 export const Content = styled.View`
-  width: 100%;
   flex: 1;
   align-items: center;
+  border: 1px solid;
 `;
 
 export const Divider = styled.View`

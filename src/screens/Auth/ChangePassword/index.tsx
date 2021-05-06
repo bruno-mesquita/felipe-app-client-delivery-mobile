@@ -2,14 +2,13 @@ import React from 'react';
 import { View, Alert } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 
-import { FieldSecure } from '../../../components/FormUtils';
-import { Button } from '../../../components';
-
-import api from '../../../services/api';
+import { FieldSecure } from '@form';
+import { Button } from '@components';
+import { getApi } from '@services/api';
 
 import { Container, ViewField, ViewForm, ViewFields } from './styles';
 
-const ChangePassword = () => {
+export const ChangePassword = () => {
   const initialValues = {
     currentPassword: '',
     newPassword: '',
@@ -19,6 +18,8 @@ const ChangePassword = () => {
   const onSubmit = async (values: typeof initialValues) => {
     try {
       if (values.newPassword === values.confirmNewPassword) {
+        const api = getApi();
+
         await api.put('/clients/update-password', values);
 
         Alert.alert('Senha atualizada');
@@ -79,5 +80,3 @@ const ChangePassword = () => {
     </Container>
   );
 };
-
-export default ChangePassword;

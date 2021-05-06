@@ -1,14 +1,19 @@
+import { Dimensions } from 'react-native';
+
 import styled from 'styled-components/native';
 
+const { width } = Dimensions.get('window');
+
 export const Container = styled.View`
-  width: 100%;
+  width: ${width * 0.8}px;
+  height: 100%;
   justify-content: space-between;
   flex-direction: row;
-  height: 100%;
 `;
 
 export const ImageProduct = styled.Image`
   height: 100%;
+  width: 35%;
   border-radius: 9px;
 `;
 
@@ -22,7 +27,7 @@ export const Content = styled.View`
 export const Title = styled.Text`
   color: #000;
   font-weight: bold;
-  align-self: flex-start;
+  align-self: center;
 `;
 
 export const Description = styled.Text`

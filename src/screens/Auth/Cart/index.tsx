@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useCallback } from 'react';
 import { FlatList } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button } from '../../../components/Button';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
@@ -18,8 +18,6 @@ import {
 } from './styles';
 
 export const Cart = () => {
-  const dispatch = useDispatch();
-
   // Estado Global
   const { fee, items, subTotal } = useSelector(({ cart }) => ({
     items: cart.items,

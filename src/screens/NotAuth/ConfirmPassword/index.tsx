@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
 
-import { Button } from '../../../components/Button';
-import { Field } from '../../../components/FormUtils';
+import { Button } from '@components';
+import { Field } from '@form';
+import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
 import {
   Container,
@@ -15,25 +15,17 @@ import {
   ContainerInput,
   ContainerButton,
 } from './styles';
+import { Values } from './props';
 
-interface Values {
-  newPassword: string;
-  confirmPassword: string;
-}
-
-const CodeToPassword = () => {
-  const navigation = useNavigation();
-
+export const CodeToPassword = ({
+  navigation,
+}: ScreenNotAuthProps<'CodeToPassword'>) => {
   const codeValue: Values = {
     newPassword: '',
     confirmPassword: '',
   };
 
   const onSubmit = (values: Values) => {
-    console.log(values);
-  };
-
-  const confirmCodeToPassword = () => {
     navigation.navigate('Login');
   };
 
@@ -68,7 +60,7 @@ const CodeToPassword = () => {
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={() => confirmCodeToPassword()}>Salvar</Button>
+                <Button onPress={() => handleSubmit()}>Salvar</Button>
               </ContainerButton>
             </ContentForm>
           )}
@@ -77,5 +69,3 @@ const CodeToPassword = () => {
     </Container>
   );
 };
-
-export default CodeToPassword;

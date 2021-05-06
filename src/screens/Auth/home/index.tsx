@@ -2,16 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Alert, RefreshControl } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 
-import CartButton from '../../../components/CartButton';
-import { NotFound, Card, FieldSearch, Tab } from './Components';
+import { CartButton } from '@components';
+import { getApi } from '@services/api';
 
-import api from '../../../services/api';
+import { NotFound, Card, FieldSearch, Tab } from './Components';
 import { Container, Content, Establishments } from './styles';
 import { Category, Establishment } from './props';
-import stores from './mock';
 
 export const Home = () => {
   const headerHeight = useHeaderHeight();
+  const api = getApi();
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [categorySelected, setCategorySelected] = useState<number | null>(null);
@@ -28,21 +28,27 @@ export const Home = () => {
       setCategorySelected(values[0].id);
       return values[0].id;
     } catch (err) {
-      Alert.alert('Erro ao buscar categorias, por favor tente novamente');
+      Alert.alert(
+        'Erro',
+        'Hgouve um erro ao buscar categorias, por favor tente novamente',
+      );
     }
   }, []);
 
   const getEstablishments = useCallback(async (categoryId: number) => {
     try {
-      /* const { data } = await api.get('/establishments', {
+      const { data } = await api.get('/establishments', {
         params: {
           categoryId,
         },
-      }); */
+      });
 
-      setEstablishments(stores);
+      setEstablishments(data.result);
     } catch (err) {
-      Alert.alert('Erro ao buscar estabelecimentos, por favor tente novamente');
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao buscar estabelecimentos, por favor tente novamente',
+      );
     }
   }, []);
 
@@ -56,7 +62,11 @@ export const Home = () => {
     try {
       setCategorySelected(id);
 
-      const { data } = await api.get(`/categories/${id}/establishments`);
+      const { data } = await api.get('/establishments', {
+        params: {
+          categoryId: id,
+        },
+      });
 
       setEstablishments(data.result);
     } catch (err) {

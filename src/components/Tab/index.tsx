@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components/native';
 import { Props } from './props';
 import { styles } from './styles';
 
-const Tab = ({ id, name, selected, onPress }: Props) => {
+export const Tab = ({ id, name, selected, onPress }: Props) => {
   const { colors } = useTheme();
   const [color, setColor] = useState({
     container: colors.secundary,
@@ -35,5 +35,3 @@ const Tab = ({ id, name, selected, onPress }: Props) => {
     </TouchableHighlight>
   );
 };
-
-export default Tab;

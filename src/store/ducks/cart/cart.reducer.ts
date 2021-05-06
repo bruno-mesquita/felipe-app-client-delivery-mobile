@@ -79,6 +79,15 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
         }
         break;
       }
+
+      case '@cart/CLEAR_CART': {
+        draft.items = [];
+        draft.fee = 0;
+        draft.total = 0;
+        draft.establishmentId = null;
+        break;
+      }
+
       default:
         break;
     }

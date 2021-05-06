@@ -3,17 +3,19 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 
-import CardBase from '../../../../../components/CardBase';
+import { CardBase } from '@components';
+import formatPrice from '@utils/format-number';
+import { NavigationAuthHook } from '@utils/ScreenProps';
+
 import { ModalBaseHandle } from '../../../../../components/ModalBase/props';
 import { Props } from './props';
 import { Container, Row } from './styles';
-import formatPrice from '../../../../../utils/format-number';
 import { EvaluationModal } from '../EvaluationModal';
 import { OrderInfoModal } from '../OrderInfoModal';
 import { StarIcon } from '../StarIcon';
 
 export const Card = ({ name, id, avaliation, date, total, active }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationAuthHook<'Orders'>>();
 
   const modalRateRef = useRef<ModalBaseHandle>(null);
   const modalInfoRef = useRef<ModalBaseHandle>(null);

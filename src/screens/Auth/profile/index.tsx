@@ -4,10 +4,9 @@ import { Formik, ErrorMessage } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import api from '../../../services/api';
-
-import { Field, FieldMask } from '../../../components/FormUtils';
-import { Button } from '../../../components';
+import { getApi } from '@services/api';
+import { Field, FieldMask } from '@form';
+import { Button } from '@components';
 
 import {
   Container,
@@ -21,8 +20,9 @@ import {
 
 import { UserProfile } from './props';
 
-const Profile = () => {
+export const Profile = () => {
   const [user, setUser] = useState<UserProfile>(null);
+  const api = getApi();
 
   const getUser = useCallback(async () => {
     try {
@@ -168,5 +168,3 @@ const Profile = () => {
     </Container>
   );
 };
-
-export default Profile;

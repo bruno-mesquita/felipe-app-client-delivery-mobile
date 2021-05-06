@@ -1,13 +1,12 @@
-import { object, string, number, boolean } from 'yup';
+import { object, string, number } from 'yup';
 
 const REQUIRED = 'Campo obrigatório';
 
 const schema = object({
-  addressId: number().required(REQUIRED),
-  establishmentId: number().required(REQUIRED),
+  address_id: number().required(REQUIRED),
+  establishment_id: number().required(REQUIRED),
   payment: string().required(REQUIRED),
   transshipment: number().required(REQUIRED).default(0),
-  invoice: boolean().default(false),
 });
 
 export default schema;
