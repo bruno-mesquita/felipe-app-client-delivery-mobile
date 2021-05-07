@@ -5,6 +5,9 @@ export interface Props {
   };
   total: number;
   createdAt: string;
-  evaluation: number;
+  evaluation: null | {
+    id: number;
+    value: number;
+  };
   order_status: string;
 }

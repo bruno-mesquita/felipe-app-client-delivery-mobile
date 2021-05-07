@@ -35,13 +35,13 @@ export const Card = ({
     if (order_status === 'Aberto' || order_status === 'Em andamento') {
       navigation.navigate('TrackOrder', { id });
     } else {
-      modalInfoRef.current?.open();
+      modalRateRef.current?.open();
     }
-  }, [id]);
+  }, []);
 
   const openModalInfo = useCallback(() => {
     modalInfoRef.current?.open();
-  }, [id]);
+  }, []);
 
   const Rate = () => {
     if (order_status === 'Aberto' || order_status === 'Em andamento')
@@ -49,12 +49,16 @@ export const Card = ({
 
     if (!evaluation) return <Text>Avaliar</Text>;
 
-    if (evaluation) return <StarIcon rate={evaluation} />;
+    if (evaluation) return <StarIcon rate={evaluation?.value} />;
   };
 
   return (
     <>
-      <EvaluationModal modalRef={modalRateRef} orderId={id} rate={evaluation} />
+      <EvaluationModal
+        orderId={id}
+        modalRef={modalRateRef}
+        id={evaluation ? evaluation?.id : undefined}
+      />
       <OrderInfoModal modalRef={modalInfoRef} orderId={id} />
       <CardBase onPress={openModalInfo}>
         <Container>

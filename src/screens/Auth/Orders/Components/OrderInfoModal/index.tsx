@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { AxiosError } from 'axios';
 
-import { ModalBase } from '@components';
+import { ModalBase, Button } from '@components';
 import { getApi } from '@services/api';
 
 import { Container } from './styles';
@@ -23,7 +23,9 @@ export const OrderInfoModal = ({ modalRef, orderId }: OrderInfoProps) => {
 
   return (
     <ModalBase ref={modalRef}>
-      <Container></Container>
+      <Container>
+        <Button onPress={onClose}>Fechar</Button>
+      </Container>
     </ModalBase>
   );
 };
