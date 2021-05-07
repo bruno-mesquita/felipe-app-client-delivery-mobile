@@ -14,39 +14,47 @@ import { EvaluationModal } from '../EvaluationModal';
 import { OrderInfoModal } from '../OrderInfoModal';
 import { StarIcon } from '../StarIcon';
 
-export const Card = ({ name, id, avaliation, date, total, active }: Props) => {
+export const Card = ({
+  establishment: { name },
+  id,
+  evaluation,
+  createdAt,
+  total,
+  order_status,
+}: Props) => {
   const navigation = useNavigation<NavigationAuthHook<'Orders'>>();
 
   const modalRateRef = useRef<ModalBaseHandle>(null);
   const modalInfoRef = useRef<ModalBaseHandle>(null);
 
-  const formattedDate = () => {
-    return format(parseISO(date), 'dd/MM/yyyy - HH:mm');
+  const formattedDate = (value: string) => {
+    return format(parseISO(value), 'dd/MM/yyyy - HH:mm');
   };
 
-  const openModalRate = useCallback(() => {
-    modalRateRef.current?.open();
-  }, []);
-
-  const openModalInfo = useCallback(() => {
-    if (active) {
+  const openModalRateOrTrack = useCallback(() => {
+    if (order_status === 'Aberto' || order_status === 'Em andamento') {
       navigation.navigate('TrackOrder', { id });
     } else {
       modalInfoRef.current?.open();
     }
   }, [id]);
 
+  const openModalInfo = useCallback(() => {
+    modalInfoRef.current?.open();
+  }, [id]);
+
   const Rate = () => {
-    if (active) return <Text>Acompanhar</Text>;
+    if (order_status === 'Aberto' || order_status === 'Em andamento')
+      return <Text>Acompanhar</Text>;
 
-    if (!avaliation) return <Text>Avaliar</Text>;
+    if (!evaluation) return <Text>Avaliar</Text>;
 
-    if (avaliation) return <StarIcon rate={avaliation} />;
+    if (evaluation) return <StarIcon rate={evaluation} />;
   };
 
   return (
     <>
-      <EvaluationModal modalRef={modalRateRef} orderId={id} rate={avaliation} />
+      <EvaluationModal modalRef={modalRateRef} orderId={id} rate={evaluation} />
       <OrderInfoModal modalRef={modalInfoRef} orderId={id} />
       <CardBase onPress={openModalInfo}>
         <Container>
@@ -57,8 +65,8 @@ export const Card = ({ name, id, avaliation, date, total, active }: Props) => {
             <Text>{formatPrice(total)}</Text>
           </Row>
           <Row>
-            <Text>{formattedDate()}</Text>
-            <TouchableOpacity onPress={openModalRate}>
+            <Text>{formattedDate(createdAt)}</Text>
+            <TouchableOpacity onPress={openModalRateOrTrack}>
               <Rate />
             </TouchableOpacity>
           </Row>

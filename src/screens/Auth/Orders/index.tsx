@@ -9,6 +9,8 @@ import styles from './styles';
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [finish, setFinish] = useState(false);
 
   const getOrders = useCallback(async () => {
     try {
@@ -28,16 +30,41 @@ export const Orders = () => {
     getOrders();
   }, [getOrders]);
 
+  const onRefresh = async () => {
+    setPage(0);
+    await getOrders();
+  };
+
+  const loadMore = async () => {
+    if (!finish) {
+      const newPage = page + 1;
+      setPage(newPage);
+
+      const api = getApi();
+
+      const { data } = await api.get('/clients/orders', {
+        params: { page: newPage },
+      });
+
+      if (data.result.length === 0) {
+        setFinish(true);
+      } else {
+        setOrders(old => [...old, ...data.result]);
+      }
+    }
+  };
+
   return (
     <FlatList
       contentContainerStyle={styles.flatlist}
       data={orders}
-      ListEmptyComponent={NoOrders}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => <Card {...item} />}
-      onRefresh={getOrders}
       refreshing={loading}
+      onRefresh={onRefresh}
+      ListEmptyComponent={NoOrders}
+      onEndReached={loadMore}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({ item }) => <Card {...item} />}
     />
   );
 };

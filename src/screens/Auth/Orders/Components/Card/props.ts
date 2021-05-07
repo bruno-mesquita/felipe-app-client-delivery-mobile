@@ -1,8 +1,10 @@
 export interface Props {
   id: number;
-  name: string;
+  establishment: {
+    name: string;
+  };
   total: number;
-  date: string;
-  avaliation: number;
-  active: boolean;
+  createdAt: string;
+  evaluation: number;
+  order_status: string;
 }

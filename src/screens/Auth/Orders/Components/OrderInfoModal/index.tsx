@@ -13,7 +13,6 @@ export const OrderInfoModal = ({ modalRef, orderId }: OrderInfoProps) => {
 
   useEffect(() => {
     const api = getApi();
-
     // api.get(`/orders/${orderId}`)
     setOrder({});
   }, []);
