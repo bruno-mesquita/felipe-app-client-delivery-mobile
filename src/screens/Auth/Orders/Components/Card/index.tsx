@@ -1,17 +1,15 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 
+import { useSelectedOrder } from '@contexts/OrderContext';
 import { CardBase } from '@components';
 import formatPrice from '@utils/format-number';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 
-import { ModalBaseHandle } from '../../../../../components/ModalBase/props';
 import { Props } from './props';
 import { Container, Row } from './styles';
-import { EvaluationModal } from '../EvaluationModal';
-import { OrderInfoModal } from '../OrderInfoModal';
 import { StarIcon } from '../StarIcon';
 
 export const Card = ({
@@ -21,11 +19,11 @@ export const Card = ({
   createdAt,
   total,
   order_status,
+  modalInfoRef,
+  modalRateRef,
 }: Props) => {
   const navigation = useNavigation<NavigationAuthHook<'Orders'>>();
-
-  const modalRateRef = useRef<ModalBaseHandle>(null);
-  const modalInfoRef = useRef<ModalBaseHandle>(null);
+  const { setSelectedItem } = useSelectedOrder();
 
   const formattedDate = (value: string) => {
     return format(parseISO(value), 'dd/MM/yyyy - HH:mm');
@@ -35,11 +33,16 @@ export const Card = ({
     if (order_status === 'Aberto' || order_status === 'Em andamento') {
       navigation.navigate('TrackOrder', { id });
     } else {
+      setSelectedItem({
+        orderId: id,
+        evaluationId: evaluation ? evaluation.id : null,
+      });
       modalRateRef.current?.open();
     }
   }, []);
 
   const openModalInfo = useCallback(() => {
+    setSelectedItem({ orderId: id, evaluationId: null });
     modalInfoRef.current?.open();
   }, []);
 
@@ -53,29 +56,21 @@ export const Card = ({
   };
 
   return (
-    <>
-      <EvaluationModal
-        orderId={id}
-        modalRef={modalRateRef}
-        id={evaluation ? evaluation?.id : undefined}
-      />
-      <OrderInfoModal modalRef={modalInfoRef} orderId={id} />
-      <CardBase onPress={openModalInfo}>
-        <Container>
-          <Row>
-            <View style={{ width: '70%' }}>
-              <Text>{name}</Text>
-            </View>
-            <Text>{formatPrice(total)}</Text>
-          </Row>
-          <Row>
-            <Text>{formattedDate(createdAt)}</Text>
-            <TouchableOpacity onPress={openModalRateOrTrack}>
-              <Rate />
-            </TouchableOpacity>
-          </Row>
-        </Container>
-      </CardBase>
-    </>
+    <CardBase onPress={openModalInfo}>
+      <Container>
+        <Row>
+          <View style={{ width: '70%' }}>
+            <Text>{name}</Text>
+          </View>
+          <Text>{formatPrice(total)}</Text>
+        </Row>
+        <Row>
+          <Text>{formattedDate(createdAt)}</Text>
+          <TouchableOpacity onPress={openModalRateOrTrack}>
+            <Rate />
+          </TouchableOpacity>
+        </Row>
+      </Container>
+    </CardBase>
   );
 };

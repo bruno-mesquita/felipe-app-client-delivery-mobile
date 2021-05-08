@@ -1,16 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
 
 import { getApi } from '@services/api';
-
-import { NoOrders, Card } from './Components';
+import { ScreenAuthProps } from '@utils/ScreenProps';
+import { OrderProvider } from '@contexts/OrderContext';
+import { ModalBaseHandle } from '../../../components/ModalBase/props';
+import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 import styles from './styles';
 
-export const Orders = () => {
+const OrdersScreen = (props: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [finish, setFinish] = useState(false);
+
+  const modalRateRef = useRef<ModalBaseHandle>(null);
+  const modalInfoRef = useRef<ModalBaseHandle>(null);
 
   const getOrders = useCallback(async () => {
     try {
@@ -55,16 +60,32 @@ export const Orders = () => {
   };
 
   return (
-    <FlatList
-      contentContainerStyle={styles.flatlist}
-      data={orders}
-      refreshing={loading}
-      onRefresh={onRefresh}
-      ListEmptyComponent={NoOrders}
-      onEndReached={loadMore}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={item => item.id.toString()}
-      renderItem={({ item }) => <Card {...item} />}
-    />
+    <>
+      <EvaluationModal modalRef={modalRateRef} />
+      <OrderInfoModal modalRef={modalInfoRef} />
+      <FlatList
+        contentContainerStyle={styles.flatlist}
+        data={orders}
+        refreshing={loading}
+        onRefresh={onRefresh}
+        ListEmptyComponent={NoOrders}
+        onEndReached={loadMore}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <Card
+            {...item}
+            modalInfoRef={modalInfoRef}
+            modalRateRef={modalRateRef}
+          />
+        )}
+      />
+    </>
   );
 };
+
+export const Orders = (props: ScreenAuthProps<'Orders'>) => (
+  <OrderProvider>
+    <OrdersScreen {...props} />
+  </OrderProvider>
+);

@@ -7,15 +7,17 @@ import { AxiosError } from 'axios';
 import { useTheme } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useSelectedOrder } from '@contexts/OrderContext';
 import { ModalBase, ModalButton } from '@components';
 import { getApi } from '@services/api';
 
 import { Container, Header } from './styles';
 import { EvaluationProps } from './props';
 
-export const EvaluationModal = ({ modalRef, id, orderId }: EvaluationProps) => {
+export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const { selectedItem } = useSelectedOrder();
 
   const [rate, setRate] = useState({ value: 0, message: '' });
 
@@ -23,13 +25,13 @@ export const EvaluationModal = ({ modalRef, id, orderId }: EvaluationProps) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get(`/rates/${id}`);
+      const { data } = await api.get(`/rates/${selectedItem.evaluationId}`);
 
       setRate(data.result);
     } catch (err) {
       navigation.goBack();
     }
-  }, []);
+  }, [selectedItem]);
 
   useEffect(() => {
     getRate();
@@ -51,7 +53,7 @@ export const EvaluationModal = ({ modalRef, id, orderId }: EvaluationProps) => {
     try {
       const api = getApi();
 
-      await api.post(`/orders/${orderId}/rate`, rate);
+      await api.post(`/orders/${selectedItem.orderId}/rate`, rate);
 
       modalRef.current?.close();
     } catch (err) {
@@ -95,7 +97,9 @@ export const EvaluationModal = ({ modalRef, id, orderId }: EvaluationProps) => {
             defaultRating={rate?.value || 0}
             onFinishRating={onFinishRating}
           />
-          {!id ? <ModalButton onPress={evaluate}>Avaliar</ModalButton> : null}
+          {!selectedItem.evaluationId ? (
+            <ModalButton onPress={evaluate}>Avaliar</ModalButton>
+          ) : null}
         </View>
       </Container>
     </ModalBase>

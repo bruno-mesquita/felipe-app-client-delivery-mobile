@@ -10,4 +10,6 @@ export interface Props {
     value: number;
   };
   order_status: string;
+  modalRateRef: any;
+  modalInfoRef: any;
 }

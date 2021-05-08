@@ -13,7 +13,8 @@
       "@utils/*": ["./src/utils/*"],
       "@services/*": ["./src/services/*"],
       "@screens/*": ["./src/screens/*"],
-      "@store/*": ["./src/store/*"]
+      "@store/*": ["./src/store/*"],
+      "@contexts/*": ["./src/contexts/*"]
     },
     "moduleResolution": "node",
     "noEmit": true,

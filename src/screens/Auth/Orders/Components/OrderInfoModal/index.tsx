@@ -1,31 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
-import { AxiosError } from 'axios';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Text } from 'react-native';
 
-import { ModalBase, Button } from '@components';
+import { Modal } from '@components';
 import { getApi } from '@services/api';
+import { useSelectedOrder } from '@contexts/OrderContext';
+import formatNumber from '@utils/format-number';
 
-import { Container } from './styles';
-import { OrderInfoProps } from './props';
+import { Container, Row, ProductsView } from './styles';
+import { OrderInfoProps, OrderInfo } from './props';
 
-export const OrderInfoModal = ({ modalRef, orderId }: OrderInfoProps) => {
-  const [order, setOrder] = useState<any>();
+export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
+  const { selectedItem, setSelectedItem } = useSelectedOrder();
 
-  useEffect(() => {
-    const api = getApi();
-    // api.get(`/orders/${orderId}`)
-    setOrder({});
-  }, []);
+  const [orderInfo, setOrderInfo] = useState<OrderInfo>();
 
   const onClose = () => {
     modalRef.current?.close();
+    setSelectedItem({ orderId: null, evaluationId: null });
   };
 
+  const getOrder = useCallback(async () => {
+    try {
+      if (selectedItem.orderId) {
+        const api = getApi();
+
+        const { data } = await api.get(`/orders/${selectedItem.orderId}`);
+
+        setOrderInfo(data.result);
+      }
+    } catch (err) {
+      onClose();
+    }
+  }, [selectedItem]);
+
+  useEffect(() => {
+    getOrder();
+  }, [getOrder]);
+
   return (
-    <ModalBase ref={modalRef}>
+    <Modal.Base ref={modalRef}>
       <Container>
-        <Button onPress={onClose}>Fechar</Button>
+        <Modal.Header onClose={onClose}>Detalhe do pedido</Modal.Header>
+        <Text>{`Endereço de entrega: ${orderInfo?.order.address_client.nickname}`}</Text>
+        <ProductsView>
+          {orderInfo?.items.map(item => (
+            <Row>
+              <Text>{`${item.quantity}x ${item.product.name}`}</Text>
+              <Text>{formatNumber(item.total)}</Text>
+            </Row>
+          ))}
+        </ProductsView>
+        <Text style={{ alignSelf: 'flex-end' }}>{`Total: ${formatNumber(
+          orderInfo?.order.total || 0,
+        )}`}</Text>
       </Container>
-    </ModalBase>
+    </Modal.Base>
   );
 };
