@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useCallback } from 'react';
-import { FlatList } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { Button } from '../../../components/Button';
@@ -31,8 +31,12 @@ export const Cart = () => {
   const total = useMemo(() => subTotal + fee, [subTotal]);
 
   const openModalOrder = useCallback(() => {
-    modalRef.current?.open();
-  }, []);
+    if (items.length === 0) {
+      Alert.alert('Aviso', 'Você não possui nenhum item no seu carrinho');
+    } else {
+      modalRef.current?.open();
+    }
+  }, [items]);
 
   const Footer = () => (
     <>
