@@ -1,6 +1,4 @@
-import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Header = styled.View`
   width: 70%;
@@ -9,8 +7,8 @@ export const Header = styled.View`
 `;
 
 export const Container = styled.View`
-  padding-left: ${getStatusBarHeight()}px;
-  padding-top: ${getStatusBarHeight()}px;
+  padding-left: 15px;
+  padding-top: 15px;
   width: 100%;
   flex-direction: row;
 `;
@@ -23,7 +21,7 @@ export const EstablishmentDetailTitle = styled.Text`
 
 export const EstablishmentDetailInfo = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 `;
 

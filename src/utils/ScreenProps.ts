@@ -26,6 +26,11 @@ export type NavigationAuthHook<R extends keyof ScreenAuthList> = NavigationProp<
   R
 >;
 
+export type RouteAuthHook<R extends keyof ScreenAuthList> = RouteProp<
+  ScreenAuthList,
+  R
+>;
+
 export interface ScreenAuthProps<R extends keyof ScreenAuthList> {
   route: RouteProp<ScreenAuthList, R>;
   navigation: NavigationProp<ScreenAuthList, R>;

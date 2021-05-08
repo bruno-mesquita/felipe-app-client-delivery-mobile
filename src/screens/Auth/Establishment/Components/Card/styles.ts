@@ -13,7 +13,7 @@ export const Container = styled.View`
 
 export const ImageProduct = styled.Image`
   height: 100%;
-  width: 35%;
+  width: 30%;
   border-radius: 9px;
 `;
 
@@ -21,7 +21,7 @@ export const Content = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  width: 65%;
+  width: 70%;
 `;
 
 export const Title = styled.Text`

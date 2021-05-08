@@ -63,6 +63,7 @@ export const Establishment = ({
           contentContainerStyle={{ paddingBottom: 10 }}
           showsHorizontalScrollIndicator={false}
           data={menus}
+          keyExtractor={item => item.id.toString()}
           horizontal
           renderItem={({ item }) => (
             <Tab {...item} onPress={onPressMenu} selected={menuSelected} />
@@ -71,6 +72,7 @@ export const Establishment = ({
 
         <FlatList
           showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
           data={products}
           renderItem={({ item }) => (
             <Card {...item} establishmentId={params.id} />
