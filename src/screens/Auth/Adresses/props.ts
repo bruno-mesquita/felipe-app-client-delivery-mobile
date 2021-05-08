@@ -5,7 +5,11 @@ export interface Address {
   number: string;
   neighborhood: string;
   cep: string;
-  city: string;
-  state: string;
+  city: {
+    name: string;
+    state: {
+      name: string;
+    };
+  };
   active: boolean;
 }

@@ -13,9 +13,20 @@ import { Address } from '../../props';
 export const Card = (props: Address) => {
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
 
-  const [address, setAddress] = useState<any>(null);
+  const [address, setAddress] = useState<Address>(null);
+  const [fieldDefault, setFieldDefault] = useState(false);
 
   useEffect(() => {
+    const fieldDefault = 'Não informado';
+
+    if (
+      props.street === fieldDefault &&
+      props.neighborhood === fieldDefault &&
+      props.number === fieldDefault
+    ) {
+      setFieldDefault(true);
+    }
+
     setAddress(props);
   }, [props]);
 
@@ -47,10 +58,14 @@ export const Card = (props: Address) => {
             <Nickname>{address?.nickname}</Nickname>
           </Header>
           <Body>
-            <Text>{`${address?.street}, ${address?.number} - ${address?.neighborhood}`}</Text>
+            {fieldDefault ? (
+              <Text>Endereço não informado</Text>
+            ) : (
+              <Text>{`${address?.street}, ${address?.number} - ${address?.neighborhood}`}</Text>
+            )}
           </Body>
           <Footer>
-            <Text>{`${address?.city} - ${address?.state}`}</Text>
+            <Text>{`${address?.city.name} - ${address?.city.state.name}`}</Text>
           </Footer>
         </Content>
       </Container>

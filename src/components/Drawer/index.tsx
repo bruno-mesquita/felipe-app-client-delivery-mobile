@@ -56,7 +56,7 @@ export const Drawer = memo(
     };
 
     const goAdresses = () => {
-      props.navigation.navigate('Address');
+      props.navigation.navigate('Adresses');
     };
 
     const goOrders = () => {

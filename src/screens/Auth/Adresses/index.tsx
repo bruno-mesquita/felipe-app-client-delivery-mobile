@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, FlatList, RefreshControl, Alert } from 'react-native';
+import { Text, FlatList, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
@@ -15,6 +15,8 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
 
   const [adresses, setAdresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [finish, setFinish] = useState(false);
 
   const getAdresses = useCallback(async () => {
     try {
@@ -43,12 +45,36 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
     </Empty>
   );
 
+  const onRefresh = async () => {
+    setPage(0);
+    await getAdresses();
+  };
+
+  const loadMore = async () => {
+    if (!finish) {
+      const newPage = page + 1;
+      setPage(newPage);
+
+      const api = getApi();
+
+      const { data } = await api.get('/adresses-client', {
+        params: { page: newPage },
+      });
+
+      if (data.result.length === 0) {
+        setFinish(true);
+      } else {
+        setAdresses(old => [...old, ...data.result]);
+      }
+    }
+  };
+
   return (
     <Container>
       <FlatList
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={getAdresses} />
-        }
+        refreshing={loading}
+        onRefresh={onRefresh}
+        onEndReached={loadMore}
         ListEmptyComponent={EmptyComponent}
         contentContainerStyle={{ width: '100%', alignItems: 'center' }}
         style={{ width: '100%' }}
@@ -57,9 +83,7 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
         keyExtractor={item => item.id.toString()}
       />
       <ButtonAdd onPress={addAddress}>
-        <Text>
-          <Ionicons name="add" size={30} color={colors.secundary} />
-        </Text>
+        <Ionicons name="add" size={30} color={colors.secundary} />
       </ButtonAdd>
     </Container>
   );
