@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, Alert } from 'react-native';
+import { FlatList, Alert, ScrollView } from 'react-native';
 
 import { CartButton, Tab } from '@components';
 import { getApi } from '@services/api';
@@ -15,6 +15,9 @@ export const Establishment = ({
   const [menuSelected, setMenuSelected] = useState<number>(null);
   const [menus, setMenus] = useState<Menu[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [finish, setFinish] = useState(false);
 
   const getMenus = useCallback(async () => {
     try {
@@ -24,6 +27,7 @@ export const Establishment = ({
       setMenus(data.result);
       setMenuSelected(data.result[0].id);
     } catch (err) {
+      setLoading(false);
       Alert.alert('Erro ao recuperar os dados do estabelecimento');
     }
   }, []);
@@ -35,7 +39,9 @@ export const Establishment = ({
       const { data } = await api.get(`/menus/${menuId}/products`);
 
       setProducts(data.result);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       Alert.alert('Erro ao recuperar os dados do estabelecimento');
     }
   }, []);
@@ -54,23 +60,56 @@ export const Establishment = ({
     setMenuSelected(id);
   };
 
+  const Header = () => (
+    <>
+      <EstablishmentInfo />
+      <Divider />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {menus.map(menu => (
+          <Tab
+            key={menu.id.toString()}
+            {...menu}
+            onPress={onPressMenu}
+            selected={menuSelected}
+          />
+        ))}
+      </ScrollView>
+    </>
+  );
+
+  const onRefresh = async () => {
+    setPage(0);
+    await getProducts(menuSelected);
+  };
+
+  const loadMore = async () => {
+    if (!finish) {
+      const newPage = page + 1;
+      setPage(newPage);
+
+      const api = getApi();
+
+      const { data } = await api.get('/adresses-client', {
+        params: { page: newPage },
+      });
+
+      if (data.result.length === 0) {
+        setFinish(true);
+      } else {
+        setProducts(old => [...old, ...data.result]);
+      }
+    }
+  };
+
   return (
     <Container>
       <Content>
-        <EstablishmentInfo />
-        <Divider />
         <FlatList
-          contentContainerStyle={{ paddingBottom: 10 }}
-          showsHorizontalScrollIndicator={false}
-          data={menus}
-          keyExtractor={item => item.id.toString()}
-          horizontal
-          renderItem={({ item }) => (
-            <Tab {...item} onPress={onPressMenu} selected={menuSelected} />
-          )}
-        />
-
-        <FlatList
+          refreshing={loading}
+          onRefresh={onRefresh}
+          onEndReached={loadMore}
+          ListHeaderComponent={Header}
+          ListHeaderComponentStyle={{ marginBottom: 15 }}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
           data={products}

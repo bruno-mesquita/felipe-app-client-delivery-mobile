@@ -1,13 +1,8 @@
-import { Dimensions } from 'react-native';
-
 import styled from 'styled-components/native';
 
-const { width } = Dimensions.get('window');
-
 export const Container = styled.View`
-  width: ${width * 0.8}px;
+  width: 100%;
   height: 100%;
-  justify-content: space-between;
   flex-direction: row;
 `;
 
@@ -32,6 +27,7 @@ export const Title = styled.Text`
 
 export const Description = styled.Text`
   color: #000;
+  align-self: flex-start;
 `;
 
 export const Price = styled.Text`

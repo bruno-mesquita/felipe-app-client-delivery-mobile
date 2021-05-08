@@ -36,7 +36,10 @@ export const Card = (props: Props) => {
         image={props.photo.encoded}
         description={formattedDescription(props.description)}
       />
-      <CardBase style={{ height: 100 }} onPress={openModal}>
+      <CardBase
+        style={{ height: 100, width: '90%', alignSelf: 'center' }}
+        onPress={openModal}
+      >
         <Container>
           <ImageProduct
             style={{ resizeMode: 'cover' }}
