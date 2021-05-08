@@ -4,6 +4,7 @@ import { Formik, ErrorMessage } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { ScreenAuthProps } from '@utils/ScreenProps';
 import { getApi } from '@services/api';
 import { Field, FieldMask } from '@form';
 import { Button } from '@components';
@@ -20,8 +21,9 @@ import {
 
 import { UserProfile } from './props';
 
-export const Profile = () => {
+export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
   const [user, setUser] = useState<UserProfile>(null);
+  const [loading, setLoading] = useState(false);
   const api = getApi();
 
   const getUser = useCallback(async () => {
@@ -32,7 +34,12 @@ export const Profile = () => {
 
       setUser(data.result);
     } catch (err) {
-      Alert.alert('Erro ao buscar dados do usuário');
+      Alert.alert('Erro', 'Houve um problema ao buscar seus dados', [
+        {
+          text: 'Sair',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     }
   }, []);
 
@@ -44,11 +51,14 @@ export const Profile = () => {
 
   const onSubmit = async (values: typeof initialValues) => {
     try {
+      setLoading(true);
       await api.put('/clients', values);
 
-      Alert.alert('Perfil atualizado com sucesso');
+      Alert.alert('Atualizado!', 'Perfil atualizado com sucesso');
+      setLoading(false);
     } catch (err) {
-      Alert.alert('Erro ao atualizar o perfil');
+      setLoading(false);
+      Alert.alert('Erro', 'Houve um erro ao atualizar o perfil');
     }
   };
 
@@ -65,6 +75,7 @@ export const Profile = () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert(
+        'Atenção!',
         'Precisamos da sua permissão para adicionar sua foto do perfil!',
       );
     }
@@ -93,7 +104,7 @@ export const Profile = () => {
         setUser(old => ({ ...old, avatar: encoded }));
       }
     } catch (err) {
-      Alert.alert('Erro ao atualizar imagem');
+      Alert.alert('Erro', 'Erro ao atualizar imagem');
     }
   };
 
@@ -158,7 +169,11 @@ export const Profile = () => {
               </ViewField>
             </ViewFields>
             <View>
-              <Button primaryColor onPress={() => handleSubmit()}>
+              <Button
+                loading={loading}
+                primaryColor
+                onPress={() => handleSubmit()}
+              >
                 Atualizar
               </Button>
             </View>

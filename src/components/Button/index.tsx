@@ -21,7 +21,10 @@ export const Button = ({
       primaryColor={primaryColor}
     >
       {loading ? (
-        <ActivityIndicator color={colors.primary} size={30} />
+        <ActivityIndicator
+          color={primaryColor ? colors.primary : colors.secundary}
+          size={30}
+        />
       ) : (
         <Text primaryColor={primaryColor}>{children}</Text>
       )}
