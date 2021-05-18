@@ -8,7 +8,7 @@ import { NavigationAuthHook } from '@utils/ScreenProps';
 import formatPrice from '@utils/format-number';
 
 import { Props } from './props';
-import { Container, Image, MyView, Time, FeeView } from './styles';
+import { Container, Image, MyView, Time } from './styles';
 
 export const Card = (props: Props) => {
   const navigation = useNavigation<NavigationAuthHook<'Home'>>();
@@ -23,27 +23,44 @@ export const Card = (props: Props) => {
   };
 
   return (
-    <CardBase onPress={toStoreDetail}>
+    <CardBase onPress={toStoreDetail} style={{ height: 90 }}>
       <Container>
         <MyView>
           <Image
             source={{ uri: props.image.encoded }}
             style={{ resizeMode: 'cover' }}
           />
-          <View style={{ width: '70%' }}>
+          <View
+            style={{
+              height: '100%',
+              justifyContent: 'center',
+              width: '40%',
+            }}
+          >
             <Text>{props.name}</Text>
           </View>
-        </MyView>
-        <MyView>
-          <Time>
-            {props.openingTime}h - {props.closingTime}h
-          </Time>
-          <FeeView>
-            <Text style={{ marginRight: 5 }}>
-              {formatPrice(props.freightValue)}
-            </Text>
-            <MaterialIcons name="motorcycle" size={25} />
-          </FeeView>
+          <View
+            style={{
+              height: '75%',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+            }}
+          >
+            <Time>
+              {props.openingTime}h - {props.closingTime}h
+            </Time>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ marginRight: 5 }}>
+                {formatPrice(props.freightValue)}
+              </Text>
+              <MaterialIcons name="motorcycle" size={25} />
+            </View>
+          </View>
         </MyView>
       </Container>
     </CardBase>

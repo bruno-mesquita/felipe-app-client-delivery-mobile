@@ -10,8 +10,8 @@ export const Container = styled.View`
 `;
 
 export const Image = styled.Image`
-  height: 50px;
-  width: 50px;
+  height: 65px;
+  width: 65px;
   border-radius: 100px;
 `;
 
@@ -26,9 +26,4 @@ export const MyView = styled.View`
 export const Time = styled.Text`
   color: green;
   font-weight: bold;
-`;
-
-export const FeeView = styled.View`
-  flex-direction: row;
-  align-items: center;
 `;
