@@ -8,7 +8,7 @@ export const Container = styled.View`
 
 export const ImageProduct = styled.Image`
   height: 100%;
-  width: 30%;
+  width: 28%;
   border-radius: 9px;
 `;
 

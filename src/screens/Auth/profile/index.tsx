@@ -72,8 +72,11 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
   };
 
   const permissions = useCallback(async () => {
+    const {
+      status: cameraStaus,
+    } = await ImagePicker.requestCameraPermissionsAsync();
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
+    if (status !== 'granted' || cameraStaus !== 'granted') {
       Alert.alert(
         'Atenção!',
         'Precisamos da sua permissão para adicionar sua foto do perfil!',
@@ -95,6 +98,7 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
 
       if (!result.cancelled) {
         const pathArray = result.uri.split('.') as string[];
+
         const ext = pathArray[pathArray.length - 1];
 
         const encoded = `data:image/${ext};base64,${result.base64}`;

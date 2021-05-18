@@ -17,8 +17,8 @@ export const Card = (props: Props) => {
   const modalItemRef = useRef<ModalBaseHandle>(null);
 
   const formattedDescription = (text: string) => {
-    if (text.length > 60) {
-      return `${text.substring(0, 60)}...`;
+    if (text.length > 40) {
+      return `${text.substring(0, 40)}...`;
     }
 
     return text;
@@ -37,7 +37,7 @@ export const Card = (props: Props) => {
         description={formattedDescription(props.description)}
       />
       <CardBase
-        style={{ height: 100, width: '90%', alignSelf: 'center' }}
+        style={{ height: 90, width: '90%', alignSelf: 'center' }}
         onPress={openModal}
       >
         <Container>
