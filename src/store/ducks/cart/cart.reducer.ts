@@ -88,6 +88,14 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
         break;
       }
 
+      case '@auth/LOGOUT': {
+        draft.items = [];
+        draft.fee = 0;
+        draft.total = 0;
+        draft.establishmentId = null;
+        break;
+      }
+
       default:
         break;
     }

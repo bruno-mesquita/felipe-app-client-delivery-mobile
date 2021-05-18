@@ -6,7 +6,7 @@ import { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import { ModalBase, Button } from '@components';
+import { ModalBase, ModalButton } from '@components';
 import { Field, Select } from '@form';
 import { getApi } from '@services/api';
 import { clearCart } from '../../../../../store/ducks/cart/cart.actions';
@@ -109,10 +109,14 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
 
       dispatch(clearCart());
       navigation.navigate('TrackOrder', { id: data.result });
-      setLoading(false);
+
       onClose();
     } catch (err) {
-      Alert.alert('Erro ao fazer pedido, reveja seus dados e tente novamente');
+      Alert.alert(
+        'Erro',
+        'Erro ao fazer pedido, reveja seus dados e tente novamente',
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -159,9 +163,9 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
             />
           ) : null}
           <View style={{ paddingTop: 10 }}>
-            <Button disabled={loading} onPress={purchase}>
+            <ModalButton disabled={loading} onPress={purchase}>
               Comprar
-            </Button>
+            </ModalButton>
           </View>
         </Content>
       </Container>

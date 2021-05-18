@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Button } from '../../../components/Button';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { Card, FinishModal } from './Components';
+import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import formatNumber from '../../../utils/format-number';
 import {
@@ -17,7 +18,7 @@ import {
   Divider,
 } from './styles';
 
-export const Cart = () => {
+export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
   // Estado Global
   const { fee, items, subTotal } = useSelector(({ cart }) => ({
     items: cart.items,
@@ -38,6 +39,8 @@ export const Cart = () => {
     }
   }, [items]);
 
+  const goBack = () => navigation.goBack();
+
   const Footer = () => (
     <>
       <ContainerInfo>
@@ -54,7 +57,14 @@ export const Cart = () => {
       </ContainerInfo>
       <ViewButton>
         <Button primaryColor onPress={openModalOrder}>
-          Proximo
+          Finalizar
+        </Button>
+        <Button
+          textProps={{ style: { fontSize: 18 } }}
+          primaryColor
+          onPress={goBack}
+        >
+          Continuar comprando
         </Button>
       </ViewButton>
     </>

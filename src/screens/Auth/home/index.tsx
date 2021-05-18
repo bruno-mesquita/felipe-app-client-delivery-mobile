@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, FlatList, Alert, RefreshControl } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { CartButton } from '@components';
 import { getApi } from '@services/api';
@@ -11,6 +12,7 @@ import { Category, Establishment } from './props';
 
 export const Home = () => {
   const headerHeight = useHeaderHeight();
+
   const api = getApi();
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
@@ -52,11 +54,13 @@ export const Home = () => {
     }
   }, []);
 
-  useEffect(() => {
-    getCategories().then(categoryId => {
-      getEstablishments(categoryId);
-    });
-  }, [getCategories, getEstablishments]);
+  useFocusEffect(
+    useCallback(() => {
+      getCategories().then(categoryId => {
+        getEstablishments(categoryId);
+      });
+    }, [getCategories, getEstablishments]),
+  );
 
   const onChangeCategory = async (id: number) => {
     try {

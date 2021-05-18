@@ -11,6 +11,7 @@ import { Menu, Product } from './props';
 
 export const Establishment = ({
   route: { params },
+  navigation,
 }: ScreenAuthProps<'Establishment'>) => {
   const [menuSelected, setMenuSelected] = useState<number>(null);
   const [menus, setMenus] = useState<Menu[]>([]);
@@ -25,10 +26,17 @@ export const Establishment = ({
       const { data } = await api.get(`/establishments/${params.id}/menus`);
 
       setMenus(data.result);
-      setMenuSelected(data.result[0].id);
+      setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
+      setLoading(false);
     } catch (err) {
       setLoading(false);
-      Alert.alert('Erro ao recuperar os dados do estabelecimento');
+
+      Alert.alert('Erro', 'Erro ao recuperar os dados do estabelecimento', [
+        {
+          text: 'Voltar',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     }
   }, []);
 
@@ -42,7 +50,10 @@ export const Establishment = ({
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      Alert.alert('Erro ao recuperar os dados do estabelecimento');
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao recuperar os dados do estabelecimento',
+      );
     }
   }, []);
 

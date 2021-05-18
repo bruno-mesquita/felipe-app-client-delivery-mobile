@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Image, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
@@ -24,6 +25,7 @@ import {
 export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const dispatch = useDispatch();
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
   const [total, setTotal] = useState(0);
   const [amount, setAmount] = useState(1);
@@ -65,6 +67,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
       }),
     );
     onCloseModal();
+    navigation.navigate('Cart');
   };
 
   return (

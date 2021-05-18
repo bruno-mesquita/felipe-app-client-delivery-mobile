@@ -10,6 +10,7 @@ export const Button = ({
   children,
   loading = false,
   style,
+  textProps,
   ...rest
 }: ButtonProps) => {
   const { colors } = useTheme();
@@ -26,7 +27,9 @@ export const Button = ({
           size={30}
         />
       ) : (
-        <Text primaryColor={primaryColor}>{children}</Text>
+        <Text {...textProps} primaryColor={primaryColor}>
+          {children}
+        </Text>
       )}
     </Container>
   );
