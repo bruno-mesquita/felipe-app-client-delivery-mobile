@@ -1,4 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
+import Constants from 'expo-constants';
+
 import { store } from '../store/store';
 
 import {
@@ -11,6 +13,9 @@ let api: AxiosInstance;
 const createApi = () => {
   api = axios.create({
     baseURL: 'http://192.168.1.102:3030/api/app',
+    headers: {
+      api_version: Constants.manifest.version,
+    },
   });
 
   api.interceptors.response.use(
