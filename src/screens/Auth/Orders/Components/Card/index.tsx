@@ -48,9 +48,9 @@ export const Card = ({
 
   const Rate = () => {
     if (order_status === 'Aberto' || order_status === 'Em andamento')
-      return <Text>Acompanhar</Text>;
+      return <Text style={{ color: `#FA7B14`, fontSize: 15 }}>Acompanhar</Text>;
 
-    if (!evaluation) return <Text>Avaliar</Text>;
+    if (!evaluation) return <Text style={{ color: `#03670D`, fontSize: 16 }}>Avaliar</Text>;
 
     if (evaluation) return <StarIcon rate={evaluation?.value} />;
   };
