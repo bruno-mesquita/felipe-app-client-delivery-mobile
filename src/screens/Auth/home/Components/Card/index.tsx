@@ -17,7 +17,7 @@ export const Card = (props: Props) => {
     navigation.navigate('Establishment', {
       id: props.id,
       image: props.image.encoded,
-      fee: null,
+      fee: props.freightValue,
       name: props.name,
     });
   };

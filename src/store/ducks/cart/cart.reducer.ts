@@ -14,7 +14,9 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
   return produce(state, draft => {
     switch (action.type) {
       case '@cart/ADD_ITEM': {
-        const { price, amount, establishmentId } = action.payload;
+        const { price, amount, establishmentId, fee } = action.payload;
+
+        draft.fee = fee;
 
         const add = () => {
           const total = price * amount;

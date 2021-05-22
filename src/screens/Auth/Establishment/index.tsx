@@ -125,7 +125,7 @@ export const Establishment = ({
           keyExtractor={item => item.id.toString()}
           data={products}
           renderItem={({ item }) => (
-            <Card {...item} establishmentId={params.id} />
+            <Card {...item} establishmentId={params.id} fee={params.fee} />
           )}
         />
       </Content>
