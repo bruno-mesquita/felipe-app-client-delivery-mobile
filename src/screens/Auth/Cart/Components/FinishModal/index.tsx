@@ -162,6 +162,15 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
               onChangeText={value => onChange(value, 'transshipment')}
             />
           ) : null}
+
+          <Field
+            label="Observação (campo não obrigatório)"
+            placeholder="Ex: Gostaria de informar que..."
+            labelColor="#000"
+            value={options.note}
+            onChangeText={value => onChange(value, 'note')}
+          />
+
           <View style={{ paddingTop: 10 }}>
             <ModalButton disabled={loading} onPress={purchase}>
               Comprar
