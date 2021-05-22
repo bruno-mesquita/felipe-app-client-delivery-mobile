@@ -32,7 +32,7 @@ export const Home = () => {
     } catch (err) {
       Alert.alert(
         'Erro',
-        'Hgouve um erro ao buscar categorias, por favor tente novamente',
+        'Houve um erro ao buscar categorias, por favor tente novamente',
       );
     }
   }, []);

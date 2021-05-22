@@ -12,6 +12,7 @@ export interface IAddItem {
   image: string;
   name: string;
   establishmentId: number;
+  fee: number;
 }
 
 export interface ClearCartAction {

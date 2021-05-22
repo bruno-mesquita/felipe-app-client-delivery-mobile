@@ -7,4 +7,5 @@ export interface Props {
   };
   price: number;
   establishmentId: number;
+  fee: number;
 }
