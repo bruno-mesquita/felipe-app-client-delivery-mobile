@@ -50,13 +50,13 @@ export const Card = ({
     if (order_status === 'Aberto' || order_status === 'Em andamento')
       return <Text style={{ color: `#FA7B14`, fontSize: 15 }}>Acompanhar</Text>;
 
-    if (order_status === 'Cancelado')
-      return <Text style={{ color: `#FA7B14`, fontSize: 15 }}>Cancelado</Text>;
-
-    if (!evaluation)
+    if (order_status === 'Cancelado') {
+      return <Text style={{ color: `#ff2401`, fontSize: 15 }}>Cancelado</Text>;
+    } else if (!evaluation) {
       return <Text style={{ color: `#03670D`, fontSize: 16 }}>Avaliar</Text>;
-
-    if (evaluation) return <StarIcon rate={evaluation?.value} />;
+    } else if (evaluation) {
+      return <StarIcon rate={evaluation?.value} />;
+    }
   };
 
   return (
