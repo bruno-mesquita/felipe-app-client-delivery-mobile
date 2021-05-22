@@ -32,7 +32,7 @@ export const Card = ({
   const openModalRateOrTrack = useCallback(() => {
     if (order_status === 'Aberto' || order_status === 'Em andamento') {
       navigation.navigate('TrackOrder', { id });
-    } else {
+    } else if (order_status !== 'Cancelado') {
       setSelectedItem({
         orderId: id,
         evaluationId: evaluation ? evaluation.id : null,
@@ -50,7 +50,11 @@ export const Card = ({
     if (order_status === 'Aberto' || order_status === 'Em andamento')
       return <Text style={{ color: `#FA7B14`, fontSize: 15 }}>Acompanhar</Text>;
 
-    if (!evaluation) return <Text style={{ color: `#03670D`, fontSize: 16 }}>Avaliar</Text>;
+    if (order_status === 'Cancelado')
+      return <Text style={{ color: `#FA7B14`, fontSize: 15 }}>Cancelado</Text>;
+
+    if (!evaluation)
+      return <Text style={{ color: `#03670D`, fontSize: 16 }}>Avaliar</Text>;
 
     if (evaluation) return <StarIcon rate={evaluation?.value} />;
   };
