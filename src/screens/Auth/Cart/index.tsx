@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useRef, useMemo, useCallback, useEffect } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
@@ -26,10 +26,14 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
     subTotal: cart.total,
   }));
 
+  useEffect(() => {
+    if (items.length === 0) navigation.goBack();
+  }, [items]);
+
   // Estado local
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const total = useMemo(() => subTotal + fee, [subTotal]);
+  const total = useMemo(() => Number(subTotal) + Number(fee), [subTotal]);
 
   const openModalOrder = useCallback(() => {
     if (items.length === 0) {
