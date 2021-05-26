@@ -1,64 +1,40 @@
-import React from 'react';
-import {
-  FontAwesome5,
-  AntDesign,
-  MaterialCommunityIcons,
-  Fontisto,
-  Entypo,
-} from '@expo/vector-icons';
+import React, { useCallback, useState } from 'react';
+import { Alert } from 'react-native';
 
-import { Container, DivContainer, DivCard, Button, Card, Text } from './styles';
+import { getApi } from '@services/api';
+import { CategoriesCards } from './components';
 
-export const Categories = () => {
+import { PropsCategories } from './types';
+import { Container, Tittle } from './styles';
+
+const Categories = () => {
+  const api = getApi();
+
+  const [categorySelected, setCategorySelected] = useState<number | null>(null);
+  const [categories, setCategories] = useState<PropsCategories[]>([]);
+
+  const getCategories = useCallback(async (): Promise<number> => {
+    try {
+      const { data } = await api.get('/categories');
+
+      const values = data.result.map(item => ({ ...item, loading: false }));
+
+      setCategories(values);
+      setCategorySelected(values[0].id);
+      return values[0].id;
+    } catch (err) {
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao buscar categorias, por favor tente novamente',
+      );
+    }
+  }, []);
+
   return (
     <Container>
-      <DivContainer>
-        <DivCard>
-          <Button>
-            <Card>
-              <FontAwesome5 name="hamburger" size={50} color="#fff" />
-            </Card>
-          </Button>
-          <Text>Restaurantes</Text>
-        </DivCard>
-
-        <DivCard>
-          <Card>
-            <AntDesign name="shoppingcart" size={50} color="#fff" />
-          </Card>
-          <Text>Mercados</Text>
-        </DivCard>
-
-        <DivCard>
-          <Card>
-            <MaterialCommunityIcons name="medical-bag" size={50} color="#fff" />
-          </Card>
-          <Text>Farmácias</Text>
-        </DivCard>
-      </DivContainer>
-
-      <DivContainer>
-        <DivCard>
-          <Card>
-            <FontAwesome5 name="candy-cane" size={50} color="#fff" />
-          </Card>
-          <Text>Conveniências</Text>
-        </DivCard>
-
-        <DivCard>
-          <Card>
-            <Fontisto name="shopping-store" size={50} color="#fff" />
-          </Card>
-          <Text>Lojas</Text>
-        </DivCard>
-
-        <DivCard>
-          <Card>
-            <Entypo name="drink" size={50} color="#fff" />
-          </Card>
-          <Text>Butecos</Text>
-        </DivCard>
-      </DivContainer>
+      <CategoriesCards />
     </Container>
   );
 };
+
+export { Categories };
