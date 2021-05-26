@@ -3,6 +3,7 @@ import { RouteProp, NavigationProp } from '@react-navigation/native';
 export type ScreenAuthList = {
   Home: any;
   Profile: any;
+  Categories: any;
   ChangePassword: any;
   Adresses: any;
   AddAddress: any;

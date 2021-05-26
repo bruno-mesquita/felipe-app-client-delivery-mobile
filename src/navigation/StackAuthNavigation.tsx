@@ -8,6 +8,7 @@ import { ScreenAuthList } from '@utils/ScreenProps';
 import {
   Home,
   Profile,
+  Categories,
   ChangePassword,
   Adresses,
   AddAddress,
@@ -51,7 +52,7 @@ const headerOptions = (name: string) =>
   } as any);
 
 export const StackAuthNavigation = ({ navigation }) => (
-  <Navigator initialRouteName="Home">
+  <Navigator initialRouteName="Categories">
     <Screen
       name="Home"
       component={Home}
@@ -123,6 +124,12 @@ export const StackAuthNavigation = ({ navigation }) => (
       options={{
         headerShown: false,
       }}
+    />
+
+    <Screen
+      name="Categories"
+      component={Categories}
+      options={{ ...headerOptions('Categorias') }}
     />
   </Navigator>
 );
