@@ -54,6 +54,16 @@ const headerOptions = (name: string) =>
 export const StackAuthNavigation = ({ navigation }) => (
   <Navigator initialRouteName="Categories">
     <Screen
+      name="Categories"
+      component={Categories}
+      options={{
+        ...headerOptions(''),
+        headerTitle: () => <Header />,
+        headerLeft: () => <Menu openDrawer={navigation.openDrawer} />,
+      }}
+    />
+
+    <Screen
       name="Home"
       component={Home}
       options={{
@@ -124,12 +134,6 @@ export const StackAuthNavigation = ({ navigation }) => (
       options={{
         headerShown: false,
       }}
-    />
-
-    <Screen
-      name="Categories"
-      component={Categories}
-      options={{ ...headerOptions('Categorias') }}
     />
   </Navigator>
 );

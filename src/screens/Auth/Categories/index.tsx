@@ -1,7 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import React from 'react';
 
-import { getApi } from '@services/api';
 import { CategoriesCards } from './components';
 
 import {
@@ -10,50 +8,32 @@ import {
   MaterialCommunityIcons,
   Fontisto,
   Entypo,
+  Ionicons,
 } from '@expo/vector-icons';
 
-import { PropsCategories } from './types';
 import { Container, DivContainer } from './styles';
 
-const Categories = () => {
-  const api = getApi();
-
-  const [categorySelected, setCategorySelected] = useState<number | null>(null);
-  const [categories, setCategories] = useState<PropsCategories[]>([]);
-
-  const getCategories = useCallback(async (): Promise<number> => {
-    try {
-      const { data } = await api.get('/categories');
-
-      const values = data.result.map(item => ({ ...item, loading: false }));
-
-      setCategories(values);
-      setCategorySelected(values[0].id);
-      return values[0].id;
-    } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Houve um erro ao buscar categorias, por favor tente novamente',
-      );
-    }
-  }, []);
+const Categories = ({ navigation }) => {
+  const listCategory = (categoryName: string) => {
+    navigation.navigate('Home', { categoryName });
+  };
 
   return (
     <Container>
       <DivContainer>
         <CategoriesCards
           name="Restaurantes"
-          onClick={getCategories}
-          children={<FontAwesome5 name="hamburger" size={50} color="#fff" />}
+          onClick={() => listCategory('Restaurantes')}
+          children={<Ionicons name="restaurant" size={50} color="#fff" />}
         />
         <CategoriesCards
           name="Mercados"
-          onClick={getCategories}
+          onClick={() => listCategory('Mercados')}
           children={<AntDesign name="shoppingcart" size={50} color="#fff" />}
         />
         <CategoriesCards
           name="Farmácias"
-          onClick={getCategories}
+          onClick={() => listCategory('Farmácias')}
           children={
             <MaterialCommunityIcons name="medical-bag" size={50} color="#fff" />
           }
@@ -63,18 +43,42 @@ const Categories = () => {
       <DivContainer>
         <CategoriesCards
           name="Conveniências"
-          onClick={getCategories}
+          onClick={() => listCategory('Conveniências')}
           children={<FontAwesome5 name="candy-cane" size={50} color="#fff" />}
         />
         <CategoriesCards
           name="Lojas"
-          onClick={getCategories}
+          onClick={() => listCategory('Lojas')}
           children={<Fontisto name="shopping-store" size={50} color="#fff" />}
         />
         <CategoriesCards
           name="Butecos"
-          onClick={getCategories}
+          onClick={() => listCategory('Butecos' || 'Bares')}
           children={<Entypo name="drink" size={50} color="#fff" />}
+        />
+      </DivContainer>
+
+      <DivContainer>
+        <CategoriesCards
+          name="Lanchonetes"
+          onClick={() => listCategory('Lanchonetes')}
+          children={<FontAwesome5 name="hamburger" size={50} color="#fff" />}
+        />
+        <CategoriesCards
+          name="Pizzarias"
+          onClick={() => listCategory('Pizzarias')}
+          children={<Ionicons name="pizza-outline" size={50} color="#fff" />}
+        />
+        <CategoriesCards
+          name="Padarias"
+          onClick={() => listCategory('Padarias')}
+          children={
+            <MaterialCommunityIcons
+              name="bread-slice-outline"
+              size={50}
+              color="#fff"
+            />
+          }
         />
       </DivContainer>
     </Container>
