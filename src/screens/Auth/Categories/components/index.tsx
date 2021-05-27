@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Container, DivContainer, DivCard, Button, Card, Text } from './styles';
 
 interface Props {
   name: string;
-  children: any;
-  onClick: any;
+  children: ReactNode;
+  onClick: () => void;
 }
 
 export const CategoriesCards = ({ name, children, onClick }: Props) => {

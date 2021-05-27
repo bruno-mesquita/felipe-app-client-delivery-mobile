@@ -2,14 +2,13 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 10px;
 `;
 
 export const DivContainer = styled.View`
   height: 100px;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  margin-top: 10%;
+  align-items: center;
 `;
 
 export const DivCard = styled.View`
@@ -17,11 +16,11 @@ export const DivCard = styled.View`
 `;
 
 export const Card = styled.View`
-  width: 100px;
-  height: 100%;
+  width: 80px;
+  height: 86%;
   align-items: center;
   justify-content: center;
-  border-radius: 49px;
+  border-radius: 60px;
 
   background-color: #ecb241;
 `;

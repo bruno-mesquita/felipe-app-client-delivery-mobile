@@ -11,9 +11,10 @@ import {
   Ionicons,
 } from '@expo/vector-icons';
 
+import { ScreenAuthProps } from '../../../utils/ScreenProps';
 import { Container, DivContainer } from './styles';
 
-const Categories = ({ navigation }) => {
+const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
   const listCategory = (categoryName: string) => {
     navigation.navigate('Home', { categoryName });
   };
@@ -24,62 +25,70 @@ const Categories = ({ navigation }) => {
         <CategoriesCards
           name="Restaurantes"
           onClick={() => listCategory('Restaurantes')}
-          children={<Ionicons name="restaurant" size={50} color="#fff" />}
-        />
+        >
+          <Ionicons name="restaurant" size={35} color="#fff" />
+        </CategoriesCards>
+
         <CategoriesCards
           name="Mercados"
           onClick={() => listCategory('Mercados')}
-          children={<AntDesign name="shoppingcart" size={50} color="#fff" />}
-        />
+        >
+          <AntDesign name="shoppingcart" size={35} color="#fff" />
+        </CategoriesCards>
+
         <CategoriesCards
           name="Farmácias"
           onClick={() => listCategory('Farmácias')}
-          children={
-            <MaterialCommunityIcons name="medical-bag" size={50} color="#fff" />
-          }
-        />
+        >
+          <MaterialCommunityIcons name="medical-bag" size={35} color="#fff" />
+        </CategoriesCards>
       </DivContainer>
 
       <DivContainer>
         <CategoriesCards
           name="Conveniências"
           onClick={() => listCategory('Conveniências')}
-          children={<FontAwesome5 name="candy-cane" size={50} color="#fff" />}
-        />
+        >
+          <FontAwesome5 name="candy-cane" size={35} color="#fff" />
+        </CategoriesCards>
+
+        <CategoriesCards name="Lojas" onClick={() => listCategory('Lojas')}>
+          <Fontisto name="shopping-store" size={35} color="#fff" />
+        </CategoriesCards>
+
         <CategoriesCards
-          name="Lojas"
-          onClick={() => listCategory('Lojas')}
-          children={<Fontisto name="shopping-store" size={50} color="#fff" />}
-        />
-        <CategoriesCards
-          name="Butecos"
-          onClick={() => listCategory('Butecos' || 'Bares')}
-          children={<Entypo name="drink" size={50} color="#fff" />}
-        />
+          name="Bares"
+          onClick={() => listCategory('Bares' || 'Butecos')}
+        >
+          <Entypo name="drink" size={35} color="#fff" />
+        </CategoriesCards>
       </DivContainer>
 
       <DivContainer>
         <CategoriesCards
           name="Lanchonetes"
           onClick={() => listCategory('Lanchonetes')}
-          children={<FontAwesome5 name="hamburger" size={50} color="#fff" />}
-        />
+        >
+          <FontAwesome5 name="hamburger" size={35} color="#fff" />
+        </CategoriesCards>
+
         <CategoriesCards
           name="Pizzarias"
           onClick={() => listCategory('Pizzarias')}
-          children={<Ionicons name="pizza-outline" size={50} color="#fff" />}
-        />
+        >
+          <Ionicons name="pizza-outline" size={35} color="#fff" />
+        </CategoriesCards>
+
         <CategoriesCards
           name="Padarias"
           onClick={() => listCategory('Padarias')}
-          children={
-            <MaterialCommunityIcons
-              name="bread-slice-outline"
-              size={50}
-              color="#fff"
-            />
-          }
-        />
+        >
+          <MaterialCommunityIcons
+            name="bread-slice-outline"
+            size={35}
+            color="#fff"
+          />
+        </CategoriesCards>
       </DivContainer>
     </Container>
   );

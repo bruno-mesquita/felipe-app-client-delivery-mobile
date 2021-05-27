@@ -5,12 +5,13 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { CartButton } from '@components';
 import { getApi } from '@services/api';
+import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import { NotFound, Card, FieldSearch, Tab } from './Components';
 import { Container, Content, Establishments } from './styles';
 import { Category, Establishment } from './props';
 
-export const Home = () => {
+export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
   const headerHeight = useHeaderHeight();
 
   const api = getApi();
@@ -41,7 +42,7 @@ export const Home = () => {
     try {
       const { data } = await api.get('/establishments', {
         params: {
-          categoryId,
+          params,
         },
       });
 
