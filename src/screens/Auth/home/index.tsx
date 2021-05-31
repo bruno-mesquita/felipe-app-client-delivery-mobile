@@ -18,31 +18,13 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [categorySelected, setCategorySelected] = useState<number | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  const getCategories = useCallback(async (): Promise<number> => {
-    try {
-      const { data } = await api.get('/categories');
-
-      const values = data.result.map(item => ({ ...item, loading: false }));
-
-      setCategories(values);
-      setCategorySelected(values[0].id);
-      return values[0].id;
-    } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Houve um erro ao buscar categorias, por favor tente novamente',
-      );
-    }
-  }, []);
-
-  const getEstablishments = useCallback(async (categoryId: number) => {
+  const getEstablishments = useCallback(async () => {
     try {
       const { data } = await api.get('/establishments', {
         params: {
-          params,
+          category: params.categoryName,
         },
       });
 
@@ -57,10 +39,8 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
 
   useFocusEffect(
     useCallback(() => {
-      getCategories().then(categoryId => {
-        getEstablishments(categoryId);
-      });
-    }, [getCategories, getEstablishments]),
+      getEstablishments();
+    }, [getEstablishments]),
   );
 
   const onChangeCategory = async (id: number) => {
@@ -75,7 +55,10 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
 
       setEstablishments(data.result);
     } catch (err) {
-      console.log(err.response);
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao buscar as categorias, por favor tente novamente',
+      );
     }
   };
 
@@ -85,10 +68,8 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    getCategories().then(categoryId => {
-      getEstablishments(categoryId);
-      setRefreshing(false);
-    });
+    getEstablishments();
+    setRefreshing(false);
   };
 
   const ContentRefresh = (
@@ -105,7 +86,7 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
         <FlatList
           contentContainerStyle={{ paddingVertical: 30 }}
           showsHorizontalScrollIndicator={false}
-          data={categories}
+          data={null}
           horizontal
           keyExtractor={({ id }) => String(id)}
           renderItem={({ item }) => (
