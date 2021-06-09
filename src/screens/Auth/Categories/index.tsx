@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 
 import { CategoriesCards } from './components';
 
@@ -7,7 +8,6 @@ import {
   AntDesign,
   MaterialCommunityIcons,
   Fontisto,
-  Entypo,
   Ionicons,
 } from '@expo/vector-icons';
 
@@ -21,6 +21,18 @@ const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
   return (
     <Container>
+      <Text
+        style={{
+          color: '#000',
+          alignSelf: 'center',
+          fontSize: 20,
+          fontWeight: 'bold',
+          textTransform: 'uppercase',
+        }}
+      >
+        Categorias
+      </Text>
+
       <DivContainer>
         <CategoriesCards
           name="Restaurantes"
@@ -46,26 +58,6 @@ const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
       <DivContainer>
         <CategoriesCards
-          name="Conveniências"
-          onClick={() => listCategory('Conveniências')}
-        >
-          <FontAwesome5 name="candy-cane" size={35} color="#fff" />
-        </CategoriesCards>
-
-        <CategoriesCards name="Lojas" onClick={() => listCategory('Lojas')}>
-          <Fontisto name="shopping-store" size={35} color="#fff" />
-        </CategoriesCards>
-
-        <CategoriesCards
-          name="Bares"
-          onClick={() => listCategory('Bares' || 'Butecos')}
-        >
-          <Entypo name="drink" size={35} color="#fff" />
-        </CategoriesCards>
-      </DivContainer>
-
-      <DivContainer>
-        <CategoriesCards
           name="Lanchonetes"
           onClick={() => listCategory('Lanchonetes')}
         >
@@ -79,15 +71,8 @@ const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
           <Ionicons name="pizza-outline" size={35} color="#fff" />
         </CategoriesCards>
 
-        <CategoriesCards
-          name="Padarias"
-          onClick={() => listCategory('Padarias')}
-        >
-          <MaterialCommunityIcons
-            name="bread-slice-outline"
-            size={35}
-            color="#fff"
-          />
+        <CategoriesCards name="Lojas" onClick={() => listCategory('Lojas')}>
+          <Fontisto name="shopping-store" size={35} color="#fff" />
         </CategoriesCards>
       </DivContainer>
     </Container>

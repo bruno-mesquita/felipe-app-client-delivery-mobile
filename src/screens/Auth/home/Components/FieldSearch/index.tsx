@@ -6,7 +6,7 @@ import { getApi } from '@services/api';
 import { Input, styles } from './styles';
 import { Props } from './props';
 
-export const FieldSearch = ({ response, refreshing }: Props) => {
+export const FieldSearch = ({ response, refreshing, categoryName }: Props) => {
   const [text, setText] = useState('');
 
   useEffect(() => {
@@ -17,13 +17,16 @@ export const FieldSearch = ({ response, refreshing }: Props) => {
     try {
       const api = getApi();
 
-      const { data } = await api.post(`/establishments-by-name`, {
-        name: text,
+      const { data } = await api.get('/establishments-by-name', {
+        params: {
+          name: text,
+          category: categoryName,
+        },
       });
 
       response(data.result);
     } catch (err) {
-      response({});
+      response([]);
     }
   };
 
