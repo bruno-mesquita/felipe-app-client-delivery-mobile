@@ -59,7 +59,13 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
   return (
     <Container>
       <Content refreshControl={ContentRefresh}>
-        <View style={{ alignItems: 'center', paddingTop: headerHeight * 0.3 }}>
+        <View
+          style={{
+            alignItems: 'center',
+            paddingTop: headerHeight * 0.3,
+            paddingBottom: headerHeight * 0.3,
+          }}
+        >
           <FieldSearch
             categoryName={params.categoryName}
             refreshing={refreshing}

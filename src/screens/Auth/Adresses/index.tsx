@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Text, FlatList, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getApi } from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
@@ -32,9 +33,11 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
     }
   }, []);
 
-  useEffect(() => {
-    getAdresses();
-  }, [getAdresses]);
+  useFocusEffect(
+    useCallback(() => {
+      getAdresses();
+    }, [getAdresses]),
+  );
 
   const addAddress = () => navigation.navigate('AddAddress');
 

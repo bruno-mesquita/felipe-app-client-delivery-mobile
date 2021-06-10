@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getApi } from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
@@ -31,9 +32,11 @@ const OrdersScreen = (props: ScreenAuthProps<'Orders'>) => { // eslint-disable-l
     }
   }, []);
 
-  useEffect(() => {
-    getOrders();
-  }, [getOrders]);
+  useFocusEffect(
+    useCallback(() => {
+      getOrders();
+    }, [getOrders]),
+  );
 
   const onRefresh = async () => {
     setPage(0);

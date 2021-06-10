@@ -34,7 +34,7 @@ export const Card = (props: Props) => {
         modalRef={modalItemRef}
         {...props}
         image={props.photo.encoded}
-        description={formattedDescription(props.description)}
+        description={props.description}
       />
       <CardBase
         style={{ height: 90, width: '90%', alignSelf: 'center' }}

@@ -107,8 +107,8 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
         total,
       });
 
-      dispatch(clearCart());
       navigation.navigate('TrackOrder', { id: data.result });
+      dispatch(clearCart());
 
       onClose();
     } catch (err) {

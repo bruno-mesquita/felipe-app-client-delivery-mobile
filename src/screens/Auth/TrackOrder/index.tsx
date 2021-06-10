@@ -57,7 +57,7 @@ export const TrackOrder = ({
         const api = getApi();
         const { data } = await api.get(`/orders/${id}/verify`);
 
-        if (data.result === 'Entregue') {
+        if (data.result === 'Entregue' || data.result === 'Cancelado') {
           navigation.goBack();
         } else {
           nextActive(data.result);
