@@ -29,7 +29,7 @@ export const Card = ({
     return format(parseISO(value), 'dd/MM/yyyy - HH:mm');
   };
 
-  const openModalRateOrTrack = useCallback(() => {
+  const openModalRateOrTrack = () => {
     if (order_status === 'Aberto' || order_status === 'Em andamento') {
       navigation.navigate('TrackOrder', { id });
     } else if (order_status !== 'Cancelado') {
@@ -39,12 +39,12 @@ export const Card = ({
       });
       modalRateRef.current?.open();
     }
-  }, []);
+  };
 
-  const openModalInfo = useCallback(() => {
+  const openModalInfo = () => {
     setSelectedItem({ orderId: id, evaluationId: null });
     modalInfoRef.current?.open();
-  }, []);
+  };
 
   const Rate = () => {
     if (order_status === 'Aberto' || order_status === 'Em andamento')
