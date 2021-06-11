@@ -17,7 +17,7 @@ export type ScreenAuthList = {
     fee: number;
   };
   Cart: any;
-  TrackOrder: { id: number };
+  TrackOrder: { id: number; clear?: boolean | undefined };
   Orders: any;
   Configuration: any;
   TermsUse: any;

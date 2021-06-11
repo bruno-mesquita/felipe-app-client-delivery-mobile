@@ -11,7 +11,10 @@ import { NotFound, Card, FieldSearch } from './Components';
 import { Container, Content, Establishments } from './styles';
 import { Establishment } from './props';
 
-export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
+export const Home = ({
+  navigation,
+  route: { params },
+}: ScreenAuthProps<'Home'>) => {
   const headerHeight = useHeaderHeight();
 
   const api = getApi();
@@ -32,6 +35,13 @@ export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
       Alert.alert(
         'Erro',
         'Houve um erro ao buscar estabelecimentos, por favor tente novamente',
+        [
+          {
+            onPress: () =>
+              navigation.canGoBack() ? navigation.goBack() : null,
+            text: 'Ok',
+          },
+        ],
       );
     }
   }, []);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Alert } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,6 @@ import { useTheme } from 'styled-components/native';
 import { ModalBase, ModalButton } from '@components';
 import { Field, Select } from '@form';
 import { getApi } from '@services/api';
-import { clearCart } from '../../../../../store/ducks/cart/cart.actions';
 import { ModalBaseProps } from '../../../../../components/ModalBase/props';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 
@@ -19,7 +18,6 @@ import schema from './schema';
 
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation<NavigationAuthHook<'Cart'>>();
-  const dispatch = useDispatch();
   const { colors } = useTheme();
   const api = getApi();
 
@@ -78,9 +76,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     }
   };
 
-  const onClose = useCallback(() => {
-    modalRef.current?.close();
-  }, []);
+  const onClose = () => modalRef.current?.close();
 
   const purchase = async () => {
     try {
@@ -107,9 +103,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
         total,
       });
 
-      navigation.navigate('TrackOrder', { id: data.result });
-      dispatch(clearCart());
-
+      navigation.navigate('TrackOrder', { id: data.result, clear: true });
       onClose();
     } catch (err) {
       Alert.alert(
@@ -121,16 +115,12 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     }
   };
 
-  const onCloseModal = useCallback(() => {
-    modalRef.current.close();
-  }, []);
-
   return (
     <ModalBase ref={modalRef}>
       <Container>
         <Header>
           <Ionicons
-            onPress={onCloseModal}
+            onPress={onClose}
             name="close-circle"
             size={20}
             color={colors.primary}

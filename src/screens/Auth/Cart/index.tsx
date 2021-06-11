@@ -1,6 +1,7 @@
-import React, { useRef, useMemo, useCallback, useEffect } from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Button } from '../../../components/Button';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
@@ -26,9 +27,11 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
     subTotal: cart.total,
   }));
 
-  useEffect(() => {
-    if (items.length === 0) navigation.goBack();
-  }, [items]);
+  useFocusEffect(
+    useCallback(() => {
+      if (items.length === 0) navigation.goBack();
+    }, [items, navigation]),
+  );
 
   // Estado local
   const modalRef = useRef<ModalBaseHandle>(null);

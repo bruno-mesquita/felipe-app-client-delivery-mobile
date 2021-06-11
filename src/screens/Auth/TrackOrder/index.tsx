@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
 const lineOne = require('../../../assets/images/line_01.png');
@@ -12,6 +13,7 @@ const wait = require('../../../assets/images/esperando.png');
 const accept = require('../../../assets/images/pedido_aceito.png');
 const delivered = require('../../../assets/images/pedido_entregue.png');
 
+import { clearCart } from '../../../store/ducks/cart/cart.actions';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 import { getApi } from '@services/api';
 import { Container, Status, Icon, Title } from './styles';
@@ -20,10 +22,11 @@ import { Alert } from 'react-native';
 export const TrackOrder = ({
   navigation,
   route: {
-    params: { id },
+    params: { id, clear = false },
   },
 }: ScreenAuthProps<'TrackOrder'>) => {
   const { colors } = useTheme();
+  const dispatch = useDispatch();
 
   const [images] = useState([lineOne, lineTwo, lineThree, lineFour]);
   const [icons] = useState([wait, accept, way, delivered]);
@@ -73,12 +76,14 @@ export const TrackOrder = ({
   useEffect(() => {
     verifyStatus();
 
+    if (clear) dispatch(clearCart());
+
     const funcInterval = setInterval(verifyStatus, 8000);
 
     setFunc(funcInterval);
 
     return () => clearInterval(funcInterval);
-  }, []);
+  }, [clear, dispatch]);
 
   return (
     <Container>
