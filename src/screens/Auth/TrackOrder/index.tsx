@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, BackHandler } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
@@ -82,8 +82,19 @@ export const TrackOrder = ({
 
     setFunc(funcInterval);
 
-    return () => clearInterval(funcInterval);
-  }, [clear, dispatch]);
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        navigation.navigate('Orders');
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+      clearInterval(funcInterval);
+    };
+  }, [clear, dispatch, navigation]);
 
   return (
     <Container>

@@ -9,7 +9,7 @@ import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 import styles from './styles';
 
-const OrdersScreen = (props: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
+const OrdersScreen = (_: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
