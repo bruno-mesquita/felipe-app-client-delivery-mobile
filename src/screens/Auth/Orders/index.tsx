@@ -7,9 +7,10 @@ import { ScreenAuthProps } from '@utils/ScreenProps';
 import { OrderProvider } from '@contexts/OrderContext';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
-import styles from './styles';
 
-const OrdersScreen = (_: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
+const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
+  const api = getApi();
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -20,15 +21,23 @@ const OrdersScreen = (_: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
 
   const getOrders = useCallback(async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/clients/orders');
 
       setOrders(data.result);
-      setLoading(false);
     } catch (err) {
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao buscar os seus pedidos, tente novamente',
+        [
+          {
+            onPress: () =>
+              navigation.canGoBack() ? navigation.goBack() : null,
+            text: 'Ok',
+          },
+        ],
+      );
+    } finally {
       setLoading(false);
-      Alert.alert('Erro ao buscar os seus pedidos, tente novamente');
     }
   }, []);
 
@@ -48,8 +57,6 @@ const OrdersScreen = (_: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
       const newPage = page + 1;
       setPage(newPage);
 
-      const api = getApi();
-
       const { data } = await api.get('/clients/orders', {
         params: { page: newPage },
       });
@@ -67,7 +74,7 @@ const OrdersScreen = (_: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
       <EvaluationModal modalRef={modalRateRef} />
       <OrderInfoModal modalRef={modalInfoRef} />
       <FlatList
-        contentContainerStyle={styles.flatlist}
+        style={{ paddingTop: 15 }}
         data={orders}
         refreshing={loading}
         onRefresh={onRefresh}

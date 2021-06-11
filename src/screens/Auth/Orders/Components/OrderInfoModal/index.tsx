@@ -43,8 +43,8 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
         <Modal.Header onClose={onClose}>Detalhe do pedido</Modal.Header>
         <Text>{`Endereço de entrega: ${orderInfo?.order.address_client.nickname}`}</Text>
         <ProductsView>
-          {orderInfo?.items.map(item => (
-            <Row>
+          {orderInfo?.items.map((item, index) => (
+            <Row key={index.toString()}>
               <Text>{`${item.quantity}x ${item.product.name}`}</Text>
               <Text>{formatNumber(item.total)}</Text>
             </Row>

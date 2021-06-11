@@ -60,7 +60,10 @@ export const Card = ({
   };
 
   return (
-    <CardBase onPress={openModalInfo}>
+    <CardBase
+      style={{ width: '80%', alignSelf: 'center' }}
+      onPress={openModalInfo}
+    >
       <Container>
         <Row>
           <View style={{ width: '70%' }}>
