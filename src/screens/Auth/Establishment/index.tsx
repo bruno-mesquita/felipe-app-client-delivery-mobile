@@ -18,7 +18,6 @@ export const Establishment = ({
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
   const getMenus = useCallback(async () => {
     try {
@@ -27,33 +26,36 @@ export const Establishment = ({
 
       setMenus(data.result);
       setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
-
       Alert.alert('Erro', 'Erro ao recuperar os dados do estabelecimento', [
         {
           text: 'Voltar',
           onPress: () => navigation.goBack(),
         },
       ]);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  const getProducts = useCallback(async (menuId: number) => {
+  const getProducts = useCallback(async (menuId: number, newPage: number) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get(`/menus/${menuId}/products`);
+      const { data } = await api.get(`/menus/${menuId}/products`, {
+        params: {
+          page: newPage,
+        },
+      });
 
-      setProducts(data.result);
-      setLoading(false);
+      setProducts(old => old.concat(data.result));
     } catch (err) {
-      setLoading(false);
       Alert.alert(
         'Erro',
         'Houve um erro ao recuperar os dados do estabelecimento',
       );
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -62,14 +64,8 @@ export const Establishment = ({
   }, [getMenus]);
 
   useEffect(() => {
-    if (menuSelected) {
-      getProducts(menuSelected);
-    }
+    if (menuSelected) getProducts(menuSelected, 0);
   }, [menuSelected, getProducts]);
-
-  const onPressMenu = (id: number) => {
-    setMenuSelected(id);
-  };
 
   const Header = () => (
     <>
@@ -80,7 +76,7 @@ export const Establishment = ({
           <Tab
             key={menu.id.toString()}
             {...menu}
-            onPress={onPressMenu}
+            onPress={setMenuSelected}
             selected={menuSelected}
           />
         ))}
@@ -89,27 +85,13 @@ export const Establishment = ({
   );
 
   const onRefresh = async () => {
+    setLoading(true);
     setPage(0);
-    await getProducts(menuSelected);
   };
 
   const loadMore = async () => {
-    if (!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/adresses-client', {
-        params: { page: newPage },
-      });
-
-      if (data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setProducts(old => [...old, ...data.result]);
-      }
-    }
+    setLoading(true);
+    setPage(page + 1);
   };
 
   return (

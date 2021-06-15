@@ -17,29 +17,28 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
   const [adresses, setAdresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
-  const getAdresses = useCallback(async () => {
+  const getAdresses = useCallback(async (newPage: number) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/adresses-client');
+      const { data } = await api.get('/adresses-client', {
+        params: { page: newPage },
+      });
 
-      setAdresses(data.result);
-      setLoading(false);
+      setAdresses(old => old.concat(data.result));
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro ao buscar endereços');
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      getAdresses();
-    }, [getAdresses]),
+      getAdresses(page);
+    }, [getAdresses, page]),
   );
-
-  const addAddress = () => navigation.navigate('AddAddress');
 
   const EmptyComponent = () => (
     <Empty>
@@ -49,27 +48,13 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
   );
 
   const onRefresh = async () => {
+    setLoading(true);
     setPage(0);
-    await getAdresses();
   };
 
   const loadMore = async () => {
-    if (!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/adresses-client', {
-        params: { page: newPage },
-      });
-
-      if (data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setAdresses(old => [...old, ...data.result]);
-      }
-    }
+    setLoading(true);
+    setPage(page + 1);
   };
 
   return (
@@ -85,7 +70,7 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
         renderItem={({ item }) => <Card {...item} />}
         keyExtractor={item => item.id.toString()}
       />
-      <ButtonAdd onPress={addAddress}>
+      <ButtonAdd onPress={() => navigation.navigate('AddAddress')}>
         <Ionicons name="add" size={30} color={colors.secundary} />
       </ButtonAdd>
     </Container>

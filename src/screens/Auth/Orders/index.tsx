@@ -8,22 +8,25 @@ import { OrderProvider } from '@contexts/OrderContext';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 
-const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => { // eslint-disable-line
+const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
   const api = getApi();
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
   const modalRateRef = useRef<ModalBaseHandle>(null);
   const modalInfoRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async () => {
+  const getOrders = useCallback(async (newPage: number) => {
     try {
-      const { data } = await api.get('/clients/orders');
+      const { data } = await api.get('/clients/orders', {
+        params: {
+          page: newPage,
+        },
+      });
 
-      setOrders(data.result);
+      setOrders(old => old.concat(data.result));
     } catch (err) {
       Alert.alert(
         'Erro',
@@ -43,30 +46,18 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => { // eslint-
 
   useFocusEffect(
     useCallback(() => {
-      getOrders();
-    }, [getOrders]),
+      getOrders(page);
+    }, [getOrders, page]),
   );
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getOrders();
   };
 
-  const loadMore = async () => {
-    if (!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const { data } = await api.get('/clients/orders', {
-        params: { page: newPage },
-      });
-
-      if (data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setOrders(old => [...old, ...data.result]);
-      }
-    }
+  const loadMore = () => {
+    setLoading(true);
+    setPage(page + 1);
   };
 
   return (
