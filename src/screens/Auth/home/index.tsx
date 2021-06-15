@@ -21,12 +21,14 @@ export const Home = ({
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(0);
 
-  const getEstablishments = useCallback(async () => {
+  const getEstablishments = useCallback(async (newPage = 0) => {
     try {
       const { data } = await api.get('/establishments', {
         params: {
           category: params.categoryName,
+          page: newPage,
         },
       });
 
@@ -43,13 +45,15 @@ export const Home = ({
           },
         ],
       );
+    } finally {
+      setRefreshing(false);
     }
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      getEstablishments();
-    }, [getEstablishments]),
+      getEstablishments(page);
+    }, [getEstablishments, page]),
   );
 
   const searchResult = (values: any) => {
@@ -58,8 +62,12 @@ export const Home = ({
 
   const onRefresh = () => {
     setRefreshing(true);
-    getEstablishments();
-    setRefreshing(false);
+    setPage(0);
+  };
+
+  const loadMore = () => {
+    setRefreshing(true);
+    setPage(old => old + 1);
   };
 
   const ContentRefresh = (
@@ -86,6 +94,8 @@ export const Home = ({
         <Establishments
           data={establishments}
           ListEmptyComponent={NotFound}
+          onEndReachedThreshold={0}
+          onEndReached={loadMore}
           keyExtractor={(item: any) => String(item.id)}
           renderItem={({ item }: any) => <Card {...item} />}
         />

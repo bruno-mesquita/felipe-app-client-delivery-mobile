@@ -70,6 +70,7 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
         refreshing={loading}
         onRefresh={onRefresh}
         ListEmptyComponent={NoOrders}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}

@@ -47,12 +47,12 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
     </Empty>
   );
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     setLoading(true);
     setPage(0);
   };
 
-  const loadMore = async () => {
+  const loadMore = () => {
     setLoading(true);
     setPage(page + 1);
   };
@@ -62,6 +62,7 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
       <FlatList
         refreshing={loading}
         onRefresh={onRefresh}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         ListEmptyComponent={EmptyComponent}
         contentContainerStyle={{ width: '100%', alignItems: 'center' }}

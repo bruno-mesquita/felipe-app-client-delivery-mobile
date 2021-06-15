@@ -100,6 +100,7 @@ export const Establishment = ({
         <FlatList
           refreshing={loading}
           onRefresh={onRefresh}
+          onEndReachedThreshold={0}
           onEndReached={loadMore}
           ListHeaderComponent={Header}
           ListHeaderComponentStyle={{ marginBottom: 15 }}
