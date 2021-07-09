@@ -9,6 +9,7 @@ import {
   MaterialCommunityIcons,
   Fontisto,
   Ionicons,
+  MaterialIcons,
 } from '@expo/vector-icons';
 
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
@@ -17,6 +18,10 @@ import { Container, DivContainer } from './styles';
 const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
   const listCategory = (categoryName: string) => {
     navigation.navigate('Home', { categoryName });
+  };
+
+  const listDeliverymans = () => {
+    navigation.navigate('Deliverymans');
   };
 
   return (
@@ -73,6 +78,11 @@ const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
         <CategoriesCards name="Lojas" onClick={() => listCategory('Lojas')}>
           <Fontisto name="shopping-store" size={35} color="#fff" />
+        </CategoriesCards>
+      </DivContainer>
+      <DivContainer>
+        <CategoriesCards name="Entregas" onClick={() => listDeliverymans()}>
+          <MaterialIcons name="sports-motorsports" size={45} color="#fff" />
         </CategoriesCards>
       </DivContainer>
     </Container>

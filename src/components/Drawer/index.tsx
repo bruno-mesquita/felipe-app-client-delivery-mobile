@@ -63,10 +63,6 @@ export const Drawer = memo(
       props.navigation.navigate('Orders');
     };
 
-    const goDeliverymans = () => {
-      props.navigation.navigate('Deliverymans');
-    };
-
     return (
       <Container {...props}>
         <User>
@@ -87,10 +83,6 @@ export const Drawer = memo(
           </ListItem>
           <ListItem onPress={goAdresses}>
             <ListItemText>Endereços</ListItemText>
-            <Divider />
-          </ListItem>
-          <ListItem onPress={goDeliverymans}>
-            <ListItemText>Motoboys</ListItemText>
             <Divider />
           </ListItem>
           <ListItem onPress={goConfiguration}>

@@ -34,7 +34,7 @@ export const Card = (props: DeliverymansProps) => {
   const copyToClipboard = () => {
     Clipboard.setString(props.cellphone);
 
-    Alert.alert(`Número de ${props.name} cópiado!`);
+    Alert.alert(`Número de contato, ${props.name} cópiado!`);
   };
 
   return (
