@@ -54,7 +54,7 @@ export const Card = (props: DeliverymansProps) => {
             <ColumnView>
               <Time>
                 <Text style={{ marginLeft: 5 }}>
-                  {`${props.entry_date}h - ${props.departure_date}h`}
+                  {`${props.entry_date} - ${props.departure_date}`}
                 </Text>
               </Time>
 
