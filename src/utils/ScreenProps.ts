@@ -22,6 +22,13 @@ export type ScreenAuthList = {
   Configuration: any;
   TermsUse: any;
   AboutApp: any;
+  Deliverymans: {
+    id: number;
+    name: string;
+    cellphone: string;
+    entry_date: string;
+    departure_date: string;
+  };
 };
 
 export type NavigationAuthHook<R extends keyof ScreenAuthList> = NavigationProp<

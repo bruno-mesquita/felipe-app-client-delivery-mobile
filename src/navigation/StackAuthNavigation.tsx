@@ -20,6 +20,7 @@ import {
   Configuration,
   AboutApp,
   TermsUse,
+  Deliveryman,
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator<ScreenAuthList>();
@@ -52,7 +53,17 @@ const headerOptions = (name: string) =>
   } as any);
 
 export const StackAuthNavigation = ({ navigation }) => (
-  <Navigator initialRouteName="Categories">
+  // Começa com Categories
+  <Navigator initialRouteName="Deliverymans">
+    <Screen
+      name="Deliverymans"
+      component={Deliveryman}
+      options={{
+        ...headerOptions('Motoboys'),
+        headerLeft: () => <Menu openDrawer={navigation.openDrawer} />,
+      }}
+    />
+
     <Screen
       name="Categories"
       component={Categories}
