@@ -1,10 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
-
-import { CategoriesCards } from './components';
-
 import {
-  FontAwesome5,
   AntDesign,
   MaterialCommunityIcons,
   Fontisto,
@@ -13,80 +8,54 @@ import {
 } from '@expo/vector-icons';
 
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
-import { Container, DivContainer } from './styles';
 
-const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
+import { CategoryCard } from './components';
+import { Container, DivContainer, Title } from './styles';
+
+export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
   const listCategory = (categoryName: string) => {
     navigation.navigate('Home', { categoryName });
   };
 
-  const listDeliverymans = () => {
-    navigation.navigate('Deliverymans');
-  };
+  const listDeliverymans = () => navigation.navigate('Deliverymans');
+
+  const iconProps = (name: any) => ({ size: 35, color: '#fff', name })
 
   return (
     <Container>
-      <Text
-        style={{
-          color: '#000',
-          alignSelf: 'center',
-          fontSize: 20,
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-        }}
-      >
-        Categorias
-      </Text>
+      <Title>Categorias</Title>
 
       <DivContainer>
-        <CategoriesCards
-          name="Restaurantes"
+        <CategoryCard
+          name="Comida"
           onClick={() => listCategory('Restaurantes')}
         >
-          <Ionicons name="restaurant" size={35} color="#fff" />
-        </CategoriesCards>
+          <Ionicons {...iconProps('restaurant')} />
+        </CategoryCard>
 
-        <CategoriesCards
+        <CategoryCard
           name="Mercados"
           onClick={() => listCategory('Mercados')}
         >
-          <AntDesign name="shoppingcart" size={35} color="#fff" />
-        </CategoriesCards>
+          <AntDesign {...iconProps('shoppingcart')} />
+        </CategoryCard>
 
-        <CategoriesCards
+        <CategoryCard
           name="Farmácias"
           onClick={() => listCategory('Farmácias')}
         >
-          <MaterialCommunityIcons name="medical-bag" size={35} color="#fff" />
-        </CategoriesCards>
+          <MaterialCommunityIcons {...iconProps('medical-bag')} />
+        </CategoryCard>
       </DivContainer>
 
       <DivContainer>
-        <CategoriesCards
-          name="Lanchonetes"
-          onClick={() => listCategory('Lanchonetes')}
-        >
-          <FontAwesome5 name="hamburger" size={35} color="#fff" />
-        </CategoriesCards>
-
-        <CategoriesCards
-          name="Pizzarias"
-          onClick={() => listCategory('Pizzarias')}
-        >
-          <Ionicons name="pizza-outline" size={35} color="#fff" />
-        </CategoriesCards>
-
-        <CategoriesCards name="Lojas" onClick={() => listCategory('Lojas')}>
-          <Fontisto name="shopping-store" size={35} color="#fff" />
-        </CategoriesCards>
-      </DivContainer>
-      <DivContainer>
-        <CategoriesCards name="Entregas" onClick={() => listDeliverymans()}>
-          <MaterialIcons name="sports-motorsports" size={45} color="#fff" />
-        </CategoriesCards>
+        <CategoryCard name="Lojas" onClick={() => listCategory('Lojas')}>
+          <Fontisto {...iconProps('shopping-store')} />
+        </CategoryCard>
+        <CategoryCard name="Entregas" onClick={() => listDeliverymans()}>
+          <MaterialIcons {...iconProps('sports-motorsports')} />
+        </CategoryCard>
       </DivContainer>
     </Container>
   );
 };
-
-export { Categories };

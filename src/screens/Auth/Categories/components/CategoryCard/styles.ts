@@ -1,10 +1,8 @@
 import styled from 'styled-components/native';
+import { darken } from 'polished';
 
 export const Container = styled.View`
   flex: 1;
-`;
-
-export const DivContainer = styled.View`
   height: 100px;
   flex-direction: column;
   justify-content: space-between;
@@ -22,9 +20,5 @@ export const Card = styled.View`
   justify-content: center;
   border-radius: 60px;
 
-  background-color: #ecb241;
+  background-color: ${({ theme }) => darken(0.02, theme.colors.third)};
 `;
-
-export const Button = styled.TouchableOpacity``;
-
-export const Text = styled.Text``;

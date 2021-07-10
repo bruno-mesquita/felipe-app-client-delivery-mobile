@@ -12,4 +12,10 @@ export const DivContainer = styled.View`
   margin-top: 40px;
 `;
 
-export const Tittle = styled.View``;
+export const Title = styled.Text`
+  color: #000;
+  align-self: center;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+`;

@@ -21,7 +21,7 @@ export const Deliveryman = ({
 
   const getDeliverymans = useCallback(async () => {
     try {
-      const { data } = await api.get('/deliveryman');
+      const { data } = await api.get('/deliveryman', { params: { page } });
 
       setDeliverymans(data.result);
     } catch (err) {
