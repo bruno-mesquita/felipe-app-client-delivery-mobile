@@ -1,3 +1,5 @@
+export { Home } from './Home';
+export { Profile } from './Profile';
 export { Categories } from './Categories';
 export { ChangePassword } from './ChangePassword';
 export { Adresses } from './Adresses';
@@ -10,6 +12,4 @@ export { UpdateAddress } from './UpdateAddress';
 export { Configuration } from './Configuration';
 export { AboutApp } from './AboutApp';
 export { TermsUse } from './TermsUse';
-export { Home } from './home';
-export { Profile } from './profile';
 export { Deliveryman } from './Deliveryman';

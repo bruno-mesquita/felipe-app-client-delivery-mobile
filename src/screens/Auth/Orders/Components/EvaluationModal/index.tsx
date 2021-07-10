@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
-import { Form, Textarea } from 'native-base';
+import { FormControl, TextArea } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { AxiosError } from 'axios';
 import { useTheme } from 'styled-components/native';
@@ -73,17 +73,17 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
             color={colors.primary}
           />
         </Header>
-        <Form>
-          <Textarea
-            style={{ padding: 10 }}
-            rowSpan={5}
+        <FormControl>
+          <TextArea
+            padding={10}
+            numberOfLines={5}
             value={rate?.message}
             placeholder="Faça uma avaliação do seu pedido"
-            bordered
-            disabled={!!rate?.value}
+            border="1px solid #c4c4c4"
+            isDisabled={!!rate?.value}
             onChangeText={onChangeTextArea}
           />
-        </Form>
+        </FormControl>
         <View
           style={{
             flexDirection: 'row',

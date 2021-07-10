@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, NativeBase } from 'native-base';
+import { Text, IButtonProps } from 'native-base';
 
 import { Button } from './styles';
 
-interface ModalButtonProps extends NativeBase.Button {
+interface ModalButtonProps extends IButtonProps {
   children: React.ReactNode;
 }
 
