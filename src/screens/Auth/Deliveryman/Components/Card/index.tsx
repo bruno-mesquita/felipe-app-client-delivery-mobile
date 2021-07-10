@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, Clipboard } from 'react-native';
-// import Clipboard from '@react-native-clipboard/clipboard';
+import { Text } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
