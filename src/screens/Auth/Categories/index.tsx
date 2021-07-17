@@ -7,6 +7,8 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons';
 
+import { Announcement } from '@components';
+
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import { CategoryCard } from './components';
@@ -52,10 +54,12 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <CategoryCard name="Lojas" onClick={() => listCategory('Lojas')}>
           <Fontisto {...iconProps('shopping-store')} />
         </CategoryCard>
-        <CategoryCard name="Entregas" onClick={() => listDeliverymans()}>
+        <CategoryCard name="Motoboys" onClick={() => listDeliverymans()}>
           <MaterialIcons {...iconProps('sports-motorsports')} />
         </CategoryCard>
       </DivContainer>
+
+      <Announcement />
     </Container>
   );
 };

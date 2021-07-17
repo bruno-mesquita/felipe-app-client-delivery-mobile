@@ -11,3 +11,4 @@ export { Tab } from './Tab';
 export { Tabs } from './Tabs';
 export { CartButton } from './CartButton';
 export { Modal } from './Modal';
+export { Announcement } from './Announcement';
