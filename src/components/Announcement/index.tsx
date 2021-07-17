@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import { Alert } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Dimensions, StyleSheet, View, Alert, Platform } from 'react-native';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
 import { getApi } from '@services/api';
+
 import { IAnnouncement } from './props';
-import { Container, ContainerPhoto, PhotoEnterprise, Title } from './styles';
-import { useEffect } from 'react';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 export const Announcement = () => {
   const api = getApi();
@@ -27,23 +28,43 @@ export const Announcement = () => {
   }, [getAnnouncement]);
 
   return (
-    <Container>
-      <Carousel
-        lockScrollWhileSnapping
-        autoplay
-        data={announcements}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({item}) => (
-          <ContainerPhoto>
-            <PhotoEnterprise source={{ uri: item.photo.encoded }}>
-             <Title>{item.name}</Title>
-            </PhotoEnterprise>
-          </ContainerPhoto>
-        )
-      }
-        sliderWidth={600}
-        itemWidth={350}
-      />
-    </Container>
+    <Carousel
+      sliderWidth={screenWidth}
+      sliderHeight={screenWidth}
+      itemWidth={screenWidth - 60}
+      data={announcements}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({item}) => (
+        <View style={styles.item}>
+          <ParallaxImage
+            source={{ uri: item.photo.encoded }}
+            containerStyle={styles.imageContainer}
+            style={styles.image}
+            parallaxFactor={0.4}
+          />
+        </View>
+      )}
+      hasParallaxImages
+      autoplay
+      lockScrollWhileSnapping
+    />
   );
-}
+};
+
+const styles = StyleSheet.create({
+  item: {
+    width: screenWidth - 60,
+    height: screenWidth - 70,
+    marginTop: 10,
+  },
+  imageContainer: {
+    flex: 1,
+    marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: 'cover',
+  },
+});
