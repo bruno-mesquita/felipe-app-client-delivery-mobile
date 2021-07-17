@@ -1,8 +1,6 @@
-import React from 'react';
-import { View, Alert } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { Alert } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { useCallback } from 'react';
-import { useState } from 'react';
 
 import { getApi } from '@services/api';
 import { IAnnouncement } from './props';
@@ -34,7 +32,7 @@ export const Announcement = () => {
         lockScrollWhileSnapping
         autoplay
         data={announcements}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({item}) => (
           <ContainerPhoto>
             <PhotoEnterprise source={{ uri: item.photo.encoded }}>
