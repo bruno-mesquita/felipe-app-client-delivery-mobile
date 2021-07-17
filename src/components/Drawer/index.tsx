@@ -63,6 +63,10 @@ export const Drawer = memo(
       props.navigation.navigate('Orders');
     };
 
+    const goCategories = () => {
+      props.navigation.navigate('Categories');
+    };
+
     return (
       <Container {...props}>
         <User>
@@ -75,6 +79,10 @@ export const Drawer = memo(
         <List>
           <ListItem onPress={goProfile}>
             <ListItemText>Perfil</ListItemText>
+            <Divider />
+          </ListItem>
+          <ListItem onPress={goCategories}>
+            <ListItemText>Categorias</ListItemText>
             <Divider />
           </ListItem>
           <ListItem onPress={goOrders}>
