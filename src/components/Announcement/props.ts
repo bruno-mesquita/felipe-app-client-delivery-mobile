@@ -1,5 +1,5 @@
 export interface IAnnouncement {
-  id: string;
+  id: number;
   photo: {
     encoded: string;
   }

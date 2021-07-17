@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, Alert, Platform } from 'react-native';
+import { Dimensions, StyleSheet, View, Alert, Platform, Text } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
 import { getApi } from '@services/api';
@@ -34,19 +34,21 @@ export const Announcement = () => {
       itemWidth={screenWidth - 60}
       data={announcements}
       keyExtractor={item => item.id.toString()}
-      renderItem={({item}) => (
+      renderItem={({item}, parallaxProps) => (
         <View style={styles.item}>
           <ParallaxImage
             source={{ uri: item.photo.encoded }}
             containerStyle={styles.imageContainer}
             style={styles.image}
             parallaxFactor={0.4}
+            {...parallaxProps}
           />
         </View>
       )}
       hasParallaxImages
       autoplay
       lockScrollWhileSnapping
+      loop
     />
   );
 };
