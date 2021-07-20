@@ -5,14 +5,15 @@ import {
   Fontisto,
   Ionicons,
   MaterialIcons,
+  Entypo,
 } from '@expo/vector-icons';
 
-import { Announcement } from '@components';
+import { Announcement, Carousel } from '@components';
 
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import { CategoryCard } from './components';
-import { Container, DivContainer, Title } from './styles';
+import { Container, DivContainer } from './styles';
 
 export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
   const listCategory = (categoryName: string) => {
@@ -25,11 +26,9 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
   return (
     <Container>
-      <Title>Categorias</Title>
-
       <DivContainer>
         <CategoryCard
-          name="Comida"
+          name="Comidas"
           onClick={() => listCategory('Restaurantes')}
         >
           <Ionicons {...iconProps('restaurant')} />
@@ -54,12 +53,19 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <CategoryCard name="Lojas" onClick={() => listCategory('Lojas')}>
           <Fontisto {...iconProps('shopping-store')} />
         </CategoryCard>
+        <CategoryCard name="Bebidas" onClick={() => listCategory('Lojas')}>
+          <Entypo {...iconProps('drink')} />
+        </CategoryCard>
         <CategoryCard name="Motoboys" onClick={() => listDeliverymans()}>
           <MaterialIcons {...iconProps('sports-motorsports')} />
         </CategoryCard>
       </DivContainer>
 
+
       <Announcement />
+
+      <Carousel />
+
     </Container>
   );
 };

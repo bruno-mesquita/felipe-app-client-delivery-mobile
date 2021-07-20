@@ -30,7 +30,7 @@ export const Announcement = () => {
   return (
     <Carousel
       sliderWidth={screenWidth}
-      sliderHeight={screenWidth}
+      sliderHeight={10}
       itemWidth={screenWidth - 60}
       data={announcements}
       keyExtractor={item => item.id.toString()}
@@ -58,9 +58,10 @@ export const Announcement = () => {
 
 const styles = StyleSheet.create({
   item: {
+    maxWidth: '100%',
     width: screenWidth - 60,
-    height: screenWidth - 70,
-    marginTop: 10,
+    height: screenWidth - 200,
+    marginTop: 20,
   },
   imageContainer: {
     flex: 1,
@@ -70,6 +71,8 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover',
+    resizeMode: 'cover', // cover
+    maxHeight: '100%',
+    maxWidth: '100%',
   },
 });

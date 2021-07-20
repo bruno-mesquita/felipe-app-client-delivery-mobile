@@ -4,11 +4,6 @@ export const Container = styled.View`
   flex: 1;
 `;
 
-export const Title = styled.Text`
-  font-size: 18px;
-  color: #fff;
-`;
-
 export const ContainerPhoto = styled.View`
   border-radius: 20px;
 `;

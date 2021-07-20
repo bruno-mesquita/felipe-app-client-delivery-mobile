@@ -13,11 +13,3 @@ export const DivContainer = styled.View`
 
   margin: 30px 0;
 `;
-
-export const Title = styled.Text`
-  color: #000;
-  align-self: center;
-  font-size: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
-`;
