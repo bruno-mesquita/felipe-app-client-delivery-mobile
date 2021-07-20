@@ -20,5 +20,5 @@ export const Card = styled.View`
   justify-content: center;
   border-radius: 60px;
 
-  background-color: ${({ theme }) => darken(0.02, theme.colors.third)};
+  background-color: ${({ theme }) => darken(0.02, theme.colors.primary)};
 `;
