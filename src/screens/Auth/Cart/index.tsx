@@ -1,7 +1,7 @@
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { Button } from '../../../components/Button';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
@@ -21,32 +21,28 @@ import {
 
 export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
   // Estado Global
-  const { fee, items, subTotal } = useSelector(({ cart }) => ({
+  const isFocused = useIsFocused();
+  const { fee, items, subTotal, total } = useSelector(({ cart }) => ({
     items: cart.items,
     fee: cart.fee,
     subTotal: cart.total,
+    total: Number(cart.total) + Number(cart.fee)
   }));
 
-  useFocusEffect(
-    useCallback(() => {
-      if (items.length === 0) navigation.goBack();
-    }, [items, navigation]),
-  );
+  useEffect(() => {
+    if (isFocused) navigation.goBack();
+  }, [isFocused, navigation]);
 
   // Estado local
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const total = useMemo(() => Number(subTotal) + Number(fee), [subTotal]);
-
-  const openModalOrder = useCallback(() => {
+  const openModalOrder = () => {
     if (items.length === 0) {
       Alert.alert('Aviso', 'Você não possui nenhum item no seu carrinho');
     } else {
       modalRef.current?.open();
     }
-  }, [items]);
-
-  const goBack = () => navigation.goBack();
+  };
 
   const Footer = () => (
     <>
@@ -69,7 +65,7 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
         <Button
           textProps={{ style: { fontSize: 18 } }}
           primaryColor
-          onPress={goBack}
+          onPress={() => navigation.goBack()}
         >
           Continuar comprando
         </Button>

@@ -21,6 +21,7 @@ import {
   AboutApp,
   TermsUse,
   Deliveryman,
+  Account
 } from '../screens/Auth';
 
 const { Navigator, Screen } = createStackNavigator<ScreenAuthList>();
@@ -143,6 +144,13 @@ export const StackAuthNavigation = ({ navigation }) => (
       options={{
         headerShown: false,
       }}
-    />
+
+      />
+      <Screen
+      name="Account"
+      component={Account}
+      options={headerOptions('Minha conta')}
+      />
+
   </Navigator>
 );

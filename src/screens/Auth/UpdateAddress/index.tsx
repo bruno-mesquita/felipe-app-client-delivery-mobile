@@ -9,6 +9,8 @@ import { Container } from './styles';
 import { Address } from './props';
 
 export const UpdateAddress = ({ route }) => {
+  const api = getApi();
+
   const [address, setAddress] = useState({
     id: '',
     street: '',
@@ -22,8 +24,6 @@ export const UpdateAddress = ({ route }) => {
 
   const getAddress = useCallback(async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get(`/adresses-client/${route.params.id}`);
 
       setAddress(data.result);
@@ -38,8 +38,6 @@ export const UpdateAddress = ({ route }) => {
 
   const onSubmit = async (values: Address) => {
     try {
-      const api = getApi();
-
       await api.put(`/adresses-client/${route.params.id}`, values);
 
       Alert.alert('Endereço atualizado com sucesso');

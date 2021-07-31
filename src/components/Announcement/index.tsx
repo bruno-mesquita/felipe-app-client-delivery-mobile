@@ -46,7 +46,6 @@ export const Announcement = () => {
         </View>
       )}
       hasParallaxImages
-
       autoplay
       lockScrollWhileSnapping
       autoplayInterval={5000}

@@ -14,7 +14,8 @@
       "@services/*": ["./src/services/*"],
       "@screens/*": ["./src/screens/*"],
       "@store/*": ["./src/store/*"],
-      "@contexts/*": ["./src/contexts/*"]
+      "@contexts/*": ["./src/contexts/*"],
+      "@hooks": ["./src/hooks"]
     },
     "moduleResolution": "node",
     "noEmit": true,

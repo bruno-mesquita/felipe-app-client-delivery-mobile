@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Alert, RefreshControl } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
-import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { CartButton } from '@components';
 import { getApi } from '@services/api';
@@ -16,6 +16,7 @@ export const Home = ({
   route: { params },
 }: ScreenAuthProps<'Home'>) => {
   const headerHeight = useHeaderHeight();
+  const isFocused = useIsFocused();
 
   const api = getApi();
 
@@ -50,11 +51,9 @@ export const Home = ({
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      getEstablishments(page);
-    }, [getEstablishments, page]),
-  );
+  useEffect(() => {
+    if (isFocused) getEstablishments(page);
+  }, [getEstablishments, page, isFocused]);
 
   const searchResult = (values: any) => {
     setEstablishments(values);

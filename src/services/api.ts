@@ -12,8 +12,8 @@ let api: AxiosInstance;
 
 const createApi = () => {
   api = axios.create({
-    // baseURL: 'https://app-backend-felipe.herokuapp.com/api/app',
-    baseURL: 'http://192.168.1.109:3030/api/app',
+    baseURL: 'https://app-backend-felipe.herokuapp.com/api/app',
+    // baseURL: 'http://192.168.1.106:3030/api/app',
     headers: {
       api_version: Constants.manifest.version,
     },
@@ -33,19 +33,23 @@ const createApi = () => {
 
         if (!refreshToken) store.dispatch(logout());
 
-        const { data } = await api.post('/auth/refresh', {
-          token: refreshToken,
-        });
+        try {
+          const { data } = await api.post('/auth/refresh', {
+            token: refreshToken,
+          });
 
-        const { accessToken, refreshToken: newRefreshToken } = data.result;
+          const { accessToken, refreshToken: newRefreshToken } = data.result;
 
-        api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+          api.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
-        store.dispatch(
-          requestRefreshTokenSuccess(accessToken, newRefreshToken),
-        );
+          store.dispatch(
+            requestRefreshTokenSuccess(accessToken, newRefreshToken),
+          );
 
-        return axios(originalRequest);
+          return axios(originalRequest);
+        } catch (err) {
+          store.dispatch(logout());
+        }
       }
       return Promise.reject(error);
     },

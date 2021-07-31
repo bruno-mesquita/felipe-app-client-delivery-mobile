@@ -26,9 +26,11 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
         params: { page: newPage },
       });
 
-      setAdresses(old => old.concat(data.result));
+      if(newPage === 0) setAdresses(data.result);
+      else setAdresses(old => old.concat(data.result));
+
     } catch (err) {
-      Alert.alert('Erro ao buscar endereços');
+      Alert.alert('Erro', 'Erro ao buscar endereços');
     } finally {
       setLoading(false);
     }
@@ -37,7 +39,7 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
   useFocusEffect(
     useCallback(() => {
       getAdresses(page);
-    }, [getAdresses, page]),
+    }, [page]),
   );
 
   const EmptyComponent = () => (
@@ -68,7 +70,7 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
         contentContainerStyle={{ width: '100%', alignItems: 'center' }}
         style={{ width: '100%' }}
         data={adresses}
-        renderItem={({ item }) => <Card {...item} />}
+        renderItem={({ item }) => <Card reender={() => setPage(0)} {...item} />}
         keyExtractor={item => item.id.toString()}
       />
       <ButtonAdd onPress={() => navigation.navigate('AddAddress')}>

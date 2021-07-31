@@ -4,6 +4,7 @@ export type ScreenAuthList = {
   Home: {
     categoryName: string;
   };
+  Account: any;
   Profile: any;
   Categories: any;
   ChangePassword: any;
@@ -49,8 +50,6 @@ export interface ScreenAuthProps<R extends keyof ScreenAuthList> {
 export type ScreenNotAuthList = {
   Register: any;
   Login: any;
-  CodeToForgotPassword: any;
-  CodeToRegister: { id: number };
   CodeToPassword: any;
   ForgotPassword: any;
 };

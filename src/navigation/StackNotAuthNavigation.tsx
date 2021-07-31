@@ -5,7 +5,6 @@ import {
   Login,
   Register,
   CodeToPassword,
-  CodeToRegister,
   ForgotPassword,
 } from '@screens/NotAuth';
 import { ScreenNotAuthList } from '@utils/ScreenProps';
@@ -20,12 +19,6 @@ export const StackNotAuthNavigation = () => (
       component={Register}
       options={{ headerShown: false }}
     />
-    <Screen
-      name="CodeToRegister"
-      component={CodeToRegister}
-      options={{ headerShown: false }}
-    />
-
     <Screen
       name="ForgotPassword"
       component={ForgotPassword}

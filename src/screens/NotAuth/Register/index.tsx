@@ -6,7 +6,6 @@ import { TextInputMasked } from 'react-native-masked-text';
 import { Field, Select, FieldMask, FieldSecure } from '@form';
 import { Button } from '@components';
 import { getApi } from '@services/api';
-import { ApiResult } from '@utils/ApiResult';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
 import { Layout } from '../_Layout';
@@ -42,14 +41,13 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
         cpf: cpfInputRef.current?.getRawValue(),
       };
 
-      const { data } = await api.post<ApiResult<number>>('/clients', body);
+      await api.post('/clients', body);
 
-      setSubmitting(false);
-
-      navigation.navigate('CodeToRegister', { id: data.result });
+      navigation.goBack();
     } catch (err) {
-      setSubmitting(false);
       Alert.alert('Erro ao criar o usuário, reveja seus dados');
+    } finally {
+      setSubmitting(false);
     }
   };
 

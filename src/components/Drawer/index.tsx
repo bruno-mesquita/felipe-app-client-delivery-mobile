@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   DrawerContentComponentProps,
   DrawerContentOptions,
+  useIsDrawerOpen
 } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -16,92 +17,78 @@ import {
   Divider,
 } from './styles';
 
-import { logout } from '../../store/ducks/auth/auth.actions';
 import { getApi } from '@services/api';
+import { logout } from '../../store/ducks/auth/auth.actions';
 
-export const Drawer = memo(
-  (props: DrawerContentComponentProps<DrawerContentOptions>) => {
-    const dispatch = useDispatch();
+export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps<DrawerContentOptions>) => {
+  const api = getApi();
 
-    const [avatar, setAvatar] = useState(null);
+  const dispatch = useDispatch();
+  const isDrawerOpen = useIsDrawerOpen();
 
-    const getAvatar = useCallback(async () => {
-      try {
-        const api = getApi();
+  const [avatar, setAvatar] = useState(null);
 
-        const { data } = await api.post('/clients/me', {
-          selects: ['avatar'],
-        });
+  const getUser = useCallback(async () => {
+    try {
+      const { data } = await api.post('/clients/me', { selects: ['avatar'] });
 
-        setAvatar(data.result.avatar);
-      } catch (err) {
-        setAvatar(null);
-      }
-    }, []);
+      setAvatar(data.result.avatar);
+    } catch (err) {
+      setAvatar(null);
+    }
+  }, [])
 
-    useEffect(() => {
-      getAvatar();
-    }, [getAvatar]);
+  useEffect(() => {
+    if(isDrawerOpen) getUser();
+  }, [isDrawerOpen, getUser]);
 
-    const goLogout = () => {
-      dispatch(logout());
-    };
 
-    const goProfile = () => {
-      props.navigation.navigate('Profile');
-    };
+  const goLogout = () => dispatch(logout());
 
-    const goConfiguration = () => {
-      props.navigation.navigate('Configuration');
-    };
+  const goProfile = () => navigation.navigate('Profile');
 
-    const goAdresses = () => {
-      props.navigation.navigate('Adresses');
-    };
+  const goConfiguration = () => navigation.navigate('Configuration');
 
-    const goOrders = () => {
-      props.navigation.navigate('Orders');
-    };
+  const goAdresses = () => navigation.navigate('Adresses');
 
-    const goCategories = () => {
-      props.navigation.navigate('Categories');
-    };
+  const goOrders = () => navigation.navigate('Orders');
 
-    return (
-      <Container {...props}>
-        <User>
-          {avatar ? (
-            <UserAvatar source={{ uri: avatar }} />
-          ) : (
-            <MaterialIcons name="account-circle" size={125} color="#c4c4c4" />
-          )}
-        </User>
-        <List>
-          <ListItem onPress={goProfile}>
-            <ListItemText>Perfil</ListItemText>
-            <Divider />
-          </ListItem>
-          <ListItem onPress={goCategories}>
-            <ListItemText>Categorias</ListItemText>
-            <Divider />
-          </ListItem>
-          <ListItem onPress={goOrders}>
-            <ListItemText>Pedidos</ListItemText>
-            <Divider />
-          </ListItem>
-          <ListItem onPress={goAdresses}>
-            <ListItemText>Endereços</ListItemText>
-            <Divider />
-          </ListItem>
-          <ListItem onPress={goConfiguration}>
-            <ListItemText>Configurações</ListItemText>
-            <Divider />
-          </ListItem>
-          <ListItem onPress={goLogout}>
-            <ListItemText>Sair</ListItemText>
-          </ListItem>
-        </List>
-      </Container>
-    );
-  },
-);
+  const goCategories = () => navigation.navigate('Categories');
+
+  return (
+    <Container {...props}>
+      <User>
+        {avatar ? (
+          <UserAvatar source={{ uri: avatar }} />
+        ) : (
+          <MaterialIcons name="account-circle" size={125} color="#c4c4c4" />
+        )}
+      </User>
+      <List>
+        <ListItem onPress={goProfile}>
+          <ListItemText>Perfil</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem onPress={goCategories}>
+          <ListItemText>Categorias</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem onPress={goOrders}>
+          <ListItemText>Pedidos</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem onPress={goAdresses}>
+          <ListItemText>Endereços</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem onPress={goConfiguration}>
+          <ListItemText>Configurações</ListItemText>
+          <Divider />
+        </ListItem>
+        <ListItem onPress={goLogout}>
+          <ListItemText>Sair</ListItemText>
+        </ListItem>
+      </List>
+    </Container>
+  );
+}

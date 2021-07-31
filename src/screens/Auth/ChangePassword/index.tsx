@@ -22,12 +22,12 @@ export const ChangePassword = () => {
 
         await api.put('/clients/update-password', values);
 
-        Alert.alert('Senha atualizada');
+        Alert.alert('Aviso', 'Senha atualizada');
       } else {
-        Alert.alert('Senhas não são iguais');
+        Alert.alert('Aviso', 'Senhas não são iguais');
       }
     } catch (err) {
-      Alert.alert('Erro ao atualizar a senha');
+      Alert.alert('Aviso', 'Erro ao atualizar a senha');
     }
   };
 

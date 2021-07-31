@@ -6,7 +6,7 @@ import { Container, Divider } from './styles';
 
 export const Configuration = () => (
   <Container>
-    <Item to="ChangePassword">Alterar senha</Item>
+    <Item to="Account">Minha conta</Item>
     <Divider />
     <Item to="TermsUse">Termos de uso</Item>
     <Divider />

@@ -10,7 +10,8 @@ import { Checkbox } from '../Checkbox';
 import { Container, Header, Body, Footer, Nickname, Content } from './styles';
 import { Address } from '../../props';
 
-export const Card = (props: Address) => {
+export const Card = ({ reender, ...props }: Address & { reender: () => void }) => {
+  const api = getApi();
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
 
   const [address, setAddress] = useState<Address>(null);
@@ -28,14 +29,12 @@ export const Card = (props: Address) => {
     }
 
     setAddress(props);
-  }, [props]);
+  }, []);
 
   const toGoEdit = () => navigation.navigate('UpdateAddress', { id: props.id });
 
   const onChange = async () => {
     try {
-      const api = getApi();
-
       if (address.active) {
         await api.put(`/adresses-client/${props.id}/deactivate`);
       } else {
@@ -43,14 +42,30 @@ export const Card = (props: Address) => {
       }
 
       setAddress(old => ({ ...old, active: !old.active }));
-      Alert.alert('Endereço padrão atualizado com sucesso');
+      Alert.alert('Aviso','Endereço padrão atualizado com sucesso');
     } catch (err) {
-      Alert.alert('Erro ao atualizar um endereço como padrão');
+      Alert.alert('Erro', 'Houve um erro ao atualizar o endereço como padrão. Você não pode ficar sem endereço ativo');
     }
   };
 
+  const deleteAddress = () => {
+    api.delete(`/adresses-client/${props.id}`).then(() => reender());
+  }
+
+  const onLongPress = () => {
+    Alert.alert('Deletar endereço', 'Você deseja deletar esse endereço?', [
+      {
+        onPress: deleteAddress,
+        text: 'Sim'
+      },
+      {
+        text: 'Não'
+      }
+    ])
+  }
+
   return (
-    <CardBase onPress={toGoEdit}>
+    <CardBase onPress={toGoEdit} onLongPress={onLongPress}>
       <Container>
         <Content>
           <Header>

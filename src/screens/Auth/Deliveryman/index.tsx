@@ -1,19 +1,20 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Alert, RefreshControl } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { getApi } from '@services/api';
+import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { NotFound, Card } from './Components';
-
 import { DeliverymansProps } from './props';
 import { Container, Content, Deleverymans } from './styles';
-import { ScreenAuthProps } from '@utils/ScreenProps';
-import { useFocusEffect } from '@react-navigation/native';
 
 export const Deliveryman = ({
   navigation,
 }: ScreenAuthProps<'Deliverymans'>) => {
   const api = getApi();
+
+  const isFocused = useIsFocused();
 
   const [deliverymans, setDeliverymans] = useState<DeliverymansProps[]>([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -41,11 +42,9 @@ export const Deliveryman = ({
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      getDeliverymans();
-    }, [getDeliverymans]),
-  );
+  useEffect(() => {
+    if(isFocused) getDeliverymans();
+  }, [getDeliverymans, isFocused]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -57,13 +56,9 @@ export const Deliveryman = ({
     setPage(old => old + 1);
   };
 
-  const ContentRefresh = (
-    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-  );
-
   return (
     <Container>
-      <Content refreshControl={ContentRefresh}>
+      <Content refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <Deleverymans
           data={deliverymans}
           ListEmptyComponent={NotFound}
