@@ -78,27 +78,27 @@ export const StackAuthNavigation = ({ navigation }) => (
     <Screen
       name="Profile"
       component={Profile}
-      options={{ ...headerOptions('Perfil') }}
+      options={headerOptions('Perfil')}
     />
     <Screen
       name="ChangePassword"
       component={ChangePassword}
-      options={{ ...headerOptions('Alterar senha') }}
+      options={headerOptions('Alterar senha')}
     />
     <Screen
       name="Adresses"
       component={Adresses}
-      options={{ ...headerOptions('Endereços') }}
+      options={headerOptions('Endereços')}
     />
     <Screen
       name="AddAddress"
       component={AddAddress}
-      options={{ ...headerOptions('Adicionar endereço') }}
+      options={headerOptions('Adicionar endereço')}
     />
     <Screen
       name="UpdateAddress"
       component={UpdateAddress}
-      options={{ ...headerOptions('Atualizar endereço') }}
+      options={headerOptions('Atualizar endereço')}
     />
 
     <Screen
@@ -110,33 +110,33 @@ export const StackAuthNavigation = ({ navigation }) => (
     <Screen
       name="Deliverymans"
       component={Deliveryman}
-      options={{ ...headerOptions('Motoboys') }}
+      options={headerOptions('Motoboys')}
     />
 
     <Screen
       name="Cart"
       component={Cart}
-      options={{ ...headerOptions('Carrinho') }}
+      options={headerOptions('Carrinho')}
     />
     <Screen
       name="TrackOrder"
       component={TrackOrder}
-      options={{ ...headerOptions('Acompanhar pedido') }}
+      options={headerOptions('Acompanhar pedido')}
     />
     <Screen
       name="Orders"
       component={Orders}
-      options={{ ...headerOptions('Pedidos') }}
+      options={headerOptions('Pedidos')}
     />
     <Screen
       name="Configuration"
       component={Configuration}
-      options={{ ...headerOptions('Configurações') }}
+      options={headerOptions('Configurações')}
     />
     <Screen
       name="TermsUse"
       component={TermsUse}
-      options={{ ...headerOptions('Termos de uso') }}
+      options={headerOptions('Termos de uso')}
     />
     <Screen
       name="AboutApp"
@@ -144,13 +144,12 @@ export const StackAuthNavigation = ({ navigation }) => (
       options={{
         headerShown: false,
       }}
-
-      />
-      <Screen
+    />
+    <Screen
       name="Account"
       component={Account}
       options={headerOptions('Minha conta')}
-      />
+    />
 
   </Navigator>
 );

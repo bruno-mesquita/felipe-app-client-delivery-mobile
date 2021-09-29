@@ -7,7 +7,7 @@ import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { NotFound, Card } from './Components';
 import { DeliverymansProps } from './props';
-import { Container, Content, Deleverymans } from './styles';
+import { Container, Deleverymans } from './styles';
 
 export const Deliveryman = ({
   navigation,
@@ -20,11 +20,12 @@ export const Deliveryman = ({
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(0);
 
-  const getDeliverymans = useCallback(async () => {
+  const getDeliverymans = useCallback(async (newPage: number) => {
     try {
-      const { data } = await api.get('/deliveryman', { params: { page } });
+      const { data } = await api.get('/deliveryman', { params: { page: newPage } });
 
-      setDeliverymans(data.result);
+      if(newPage === 0) setDeliverymans(data.result);
+      else setDeliverymans(old => old.concat(data.result));
     } catch (err) {
       Alert.alert(
         'Erro',
@@ -43,8 +44,8 @@ export const Deliveryman = ({
   }, []);
 
   useEffect(() => {
-    if(isFocused) getDeliverymans();
-  }, [getDeliverymans, isFocused]);
+    if(isFocused) getDeliverymans(page);
+  }, [getDeliverymans, isFocused, page]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -58,16 +59,16 @@ export const Deliveryman = ({
 
   return (
     <Container>
-      <Content refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <Deleverymans
-          data={deliverymans}
-          ListEmptyComponent={NotFound}
-          onEndReachedThreshold={0}
-          onEndReached={loadMore}
-          keyExtractor={(item: any) => String(item.id)}
-          renderItem={({ item }: any) => <Card {...item} />}
-        />
-      </Content>
+      <Deleverymans
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        data={deliverymans}
+        ListEmptyComponent={NotFound}
+        onEndReachedThreshold={0}
+        onEndReached={loadMore}
+        keyExtractor={(item: any) => String(item.id)}
+        renderItem={({ item }: any) => <Card {...item} />}
+      />
     </Container>
   );
 };

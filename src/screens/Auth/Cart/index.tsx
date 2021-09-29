@@ -30,8 +30,8 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
   }));
 
   useEffect(() => {
-    if (isFocused) navigation.goBack();
-  }, [isFocused, navigation]);
+    if (isFocused && items.length === 0) navigation.goBack();
+  }, [isFocused, navigation, items]);
 
   // Estado local
   const modalRef = useRef<ModalBaseHandle>(null);

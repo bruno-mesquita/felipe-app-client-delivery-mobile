@@ -23,6 +23,7 @@ export const ModalBase = forwardRef<ModalBaseHandle, Props>(
         animationType="slide"
         transparent={true}
         visible={visible}
+        onRequestClose={() => close()}
         {...rest}
       >
         <Container>

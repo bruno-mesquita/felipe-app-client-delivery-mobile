@@ -14,19 +14,15 @@ export const CartButton = () => {
   const navigation = useNavigation<NavigationAuthHook<any>>();
   const cartEmpty = useSelector(({ cart }) => cart.items.length === 0);
 
-  const goCart = () => {
-    navigation.navigate('Cart');
-  };
-
   return (
     <>
-      {!cartEmpty ? (
-        <ButtonAdd onPress={goCart}>
+      {!cartEmpty && (
+        <ButtonAdd onPress={() => navigation.navigate('Cart')}>
           <Text>
             <Ionicons name="cart-outline" size={30} color={colors.secundary} />
           </Text>
         </ButtonAdd>
-      ) : null}
+      )}
     </>
   );
 };

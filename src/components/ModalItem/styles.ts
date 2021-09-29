@@ -10,7 +10,7 @@ export const Content = styled.View`
 
 export const Header = styled.View`
   flex-direction: row;
-  width: ${width * 0.7}px;
+  width: 100%;
   justify-content: flex-end;
   padding-bottom: 10px;
 `;

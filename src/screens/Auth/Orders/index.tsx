@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { getApi } from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
@@ -10,6 +10,7 @@ import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 
 const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
   const api = getApi();
+  const isFocused = useIsFocused();
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,8 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
         },
       });
 
-      setOrders(old => old.concat(data.result));
+      if(newPage === 0) setOrders(data.result);
+      else setOrders(old => old.concat(data.result));
     } catch (err) {
       Alert.alert(
         'Erro',
@@ -44,11 +46,9 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      getOrders(page);
-    }, [getOrders, page]),
-  );
+  useEffect(() => {
+    if (isFocused) getOrders(page);
+  }, [isFocused, getOrders, page]);
 
   const onRefresh = () => {
     setLoading(true);

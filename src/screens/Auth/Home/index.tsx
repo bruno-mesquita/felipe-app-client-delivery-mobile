@@ -21,10 +21,10 @@ export const Home = ({
   const api = getApi();
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
   const [page, setPage] = useState(0);
 
-  const getEstablishments = useCallback(async (newPage = 0) => {
+  const getEstablishments = useCallback(async (newPage: number) => {
     try {
       const { data } = await api.get('/establishments', {
         params: {
@@ -33,7 +33,8 @@ export const Home = ({
         },
       });
 
-      setEstablishments(data.result);
+      if(newPage === 0) setEstablishments(data.result);
+      else setEstablishments(old => old.concat(data.result));
     } catch (err) {
       Alert.alert(
         'Erro',
@@ -69,13 +70,9 @@ export const Home = ({
     setPage(old => old + 1);
   };
 
-  const ContentRefresh = (
-    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-  );
-
   return (
     <Container>
-      <Content refreshControl={ContentRefresh}>
+      <Content refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View
           style={{
             alignItems: 'center',
@@ -92,7 +89,7 @@ export const Home = ({
 
         <Establishments
           data={establishments}
-          ListEmptyComponent={NotFound}
+          ListEmptyComponent={() => <NotFound refreshing={refreshing} />}
           onEndReachedThreshold={0}
           onEndReached={loadMore}
           keyExtractor={(item: any) => String(item.id)}

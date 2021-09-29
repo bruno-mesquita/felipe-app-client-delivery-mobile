@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Text, FlatList, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { getApi } from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
@@ -10,9 +10,11 @@ import { ScreenAuthProps } from '@utils/ScreenProps';
 import { Card } from './Components';
 import { Container, ButtonAdd, Empty } from './styles';
 import { Address } from './props';
+import { useEffect } from 'react';
 
 export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
   const { colors } = useTheme();
+  const isFocused = useIsFocused();
 
   const [adresses, setAdresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,11 +38,9 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      getAdresses(page);
-    }, [page]),
-  );
+  useEffect(() => {
+    if (isFocused) getAdresses(page);
+  }, [isFocused, page, getAdresses]);
 
   const EmptyComponent = () => (
     <Empty>

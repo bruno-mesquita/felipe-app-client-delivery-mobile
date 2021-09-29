@@ -12,7 +12,7 @@ let api: AxiosInstance;
 
 const createApi = () => {
   api = axios.create({
-    baseURL: 'https://app-backend-felipe.herokuapp.com/api/app',
+    baseURL: 'https://api.flippdelivery.com.br/api/app',
     // baseURL: 'http://192.168.1.106:3030/api/app',
     headers: {
       api_version: Constants.manifest.version,

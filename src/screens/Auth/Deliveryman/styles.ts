@@ -6,10 +6,6 @@ export const Container = styled.View`
   margin-top: 15px;
 `;
 
-export const Content = styled.ScrollView`
-  width: 100%;
-`;
-
 export const Deleverymans = styled.FlatList.attrs(props => ({
   ...props,
   contentContainerStyle: { alignItems: 'center' },

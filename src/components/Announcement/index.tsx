@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, Alert, Platform, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Dimensions, StyleSheet, View, Alert, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
 import { getApi } from '@services/api';
@@ -13,19 +13,12 @@ export const Announcement = () => {
 
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
 
-  const getAnnouncement = useCallback(async () => {
-    try {
-      const { data } = await api.get('/announcement');
-
-      setAnnouncements(data.result);
-    } catch (err) {
-      Alert.alert('Houve um erro ao buscar os motoboys, por favor tente novamente');
-    }
+  useEffect(() => {
+    api.get('/announcement')
+      .then(({ data }) => setAnnouncements(data.result))
+      .catch(() => Alert.alert('Houve um erro carregar, por favor tente novamente'))
   }, []);
 
-  useEffect(() => {
-    getAnnouncement();
-  }, [getAnnouncement]);
 
   return (
     <Carousel

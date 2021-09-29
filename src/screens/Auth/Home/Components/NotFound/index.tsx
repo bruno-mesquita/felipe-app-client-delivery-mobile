@@ -1,14 +1,27 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from 'styled-components/native';
 
 import { Container } from './styles';
 
-export const NotFound = () => {
+interface NotFoundProps {
+  refreshing: boolean;
+}
+
+export const NotFound = ({ refreshing }: NotFoundProps) => {
+  const { colors } = useTheme();
+
   return (
     <Container>
-      <MaterialCommunityIcons name="flask-empty-minus-outline" size={100} />
-      <Text>Sem resultado</Text>
+      {refreshing ? (
+        <ActivityIndicator size={60} color={colors.primary} />
+      ) : (
+        <>
+          <MaterialCommunityIcons name="flask-empty-minus-outline" size={100} />
+          <Text>Sem resultado</Text>
+        </>
+      )}
     </Container>
   );
 };

@@ -6,7 +6,7 @@ import { getApi } from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { Card, EstablishmentInfo } from './Components';
-import { Container, Divider, Content } from './styles';
+import { Container, Divider } from './styles';
 import { Menu, Product } from './props';
 
 export const Establishment = ({
@@ -25,7 +25,8 @@ export const Establishment = ({
       const { data } = await api.get(`/establishments/${params.id}/menus`);
 
       setMenus(data.result);
-      setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
+      if(menuSelected) setMenuSelected(menuSelected);
+      else setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
     } catch (err) {
       Alert.alert('Erro', 'Erro ao recuperar os dados do estabelecimento', [
         {
@@ -36,7 +37,7 @@ export const Establishment = ({
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [menuSelected]);
 
   const getProducts = useCallback(async (menuId: number, newPage: number) => {
     try {
@@ -48,7 +49,8 @@ export const Establishment = ({
         },
       });
 
-      setProducts(old => old.concat(data.result));
+      if(newPage === 0) setProducts(data.result);
+      else setProducts(old => old.concat(data.result));
     } catch (err) {
       Alert.alert(
         'Erro',
@@ -64,8 +66,17 @@ export const Establishment = ({
   }, [getMenus]);
 
   useEffect(() => {
-    if (menuSelected) getProducts(menuSelected, 0);
-  }, [menuSelected, getProducts]);
+    if (menuSelected) getProducts(menuSelected, page);
+  }, [menuSelected, getProducts, page]);
+
+  const onPressMenu = (id: number) => {
+    if(menuSelected !== id) {
+      setMenuSelected(id);
+      setProducts([]);
+      setPage(0);
+      setLoading(true);
+    }
+  }
 
   const Header = () => (
     <>
@@ -76,7 +87,7 @@ export const Establishment = ({
           <Tab
             key={menu.id.toString()}
             {...menu}
-            onPress={setMenuSelected}
+            onPress={onPressMenu}
             selected={menuSelected}
           />
         ))}
@@ -84,34 +95,32 @@ export const Establishment = ({
     </>
   );
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     setLoading(true);
     setPage(0);
   };
 
-  const loadMore = async () => {
+  const loadMore = () => {
     setLoading(true);
     setPage(page + 1);
   };
 
   return (
     <Container>
-      <Content>
-        <FlatList
-          refreshing={loading}
-          onRefresh={onRefresh}
-          onEndReachedThreshold={0}
-          onEndReached={loadMore}
-          ListHeaderComponent={Header}
-          ListHeaderComponentStyle={{ marginBottom: 15 }}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id.toString()}
-          data={products}
-          renderItem={({ item }) => (
-            <Card {...item} establishmentId={params.id} fee={params.fee} />
-          )}
-        />
-      </Content>
+      <FlatList
+        refreshing={loading}
+        onRefresh={onRefresh}
+        onEndReachedThreshold={0}
+        onEndReached={loadMore}
+        ListHeaderComponent={Header}
+        ListHeaderComponentStyle={{ marginBottom: 15 }}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => item.id.toString()}
+        data={products}
+        renderItem={({ item }) => (
+          <Card {...item} establishmentId={params.id} fee={params.fee} />
+        )}
+      />
       <CartButton />
     </Container>
   );
