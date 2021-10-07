@@ -7,6 +7,7 @@ import {
   CodeToPassword,
   ForgotPassword,
 } from '@screens/NotAuth';
+import { TermsUse } from '@screens/TermsUse';
 import { ScreenNotAuthList } from '@utils/ScreenProps';
 
 const { Navigator, Screen } = createStackNavigator<ScreenNotAuthList>();
@@ -27,6 +28,11 @@ export const StackNotAuthNavigation = () => (
     <Screen
       name="CodeToPassword"
       component={CodeToPassword}
+      options={{ headerShown: false }}
+    />
+    <Screen
+      name="TermsUse"
+      component={TermsUse}
       options={{ headerShown: false }}
     />
   </Navigator>

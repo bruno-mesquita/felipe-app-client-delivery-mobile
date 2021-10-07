@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ScrollView, Alert } from 'react-native';
+import { ScrollView, Alert, Text, TouchableOpacity, Touchable } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
@@ -158,7 +158,9 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                 />
               </DivField>
               <Error name="confirmPassword" />
-
+              <TouchableOpacity onPress={() => navigation.navigate('TermsUse')}>
+                <Text style={{ color: '#fff', textDecorationLine: 'underline' }}>Termos de uso</Text>
+              </TouchableOpacity>
               <DivField style={{ marginTop: 15 }}>
                 <Button loading={isSubmitting} onPress={() => handleSubmit()}>
                   Cadastrar

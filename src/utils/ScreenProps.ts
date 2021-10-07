@@ -48,10 +48,11 @@ export interface ScreenAuthProps<R extends keyof ScreenAuthList> {
 }
 
 export type ScreenNotAuthList = {
-  Register: any;
-  Login: any;
-  CodeToPassword: any;
-  ForgotPassword: any;
+  Register: undefined;
+  Login: undefined;
+  CodeToPassword: undefined;
+  ForgotPassword: undefined;
+  TermsUse: undefined;
 };
 
 export type NavigationNotAuthHook<
