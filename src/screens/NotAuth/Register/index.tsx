@@ -1,7 +1,9 @@
-import React, { useRef } from 'react';
-import { ScrollView, Alert, Text, TouchableOpacity, Touchable } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ScrollView, Alert, Text, TouchableOpacity, Touchable, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
+import CheckBox from '@react-native-community/checkbox';
+import { useTheme } from 'styled-components/native';
 
 import { Field, Select, FieldMask, FieldSecure } from '@form';
 import { Button } from '@components';
@@ -14,6 +16,9 @@ import schema from './schema';
 import { ContentForm, DivField, Error } from './styles';
 
 export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
+  const { colors } = useTheme();
+
+  const [checked, setChecked] = useState(false);
   const cpfInputRef = useRef<TextInputMasked>(null);
   const celInputRef = useRef<TextInputMasked>(null);
 
@@ -158,11 +163,17 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                 />
               </DivField>
               <Error name="confirmPassword" />
-              <TouchableOpacity onPress={() => navigation.navigate('TermsUse')}>
-                <Text style={{ color: '#fff', textDecorationLine: 'underline' }}>Termos de uso</Text>
-              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <CheckBox value={checked} onValueChange={setChecked} tintColors={{
+                  false: '#fff',
+                  true: '#fff',
+                }} />
+                <TouchableOpacity onPress={() => navigation.navigate('TermsUse')}>
+                  <Text style={{ color: '#fff', textDecorationLine: 'underline' }}>Termos de uso</Text>
+                </TouchableOpacity>
+              </View>
               <DivField style={{ marginTop: 15 }}>
-                <Button loading={isSubmitting} onPress={() => handleSubmit()}>
+                <Button disabled={!checked} loading={isSubmitting} onPress={() => handleSubmit()}>
                   Cadastrar
                 </Button>
               </DivField>
