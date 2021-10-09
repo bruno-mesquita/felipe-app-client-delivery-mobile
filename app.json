@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flipp Delivery",
-    "slug": "flipp-delivery",
+    "name": "Flipp - Control",
+    "slug": "flipp-control",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icons/logo_app.png",
@@ -23,7 +23,7 @@
         "backgroundColor": "#9E0404",
         "foregroundImage": "./src/assets/images/icons/logo_app.png"
       },
-      "package": "flipp.com"
+      "package": "flippControl.com"
     },
     "platforms": [
       "android"
