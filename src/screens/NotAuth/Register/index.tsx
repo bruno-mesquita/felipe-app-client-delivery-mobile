@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, Alert, Text, TouchableOpacity, Touchable, View } from 'react-native';
+import { ScrollView, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 import CheckBox from '@react-native-community/checkbox';

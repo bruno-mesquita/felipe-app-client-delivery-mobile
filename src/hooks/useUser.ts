@@ -8,17 +8,11 @@ export const useUser = (selects = []) => {
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { data } = await api.post('/clients/me', { selects });
-
-        setUser(data.result);
-      } catch (err) {
-        setUser({ active: false });
-      }
-    }
-
-    if(selects.length > 0) getUser();
+    if(selects.length > 0) {
+      api.post('/clients/me', { selects })
+        .then(({ data }) => setUser(data.result))
+        .catch(() => setUser({ active: false }));
+    };
   }, []);
 
   return user;

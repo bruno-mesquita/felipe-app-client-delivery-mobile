@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   DrawerContentComponentProps,
-  DrawerContentOptions,
-  useIsDrawerOpen
+  useDrawerStatus,
 } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -20,11 +19,11 @@ import {
 import { getApi } from '@services/api';
 import { logout } from '../../store/ducks/auth/auth.actions';
 
-export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps<DrawerContentOptions>) => {
+export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) => {
   const api = getApi();
 
   const dispatch = useDispatch();
-  const isDrawerOpen = useIsDrawerOpen();
+  const drawerStatus = useDrawerStatus();
 
   const [avatar, setAvatar] = useState(null);
 
@@ -39,8 +38,8 @@ export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps<Dra
   }, [])
 
   useEffect(() => {
-    if(isDrawerOpen) getUser();
-  }, [isDrawerOpen, getUser]);
+    if(drawerStatus === 'open') getUser();
+  }, [drawerStatus, getUser]);
 
 
   const goLogout = () => dispatch(logout());

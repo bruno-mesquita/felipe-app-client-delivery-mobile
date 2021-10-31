@@ -7,7 +7,7 @@ import { Drawer } from '../components/Drawer';
 const { Navigator, Screen } = createDrawerNavigator();
 
 export const DrawerNavigation = () => (
-  <Navigator drawerContent={props => <Drawer {...props} />}>
+  <Navigator screenOptions={{ headerShown: false }} drawerContent={props => <Drawer {...props} />}>
     <Screen name="Home" component={StackAuthNavigation} />
   </Navigator>
 );
