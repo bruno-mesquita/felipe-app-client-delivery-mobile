@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flipp - Control",
-    "slug": "flipp-control",
+    "name": "Flipp",
+    "slug": "flipp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icons/logo_app.png",

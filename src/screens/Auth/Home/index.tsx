@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Alert, RefreshControl } from 'react-native';
-import { useHeaderHeight } from '@react-navigation/stack';
 import { useIsFocused } from '@react-navigation/native';
+import Constans from 'expo-constants';
 
 import { CartButton } from '@components';
 import { getApi } from '@services/api';
@@ -15,7 +15,6 @@ export const Home = ({
   navigation,
   route: { params },
 }: ScreenAuthProps<'Home'>) => {
-  const headerHeight = useHeaderHeight();
   const isFocused = useIsFocused();
 
   const api = getApi();
@@ -76,8 +75,8 @@ export const Home = ({
         <View
           style={{
             alignItems: 'center',
-            paddingTop: headerHeight * 0.3,
-            paddingBottom: headerHeight * 0.3,
+            paddingTop: Constans.statusBarHeight * 0.3,
+            paddingBottom: Constans.statusBarHeight * 0.3,
           }}
         >
           <FieldSearch
