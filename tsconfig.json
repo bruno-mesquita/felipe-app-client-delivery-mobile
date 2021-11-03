@@ -17,6 +17,10 @@
       "@contexts/*": ["./src/contexts/*"],
       "@hooks": ["./src/hooks"]
     },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,

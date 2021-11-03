@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -24,7 +24,7 @@ import {
   Account
 } from '../screens/Auth';
 
-const { Navigator, Screen } = createStackNavigator<ScreenAuthList>();
+const { Navigator, Screen } = createNativeStackNavigator<ScreenAuthList>();
 
 const Header = () => (
   <Image

@@ -6,8 +6,6 @@ export const Container = styled.View`
   width: 49%;
 `;
 
-export const ContainerCheckbox = styled.TouchableOpacity``;
-
 export const ContainerCheckboxIcon = styled.View`
   border-radius: 7px;
   border: 1px solid #eee;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
   Login,
@@ -10,7 +10,7 @@ import {
 import { TermsUse } from '@screens/TermsUse';
 import { ScreenNotAuthList } from '@utils/ScreenProps';
 
-const { Navigator, Screen } = createStackNavigator<ScreenNotAuthList>();
+const { Navigator, Screen } = createNativeStackNavigator<ScreenNotAuthList>();
 
 export const StackNotAuthNavigation = () => (
   <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>

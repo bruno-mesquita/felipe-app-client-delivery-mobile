@@ -2,11 +2,10 @@ import React, { useRef, useState } from 'react';
 import { ScrollView, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
-import CheckBox from '@react-native-community/checkbox';
 import { useTheme } from 'styled-components/native';
 
 import { Field, Select, FieldMask, FieldSecure } from '@form';
-import { Button } from '@components';
+import { Button, Checkbox } from '@components';
 import { getApi } from '@services/api';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
@@ -163,14 +162,12 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                 />
               </DivField>
               <Error name="confirmPassword" />
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <CheckBox value={checked} onValueChange={setChecked} tintColors={{
-                  false: '#fff',
-                  true: '#fff',
-                }} />
-                <TouchableOpacity onPress={() => navigation.navigate('TermsUse')}>
-                  <Text style={{ color: '#fff', textDecorationLine: 'underline' }}>Termos de uso</Text>
-                </TouchableOpacity>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <Checkbox checked={checked} onChange={setChecked}>
+                  <TouchableOpacity onPress={() => navigation.navigate('TermsUse')}>
+                    <Text style={{ color: '#fff', textDecorationLine: 'underline' }}>Termos de uso</Text>
+                  </TouchableOpacity>
+                </Checkbox>
               </View>
               <DivField style={{ marginTop: 15 }}>
                 <Button disabled={!checked} loading={isSubmitting} onPress={() => handleSubmit()}>
