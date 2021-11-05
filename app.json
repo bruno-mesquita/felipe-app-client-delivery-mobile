@@ -23,7 +23,7 @@
         "backgroundColor": "#9E0404",
         "foregroundImage": "./src/assets/images/icons/logo_app.png"
       },
-      "package": "flippControl.com"
+      "package": "flipp.com"
     },
     "platforms": [
       "android"

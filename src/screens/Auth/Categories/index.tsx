@@ -74,7 +74,7 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <CategoryCard disabled={userActive} name="Lojas" onClick={() => listCategory('Lojas')}>
           <Fontisto {...iconProps('shopping-store')} />
         </CategoryCard>
-        <CategoryCard disabled={userActive} name="Bebidas" onClick={() => listCategory('Lojas')}>
+        <CategoryCard disabled={userActive} name="Bebidas" onClick={() => listCategory('Bebidas')}>
           <Entypo {...iconProps('drink')} />
         </CategoryCard>
         <CategoryCard disabled={userActive} name="Motoboys" onClick={() => listDeliverymans()}>
