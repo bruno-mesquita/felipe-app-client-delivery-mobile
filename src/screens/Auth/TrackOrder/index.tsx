@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, BackHandler } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components/native';

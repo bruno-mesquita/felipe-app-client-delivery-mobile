@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 
 import ModalItem from '../../ModalItem';
 import { ModalBaseHandle } from '../../ModalBase/props';

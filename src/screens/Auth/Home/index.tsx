@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { View, Alert, RefreshControl } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Constans from 'expo-constants';

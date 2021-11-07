@@ -1,4 +1,3 @@
-import React from 'react';
 import { Text } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@react-navigation/native';

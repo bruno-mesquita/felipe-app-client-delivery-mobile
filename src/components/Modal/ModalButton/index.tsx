@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Text, IButtonProps } from 'native-base';
 
 import { Button } from './styles';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 
 import { Container, DivCard, Card } from './styles';

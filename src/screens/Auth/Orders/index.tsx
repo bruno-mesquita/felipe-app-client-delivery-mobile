@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 

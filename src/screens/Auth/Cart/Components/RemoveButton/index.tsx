@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';

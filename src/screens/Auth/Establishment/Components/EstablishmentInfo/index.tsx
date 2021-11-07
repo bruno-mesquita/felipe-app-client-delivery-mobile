@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRoute } from '@react-navigation/native';
 import { Text, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';

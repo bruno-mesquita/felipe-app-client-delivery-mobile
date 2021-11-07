@@ -1,4 +1,3 @@
-import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';

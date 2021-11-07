@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';

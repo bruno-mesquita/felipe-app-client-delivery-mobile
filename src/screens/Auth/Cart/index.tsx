@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';

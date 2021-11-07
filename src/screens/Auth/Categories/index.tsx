@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
   AntDesign,

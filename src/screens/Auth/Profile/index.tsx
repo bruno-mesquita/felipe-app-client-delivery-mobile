@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Formik, ErrorMessage } from 'formik';
 import * as ImagePicker from 'expo-image-picker';

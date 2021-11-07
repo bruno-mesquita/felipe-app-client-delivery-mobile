@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Text, FlatList, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';

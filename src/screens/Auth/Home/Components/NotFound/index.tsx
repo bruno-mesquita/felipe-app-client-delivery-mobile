@@ -1,4 +1,3 @@
-import React from 'react';
 import { Text, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 

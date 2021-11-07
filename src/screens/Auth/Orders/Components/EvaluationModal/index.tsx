@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 import { FormControl, TextArea } from 'native-base';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Animated } from 'react-native';
 
 import { Container, TabsContainer } from './styles';

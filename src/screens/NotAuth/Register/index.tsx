@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ScrollView, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
