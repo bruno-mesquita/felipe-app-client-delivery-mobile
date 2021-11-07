@@ -8,6 +8,9 @@ declare module 'styled-components/native' {
       secundary: string;
       third: string;
     };
+    metrics: {
+      px: (valuePx: number) => number;
+    }
   }
 }
 
