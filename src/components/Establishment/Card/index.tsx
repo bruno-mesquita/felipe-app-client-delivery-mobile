@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-import ModalItem from '../../ModalItem';
+import { ModalItem } from '../../ModalItem';
 import { ModalBaseHandle } from '../../ModalBase/props';
 import { CardBase } from '../../CardBase';
 import { Props } from './props';

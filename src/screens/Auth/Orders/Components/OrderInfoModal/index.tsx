@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Text } from 'react-native';
 
-import { Modal } from '@components';
+import { Modal, ModalBase } from '@components';
 import { getApi } from '@services/api';
 import { useSelectedOrder } from '@contexts/OrderContext';
 import formatNumber from '@utils/format-number';
@@ -38,7 +38,7 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
   }, [getOrder]);
 
   return (
-    <Modal.Base ref={modalRef}>
+    <ModalBase ref={modalRef}>
       <Container>
         <Modal.Header onClose={onClose}>Detalhe do pedido</Modal.Header>
         <Text>{`Endereço de entrega: ${orderInfo?.order.address_client.nickname}`}</Text>
@@ -54,6 +54,6 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
           orderInfo?.order.total || 0,
         )}`}</Text>
       </Container>
-    </Modal.Base>
+    </ModalBase>
   );
 };
