@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Alert, RefreshControl } from 'react-native';
+import { Alert } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 import { getApi } from '@services/api';

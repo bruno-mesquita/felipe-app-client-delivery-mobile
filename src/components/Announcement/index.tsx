@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover', // cover
+    resizeMode: 'cover', 
     maxHeight: '100%',
     maxWidth: '100%',
   },

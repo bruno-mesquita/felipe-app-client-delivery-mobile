@@ -38,8 +38,6 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
   const listCategory = (categoryName: string) => navigation.navigate('Home', { categoryName });
 
-  const listDeliverymans = () => navigation.navigate('Deliverymans');
-
   const iconProps = (name: any) => ({ size: 35, color: '#fff', name })
 
   return (
@@ -77,8 +75,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <CategoryCard disabled={userActive} name="Bebidas" onClick={() => listCategory('Bebidas')}>
           <Entypo {...iconProps('drink')} />
         </CategoryCard>
-        <CategoryCard disabled={userActive} name="Motoboys" onClick={() => listDeliverymans()}>
-          <MaterialIcons {...iconProps('sports-motorsports')} />
+        <CategoryCard disabled={userActive} name="Pet shops" onClick={() => listCategory('Pet shops')}>
+          <MaterialIcons {...iconProps('pets')} />
         </CategoryCard>
       </DivContainer>
 
