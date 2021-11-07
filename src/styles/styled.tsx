@@ -1,8 +1,8 @@
-import { ThemeProvider } from 'styled-components';
+import { FC } from 'react';
+import { ThemeProvider } from 'styled-components/native';
 
 import theme from './theme';
-import { Props } from '../utils/props';
 
-export const Styled = ({ children }: Props) => <ThemeProvider theme={theme}>{children}</ThemeProvider>
+export const Styled: FC = ({ children }) => <ThemeProvider theme={theme}>{children}</ThemeProvider>
 
 

@@ -1,10 +1,10 @@
 import { useImperativeHandle, forwardRef, useState, useCallback } from 'react';
-import { Modal, View } from 'react-native';
+import { Modal, View, ModalProps } from 'react-native';
 
-import { ModalBaseHandle, Props } from './props';
+import { ModalBaseHandle } from './props';
 import { Container, styles } from './styles';
 
-export const ModalBase = forwardRef<ModalBaseHandle, Props>(
+export const ModalBase = forwardRef<ModalBaseHandle, ModalProps>(
   ({ children, ...rest }, ref) => {
     const [visible, setVisible] = useState(false);
 

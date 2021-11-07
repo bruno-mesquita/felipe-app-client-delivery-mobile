@@ -1,9 +1,8 @@
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
-import { Props } from './props';
 import styles from './styles';
 
-export const CardBase = ({ children, style, ...rest }: Props) => (
+export const CardBase = ({ children, style, ...rest }: TouchableOpacityProps) => (
   <TouchableOpacity style={[styles.container, style]} {...rest}>
     {children}
   </TouchableOpacity>
