@@ -4,12 +4,12 @@ import { Formik } from 'formik';
 
 import { AddressForm } from '../../../components';
 
-import { getApi } from '../../../services/api';
+import {  } from '../../../services/api';
 import { Container } from './styles';
 import { Address } from './props';
 
 export const UpdateAddress = ({ route }) => {
-  const api = getApi();
+
 
   const [address, setAddress] = useState({
     id: '',

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 
 export const useUser = (selects = []) => {
-  const api = getApi();
+
 
   const [user, setUser] = useState<any>({});
 

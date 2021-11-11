@@ -15,7 +15,7 @@ const delivered = require('../../../assets/images/pedido_entregue.png');
 
 import { clearCart } from '../../../store/ducks/cart/cart.actions';
 import { ScreenAuthProps } from '@utils/ScreenProps';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { Container, Status, Icon, Title } from './styles';
 import { Alert } from 'react-native';
 
@@ -57,7 +57,7 @@ export const TrackOrder = ({
   const verifyStatus = async () => {
     try {
       if (!finish) {
-        const api = getApi();
+
         const { data } = await api.get(`/orders/${id}/verify`);
 
         if (data.result === 'Entregue' || data.result === 'Cancelado') {

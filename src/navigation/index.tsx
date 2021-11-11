@@ -1,15 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
 
 import { DrawerNavigation } from './DrawerNavigation';
 import { StackNotAuthNavigation } from './StackNotAuthNavigation';
+import { useAuth } from '@contexts/AuthContext';
 
 const Navigation = () => {
-  const { logged } = useSelector(({ auth }) => auth);
+  const { signed } = useAuth();
 
   return (
     <NavigationContainer>
-      {logged ? <DrawerNavigation /> : <StackNotAuthNavigation />}
+      {signed ? <DrawerNavigation /> : <StackNotAuthNavigation />}
     </NavigationContainer>
   );
 };

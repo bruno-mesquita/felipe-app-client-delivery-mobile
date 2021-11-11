@@ -2,21 +2,19 @@ import { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, Alert, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 
 import { IAnnouncement } from './props';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 export const Announcement = () => {
-  const api = getApi();
-
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
 
   useEffect(() => {
     api.get('/announcement')
       .then(({ data }) => setAnnouncements(data.result))
-      .catch(() => Alert.alert('Houve um erro carregar, por favor tente novamente'))
+      .catch((err) => Alert.alert('Houve um erro carregar, por favor tente novamente'))
   }, []);
 
 
@@ -26,9 +24,8 @@ export const Announcement = () => {
       sliderHeight={10}
       itemWidth={screenWidth - 60}
       data={announcements}
-      keyExtractor={item => item.id.toString()}
       renderItem={({item}, parallaxProps) => (
-        <View style={styles.item}>
+        <View key={item.id} style={styles.item}>
           <ParallaxImage
             source={{ uri: item.photo.encoded }}
             containerStyle={styles.imageContainer}
@@ -63,7 +60,7 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover', 
+    resizeMode: 'cover',
     maxHeight: '100%',
     maxWidth: '100%',
   },

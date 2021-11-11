@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-import { useDispatch } from 'react-redux';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { useUser } from '@hooks';
-import { Item } from './Components';
-import { logout } from '../../../store/ducks/auth/auth.actions';
+import { useAuth } from '@contexts/AuthContext';
 
+import { Item } from './Components';
 import { Container, Divider } from './styles';
 
 export const Account = ({ navigation }) => {
-  const api = getApi();
-  const dispatch = useDispatch();
+  const { logout } = useAuth();
+
   const { active: activeHook } = useUser(['active']);
   const [userActive, setUserActive] = useState(false);
 
@@ -63,7 +62,7 @@ export const Account = ({ navigation }) => {
           try {
             await api.delete('/clients');
 
-            dispatch(logout());
+            logout();
           } catch (err) {
             Alert.alert('Erro', 'Houve um erro deletar sua conta');
           }

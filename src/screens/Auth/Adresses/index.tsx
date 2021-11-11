@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 import { useIsFocused } from '@react-navigation/native';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { Card } from './Components';
@@ -22,7 +22,7 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
 
   const getAdresses = useCallback(async (newPage: number) => {
     try {
-      const api = getApi();
+
 
       const { data } = await api.get('/adresses-client', {
         params: { page: newPage },

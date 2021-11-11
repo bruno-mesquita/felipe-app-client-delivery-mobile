@@ -3,7 +3,7 @@ import { Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { CardBase } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 
 import { Checkbox } from '../Checkbox';
@@ -11,7 +11,7 @@ import { Container, Header, Body, Footer, Nickname, Content } from './styles';
 import { Address } from '../../props';
 
 export const Card = ({ reender, ...props }: Address & { reender: () => void }) => {
-  const api = getApi();
+
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
 
   const [address, setAddress] = useState<Address>(null);

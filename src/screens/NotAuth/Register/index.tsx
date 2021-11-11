@@ -6,7 +6,7 @@ import { useTheme } from 'styled-components/native';
 
 import { Field, Select, FieldMask, FieldSecure } from '@form';
 import { Button, Checkbox } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
 import { Layout } from '../_Layout';
@@ -37,7 +37,7 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
     { setSubmitting }: FormikHelpers<Values>,
   ) => {
     try {
-      const api = getApi();
+
 
       const body = {
         ...values,

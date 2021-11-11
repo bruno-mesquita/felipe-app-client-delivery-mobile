@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert, ScrollView } from 'react-native';
 
 import { CartButton, Tab } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { Card, EstablishmentInfo } from './Components';
@@ -21,7 +21,7 @@ export const Establishment = ({
 
   const getMenus = useCallback(async () => {
     try {
-      const api = getApi();
+
       const { data } = await api.get(`/establishments/${params.id}/menus`);
 
       setMenus(data.result);
@@ -41,7 +41,7 @@ export const Establishment = ({
 
   const getProducts = useCallback(async (menuId: number, newPage: number) => {
     try {
-      const api = getApi();
+
 
       const { data } = await api.get(`/menus/${menuId}/products`, {
         params: {

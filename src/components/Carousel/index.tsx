@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { IAnnouncement } from '../Announcement/props';
 import { ScrollHorizontal, Photo } from './styles';
 
 export const Carousel = () => {
-  const api = getApi();
-
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
 
   useEffect(() => {

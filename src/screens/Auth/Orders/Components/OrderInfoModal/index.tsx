@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Text } from 'react-native';
 
 import { Modal, ModalBase } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { useSelectedOrder } from '@contexts/OrderContext';
 import formatNumber from '@utils/format-number';
 
@@ -22,7 +22,7 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
   const getOrder = useCallback(async () => {
     try {
       if (selectedItem.orderId) {
-        const api = getApi();
+
 
         const { data } = await api.get(`/orders/${selectedItem.orderId}`);
 

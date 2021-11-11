@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { NotFound, Card } from './Components';
@@ -12,7 +12,7 @@ import { Container, Deleverymans } from './styles';
 export const Deliveryman = ({
   navigation,
 }: ScreenAuthProps<'Deliverymans'>) => {
-  const api = getApi();
+
 
   const isFocused = useIsFocused();
 

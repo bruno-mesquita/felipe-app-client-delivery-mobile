@@ -8,7 +8,7 @@ import { useTheme } from 'styled-components/native';
 
 import { ModalBase, ModalButton } from '@components';
 import { Field, Select } from '@form';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ModalBaseProps } from '../../../../../components/ModalBase/props';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 
@@ -19,7 +19,7 @@ import schema from './schema';
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation<NavigationAuthHook<'Cart'>>();
   const { colors } = useTheme();
-  const api = getApi();
+
 
   const { establishmentId, items, total } = useSelector(({ cart }) => cart);
 

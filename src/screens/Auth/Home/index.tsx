@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Constans from 'expo-constants';
 
 import { CartButton } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import { NotFound, Card, FieldSearch } from './Components';
@@ -17,7 +17,7 @@ export const Home = ({
 }: ScreenAuthProps<'Home'>) => {
   const isFocused = useIsFocused();
 
-  const api = getApi();
+
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [refreshing, setRefreshing] = useState(true);

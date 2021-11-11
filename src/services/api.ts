@@ -1,65 +1,57 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import Constants from 'expo-constants';
 
-import { store } from '../store/store';
+import { getRefreshToken, removeToken, setToken, setRefreshToken, getToken } from '../utils/store';
 
-import {
-  requestRefreshTokenSuccess,
-  logout,
-} from '../store/ducks/auth/auth.actions';
+const api = axios.create({
+  baseURL: 'https://api.flippdelivery.com.br/api/app',
+  headers: {
+    api_version: Constants.manifest.version,
+  },
+});
 
-let api: AxiosInstance;
+api.interceptors.request.use(async request => {
+  if(!request.headers.Authorization) {
+    const token = await getToken();
 
-const createApi = () => {
-  api = axios.create({
-    baseURL: 'https://api.flippdelivery.com.br/api/app',
-    // baseURL: 'http://192.168.1.106:3030/api/app',
-    headers: {
-      api_version: Constants.manifest.version,
-    },
-  });
+    if(token) request.headers.Authorization = `Bearer ${token}`;
+  }
 
-  api.interceptors.response.use(
-    response => {
-      return response;
-    },
-    async error => {
-      const originalRequest = error.config;
+  if(!request.headers.Authorization.split(' ')[1]) {
+    const token = await getToken();
 
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
+    if(token) request.headers.Authorization = `Bearer ${token}`;
+  }
 
-        const { refreshToken } = (store.getState() as any).auth;
+  return request;
+}, (error) => Promise.reject(error));
 
-        if (!refreshToken) store.dispatch(logout());
+api.interceptors.response.use(response => response, async (error) => {
+  const originalRequest = error.config;
 
-        try {
-          const { data } = await api.post('/auth/refresh', {
-            token: refreshToken,
-          });
+  if (error.response.status === 401 && !originalRequest._retry) {
+    originalRequest._retry = true;
 
-          const { accessToken, refreshToken: newRefreshToken } = data.result;
+    const refreshToken = await getRefreshToken();
 
-          api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    if (!refreshToken) await removeToken();
 
-          store.dispatch(
-            requestRefreshTokenSuccess(accessToken, newRefreshToken),
-          );
+    try {
+      const { data } = await api.post('/auth/refresh', { token: refreshToken });
 
-          return axios(originalRequest);
-        } catch (err) {
-          store.dispatch(logout());
-        }
-      }
-      return Promise.reject(error);
-    },
-  );
-};
+      const { accessToken, refreshToken: newRefreshToken } = data.result;
 
-const getApi = () => {
-  if (!api) createApi();
+      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-  return api;
-};
+      await setToken(accessToken);
+      await setRefreshToken(newRefreshToken);
 
-export { createApi, getApi };
+      return api(originalRequest);
+    } catch (err) {
+      await removeToken();
+    }
+  }
+  return Promise.reject(error);
+});
+
+export default api;

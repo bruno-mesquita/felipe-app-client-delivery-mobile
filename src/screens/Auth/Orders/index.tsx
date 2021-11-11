@@ -2,14 +2,14 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 import { OrderProvider } from '@contexts/OrderContext';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 
 const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
-  const api = getApi();
+
   const isFocused = useIsFocused();
 
   const [orders, setOrders] = useState([]);

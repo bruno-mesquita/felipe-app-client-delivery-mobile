@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   DrawerContentComponentProps,
   useDrawerStatus,
@@ -16,13 +15,12 @@ import {
   Divider,
 } from './styles';
 
-import { getApi } from '@services/api';
-import { logout } from '../../store/ducks/auth/auth.actions';
+import api from '@services/api';
+import { useAuth } from '@contexts/AuthContext';
 
 export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) => {
-  const api = getApi();
 
-  const dispatch = useDispatch();
+  const { logout } = useAuth();
   const drawerStatus = useDrawerStatus();
 
   const [avatar, setAvatar] = useState(null);
@@ -41,8 +39,6 @@ export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) =>
     if(drawerStatus === 'open') getUser();
   }, [drawerStatus, getUser]);
 
-
-  const goLogout = () => dispatch(logout());
 
   const goProfile = () => navigation.navigate('Profile');
 
@@ -84,7 +80,7 @@ export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) =>
           <ListItemText>Configurações</ListItemText>
           <Divider />
         </ListItem>
-        <ListItem onPress={goLogout}>
+        <ListItem onPress={logout}>
           <ListItemText>Sair</ListItemText>
         </ListItem>
       </List>

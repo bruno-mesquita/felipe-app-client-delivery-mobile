@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { ScreenAuthProps } from '@utils/ScreenProps';
-import { getApi } from '@services/api';
+import api from '@services/api';
 import { Field, FieldMask } from '@form';
 import { Button } from '@components';
 
@@ -24,7 +24,7 @@ import { UserProfile } from './props';
 export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
   const [user, setUser] = useState<UserProfile>(null);
   const [loading, setLoading] = useState(false);
-  const api = getApi();
+
 
   const getUser = useCallback(async () => {
     try {

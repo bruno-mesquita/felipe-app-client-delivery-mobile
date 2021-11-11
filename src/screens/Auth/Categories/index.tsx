@@ -10,7 +10,7 @@ import {
 } from '@expo/vector-icons';
 
 import { Announcement, Carousel } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
@@ -18,8 +18,6 @@ import { CategoryCard } from './components';
 import { Container, DivContainer } from './styles';
 
 export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
-  const api = getApi();
-
   const [userActive, setUserActive] = useState(false);
 
   const getUser = async () => {

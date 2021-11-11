@@ -22,7 +22,7 @@ export const Button = ({
     >
       {loading ? (
         <ActivityIndicator
-          color={primaryColor ? colors.primary : colors.secundary}
+          color={!primaryColor ? colors.primary : colors.secundary}
           size={30}
         />
       ) : (

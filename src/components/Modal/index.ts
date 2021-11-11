@@ -1,4 +1,4 @@
-import { ModalBase } from './ModalBase';
+import { ModalBase } from '../ModalBase';
 import { ModalButton } from './ModalButton';
 import { ModalHeader } from './ModalHeader';
 

@@ -1,44 +1,41 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Formik } from 'formik';
-import { Text } from 'react-native';
+import { Alert } from 'react-native';
+import { Formik, FormikHelpers } from 'formik';
 
+import { useAuth } from '@contexts/AuthContext';
+import { ScreenNotAuthProps } from '@utils/ScreenProps';
 import { Field, FieldSecure } from '../../../components/FormUtils';
 import { Button } from '../../../components';
-import { Checkbox } from './Components';
 import { Layout } from '../_Layout';
 
 import {
-  Error,
+  ErrorComponent,
   Form,
   ContainerButton,
   ContainerInput,
   ForgotPassword,
   ForgotPasswordButton,
   ForgotPasswordText,
-  StayConnect,
 } from './styles';
-
-import { ScreenNotAuthProps } from '@utils/ScreenProps';
-import { requestLogin } from '@store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
-  const dispatch = useDispatch();
+  const { signIn } = useAuth();
 
-  const { loading } = useSelector(({ auth }) => auth);
+  const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+    try {
+      const result = await signIn(email, password);
 
-  const onSubmit = ({ email, password, checked }: Values) => {
-    dispatch(requestLogin(email, password, checked));
+      if(!result) throw new Error();
+    } catch (err) {
+      Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const forgotPassword = () => {
-    navigation.navigate('ForgotPassword');
-  };
-
-  const goRegister = () => {
-    navigation.navigate('Register');
-  };
+  const forgotPassword = () => navigation.navigate('ForgotPassword');
+  const goRegister = () => navigation.navigate('Register');
 
   return (
     <Layout>
@@ -47,7 +44,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
         onSubmit={onSubmit}
         validationSchema={schema}
       >
-        {({ handleSubmit, handleChange, values, setFieldValue }) => (
+        {({ handleSubmit, handleChange, values, isSubmitting }) => (
           <Form>
             <ContainerInput>
               <Field
@@ -57,7 +54,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
                 placeholder="E-mail"
                 label="E-mail"
               />
-              <Error name="email" />
+              <ErrorComponent name="email" />
 
               <FieldSecure
                 onChangeText={handleChange('password')}
@@ -65,7 +62,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
                 placeholder="Senha"
                 label="Senha"
               />
-              <Error name="password" />
+              <ErrorComponent name="password" />
             </ContainerInput>
 
             <ForgotPassword>
@@ -76,19 +73,10 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
               </ForgotPasswordButton>
             </ForgotPassword>
 
-            <StayConnect>
-              <Checkbox
-                checked={values.checked}
-                onChange={value => setFieldValue('checked', value)}
-              >
-                <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
-              </Checkbox>
-            </StayConnect>
-
             <ContainerButton>
               <Button
-                disabled={loading}
-                loading={loading}
+                disabled={isSubmitting}
+                loading={isSubmitting}
                 onPress={() => handleSubmit()}
               >
                 Login

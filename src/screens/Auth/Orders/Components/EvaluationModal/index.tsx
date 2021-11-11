@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { useSelectedOrder } from '@contexts/OrderContext';
 import { ModalBase, ModalButton } from '@components';
-import { getApi } from '@services/api';
+import api from '@services/api';
 
 import { Container, Header } from './styles';
 import { EvaluationProps } from './props';
@@ -23,7 +23,7 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
 
   const getRate = useCallback(async () => {
     try {
-      const api = getApi();
+
 
       const { data } = await api.get(`/rates/${selectedItem.evaluationId}`);
 
@@ -51,7 +51,7 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
 
   const evaluate = async () => {
     try {
-      const api = getApi();
+
 
       await api.post(`/orders/${selectedItem.orderId}/rate`, rate);
 
