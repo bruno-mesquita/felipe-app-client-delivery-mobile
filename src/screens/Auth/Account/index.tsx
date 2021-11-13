@@ -44,7 +44,6 @@ export const Account = ({ navigation }) => {
       setUserActive(old => !old);
       Alert.alert('Mensagem', 'Conta ativada!');
     } catch (err) {
-      console.log(err.response);
       Alert.alert('Erro', 'Houve um problema ao ativar sua conta');
     } finally {
       setActiveOrDeactivateLoading(false);

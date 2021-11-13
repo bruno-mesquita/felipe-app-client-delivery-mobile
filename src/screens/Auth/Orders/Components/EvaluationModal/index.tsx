@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 import { FormControl, TextArea } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { AxiosError } from 'axios';
 import { useTheme } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -21,21 +20,10 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
 
   const [rate, setRate] = useState({ value: 0, message: '' });
 
-  const getRate = useCallback(async () => {
-    try {
-
-
-      const { data } = await api.get(`/rates/${selectedItem.evaluationId}`);
-
-      setRate(data.result);
-    } catch (err) {
-      navigation.goBack();
-    }
-  }, [selectedItem]);
-
   useEffect(() => {
-    getRate();
-  }, [getRate]);
+    api.get(`/rates/${selectedItem.evaluationId}`).then(({ data }) => setRate(data.result))
+    .catch(() => navigation.goBack());
+  }, [selectedItem]);
 
   const onFinishRating = (value: number) => {
     setRate(old => ({ ...old, value: value }));
@@ -45,21 +33,10 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
     setRate(old => ({ ...old, message: value }));
   };
 
-  const onClose = useCallback(() => {
-    modalRef.current?.close();
-  }, []);
-
-  const evaluate = async () => {
-    try {
-
-
-      await api.post(`/orders/${selectedItem.orderId}/rate`, rate);
-
+  const evaluate = () => {
+    api.post(`/orders/${selectedItem.orderId}/rate`, rate).then(() => {
       modalRef.current?.close();
-    } catch (err) {
-      const error = err as AxiosError;
-      console.log(error);
-    }
+    })
   };
 
   return (
@@ -67,7 +44,7 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
       <Container>
         <Header>
           <Ionicons
-            onPress={onClose}
+            onPress={() => modalRef.current?.close()}
             name="close-circle"
             size={20}
             color={colors.primary}

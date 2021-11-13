@@ -20,7 +20,6 @@ export const AuthProvider: FC = ({ children }) => {
 
   useEffect(() => {
     store.getToken().then(value => {
-      console.log(value);
       if(value) {
         setToken(value);
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -28,7 +27,6 @@ export const AuthProvider: FC = ({ children }) => {
       }
     });
     store.getRefreshToken().then(value => {
-      console.log('refresh', value);
       value && setRefreshToken(value);
     });
   }, []);

@@ -1,16 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { Formik } from 'formik';
 
-import { AddressForm } from '../../../components';
+import { AddressForm } from '@components';
+import api from '@services/api';
 
-import {  } from '../../../services/api';
 import { Container } from './styles';
 import { Address } from './props';
 
 export const UpdateAddress = ({ route }) => {
-
-
   const [address, setAddress] = useState({
     id: '',
     street: '',
@@ -22,28 +20,19 @@ export const UpdateAddress = ({ route }) => {
     state: '',
   });
 
-  const getAddress = useCallback(async () => {
-    try {
-      const { data } = await api.get(`/adresses-client/${route.params.id}`);
-
-      setAddress(data.result);
-    } catch (err) {
-      Alert.alert('Erro ao buscar endereço');
-    }
-  }, []);
-
   useEffect(() => {
-    getAddress();
-  }, [getAddress]);
+    api.get(`/adresses-client/${route.params.id}`)
+      .then(({ data }) => setAddress(data.result))
+      .catch(() => Alert.alert('Erro', 'Erro ao buscar endereço'));
+  }, [route.params.id]);
 
   const onSubmit = async (values: Address) => {
     try {
       await api.put(`/adresses-client/${route.params.id}`, values);
 
-      Alert.alert('Endereço atualizado com sucesso');
+      Alert.alert('Sucesso!','Endereço atualizado com sucesso');
     } catch (err) {
-      Alert.alert('Erro ao atualizar');
-      console.log(err.response);
+      Alert.alert('Erro', 'Erro ao atualizar');
     }
   };
 
