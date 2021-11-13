@@ -17,8 +17,6 @@ export const Home = ({
 }: ScreenAuthProps<'Home'>) => {
   const isFocused = useIsFocused();
 
-
-
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [refreshing, setRefreshing] = useState(true);
   const [page, setPage] = useState(0);

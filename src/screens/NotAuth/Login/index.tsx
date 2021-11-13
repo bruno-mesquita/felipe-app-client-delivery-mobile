@@ -29,6 +29,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
       if(!result) throw new Error();
     } catch (err) {
       Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
+      resetForm();
     } finally {
       setSubmitting(false);
     }

@@ -44,7 +44,7 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <CategoryCard
           disabled={userActive}
           name="Comidas"
-          onClick={() => listCategory('Restaurantes')}
+          onClick={() => listCategory('Comidas')}
         >
           <Ionicons {...iconProps('restaurant')} />
         </CategoryCard>
