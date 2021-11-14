@@ -46,8 +46,8 @@ export const Card = (props: Props) => {
             source={{ uri: props.photo.encoded }}
           />
           <Content>
-            <Title>{props.name}</Title>
-            <Description>{formattedDescription(props.description)}</Description>
+            <Title>{props.name.trim()}</Title>
+            <Description>{formattedDescription(props.description.trim())}</Description>
             <Price>{formatNumber(props.price)}</Price>
           </Content>
         </Container>
