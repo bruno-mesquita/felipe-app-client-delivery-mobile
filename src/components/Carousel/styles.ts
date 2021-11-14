@@ -5,6 +5,7 @@ export const ScrollHorizontal = styled.ScrollView.attrs(props => ({
   showsHorizontalScrollIndicator: false,
 }))`
   width: auto;
+  margin-top: 35px;
 `;
 
 export const Photo = styled.Image.attrs(props => ({

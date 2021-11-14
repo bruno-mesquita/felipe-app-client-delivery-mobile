@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { FlatList, Alert, ScrollView } from 'react-native';
+import { FlatList, Alert, ScrollView, View } from 'react-native';
 
 import { CartButton, Tab } from '@components';
 import api from '@services/api';
@@ -19,30 +19,8 @@ export const Establishment = ({
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
 
-  const getMenus = useCallback(async () => {
-    try {
-
-      const { data } = await api.get(`/establishments/${params.id}/menus`);
-
-      setMenus(data.result);
-      if(menuSelected) setMenuSelected(menuSelected);
-      else setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao recuperar os dados do estabelecimento', [
-        {
-          text: 'Voltar',
-          onPress: () => navigation.goBack(),
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  }, [menuSelected]);
-
   const getProducts = useCallback(async (menuId: number, newPage: number) => {
     try {
-
-
       const { data } = await api.get(`/menus/${menuId}/products`, {
         params: {
           page: newPage,
@@ -62,8 +40,22 @@ export const Establishment = ({
   }, []);
 
   useEffect(() => {
-    getMenus();
-  }, [getMenus]);
+    console.log('entrei');
+    api.get(`/establishments/${params.id}/menus`)
+      .then(({ data }) => {
+        setMenus(data.result);
+        if(menuSelected) setMenuSelected(menuSelected);
+        else setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
+      })
+      .catch(() => {
+        Alert.alert('Erro', 'Erro ao recuperar os dados do estabelecimento', [
+          {
+            text: 'Voltar',
+            onPress: () => navigation.goBack(),
+          },
+        ]);
+      }).finally(() => setLoading(false))
+  }, []);
 
   useEffect(() => {
     if (menuSelected) getProducts(menuSelected, page);
@@ -78,23 +70,6 @@ export const Establishment = ({
     }
   }
 
-  const Header = () => (
-    <>
-      <EstablishmentInfo />
-      <Divider />
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {menus.map(menu => (
-          <Tab
-            key={menu.id.toString()}
-            {...menu}
-            onPress={onPressMenu}
-            selected={menuSelected}
-          />
-        ))}
-      </ScrollView>
-    </>
-  );
-
   const onRefresh = () => {
     setLoading(true);
     setPage(0);
@@ -107,13 +82,24 @@ export const Establishment = ({
 
   return (
     <Container>
+      <EstablishmentInfo />
+      <Divider />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {menus.map(menu => (
+          <Tab
+            key={menu.id.toString()}
+            {...menu}
+            onPress={onPressMenu}
+            selected={menuSelected}
+          />
+        ))}
+      </ScrollView>
       <FlatList
+        contentContainerStyle={{ marginTop: 10 }}
         refreshing={loading}
         onRefresh={onRefresh}
         onEndReachedThreshold={0}
         onEndReached={loadMore}
-        ListHeaderComponent={Header}
-        ListHeaderComponentStyle={{ marginBottom: 15 }}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
         data={products}
