@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { darken } from 'polished';
 
 interface CardType {
@@ -13,16 +13,13 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const DivCard = styled.View`
-  align-items: center;
-`;
-
-export const Card = styled.View<CardType>`
-  width: 80px;
-  height: 86%;
+export const Card = styled.View<CardType>`${({ theme, disabled }) => css`
+  width: ${theme.metrics.px(120)}px;
+  height: ${theme.metrics.px(120)}px;
   align-items: center;
   justify-content: center;
-  border-radius: 60px;
+  border-radius: 100px;
 
-  background-color: ${({ theme, disabled }) => disabled ? '#c4c4c4' : darken(0.02, theme.colors.primary)};
+  background-color: ${disabled ? '#c4c4c4' : darken(0.02, theme.colors.primary)};
+`}
 `;

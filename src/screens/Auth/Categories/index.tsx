@@ -8,6 +8,7 @@ import {
   MaterialIcons,
   Entypo,
 } from '@expo/vector-icons';
+import { useTheme } from 'styled-components/native';
 
 import { Announcement, Carousel } from '@components';
 import api from '@services/api';
@@ -18,25 +19,19 @@ import { CategoryCard } from './components';
 import { Container, DivContainer } from './styles';
 
 export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
+  const { metrics } = useTheme();
+
   const [userActive, setUserActive] = useState(false);
 
-  const getUser = async () => {
-    try {
-      const { data } = await api.post('/clients/me', { selects: ['active'] });
-
-      setUserActive(data.result.active);
-    } catch (err) {
-      setUserActive(false);
-    }
-  }
-
   useFocusEffect(useCallback(() => {
-    getUser();
+    api.post('/clients/me', { selects: ['active'] })
+      .then(({ data }) => setUserActive(data.result.active))
+      .catch(() => setUserActive(false));
   }, []));
 
   const listCategory = (categoryName: string) => navigation.navigate('Home', { categoryName });
 
-  const iconProps = (name: any) => ({ size: 35, color: '#fff', name })
+  const iconProps = (name: any) => ({ size: metrics.px(50), color: '#fff', name })
 
   return (
     <Container>

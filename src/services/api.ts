@@ -37,16 +37,21 @@ api.interceptors.response.use(response => response, async (error) => {
     if (!refreshToken) await removeToken();
 
     try {
-      const { data } = await api.post('/auth/refresh', { token: refreshToken });
+      const response = await fetch('/auth/refresh', {
+        method: 'POST',
+        body: JSON.stringify({ token: refreshToken }),
+      })
 
-      const { accessToken, refreshToken: newRefreshToken } = data.result;
+      const { result } = await response.json();
+
+      const { accessToken, refreshToken: newRefreshToken } = result;
 
       api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
       await setToken(accessToken);
       await setRefreshToken(newRefreshToken);
 
-      return api(originalRequest);
+      return axios(originalRequest);
     } catch (err) {
       await removeToken();
     }

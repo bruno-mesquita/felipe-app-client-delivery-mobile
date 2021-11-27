@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import api from '@services/api';
 
 export const useUser = (selects = []) => {
-
-
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
