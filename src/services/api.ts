@@ -45,6 +45,10 @@ api.interceptors.response.use(
       try {
         const response = await fetch('/auth/refresh', {
           method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({ token: refreshToken }),
         });
 
@@ -60,6 +64,7 @@ api.interceptors.response.use(
         return axios(originalRequest);
       } catch (err) {
         await removeToken();
+        return Promise.reject(error);
       }
     }
     return Promise.reject(error);
