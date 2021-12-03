@@ -1,15 +1,24 @@
 import { NavigationContainer } from '@react-navigation/native';
 
+import { useAuth } from '@contexts/AuthContext';
+import { Notifications } from '@components';
+
 import { DrawerNavigation } from './DrawerNavigation';
 import { StackNotAuthNavigation } from './StackNotAuthNavigation';
-import { useAuth } from '@contexts/AuthContext';
 
 const Navigation = () => {
   const { signed } = useAuth();
 
   return (
     <NavigationContainer>
-      {signed ? <DrawerNavigation /> : <StackNotAuthNavigation />}
+      {signed ? (
+        <>
+          <DrawerNavigation />
+          <Notifications />
+        </>
+      ) : (
+        <StackNotAuthNavigation />
+      )}
     </NavigationContainer>
   );
 };

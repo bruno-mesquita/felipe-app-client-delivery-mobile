@@ -26,7 +26,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
     try {
       const result = await signIn(email, password);
 
-      if(!result) throw new Error();
+      if (!result) throw new Error();
     } catch (err) {
       Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
       resetForm();
@@ -40,11 +40,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
 
   return (
     <Layout>
-      <Formik
-        initialValues={{ email: '', password: '', checked: false }}
-        onSubmit={onSubmit}
-        validationSchema={schema}
-      >
+      <Formik initialValues={{ email: '', password: '', checked: false }} onSubmit={onSubmit} validationSchema={schema}>
         {({ handleSubmit, handleChange, values, isSubmitting }) => (
           <Form>
             <ContainerInput>
@@ -68,18 +64,12 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
 
             <ForgotPassword>
               <ForgotPasswordButton>
-                <ForgotPasswordText onPress={forgotPassword}>
-                  Esqueci minha senha
-                </ForgotPasswordText>
+                <ForgotPasswordText onPress={forgotPassword}>Esqueci minha senha</ForgotPasswordText>
               </ForgotPasswordButton>
             </ForgotPassword>
 
             <ContainerButton>
-              <Button
-                disabled={isSubmitting}
-                loading={isSubmitting}
-                onPress={() => handleSubmit()}
-              >
+              <Button disabled={isSubmitting} loading={isSubmitting} onPress={() => handleSubmit()}>
                 Login
               </Button>
               <Button onPress={goRegister}>Criar conta</Button>

@@ -9,12 +9,11 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
   "rules": {
-    "no-console": "warn",
     "prettier/prettier": "error",
+    "no-console": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"

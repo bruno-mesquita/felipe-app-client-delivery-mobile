@@ -20,7 +20,7 @@ export const AuthProvider: FC = ({ children }) => {
 
   useEffect(() => {
     store.getToken().then(value => {
-      if(value) {
+      if (value) {
         setToken(value);
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
         setSigned(true);
@@ -33,20 +33,20 @@ export const AuthProvider: FC = ({ children }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { data } = await api.post<{ token: string; refreshToken: string; }>('/auth/login', { email, password });
+      const { data } = await api.post<{ token: string; refreshToken: string }>('/auth/login', { email, password });
 
       setToken(data.token);
       setRefreshToken(data.refreshToken);
       await store.setToken(data.token);
       await store.setRefreshToken(data.refreshToken);
 
-      api.defaults.headers.common.Authorization = `Bearer ${data.token}`
+      api.defaults.headers.common.Authorization = `Bearer ${data.token}`;
 
       setSigned(true);
 
       return true;
     } catch (err) {
-      new Error();
+      console.log(err);
       return false;
     }
   };
@@ -57,9 +57,11 @@ export const AuthProvider: FC = ({ children }) => {
     setToken(null);
     setRefreshToken(null);
     setSigned(false);
-  }
+  };
 
-  return <AuthContext.Provider value={{ signed, token, refreshToken, signIn, logout }}>{children}</AuthContext.Provider>
-}
+  return (
+    <AuthContext.Provider value={{ signed, token, refreshToken, signIn, logout }}>{children}</AuthContext.Provider>
+  );
+};
 
 export const useAuth = () => useContext(AuthContext);

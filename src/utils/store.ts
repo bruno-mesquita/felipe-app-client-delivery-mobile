@@ -14,3 +14,7 @@ export const removeRefreshToken = () => SecureStore.deleteItemAsync(FLIPP_AUTH_R
 
 export const getCartId = () => SecureStore.getItemAsync(FLIPP_CART_ID);
 export const setCartId = (token: string) => SecureStore.setItemAsync(FLIPP_CART_ID, token);
+
+export const getExpoPushToken = () => SecureStore.getItemAsync('flipp-expo-push-token');
+export const setExpoPushToken = (expoPushToken: string) =>
+  SecureStore.setItemAsync('flipp-expo-push-token', expoPushToken);

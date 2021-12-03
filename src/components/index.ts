@@ -13,3 +13,4 @@ export { CartButton } from './CartButton';
 export { Modal } from './Modal';
 export { Announcement } from './Announcement';
 export { Carousel } from './Carousel';
+export { RegisterNotifications as Notifications } from './Notifications';
