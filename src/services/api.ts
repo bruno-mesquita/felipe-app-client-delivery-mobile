@@ -4,8 +4,8 @@ import Constants from 'expo-constants';
 import { getRefreshToken, removeToken, setToken, setRefreshToken, getToken } from '../utils/store';
 
 const api = axios.create({
-  // baseURL: 'https://api.flippdelivery.com.br/api/app',
-  baseURL: 'http://192.168.15.24:3030/api/app',
+  baseURL: 'https://api.flippdelivery.com.br/api/app',
+  // baseURL: 'http://192.168.15.24:3030/api/app',
   headers: {
     api_version: Constants.manifest.version,
   },
