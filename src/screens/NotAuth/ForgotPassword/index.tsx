@@ -5,20 +5,10 @@ import { Button } from '@components';
 import { Field } from '@form';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
+import { Container, BackGround, ContainerLogo, Logo, ContentForm, ContainerInput, ContainerButton } from './styles';
 import { Values } from './props';
 
-export const ForgotPassword = ({
-  navigation,
-}: ScreenNotAuthProps<'ForgotPassword'>) => {
+export const ForgotPassword = ({ navigation }: ScreenNotAuthProps<'ForgotPassword'>) => {
   const codeValue: Values = {
     email: '',
   };
@@ -38,12 +28,7 @@ export const ForgotPassword = ({
           {({ values, handleSubmit, handleChange }) => (
             <ContentForm>
               <ContainerInput>
-                <Field
-                  value={values.email}
-                  placeholder="E-mail"
-                  onChangeText={handleChange('email')}
-                  label="E-mail"
-                />
+                <Field value={values.email} placeholder="E-mail" onChangeText={handleChange('email')} label="E-mail" />
                 <ErrorMessage component={Text} name="email" />
               </ContainerInput>
 

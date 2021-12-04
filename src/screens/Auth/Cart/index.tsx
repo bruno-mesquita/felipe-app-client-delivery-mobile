@@ -9,15 +9,7 @@ import { Card, FinishModal } from './Components';
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import formatNumber from '../../../utils/format-number';
-import {
-  Container,
-  ContainerInfo,
-  Text,
-  Texts,
-  Prices,
-  ViewButton,
-  Divider,
-} from './styles';
+import { Container, ContainerInfo, Text, Texts, Prices, ViewButton, Divider } from './styles';
 
 export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
   // Estado Global
@@ -26,7 +18,7 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
     items: cart.items,
     fee: cart.fee,
     subTotal: cart.total,
-    total: Number(cart.total) + Number(cart.fee)
+    total: Number(cart.total) + Number(cart.fee),
   }));
 
   useEffect(() => {
@@ -62,11 +54,7 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
         <Button primaryColor onPress={openModalOrder}>
           Finalizar
         </Button>
-        <Button
-          textProps={{ style: { fontSize: 18 } }}
-          primaryColor
-          onPress={() => navigation.goBack()}
-        >
+        <Button textProps={{ style: { fontSize: 18 } }} primaryColor onPress={() => navigation.goBack()}>
           Continuar comprando
         </Button>
       </ViewButton>

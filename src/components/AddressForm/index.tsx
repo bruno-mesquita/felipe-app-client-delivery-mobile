@@ -4,33 +4,16 @@ import { FormikProps } from 'formik';
 import { Field, Select, FieldMask } from '../FormUtils';
 import { Button } from '../Button';
 
-import {
-  Container,
-  ViewField,
-  ViewForm,
-  ViewFields,
-  ScrollView,
-  Error,
-} from './styles';
+import { Container, ViewField, ViewForm, ViewFields, ScrollView, Error } from './styles';
 import { Values } from './props';
 
-export const AddressForm = ({
-  values,
-  handleChange,
-  handleSubmit,
-  setFieldValue,
-}: FormikProps<Values>) => (
+export const AddressForm = ({ values, handleChange, handleSubmit, setFieldValue }: FormikProps<Values>) => (
   <Container>
     <ScrollView>
       <ViewForm>
         <ViewFields>
           <ViewField>
-            <Field
-              label="Apelido"
-              labelColor="black"
-              value={values.nickname}
-              onChangeText={handleChange('nickname')}
-            />
+            <Field label="Apelido" labelColor="black" value={values.nickname} onChangeText={handleChange('nickname')} />
             <Error name="nickname" />
           </ViewField>
           <ViewField>
@@ -45,12 +28,7 @@ export const AddressForm = ({
             <Error name="cep" />
           </ViewField>
           <ViewField>
-            <Field
-              label="Rua"
-              labelColor="black"
-              value={values.street}
-              onChangeText={handleChange('street')}
-            />
+            <Field label="Rua" labelColor="black" value={values.street} onChangeText={handleChange('street')} />
             <Error name="street" />
           </ViewField>
           <ViewField>

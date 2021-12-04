@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
@@ -60,10 +59,7 @@ export const Card = ({
   };
 
   return (
-    <CardBase
-      style={{ width: '80%', alignSelf: 'center' }}
-      onPress={openModalInfo}
-    >
+    <CardBase style={{ width: '80%', alignSelf: 'center' }} onPress={openModalInfo}>
       <Container>
         <Row>
           <View style={{ width: '70%' }}>

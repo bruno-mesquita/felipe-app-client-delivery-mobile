@@ -20,7 +20,6 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation<NavigationAuthHook<'Cart'>>();
   const { colors } = useTheme();
 
-
   const { establishmentId, items, total } = useSelector(({ cart }) => cart);
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +42,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
           value: item.id,
           city: item.city.name,
           active: item.active,
-        })),
+        }))
       );
 
       setOptions(old => ({
@@ -61,8 +60,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     setPayments(paymentsOptions);
   }, []);
 
-  const onChange = (value: any, name: string) =>
-    setOptions(old => ({ ...old, [name]: value }));
+  const onChange = (value: any, name: string) => setOptions(old => ({ ...old, [name]: value }));
 
   const onChangeCity = (value: number) => {
     const item = adresses.find(item => item.value === value);
@@ -106,10 +104,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
       navigation.navigate('TrackOrder', { id: data.result, clear: true });
       onClose();
     } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Erro ao fazer pedido, reveja seus dados e tente novamente',
-      );
+      Alert.alert('Erro', 'Erro ao fazer pedido, reveja seus dados e tente novamente');
     } finally {
       setLoading(false);
     }
@@ -119,12 +114,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
     <ModalBase ref={modalRef}>
       <Container>
         <Header>
-          <Ionicons
-            onPress={onClose}
-            name="close-circle"
-            size={20}
-            color={colors.primary}
-          />
+          <Ionicons onPress={onClose} name="close-circle" size={20} color={colors.primary} />
         </Header>
         <Content>
           <Select

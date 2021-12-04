@@ -46,7 +46,6 @@ export const AuthProvider: FC = ({ children }) => {
 
       return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
   };

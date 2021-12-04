@@ -41,14 +41,7 @@ export const Select = ({
         items={items}
         useNativeAndroidPickerStyle={false}
         placeholder={{ label: placeholder, value: null }}
-        Icon={() => (
-          <Ionicons
-            name="chevron-down-outline"
-            size={20}
-            color="#C4C4C4"
-            style={{ paddingRight: 10 }}
-          />
-        )}
+        Icon={() => <Ionicons name="chevron-down-outline" size={20} color="#C4C4C4" style={{ paddingRight: 10 }} />}
       />
     </Container>
   );

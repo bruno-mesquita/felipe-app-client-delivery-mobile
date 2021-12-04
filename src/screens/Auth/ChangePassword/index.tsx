@@ -17,8 +17,6 @@ export const ChangePassword = () => {
   const onSubmit = async (values: typeof initialValues) => {
     try {
       if (values.newPassword === values.confirmNewPassword) {
-
-
         await api.put('/clients/update-password', values);
 
         Alert.alert('Aviso', 'Senha atualizada');
@@ -32,11 +30,7 @@ export const ChangePassword = () => {
 
   return (
     <Container>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        enableReinitialize
-      >
+      <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
         {({ values, handleChange, handleSubmit }) => (
           <ViewForm>
             <ViewFields>

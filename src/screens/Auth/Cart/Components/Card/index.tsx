@@ -3,26 +3,10 @@ import { View, Text } from 'react-native';
 import formatNumber from '@utils/format-number';
 
 import { RemoveButton } from '../RemoveButton';
-import {
-  Container,
-  Prices,
-  Title,
-  Content,
-  Image,
-  Info,
-  ViewValues,
-  ViewButton,
-} from './styles';
+import { Container, Prices, Title, Content, Image, Info, ViewValues, ViewButton } from './styles';
 import { CardProps } from './props';
 
-export const Card = ({
-  total,
-  image,
-  amount,
-  price,
-  name,
-  itemId,
-}: CardProps) => {
+export const Card = ({ total, image, amount, price, name, itemId }: CardProps) => {
   return (
     <Container>
       <Content>

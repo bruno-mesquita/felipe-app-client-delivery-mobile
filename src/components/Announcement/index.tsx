@@ -12,11 +12,11 @@ export const Announcement = () => {
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
 
   useEffect(() => {
-    api.get('/announcement')
+    api
+      .get('/announcement')
       .then(({ data }) => setAnnouncements(data.result))
-      .catch((err) => Alert.alert('Houve um erro carregar, por favor tente novamente'))
+      .catch(() => Alert.alert('Houve um erro carregar, por favor tente novamente'));
   }, []);
-
 
   return (
     <Carousel
@@ -24,7 +24,7 @@ export const Announcement = () => {
       sliderHeight={10}
       itemWidth={screenWidth - 60}
       data={announcements}
-      renderItem={({item}, parallaxProps) => (
+      renderItem={({ item }, parallaxProps) => (
         <View key={item.id} style={styles.item}>
           <ParallaxImage
             source={{ uri: item.photo.encoded }}

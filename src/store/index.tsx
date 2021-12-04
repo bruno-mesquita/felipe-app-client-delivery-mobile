@@ -9,4 +9,3 @@ export const Store: FC = ({ children }) => (
     <PersistGate persistor={persistor}>{children}</PersistGate>
   </Provider>
 );
-

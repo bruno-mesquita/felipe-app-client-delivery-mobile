@@ -4,14 +4,7 @@ import { ModalItem, CardBase } from '@components';
 import formatNumber from '@utils/format-number';
 import { ModalBaseHandle } from '../../../../../components/ModalBase/props';
 import { Props } from './props';
-import {
-  Container,
-  ImageProduct,
-  Content,
-  Title,
-  Description,
-  Price,
-} from './styles';
+import { Container, ImageProduct, Content, Title, Description, Price } from './styles';
 
 export const Card = (props: Props) => {
   const modalItemRef = useRef<ModalBaseHandle>(null);
@@ -30,21 +23,10 @@ export const Card = (props: Props) => {
 
   return (
     <>
-      <ModalItem
-        modalRef={modalItemRef}
-        {...props}
-        image={props.photo.encoded}
-        description={props.description}
-      />
-      <CardBase
-        style={{ height: 90, width: '90%', alignSelf: 'center' }}
-        onPress={openModal}
-      >
+      <ModalItem modalRef={modalItemRef} {...props} image={props.photo.encoded} description={props.description} />
+      <CardBase style={{ height: 90, width: '90%', alignSelf: 'center' }} onPress={openModal}>
         <Container>
-          <ImageProduct
-            style={{ resizeMode: 'cover' }}
-            source={{ uri: props.photo.encoded }}
-          />
+          <ImageProduct style={{ resizeMode: 'cover' }} source={{ uri: props.photo.encoded }} />
           <Content>
             <Title>{props.name.trim()}</Title>
             <Description>{formattedDescription(props.description.trim())}</Description>

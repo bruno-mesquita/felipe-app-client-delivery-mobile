@@ -11,16 +11,7 @@ import { ModalBase } from '../ModalBase';
 import { addItem } from '@store/ducks/cart/cart.actions';
 import formatNumber from '@utils/format-number';
 import { ModalItemProps } from './props';
-import {
-  PlusOrMin,
-  Prices,
-  ProductInfo,
-  ViewTexts,
-  Title,
-  Description,
-  Header,
-  Content,
-} from './styles';
+import { PlusOrMin, Prices, ProductInfo, ViewTexts, Title, Description, Header, Content } from './styles';
 
 export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const dispatch = useDispatch();
@@ -60,7 +51,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
         ...rest,
         itemId: rest.id,
         amount,
-      }),
+      })
     );
 
     navigation.navigate('Cart');
@@ -71,12 +62,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
     <ModalBase ref={modalRef}>
       <Content>
         <Header>
-          <Ionicons
-            onPress={() => modalRef.current.close()}
-            name="close-circle"
-            size={25}
-            color={colors.primary}
-          />
+          <Ionicons onPress={() => modalRef.current.close()} name="close-circle" size={25} color={colors.primary} />
         </Header>
         <ProductInfo>
           <Image
@@ -95,19 +81,9 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
         </ProductInfo>
         <Prices>
           <PlusOrMin>
-            <MaterialIcons
-              name="remove-circle"
-              color={colors.primary}
-              size={25}
-              onPress={min}
-            />
+            <MaterialIcons name="remove-circle" color={colors.primary} size={25} onPress={min} />
             <Text>{amount}</Text>
-            <MaterialIcons
-              name="add-circle"
-              color={colors.primary}
-              size={25}
-              onPress={plus}
-            />
+            <MaterialIcons name="add-circle" color={colors.primary} size={25} onPress={plus} />
           </PlusOrMin>
           <View>
             <Text>Preço: {formatNumber(rest.price)}</Text>
@@ -115,9 +91,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
           </View>
         </Prices>
         <View>
-          <ModalButton onPress={addItemCart}>
-            Adicionar ao carrinho
-          </ModalButton>
+          <ModalButton onPress={addItemCart}>Adicionar ao carrinho</ModalButton>
         </View>
       </Content>
     </ModalBase>

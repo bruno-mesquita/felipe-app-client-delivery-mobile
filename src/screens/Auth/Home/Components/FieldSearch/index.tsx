@@ -15,8 +15,6 @@ export const FieldSearch = ({ response, refreshing, categoryName }: Props) => {
 
   const searchForEstablishment = async () => {
     try {
-
-
       const { data } = await api.get('/establishments-by-name', {
         params: {
           name: text,

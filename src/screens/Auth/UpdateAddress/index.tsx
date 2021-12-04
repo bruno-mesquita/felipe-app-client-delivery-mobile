@@ -21,7 +21,8 @@ export const UpdateAddress = ({ route }) => {
   });
 
   useEffect(() => {
-    api.get(`/adresses-client/${route.params.id}`)
+    api
+      .get(`/adresses-client/${route.params.id}`)
       .then(({ data }) => setAddress(data.result))
       .catch(() => Alert.alert('Erro', 'Erro ao buscar endereço'));
   }, [route.params.id]);
@@ -30,7 +31,7 @@ export const UpdateAddress = ({ route }) => {
     try {
       await api.put(`/adresses-client/${route.params.id}`, values);
 
-      Alert.alert('Sucesso!','Endereço atualizado com sucesso');
+      Alert.alert('Sucesso!', 'Endereço atualizado com sucesso');
     } catch (err) {
       Alert.alert('Erro', 'Erro ao atualizar');
     }
@@ -38,12 +39,7 @@ export const UpdateAddress = ({ route }) => {
 
   return (
     <Container>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={address}
-        component={AddressForm}
-        enableReinitialize
-      />
+      <Formik onSubmit={onSubmit} initialValues={address} component={AddressForm} enableReinitialize />
     </Container>
   );
 };

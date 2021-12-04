@@ -5,20 +5,10 @@ import { Button } from '@components';
 import { Field } from '@form';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
+import { Container, BackGround, ContainerLogo, Logo, ContentForm, ContainerInput, ContainerButton } from './styles';
 import { Values } from './props';
 
-export const CodeToPassword = ({
-  navigation,
-}: ScreenNotAuthProps<'CodeToPassword'>) => {
+export const CodeToPassword = ({ navigation }: ScreenNotAuthProps<'CodeToPassword'>) => {
   const codeValue: Values = {
     newPassword: '',
     confirmPassword: '',

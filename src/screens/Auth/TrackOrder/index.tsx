@@ -30,12 +30,7 @@ export const TrackOrder = ({
 
   const [images] = useState([lineOne, lineTwo, lineThree, lineFour]);
   const [icons] = useState([wait, accept, way, delivered]);
-  const [status] = useState([
-    'Enviado',
-    'Aceito',
-    'Em preparo',
-    'Saiu para entrega',
-  ]);
+  const [status] = useState(['Enviado', 'Aceito', 'Em preparo', 'Saiu para entrega']);
   const [active, setActive] = useState(0);
   const [finish, setFinish] = useState(false);
   const [func, setFunc] = useState(null);
@@ -57,7 +52,6 @@ export const TrackOrder = ({
   const verifyStatus = async () => {
     try {
       if (!finish) {
-
         const { data } = await api.get(`/orders/${id}/verify`);
 
         if (data.result === 'Entregue' || data.result === 'Cancelado') {
@@ -82,13 +76,10 @@ export const TrackOrder = ({
 
     setFunc(funcInterval);
 
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        navigation.navigate('Orders');
-        return true;
-      },
-    );
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.navigate('Orders');
+      return true;
+    });
 
     return () => {
       backHandler.remove();
@@ -103,9 +94,7 @@ export const TrackOrder = ({
       ) : (
         <>
           <Status source={images[active]} resizeMode="contain" />
-          {icons[active] ? (
-            <Icon source={icons[active]} resizeMode="contain" />
-          ) : null}
+          {icons[active] ? <Icon source={icons[active]} resizeMode="contain" /> : null}
           <Title>{status[active]}</Title>
         </>
       )}

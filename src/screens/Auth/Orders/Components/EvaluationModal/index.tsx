@@ -21,8 +21,10 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   const [rate, setRate] = useState({ value: 0, message: '' });
 
   useEffect(() => {
-    api.get(`/rates/${selectedItem.evaluationId}`).then(({ data }) => setRate(data.result))
-    .catch(() => navigation.goBack());
+    api
+      .get(`/rates/${selectedItem.evaluationId}`)
+      .then(({ data }) => setRate(data.result))
+      .catch(() => navigation.goBack());
   }, [selectedItem]);
 
   const onFinishRating = (value: number) => {
@@ -36,19 +38,14 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   const evaluate = () => {
     api.post(`/orders/${selectedItem.orderId}/rate`, rate).then(() => {
       modalRef.current?.close();
-    })
+    });
   };
 
   return (
     <ModalBase ref={modalRef}>
       <Container>
         <Header>
-          <Ionicons
-            onPress={() => modalRef.current?.close()}
-            name="close-circle"
-            size={20}
-            color={colors.primary}
-          />
+          <Ionicons onPress={() => modalRef.current?.close()} name="close-circle" size={20} color={colors.primary} />
         </Header>
         <FormControl>
           <TextArea
@@ -68,15 +65,8 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
             paddingTop: 10,
           }}
         >
-          <AirbnbRating
-            size={20}
-            showRating={false}
-            defaultRating={rate?.value || 0}
-            onFinishRating={onFinishRating}
-          />
-          {!selectedItem.evaluationId ? (
-            <ModalButton onPress={evaluate}>Avaliar</ModalButton>
-          ) : null}
+          <AirbnbRating size={20} showRating={false} defaultRating={rate?.value || 0} onFinishRating={onFinishRating} />
+          {!selectedItem.evaluationId ? <ModalButton onPress={evaluate}>Avaliar</ModalButton> : null}
         </View>
       </Container>
     </ModalBase>

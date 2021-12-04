@@ -25,10 +25,7 @@ export const Card = (props: Props) => {
     <CardBase onPress={toStoreDetail} style={{ height: 90 }}>
       <Container>
         <MyView>
-          <Image
-            source={{ uri: props.image.encoded }}
-            style={{ resizeMode: 'cover' }}
-          />
+          <Image source={{ uri: props.image.encoded }} style={{ resizeMode: 'cover' }} />
           <View
             style={{
               height: '100%',
@@ -54,9 +51,7 @@ export const Card = (props: Props) => {
                 alignItems: 'center',
               }}
             >
-              <Text style={{ marginRight: 5 }}>
-                {formatPrice(props.freightValue)}
-              </Text>
+              <Text style={{ marginRight: 5 }}>{formatPrice(props.freightValue)}</Text>
               <MaterialIcons name="motorcycle" size={25} />
             </View>
           </View>

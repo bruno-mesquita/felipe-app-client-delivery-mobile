@@ -1,13 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  Fontisto,
-  Ionicons,
-  MaterialIcons,
-  Entypo,
-} from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons, Fontisto, Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
 import { Announcement, Carousel } from '@components';
@@ -23,40 +16,31 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
   const [userActive, setUserActive] = useState(false);
 
-  useFocusEffect(useCallback(() => {
-    api.post('/clients/me', { selects: ['active'] })
-      .then(({ data }) => setUserActive(data.result.active))
-      .catch(() => setUserActive(false));
-  }, []));
+  useFocusEffect(
+    useCallback(() => {
+      api
+        .post('/clients/me', { selects: ['active'] })
+        .then(({ data }) => setUserActive(data.result.active))
+        .catch(() => setUserActive(false));
+    }, [])
+  );
 
   const listCategory = (categoryName: string) => navigation.navigate('Home', { categoryName });
 
-  const iconProps = (name: any) => ({ size: metrics.px(50), color: '#fff', name })
+  const iconProps = (name: any) => ({ size: metrics.px(50), color: '#fff', name });
 
   return (
     <Container>
       <DivContainer>
-        <CategoryCard
-          disabled={userActive}
-          name="Comidas"
-          onClick={() => listCategory('Comidas')}
-        >
+        <CategoryCard disabled={userActive} name="Comidas" onClick={() => listCategory('Comidas')}>
           <Ionicons {...iconProps('restaurant')} />
         </CategoryCard>
 
-        <CategoryCard
-          disabled={userActive}
-          name="Mercados"
-          onClick={() => listCategory('Mercados')}
-        >
+        <CategoryCard disabled={userActive} name="Mercados" onClick={() => listCategory('Mercados')}>
           <AntDesign {...iconProps('shoppingcart')} />
         </CategoryCard>
 
-        <CategoryCard
-          disabled={userActive}
-          name="Farmácias"
-          onClick={() => listCategory('Farmácias')}
-        >
+        <CategoryCard disabled={userActive} name="Farmácias" onClick={() => listCategory('Farmácias')}>
           <MaterialCommunityIcons {...iconProps('medical-bag')} />
         </CategoryCard>
       </DivContainer>
@@ -73,11 +57,9 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         </CategoryCard>
       </DivContainer>
 
-
       <Announcement />
 
       <Carousel />
-
     </Container>
   );
 };

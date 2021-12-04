@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { FlatList, Alert, ScrollView, View } from 'react-native';
+import { FlatList, Alert, ScrollView } from 'react-native';
 
 import { CartButton, Tab } from '@components';
 import api from '@services/api';
@@ -9,10 +9,7 @@ import { Card, EstablishmentInfo } from './Components';
 import { Container, Divider } from './styles';
 import { Menu, Product } from './props';
 
-export const Establishment = ({
-  route: { params },
-  navigation,
-}: ScreenAuthProps<'Establishment'>) => {
+export const Establishment = ({ route: { params }, navigation }: ScreenAuthProps<'Establishment'>) => {
   const [menuSelected, setMenuSelected] = useState<number>(null);
   const [menus, setMenus] = useState<Menu[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -27,13 +24,10 @@ export const Establishment = ({
         },
       });
 
-      if(newPage === 0) setProducts(data.result);
+      if (newPage === 0) setProducts(data.result);
       else setProducts(old => old.concat(data.result));
     } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Houve um erro ao recuperar os dados do estabelecimento',
-      );
+      Alert.alert('Erro', 'Houve um erro ao recuperar os dados do estabelecimento');
     } finally {
       setLoading(false);
     }
@@ -41,10 +35,11 @@ export const Establishment = ({
 
   useEffect(() => {
     console.log('entrei');
-    api.get(`/establishments/${params.id}/menus`)
+    api
+      .get(`/establishments/${params.id}/menus`)
       .then(({ data }) => {
         setMenus(data.result);
-        if(menuSelected) setMenuSelected(menuSelected);
+        if (menuSelected) setMenuSelected(menuSelected);
         else setMenuSelected(data.result.length > 0 ? data.result[0].id : null);
       })
       .catch(() => {
@@ -54,7 +49,8 @@ export const Establishment = ({
             onPress: () => navigation.goBack(),
           },
         ]);
-      }).finally(() => setLoading(false))
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -62,13 +58,13 @@ export const Establishment = ({
   }, [menuSelected, getProducts, page]);
 
   const onPressMenu = (id: number) => {
-    if(menuSelected !== id) {
+    if (menuSelected !== id) {
       setMenuSelected(id);
       setProducts([]);
       setPage(0);
       setLoading(true);
     }
-  }
+  };
 
   const onRefresh = () => {
     setLoading(true);
@@ -86,12 +82,7 @@ export const Establishment = ({
       <Divider />
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {menus.map(menu => (
-          <Tab
-            key={menu.id.toString()}
-            {...menu}
-            onPress={onPressMenu}
-            selected={menuSelected}
-          />
+          <Tab key={menu.id.toString()} {...menu} onPress={onPressMenu} selected={menuSelected} />
         ))}
       </ScrollView>
       <FlatList
@@ -103,9 +94,7 @@ export const Establishment = ({
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
         data={products}
-        renderItem={({ item }) => (
-          <Card {...item} establishmentId={params.id} fee={params.fee} />
-        )}
+        renderItem={({ item }) => <Card {...item} establishmentId={params.id} fee={params.fee} />}
       />
       <CartButton />
     </Container>

@@ -12,11 +12,7 @@ export const Checkbox = ({ children, checked, onChange }: CheckboxProps) => {
     <Container>
       <TouchableOpacity onPress={() => onChange(!checked)}>
         <ContainerCheckboxIcon>
-          <MaterialIcons
-            name="check"
-            size={20}
-            color={checked ? colors.secundary : 'transparent'}
-          />
+          <MaterialIcons name="check" size={20} color={checked ? colors.secundary : 'transparent'} />
         </ContainerCheckboxIcon>
       </TouchableOpacity>
       <Text>{children}</Text>

@@ -11,7 +11,6 @@ import { Container, Header, Body, Footer, Nickname, Content } from './styles';
 import { Address } from '../../props';
 
 export const Card = ({ reender, ...props }: Address & { reender: () => void }) => {
-
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
 
   const [address, setAddress] = useState<Address>(null);
@@ -20,11 +19,7 @@ export const Card = ({ reender, ...props }: Address & { reender: () => void }) =
   useEffect(() => {
     const fieldDefault = 'Não informado';
 
-    if (
-      props.street === fieldDefault &&
-      props.neighborhood === fieldDefault &&
-      props.number === fieldDefault
-    ) {
+    if (props.street === fieldDefault && props.neighborhood === fieldDefault && props.number === fieldDefault) {
       setFieldDefault(true);
     }
 
@@ -42,7 +37,7 @@ export const Card = ({ reender, ...props }: Address & { reender: () => void }) =
       }
 
       setAddress(old => ({ ...old, active: !old.active }));
-      Alert.alert('Aviso','Endereço padrão atualizado com sucesso');
+      Alert.alert('Aviso', 'Endereço padrão atualizado com sucesso');
     } catch (err) {
       Alert.alert('Erro', 'Houve um erro ao atualizar o endereço como padrão. Você não pode ficar sem endereço ativo');
     }
@@ -50,19 +45,19 @@ export const Card = ({ reender, ...props }: Address & { reender: () => void }) =
 
   const deleteAddress = () => {
     api.delete(`/adresses-client/${props.id}`).then(() => reender());
-  }
+  };
 
   const onLongPress = () => {
     Alert.alert('Deletar endereço', 'Você deseja deletar esse endereço?', [
       {
         onPress: deleteAddress,
-        text: 'Sim'
+        text: 'Sim',
       },
       {
-        text: 'Não'
-      }
-    ])
-  }
+        text: 'Não',
+      },
+    ]);
+  };
 
   return (
     <CardBase onPress={toGoEdit} onLongPress={onLongPress}>

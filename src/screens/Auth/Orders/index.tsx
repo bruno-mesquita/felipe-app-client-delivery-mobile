@@ -9,7 +9,6 @@ import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 
 const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
-
   const isFocused = useIsFocused();
 
   const [orders, setOrders] = useState([]);
@@ -27,20 +26,15 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
         },
       });
 
-      if(newPage === 0) setOrders(data.result);
+      if (newPage === 0) setOrders(data.result);
       else setOrders(old => old.concat(data.result));
     } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Houve um erro ao buscar os seus pedidos, tente novamente',
-        [
-          {
-            onPress: () =>
-              navigation.canGoBack() ? navigation.goBack() : null,
-            text: 'Ok',
-          },
-        ],
-      );
+      Alert.alert('Erro', 'Houve um erro ao buscar os seus pedidos, tente novamente', [
+        {
+          onPress: () => (navigation.canGoBack() ? navigation.goBack() : null),
+          text: 'Ok',
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -74,13 +68,7 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
         onEndReached={loadMore}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <Card
-            {...item}
-            modalInfoRef={modalInfoRef}
-            modalRateRef={modalRateRef}
-          />
-        )}
+        renderItem={({ item }) => <Card {...item} modalInfoRef={modalInfoRef} modalRateRef={modalRateRef} />}
       />
     </>
   );

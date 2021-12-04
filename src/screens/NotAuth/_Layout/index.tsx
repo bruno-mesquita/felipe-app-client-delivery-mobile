@@ -1,12 +1,10 @@
-import { Container, ContainerLogo, Logo, BackGround } from './styles';
-import { LayoutProps } from './props';
+import type { FC } from 'react';
 
-export const Layout = ({ children }: LayoutProps) => (
+import { Container, ContainerLogo, Logo, BackGround } from './styles';
+
+export const Layout: FC = ({ children }) => (
   <Container>
-    <BackGround
-      style={{ flex: 1 }}
-      source={require('../../../assets/images/fundo.png')}
-    >
+    <BackGround style={{ flex: 1 }} source={require('../../../assets/images/fundo.png')}>
       <ContainerLogo>
         <Logo source={require('../../../assets/images/logo.png')} />
       </ContainerLogo>

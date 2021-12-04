@@ -1,25 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  DrawerContentComponentProps,
-  useDrawerStatus,
-} from '@react-navigation/drawer';
+import { DrawerContentComponentProps, useDrawerStatus } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import {
-  Container,
-  List,
-  ListItem,
-  ListItemText,
-  User,
-  UserAvatar,
-  Divider,
-} from './styles';
+import { Container, List, ListItem, ListItemText, User, UserAvatar, Divider } from './styles';
 
 import api from '@services/api';
 import { useAuth } from '@contexts/AuthContext';
 
 export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) => {
-
   const { logout } = useAuth();
   const drawerStatus = useDrawerStatus();
 
@@ -33,12 +21,11 @@ export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) =>
     } catch (err) {
       setAvatar(null);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if(drawerStatus === 'open') getUser();
+    if (drawerStatus === 'open') getUser();
   }, [drawerStatus, getUser]);
-
 
   const goProfile = () => navigation.navigate('Profile');
 
@@ -86,4 +73,4 @@ export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) =>
       </List>
     </Container>
   );
-}
+};

@@ -22,15 +22,12 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
 
   const getAdresses = useCallback(async (newPage: number) => {
     try {
-
-
       const { data } = await api.get('/adresses-client', {
         params: { page: newPage },
       });
 
-      if(newPage === 0) setAdresses(data.result);
+      if (newPage === 0) setAdresses(data.result);
       else setAdresses(old => old.concat(data.result));
-
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar endereços');
     } finally {

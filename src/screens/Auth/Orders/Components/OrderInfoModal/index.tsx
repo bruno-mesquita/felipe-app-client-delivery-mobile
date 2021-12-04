@@ -22,8 +22,6 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
   const getOrder = useCallback(async () => {
     try {
       if (selectedItem.orderId) {
-
-
         const { data } = await api.get(`/orders/${selectedItem.orderId}`);
 
         setOrderInfo(data.result);
@@ -50,9 +48,7 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
             </Row>
           ))}
         </ProductsView>
-        <Text style={{ alignSelf: 'flex-end' }}>{`Total: ${formatNumber(
-          orderInfo?.order.total || 0,
-        )}`}</Text>
+        <Text style={{ alignSelf: 'flex-end' }}>{`Total: ${formatNumber(orderInfo?.order.total || 0)}`}</Text>
       </Container>
     </ModalBase>
   );

@@ -40,7 +40,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
 
   return (
     <Layout>
-      <Formik initialValues={{ email: '', password: '', checked: false }} onSubmit={onSubmit} validationSchema={schema}>
+      <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={schema}>
         {({ handleSubmit, handleChange, values, isSubmitting }) => (
           <Form>
             <ContainerInput>

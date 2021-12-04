@@ -9,16 +9,9 @@ export const ModalHeader = ({ onClose, children }: ModalHeaderProps) => {
   const { colors } = useTheme();
 
   return (
-    <Container
-      style={{ justifyContent: children ? 'space-between' : 'flex-end' }}
-    >
+    <Container style={{ justifyContent: children ? 'space-between' : 'flex-end' }}>
       <Text>{children ? children : null}</Text>
-      <Ionicons
-        onPress={onClose}
-        name="close-circle"
-        size={20}
-        color={colors.primary}
-      />
+      <Ionicons onPress={onClose} name="close-circle" size={20} color={colors.primary} />
     </Container>
   );
 };

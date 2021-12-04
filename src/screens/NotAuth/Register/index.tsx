@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { ScrollView, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
-import { useTheme } from 'styled-components/native';
 
 import { Field, Select, FieldMask, FieldSecure } from '@form';
 import { Button, Checkbox } from '@components';
@@ -15,8 +14,6 @@ import schema from './schema';
 import { ContentForm, DivField, Error } from './styles';
 
 export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
-  const { colors } = useTheme();
-
   const [checked, setChecked] = useState(false);
   const cpfInputRef = useRef<TextInputMasked>(null);
   const celInputRef = useRef<TextInputMasked>(null);
@@ -32,13 +29,8 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
     confirmPassword: '',
   };
 
-  const onSubmit = async (
-    values: Values,
-    { setSubmitting }: FormikHelpers<Values>,
-  ) => {
+  const onSubmit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     try {
-
-
       const body = {
         ...values,
         cellphone: celInputRef.current?.getRawValue(),
@@ -58,26 +50,11 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
   return (
     <ScrollView>
       <Layout>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={schema}
-        >
-          {({
-            values,
-            handleSubmit,
-            handleChange,
-            setFieldValue,
-            isSubmitting,
-          }) => (
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={schema}>
+          {({ values, handleSubmit, handleChange, setFieldValue, isSubmitting }) => (
             <ContentForm>
               <DivField>
-                <Field
-                  value={values.name}
-                  placeholder="Nome"
-                  onChangeText={handleChange('name')}
-                  label="Nome"
-                />
+                <Field value={values.name} placeholder="Nome" onChangeText={handleChange('name')} label="Nome" />
               </DivField>
               <Error name="name" />
 
