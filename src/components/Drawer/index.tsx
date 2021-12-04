@@ -1,15 +1,16 @@
 import { useEffect, useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { DrawerContentComponentProps, useDrawerStatus } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Container, List, ListItem, ListItemText, User, UserAvatar, Divider } from './styles';
 
 import api from '@services/api';
-import { useAuth } from '@contexts/AuthContext';
+import { logoutAction } from '@store/ducks/auth/auth.actions';
 
 export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) => {
-  const { logout } = useAuth();
   const drawerStatus = useDrawerStatus();
+  const dispatch = useDispatch();
 
   const [avatar, setAvatar] = useState(null);
 
@@ -26,6 +27,8 @@ export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) =>
   useEffect(() => {
     if (drawerStatus === 'open') getUser();
   }, [drawerStatus, getUser]);
+
+  const logout = () => dispatch(logoutAction());
 
   const goProfile = () => navigation.navigate('Profile');
 

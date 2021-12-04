@@ -14,10 +14,7 @@ export const clearCart = (): CartActionTypes => ({
   type: '@cart/CLEAR_CART',
 });
 
-export const updateItem = (
-  itemId: number,
-  amount: number,
-): CartActionTypes => ({
+export const updateItem = (itemId: number, amount: number): CartActionTypes => ({
   type: '@cart/UPDATE_ITEM',
   payload: { itemId, amount },
 });

@@ -34,12 +34,7 @@ export interface UpdateItemAction {
   payload: { itemId: number; amount: number };
 }
 
-export type CartActionTypes =
-  | AddItemAction
-  | RemoveItemAction
-  | UpdateItemAction
-  | ClearCartAction
-  | LogoutAction;
+export type CartActionTypes = AddItemAction | RemoveItemAction | UpdateItemAction | ClearCartAction | LogoutAction;
 
 export type Payment = 'Dinheiro' | 'Débito' | 'Crédito';
 

@@ -1,7 +1,8 @@
 import { Alert } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Formik, FormikHelpers } from 'formik';
 
-import { useAuth } from '@contexts/AuthContext';
+import { loginAction } from '@store/ducks/auth/auth.actions';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 import { Field, FieldSecure } from '../../../components/FormUtils';
 import { Button } from '../../../components';
@@ -18,15 +19,18 @@ import {
 } from './styles';
 import schema from './schema';
 import { Values } from './types';
+import api from '@services/api';
 
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
-  const { signIn } = useAuth();
+  const dispatch = useDispatch();
 
   const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
     try {
-      const result = await signIn(email, password);
+      const { data } = await api.post('/auth/login', { email, password });
 
-      if (!result) throw new Error();
+      dispatch(loginAction(data.token, data.refreshToken));
+
+      api.defaults.headers.common.Authorization = `Bearer ${data.token}`;
     } catch (err) {
       Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
       resetForm();

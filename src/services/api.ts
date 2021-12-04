@@ -1,34 +1,18 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-import { getRefreshToken, removeToken, setToken, setRefreshToken, getToken } from '../utils/store';
+import { store } from '../store/store';
+import { logoutAction, refreshTokenAction } from '../store/ducks/auth/auth.actions';
+
+const baseURL = 'https://api.flippdelivery.com.br/api/app';
+// const baseURL = 'http://192.168.15.24:3030/api/app';
 
 const api = axios.create({
-  baseURL: 'https://api.flippdelivery.com.br/api/app',
-  // baseURL: 'http://192.168.15.24:3030/api/app',
+  baseURL: baseURL,
   headers: {
     api_version: Constants.manifest.version,
   },
 });
-
-api.interceptors.request.use(
-  async request => {
-    const { Authorization = null } = request.headers;
-
-    if (!Authorization) {
-      const token = await getToken();
-
-      if (token) request.headers.Authorization = `Bearer ${token}`;
-    } else if (!Authorization.split(' ')[1]) {
-      const token = await getToken();
-
-      if (token) request.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return request;
-  },
-  error => Promise.reject(error)
-);
 
 api.interceptors.response.use(
   response => response,
@@ -38,18 +22,21 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshToken = await getRefreshToken();
+      const { refreshToken } = (store.getState() as any).auth;
 
-      if (!refreshToken) await removeToken();
+      if (!refreshToken) {
+        store.dispatch(logoutAction());
+        return Promise.reject(error);
+      }
 
       try {
-        const response = await fetch('/auth/refresh', {
+        const response = await fetch(baseURL + '/auth/refresh', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ token: refreshToken }),
+          body: JSON.stringify({ refreshToken }),
         });
 
         const { result } = await response.json();
@@ -58,12 +45,17 @@ api.interceptors.response.use(
 
         api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-        await setToken(accessToken);
-        await setRefreshToken(newRefreshToken);
+        store.dispatch(refreshTokenAction(accessToken, newRefreshToken));
 
-        return axios(originalRequest);
+        return api({
+          ...originalRequest,
+          headers: {
+            ...originalRequest,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
       } catch (err) {
-        await removeToken();
+        store.dispatch(logoutAction());
         return Promise.reject(error);
       }
     }

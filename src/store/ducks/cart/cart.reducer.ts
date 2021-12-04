@@ -29,10 +29,7 @@ const cart = (state = INITIAL_STATE, action: CartActionTypes) => {
           if (draft.establishmentId === establishmentId) {
             add();
           } else {
-            Alert.alert(
-              'Aviso',
-              'Você só pode adicionar produtos de um mesmo estabelecimento',
-            );
+            Alert.alert('Aviso', 'Você só pode adicionar produtos de um mesmo estabelecimento');
           }
         } else {
           add();

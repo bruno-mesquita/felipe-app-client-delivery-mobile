@@ -4,5 +4,4 @@ export interface CategoryCardProps {
   name: string;
   children: ReactNode;
   onClick: () => void;
-  disabled: boolean;
 }

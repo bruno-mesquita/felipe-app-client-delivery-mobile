@@ -6,11 +6,12 @@ export const useUser = (selects = []) => {
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    if(selects.length > 0) {
-      api.post('/clients/me', { selects })
+    if (selects.length > 0) {
+      api
+        .post('/clients/me', { selects })
         .then(({ data }) => setUser(data.result))
         .catch(() => setUser({ active: false }));
-    };
+    }
   }, []);
 
   return user;

@@ -6,9 +6,9 @@ const persistReducers = (reducers: any) => {
     {
       key: '@flipp/client-mobile',
       storage: AsyncStorage,
-      whitelist: ['cart'],
+      whitelist: ['cart', 'auth'],
     },
-    reducers,
+    reducers
   );
 };
 
