@@ -24,7 +24,10 @@ import api from '@services/api';
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
   const dispatch = useDispatch();
 
-  const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+  const onSubmit = async (
+    { email, password }: Values,
+    { setSubmitting, resetForm }: FormikHelpers<Values>
+  ) => {
     try {
       const { data } = await api.post('/auth/login', { email, password });
 
@@ -44,7 +47,11 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
 
   return (
     <Layout>
-      <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={schema}>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={onSubmit}
+        validationSchema={schema}
+      >
         {({ handleSubmit, handleChange, values, isSubmitting }) => (
           <Form>
             <ContainerInput>
@@ -68,12 +75,18 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
 
             <ForgotPassword>
               <ForgotPasswordButton>
-                <ForgotPasswordText onPress={forgotPassword}>Esqueci minha senha</ForgotPasswordText>
+                <ForgotPasswordText onPress={forgotPassword}>
+                  Esqueci minha senha
+                </ForgotPasswordText>
               </ForgotPasswordButton>
             </ForgotPassword>
 
             <ContainerButton>
-              <Button disabled={isSubmitting} loading={isSubmitting} onPress={() => handleSubmit()}>
+              <Button
+                disabled={isSubmitting}
+                loading={isSubmitting}
+                onPress={() => handleSubmit()}
+              >
                 Login
               </Button>
               <Button onPress={goRegister}>Criar conta</Button>

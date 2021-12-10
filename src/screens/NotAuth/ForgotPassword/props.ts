@@ -1,3 +1,3 @@
 export interface Values {
-  email: string;
+  cellphone: string;
 }

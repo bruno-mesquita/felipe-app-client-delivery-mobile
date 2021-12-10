@@ -1,6 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Login, Register, CodeToPassword, ForgotPassword } from '@screens/NotAuth';
+import {
+  Login,
+  Register,
+  CodeToPassword,
+  ForgotPassword,
+  ActiveClient,
+} from '@screens/NotAuth';
 import { TermsUse } from '@screens/TermsUse';
 import { ScreenNotAuthList } from '@utils/ScreenProps';
 
@@ -13,5 +19,6 @@ export const StackNotAuthNavigation = () => (
     <Screen name="ForgotPassword" component={ForgotPassword} />
     <Screen name="CodeToPassword" component={CodeToPassword} />
     <Screen name="TermsUse" component={TermsUse} />
+    <Screen name="ActiveClient" component={ActiveClient} />
   </Navigator>
 );

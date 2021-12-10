@@ -18,9 +18,11 @@ export const Select = ({
   const [items, setItems] = useState<Item[]>([]);
 
   const getItems = useCallback(async () => {
-    const { data } = await api.get(path);
+    if (path) {
+      const { data } = await api.get(path);
 
-    setItems(data.result.map(item => ({ value: item.id, label: item.name })));
+      setItems(data.result.map(item => ({ value: item.id, label: item.name })));
+    }
   }, [path]);
 
   useEffect(() => {
@@ -41,7 +43,14 @@ export const Select = ({
         items={items}
         useNativeAndroidPickerStyle={false}
         placeholder={{ label: placeholder, value: null }}
-        Icon={() => <Ionicons name="chevron-down-outline" size={20} color="#C4C4C4" style={{ paddingRight: 10 }} />}
+        Icon={() => (
+          <Ionicons
+            name="chevron-down-outline"
+            size={20}
+            color="#C4C4C4"
+            style={{ paddingRight: 10 }}
+          />
+        )}
       />
     </Container>
   );

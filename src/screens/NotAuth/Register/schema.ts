@@ -5,14 +5,14 @@ import { Values } from './types';
 const REQUIRED = 'Campo obrigátorio';
 
 const schema: SchemaOf<Values> = object().shape({
-  name: string().required(REQUIRED),
-  email: string().email('Email inválido').required(REQUIRED),
-  cpf: string().required(REQUIRED),
-  cellphone: string().required(REQUIRED),
-  confirmPassword: string().required(REQUIRED),
-  password: string().required(REQUIRED),
-  city: string().required(REQUIRED).nullable(),
-  state: string().required(REQUIRED).nullable(),
+  name: string().trim().required(REQUIRED),
+  email: string().trim().email('Email inválido').required(REQUIRED),
+  cpf: string().trim().required(REQUIRED),
+  cellphone: string().trim().required(REQUIRED),
+  confirmPassword: string().trim().required(REQUIRED),
+  password: string().trim().required(REQUIRED),
+  city: string().trim().required(REQUIRED).nullable(),
+  state: string().trim().required(REQUIRED).nullable(),
 });
 
 export default schema;

@@ -50,14 +50,14 @@ export interface ScreenAuthProps<R extends keyof ScreenAuthList> {
 export type ScreenNotAuthList = {
   Register: undefined;
   Login: undefined;
-  CodeToPassword: undefined;
+  CodeToPassword: { cellphone: string };
   ForgotPassword: undefined;
   TermsUse: undefined;
+  ActiveClient: { cellphone: string; userId: number };
 };
 
-export type NavigationNotAuthHook<
-  R extends keyof ScreenNotAuthList
-> = NavigationProp<ScreenNotAuthList, R>;
+export type NavigationNotAuthHook<R extends keyof ScreenNotAuthList> =
+  NavigationProp<ScreenNotAuthList, R>;
 
 export interface ScreenNotAuthProps<R extends keyof ScreenNotAuthList> {
   route: RouteProp<ScreenNotAuthList, R>;
