@@ -1,6 +1,6 @@
-import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik, FormikHelpers } from 'formik';
+import { useToast } from 'native-base';
 
 import { loginAction } from '@store/ducks/auth/auth.actions';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
@@ -23,6 +23,7 @@ import api from '@services/api';
 
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const onSubmit = async (
     { email, password }: Values,
@@ -31,11 +32,17 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
     try {
       const { data } = await api.post('/auth/login', { email, password });
 
-      dispatch(loginAction(data.token, data.refreshToken));
+      dispatch(loginAction(data.result.token, data.result.refreshToken));
 
-      api.defaults.headers.common.Authorization = `Bearer ${data.token}`;
+      api.defaults.headers.common.Authorization = `Bearer ${data.result.token}`;
     } catch (err) {
-      Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
+      const { message } = err.response.data;
+
+      toast.show({
+        title: 'Houve um erro',
+        description: message || '',
+        status: 'error',
+      });
       resetForm();
     } finally {
       setSubmitting(false);
