@@ -7,8 +7,8 @@ import {
   refreshTokenAction,
 } from '../store/ducks/auth/auth.actions';
 
-// const baseURL = 'https://api.flippdelivery.com.br/api/app';
-const baseURL = 'http://192.168.15.24:3030/api/app';
+const baseURL = 'https://api.flippdelivery.com.br/api/app';
+// const baseURL = 'http://192.168.15.24:3030/api/app';
 
 const api = axios.create({
   baseURL: baseURL,
