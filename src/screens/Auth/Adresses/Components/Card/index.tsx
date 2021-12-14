@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useToast } from 'native-base';
 
 import { CardBase } from '@components';
 import api from '@services/api';
@@ -10,8 +11,12 @@ import { Checkbox } from '../Checkbox';
 import { Container, Header, Body, Footer, Nickname, Content } from './styles';
 import { Address } from '../../props';
 
-export const Card = ({ reender, ...props }: Address & { reender: () => void }) => {
+export const Card = ({
+  reender,
+  ...props
+}: Address & { reender: () => void; addressActiveId: number }) => {
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
+  const toast = useToast();
 
   const [address, setAddress] = useState<Address>(null);
   const [fieldDefault, setFieldDefault] = useState(false);
@@ -19,7 +24,11 @@ export const Card = ({ reender, ...props }: Address & { reender: () => void }) =
   useEffect(() => {
     const fieldDefault = 'Não informado';
 
-    if (props.street === fieldDefault && props.neighborhood === fieldDefault && props.number === fieldDefault) {
+    if (
+      props.street === fieldDefault &&
+      props.neighborhood === fieldDefault &&
+      props.number === fieldDefault
+    ) {
       setFieldDefault(true);
     }
 
@@ -30,16 +39,22 @@ export const Card = ({ reender, ...props }: Address & { reender: () => void }) =
 
   const onChange = async () => {
     try {
-      if (address.active) {
-        await api.put(`/adresses-client/${props.id}/deactivate`);
-      } else {
-        await api.put(`/adresses-client/${props.id}/active`);
-      }
+      await api.put(`/adresses-client/${props.id}`, {
+        active: !address.active,
+      });
 
       setAddress(old => ({ ...old, active: !old.active }));
-      Alert.alert('Aviso', 'Endereço padrão atualizado com sucesso');
+      toast.show({
+        status: 'success',
+        title: 'Endereço padrão atualizado com sucesso',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao atualizar o endereço como padrão. Você não pode ficar sem endereço ativo');
+      toast.show({
+        title: 'Houve um erro!',
+        description:
+          'Houve um erro ao atualizar o endereço como padrão. Você não pode ficar sem endereço ativo',
+        status: 'error',
+      });
     }
   };
 

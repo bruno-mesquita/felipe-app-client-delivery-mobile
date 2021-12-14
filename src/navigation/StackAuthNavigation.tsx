@@ -44,7 +44,6 @@ const Menu = ({ openDrawer }) => (
 
 const headerOptions = (name: string) =>
   ({
-    headerTitleAlign: 'center',
     headerStyle: {
       backgroundColor: '#9E0404',
     },

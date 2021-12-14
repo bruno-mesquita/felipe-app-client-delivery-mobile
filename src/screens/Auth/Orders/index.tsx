@@ -1,6 +1,7 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { FlatList, Alert } from 'react-native';
+import { useState, useRef, useEffect } from 'react';
+import { FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import { useToast } from 'native-base';
 
 import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
@@ -10,6 +11,7 @@ import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 
 const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
   const isFocused = useIsFocused();
+  const toast = useToast();
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,31 +20,23 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
   const modalRateRef = useRef<ModalBaseHandle>(null);
   const modalInfoRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async (newPage: number) => {
-    try {
-      const { data } = await api.get('/clients/orders', {
-        params: {
-          page: newPage,
-        },
-      });
-
-      if (newPage === 0) setOrders(data.result);
-      else setOrders(old => old.concat(data.result));
-    } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao buscar os seus pedidos, tente novamente', [
-        {
-          onPress: () => (navigation.canGoBack() ? navigation.goBack() : null),
-          text: 'Ok',
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    if (isFocused) getOrders(page);
-  }, [isFocused, getOrders, page]);
+    if (isFocused) {
+      api
+        .get('/clients/orders', { params: { page } })
+        .then(({ data }) => {
+          if (page === 0) setOrders(data.result);
+          else setOrders(old => old.concat(data.result));
+        })
+        .catch(() => {
+          toast.show({
+            title: 'Erro ao buscar pedidos',
+            status: 'error',
+          });
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [isFocused, page]);
 
   const onRefresh = () => {
     setLoading(true);
@@ -64,11 +58,16 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
         refreshing={loading}
         onRefresh={onRefresh}
         ListEmptyComponent={NoOrders}
-        onEndReachedThreshold={0}
         onEndReached={loadMore}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => <Card {...item} modalInfoRef={modalInfoRef} modalRateRef={modalRateRef} />}
+        renderItem={({ item }) => (
+          <Card
+            {...item}
+            modalInfoRef={modalInfoRef}
+            modalRateRef={modalRateRef}
+          />
+        )}
       />
     </>
   );
