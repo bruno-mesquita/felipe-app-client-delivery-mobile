@@ -28,9 +28,9 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
           if (page === 0) setOrders(data.result);
           else setOrders(old => old.concat(data.result));
         })
-        .catch(() => {
+        .catch(err => {
           toast.show({
-            title: 'Erro ao buscar pedidos',
+            title: err.response.data.message,
             status: 'error',
           });
         })

@@ -17,7 +17,7 @@ export const Card = ({
   evaluation,
   createdAt,
   total,
-  order_status,
+  client_order_status,
   modalInfoRef,
   modalRateRef,
 }: Props) => {
@@ -29,9 +29,12 @@ export const Card = ({
   };
 
   const openModalRateOrTrack = () => {
-    if (order_status === 'Aberto' || order_status === 'Em andamento') {
+    if (
+      client_order_status !== 'Cancelado' &&
+      client_order_status !== 'Entregue'
+    ) {
       navigation.navigate('TrackOrder', { id });
-    } else if (order_status !== 'Cancelado') {
+    } else if (client_order_status === 'Entregue') {
       setSelectedItem({
         orderId: id,
         evaluationId: evaluation ? evaluation.id : null,
@@ -46,12 +49,15 @@ export const Card = ({
   };
 
   const Rate = () => {
-    if (order_status === 'Aberto' || order_status === 'Em andamento')
+    if (
+      client_order_status !== 'Cancelado' &&
+      client_order_status !== 'Entregue'
+    )
       return <Text style={{ color: `#FA7B14`, fontSize: 15 }}>Acompanhar</Text>;
 
-    if (order_status === 'Cancelado') {
+    if (client_order_status === 'Cancelado') {
       return <Text style={{ color: `#ff2401`, fontSize: 15 }}>Cancelado</Text>;
-    } else if (!evaluation) {
+    } else if (!evaluation && client_order_status === 'Entregue') {
       return <Text style={{ color: `#03670D`, fontSize: 16 }}>Avaliar</Text>;
     } else if (evaluation) {
       return <StarIcon rate={evaluation?.value} />;
@@ -59,7 +65,10 @@ export const Card = ({
   };
 
   return (
-    <CardBase style={{ width: '80%', alignSelf: 'center' }} onPress={openModalInfo}>
+    <CardBase
+      style={{ width: '80%', alignSelf: 'center' }}
+      onPress={openModalInfo}
+    >
       <Container>
         <Row>
           <View style={{ width: '70%' }}>

@@ -9,7 +9,7 @@ export interface Props {
     id: number;
     value: number;
   };
-  order_status: string;
+  client_order_status: string;
   modalRateRef: any;
   modalInfoRef: any;
 }
