@@ -13,9 +13,11 @@ export const Announcement = () => {
 
   useEffect(() => {
     api
-      .get('/announcement')
+      .get('/announcements')
       .then(({ data }) => setAnnouncements(data.result))
-      .catch(() => Alert.alert('Houve um erro carregar, por favor tente novamente'));
+      .catch(() =>
+        Alert.alert('Houve um erro carregar, por favor tente novamente')
+      );
   }, []);
 
   return (

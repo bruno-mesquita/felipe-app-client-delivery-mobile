@@ -36,16 +36,26 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   };
 
   const evaluate = () => {
-    api.post(`/orders/${selectedItem.orderId}/rate`, rate).then(() => {
-      modalRef.current?.close();
-    });
+    api
+      .post('/rates', {
+        orderId: selectedItem.orderId,
+        ...rate,
+      })
+      .then(() => {
+        modalRef.current?.close();
+      });
   };
 
   return (
     <ModalBase ref={modalRef}>
       <Container>
         <Header>
-          <Ionicons onPress={() => modalRef.current?.close()} name="close-circle" size={20} color={colors.primary} />
+          <Ionicons
+            onPress={() => modalRef.current?.close()}
+            name="close-circle"
+            size={20}
+            color={colors.primary}
+          />
         </Header>
         <FormControl>
           <TextArea
@@ -53,7 +63,7 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
             numberOfLines={5}
             value={rate?.message}
             placeholder="Faça uma avaliação do seu pedido"
-            border="1px solid #c4c4c4"
+            rounded="1px solid #c4c4c4"
             isDisabled={!!rate?.value}
             onChangeText={onChangeTextArea}
           />
@@ -65,8 +75,15 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
             paddingTop: 10,
           }}
         >
-          <AirbnbRating size={20} showRating={false} defaultRating={rate?.value || 0} onFinishRating={onFinishRating} />
-          {!selectedItem.evaluationId ? <ModalButton onPress={evaluate}>Avaliar</ModalButton> : null}
+          <AirbnbRating
+            size={20}
+            showRating={false}
+            defaultRating={rate?.value || 0}
+            onFinishRating={onFinishRating}
+          />
+          {!selectedItem.evaluationId ? (
+            <ModalButton onPress={evaluate}>Avaliar</ModalButton>
+          ) : null}
         </View>
       </Container>
     </ModalBase>

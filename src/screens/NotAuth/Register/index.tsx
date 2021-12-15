@@ -151,7 +151,7 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                 <Select
                   label="Cidade"
                   onChange={value => setFieldValue('city', value)}
-                  path={values.state !== '' && `/cities/${values.state}`}
+                  path={values.state !== '' && `/states/${values.state}/cities`}
                   value={values.city}
                   placeholder="Selecione uma cidade"
                 />
