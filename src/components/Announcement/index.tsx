@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, Alert, Platform } from 'react-native';
+import { Dimensions, StyleSheet, View, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
 import api from '@services/api';
@@ -12,12 +12,7 @@ export const Announcement = () => {
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
 
   useEffect(() => {
-    api
-      .get('/announcements')
-      .then(({ data }) => setAnnouncements(data.result))
-      .catch(() =>
-        Alert.alert('Houve um erro carregar, por favor tente novamente')
-      );
+    api.get('/announcements').then(({ data }) => setAnnouncements(data.result));
   }, []);
 
   return (

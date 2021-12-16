@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
 
 import api from '@services/api';
 import { IAnnouncement } from '../Announcement/props';
@@ -9,10 +8,7 @@ export const Carousel = () => {
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
 
   useEffect(() => {
-    api
-      .get('/announcement')
-      .then(({ data }) => setAnnouncements(data.result))
-      .catch(() => Alert.alert('Houve um erro ao carregar, por favor tente novamente'));
+    api.get('/announcements').then(({ data }) => setAnnouncements(data.result));
   }, []);
 
   return (

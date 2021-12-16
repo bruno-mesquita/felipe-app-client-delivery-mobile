@@ -21,10 +21,12 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   const [rate, setRate] = useState({ value: 0, message: '' });
 
   useEffect(() => {
-    api
-      .get(`/rates/${selectedItem.evaluationId}`)
-      .then(({ data }) => setRate(data.result))
-      .catch(() => navigation.goBack());
+    if (selectedItem.evaluationId) {
+      api
+        .get(`/rates/${selectedItem.evaluationId}`)
+        .then(({ data }) => setRate(data.result))
+        .catch(() => navigation.goBack());
+    }
   }, [selectedItem]);
 
   const onFinishRating = (value: number) => {

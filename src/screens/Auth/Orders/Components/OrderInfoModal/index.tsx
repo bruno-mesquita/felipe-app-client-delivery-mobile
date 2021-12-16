@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 
 import { Modal, ModalBase } from '@components';
@@ -19,21 +19,14 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
     setSelectedItem({ orderId: null, evaluationId: null });
   };
 
-  const getOrder = useCallback(async () => {
-    try {
-      if (selectedItem.orderId) {
-        const { data } = await api.get(`/orders/${selectedItem.orderId}`);
-
-        setOrderInfo(data.result);
-      }
-    } catch (err) {
-      onClose();
+  useEffect(() => {
+    if (selectedItem.orderId) {
+      api
+        .get(`/orders/${selectedItem.orderId}`)
+        .then(({ data }) => setOrderInfo(data.result))
+        .catch(() => onClose());
     }
   }, [selectedItem]);
-
-  useEffect(() => {
-    getOrder();
-  }, [getOrder]);
 
   return (
     <ModalBase ref={modalRef}>
@@ -48,7 +41,9 @@ export const OrderInfoModal = ({ modalRef }: OrderInfoProps) => {
             </Row>
           ))}
         </ProductsView>
-        <Text style={{ alignSelf: 'flex-end' }}>{`Total: ${formatNumber(orderInfo?.order.total || 0)}`}</Text>
+        <Text style={{ alignSelf: 'flex-end' }}>{`Total: ${formatNumber(
+          orderInfo?.order.total || 0
+        )}`}</Text>
       </Container>
     </ModalBase>
   );

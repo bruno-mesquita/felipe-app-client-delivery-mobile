@@ -18,7 +18,11 @@ export const OrderProvider = ({ children }) => {
     evaluationId: null,
   });
 
-  return <Context.Provider value={{ selectedItem, setSelectedItem }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{ selectedItem, setSelectedItem }}>
+      {children}
+    </Context.Provider>
+  );
 };
 
 export const useSelectedOrder = () => useContext(Context);
