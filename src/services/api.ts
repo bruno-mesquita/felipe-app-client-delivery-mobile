@@ -7,11 +7,8 @@ import {
   refreshTokenAction,
 } from '../store/ducks/auth/auth.actions';
 
-const baseURL = 'https://api.flippdelivery.com.br/api/app';
-// const baseURL = 'http://192.168.15.24:3030/api/app';
-
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL: Constants.manifest.extra.apiUrl,
   headers: {
     api_version: Constants.manifest.version,
   },
@@ -33,14 +30,17 @@ api.interceptors.response.use(
       }
 
       try {
-        const response = await fetch(baseURL + '/auth/refresh', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ refreshToken }),
-        });
+        const response = await fetch(
+          Constants.manifest.extra.apiUrl + '/auth/refresh',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refreshToken }),
+          }
+        );
 
         const { result } = await response.json();
 

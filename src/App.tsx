@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import { NativeBaseProvider } from 'native-base';
 
 import './config/reactotron';
@@ -21,4 +20,4 @@ const App = () => (
   </NativeBaseProvider>
 );
 
-registerRootComponent(App);
+export default App;
