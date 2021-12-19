@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { NativeBaseProvider } from 'native-base';
 
@@ -10,14 +10,16 @@ import Navigation from './navigation';
 import { StatusBar } from './components';
 
 const App = () => (
-  <NativeBaseProvider>
-    <Store>
-      <Styled>
-        <StatusBar />
-        <Navigation />
-      </Styled>
-    </Store>
-  </NativeBaseProvider>
+  <GestureHandlerRootView style={{ flex: 1 }}>
+    <NativeBaseProvider>
+      <Store>
+        <Styled>
+          <StatusBar />
+          <Navigation />
+        </Styled>
+      </Store>
+    </NativeBaseProvider>
+  </GestureHandlerRootView>
 );
 
 export default App;
