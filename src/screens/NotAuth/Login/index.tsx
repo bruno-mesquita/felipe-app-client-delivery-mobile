@@ -1,25 +1,25 @@
+import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik, FormikHelpers } from 'formik';
-import { useToast } from 'native-base';
+import {
+  useToast,
+  FormControl,
+  Input,
+  Stack,
+  Center,
+  Button,
+  Text,
+  Box,
+} from 'native-base';
 
 import { loginAction } from '@store/ducks/auth/auth.actions';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
-import { Field, FieldSecure } from '../../../components/FormUtils';
-import { Button } from '../../../components';
+import api from '@services/api';
+
 import { Layout } from '../_Layout';
 
-import {
-  ErrorComponent,
-  Form,
-  ContainerButton,
-  ContainerInput,
-  ForgotPassword,
-  ForgotPasswordButton,
-  ForgotPasswordText,
-} from './styles';
 import schema from './schema';
 import { Values } from './types';
-import api from '@services/api';
 
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
   const dispatch = useDispatch();
@@ -59,46 +59,94 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
         onSubmit={onSubmit}
         validationSchema={schema}
       >
-        {({ handleSubmit, handleChange, values, isSubmitting }) => (
-          <Form>
-            <ContainerInput>
-              <Field
-                autoCapitalize="none"
-                onChangeText={handleChange('email')}
-                value={values.email}
-                placeholder="E-mail"
-                label="E-mail"
-              />
-              <ErrorComponent name="email" />
+        {({
+          handleSubmit,
+          handleChange,
+          values,
+          isSubmitting,
+          errors,
+          touched,
+        }) => (
+          <Center flex={1} px="3">
+            <FormControl
+              isRequired
+              isInvalid={!!(touched?.email && errors?.email)}
+            >
+              <Stack>
+                <FormControl.Label
+                  _text={{
+                    color: '#fff',
+                  }}
+                >
+                  Email
+                </FormControl.Label>
+                <Input
+                  autoCapitalize="none"
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                  placeholder="E-mail"
+                />
+                <FormControl.ErrorMessage
+                  alignSelf="center"
+                  _text={{
+                    color: '#fff',
+                    fontSize: 'sm',
+                  }}
+                >
+                  {errors.email}
+                </FormControl.ErrorMessage>
+              </Stack>
+            </FormControl>
 
-              <FieldSecure
-                onChangeText={handleChange('password')}
-                value={values.password}
-                placeholder="Senha"
-                label="Senha"
-              />
-              <ErrorComponent name="password" />
-            </ContainerInput>
+            <FormControl
+              isRequired
+              isInvalid={!!(touched?.email && errors?.email)}
+            >
+              <Stack>
+                <FormControl.Label
+                  _text={{
+                    color: '#fff',
+                  }}
+                >
+                  Senha
+                </FormControl.Label>
+                <Input
+                  type="password"
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                  placeholder="Senha"
+                />
+                <FormControl.ErrorMessage
+                  alignSelf="center"
+                  _text={{
+                    color: '#fff',
+                    fontSize: 'sm',
+                  }}
+                >
+                  {errors.password}
+                </FormControl.ErrorMessage>
+              </Stack>
+            </FormControl>
 
-            <ForgotPassword>
-              <ForgotPasswordButton>
-                <ForgotPasswordText onPress={forgotPassword}>
-                  Esqueci minha senha
-                </ForgotPasswordText>
-              </ForgotPasswordButton>
-            </ForgotPassword>
+            <Box w="100%" my="15px" alignItems="flex-end">
+              <TouchableOpacity onPress={forgotPassword}>
+                <Text color="#fff">Esqueci minha senha</Text>
+              </TouchableOpacity>
+            </Box>
 
-            <ContainerButton>
-              <Button
-                disabled={isSubmitting}
-                loading={isSubmitting}
-                onPress={() => handleSubmit()}
-              >
-                Login
-              </Button>
-              <Button onPress={goRegister}>Criar conta</Button>
-            </ContainerButton>
-          </Form>
+            <Button
+              w="80%"
+              disabled={isSubmitting}
+              isLoading={isSubmitting}
+              onPress={() => handleSubmit()}
+              mb="20px"
+            >
+              Login
+            </Button>
+            <Button w="80%" onPress={goRegister}>
+              Criar conta
+            </Button>
+          </Center>
         )}
       </Formik>
     </Layout>

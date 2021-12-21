@@ -1,14 +1,28 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { DrawerContentComponentProps, useDrawerStatus } from '@react-navigation/drawer';
+import {
+  DrawerContentComponentProps,
+  useDrawerStatus,
+} from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Container, List, ListItem, ListItemText, User, UserAvatar, Divider } from './styles';
+import {
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  User,
+  UserAvatar,
+  Divider,
+} from './styles';
 
 import api from '@services/api';
 import { logoutAction } from '@store/ducks/auth/auth.actions';
 
-export const Drawer = ({ navigation, ...props }: DrawerContentComponentProps) => {
+export const Drawer = ({
+  navigation,
+  ...props
+}: DrawerContentComponentProps) => {
   const drawerStatus = useDrawerStatus();
   const dispatch = useDispatch();
 

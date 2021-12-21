@@ -6,12 +6,13 @@ import './config/reactotron';
 
 import { Store } from './store';
 import { Styled } from './styles/styled';
+import theme from './styles/native-base.theme';
 import Navigation from './navigation';
 import { StatusBar } from './components';
 
 const App = () => (
   <GestureHandlerRootView style={{ flex: 1 }}>
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
       <Store>
         <Styled>
           <StatusBar />
