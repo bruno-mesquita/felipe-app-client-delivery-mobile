@@ -11,6 +11,6 @@ export const Divider = styled.View`
     width: 100%;
     height: 0.7px;
     elevation: 10;
-    margin: 25px 0 25px 0;
+    margin: 25px 0px;
   `}
 `;

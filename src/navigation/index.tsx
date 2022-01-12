@@ -1,13 +1,13 @@
-import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { Notifications } from '@components';
+import { useAppSelector } from '@store/hooks';
 
 import { DrawerNavigation } from './DrawerNavigation';
 import { StackNotAuthNavigation } from './StackNotAuthNavigation';
 
 const Navigation = () => {
-  const signed = useSelector(({ auth }) => auth.signed);
+  const signed = useAppSelector(({ auth }) => auth.signed);
 
   return (
     <NavigationContainer>

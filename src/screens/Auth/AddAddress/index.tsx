@@ -17,7 +17,10 @@ export const AddAddress = () => {
     state: '',
   };
 
-  const onSubmit = async (values: typeof initialValues, { resetForm }: FormikHelpers<typeof initialValues>) => {
+  const onSubmit = async (
+    values: typeof initialValues,
+    { resetForm }: FormikHelpers<typeof initialValues>
+  ) => {
     try {
       await api.post('/adresses-client', values);
 
@@ -30,7 +33,11 @@ export const AddAddress = () => {
 
   return (
     <Container>
-      <Formik onSubmit={onSubmit} initialValues={initialValues} component={AddressForm} />
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        component={AddressForm}
+      />
     </Container>
   );
 };

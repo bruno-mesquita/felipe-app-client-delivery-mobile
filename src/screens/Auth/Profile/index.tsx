@@ -9,7 +9,15 @@ import api from '@services/api';
 import { Field, FieldMask } from '@form';
 import { Button } from '@components';
 
-import { Container, ViewField, ViewForm, ViewFields, ViewUser, UserAvatar, ViewUserData } from './styles';
+import {
+  Container,
+  ViewField,
+  ViewForm,
+  ViewFields,
+  ViewUser,
+  UserAvatar,
+  ViewUserData,
+} from './styles';
 
 import { UserProfile } from './props';
 
@@ -63,10 +71,14 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
   };
 
   const permissions = useCallback(async () => {
-    const { status: cameraStaus } = await ImagePicker.requestCameraPermissionsAsync();
+    const { status: cameraStaus } =
+      await ImagePicker.requestCameraPermissionsAsync();
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted' || cameraStaus !== 'granted') {
-      Alert.alert('Atenção!', 'Precisamos da sua permissão para adicionar sua foto do perfil!');
+      Alert.alert(
+        'Atenção!',
+        'Precisamos da sua permissão para adicionar sua foto do perfil!'
+      );
     }
   }, []);
 
@@ -100,7 +112,11 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
 
   return (
     <Container>
-      <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
         {({ values, handleChange, handleSubmit }) => (
           <ViewForm>
             <ViewUser>
@@ -108,12 +124,18 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
                 {user?.avatar ? (
                   <UserAvatar source={{ uri: user?.avatar }} />
                 ) : (
-                  <MaterialIcons name="account-circle" size={100} color="#c4c4c4" />
+                  <MaterialIcons
+                    name="account-circle"
+                    size={100}
+                    color="#c4c4c4"
+                  />
                 )}
               </TouchableOpacity>
               <ViewUserData>
                 <Text style={{ fontWeight: 'bold' }}>{values.name}</Text>
-                <Text style={{ fontWeight: 'bold' }}>{user?.cpf ? formattedCpf(user?.cpf) : null}</Text>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {user?.cpf ? formattedCpf(user?.cpf) : null}
+                </Text>
                 <Text style={{ fontWeight: 'bold' }}>{values.email}</Text>
               </ViewUserData>
             </ViewUser>
@@ -128,7 +150,12 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
                 <ErrorMessage component={View} name="name" />
               </ViewField>
               <ViewField>
-                <Field labelColor="#000" label="Email" value={values.email} onChangeText={handleChange('email')} />
+                <Field
+                  labelColor="#000"
+                  label="Email"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                />
                 <ErrorMessage component={View} name="email" />
               </ViewField>
               <ViewField>
@@ -144,7 +171,11 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
               </ViewField>
             </ViewFields>
             <View>
-              <Button loading={loading} primaryColor onPress={() => handleSubmit()}>
+              <Button
+                loading={loading}
+                primaryColor
+                onPress={() => handleSubmit()}
+              >
                 Atualizar
               </Button>
             </View>

@@ -1,20 +1,28 @@
 import { useRef, useEffect } from 'react';
 import { Alert, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
+import { useAppSelector } from '@store/hooks';
 import { Button } from '../../../components/Button';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { Card, FinishModal } from './Components';
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import formatNumber from '../../../utils/format-number';
-import { Container, ContainerInfo, Text, Texts, Prices, ViewButton, Divider } from './styles';
+import {
+  Container,
+  ContainerInfo,
+  Text,
+  Texts,
+  Prices,
+  ViewButton,
+  Divider,
+} from './styles';
 
 export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
   // Estado Global
   const isFocused = useIsFocused();
-  const { fee, items, subTotal, total } = useSelector(({ cart }) => ({
+  const { fee, items, subTotal, total } = useAppSelector(({ cart }) => ({
     items: cart.items,
     fee: cart.fee,
     subTotal: cart.total,
@@ -54,7 +62,11 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
         <Button primaryColor onPress={openModalOrder}>
           Finalizar
         </Button>
-        <Button textProps={{ style: { fontSize: 18 } }} primaryColor onPress={() => navigation.goBack()}>
+        <Button
+          textProps={{ style: { fontSize: 18 } }}
+          primaryColor
+          onPress={() => navigation.goBack()}
+        >
           Continuar comprando
         </Button>
       </ViewButton>

@@ -1,10 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   DrawerContentComponentProps,
   useDrawerStatus,
 } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
+
+import api from '@services/api';
+import { useAppDispatch } from '@store/hooks';
+import { authActions } from '@store/reducers/auth';
 
 import {
   Container,
@@ -16,15 +19,12 @@ import {
   Divider,
 } from './styles';
 
-import api from '@services/api';
-import { logoutAction } from '@store/ducks/auth/auth.actions';
-
 export const Drawer = ({
   navigation,
   ...props
 }: DrawerContentComponentProps) => {
   const drawerStatus = useDrawerStatus();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [avatar, setAvatar] = useState(null);
 
@@ -42,7 +42,7 @@ export const Drawer = ({
     if (drawerStatus === 'open') getUser();
   }, [drawerStatus, getUser]);
 
-  const logout = () => dispatch(logoutAction());
+  const logout = () => dispatch(authActions.logout());
 
   const goProfile = () => navigation.navigate('Profile');
 

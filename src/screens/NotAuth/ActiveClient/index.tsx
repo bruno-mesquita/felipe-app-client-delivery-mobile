@@ -23,8 +23,8 @@ import {
   ContainerInput,
   ContainerButton,
 } from './styles';
-import schema from './schema';
 import { Values } from './props';
+import schema from './schema';
 
 export const ActiveClient = ({
   navigation,
@@ -70,26 +70,23 @@ export const ActiveClient = ({
 
   const onSubmit = async (
     values: Values,
-    { resetForm, setSubmitting }: FormikHelpers<Values>
+    { resetForm }: FormikHelpers<Values>
   ) => {
     try {
       await api.put('/clients/activate', values);
-
       toast.show({
         title: 'Usuário ativado!',
         status: 'success',
       });
       navigation.navigate('Login');
     } catch (err) {
-      const { message } = err.message.data;
+      const { message } = err.response.data;
       resetForm();
       toast.show({
         title: 'Houve um erro!',
         description: message,
         status: 'error',
       });
-    } finally {
-      setSubmitting(false);
     }
   };
 

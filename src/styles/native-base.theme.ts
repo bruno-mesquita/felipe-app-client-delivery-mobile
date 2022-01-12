@@ -5,7 +5,6 @@ export default extendTheme({
     Input: {
       baseStyle: {
         bg: '#770202',
-        rounded: '10px',
         color: '#fff',
         borderWidth: '0px',
       },

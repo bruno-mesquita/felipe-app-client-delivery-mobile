@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import api from '@services/api';
+import { useAppDispatch } from '@store/hooks';
 import { useUser } from '@hooks';
-import { logoutAction } from '@store/ducks/auth/auth.actions';
+import { authActions } from '@store/reducers/auth';
 
 import { Item } from './Components';
 import { Container, Divider } from './styles';
 
 export const Account = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { active: activeHook } = useUser(['active']);
   const [userActive, setUserActive] = useState(false);
@@ -19,7 +19,8 @@ export const Account = ({ navigation }) => {
     setUserActive(activeHook);
   }, [activeHook]);
 
-  const [activeOrDeactivateLoading, setActiveOrDeactivateLoading] = useState(false);
+  const [activeOrDeactivateLoading, setActiveOrDeactivateLoading] =
+    useState(false);
 
   const deactivate = async () => {
     try {
@@ -28,7 +29,10 @@ export const Account = ({ navigation }) => {
       await api.put('/clients/deactivate');
 
       setUserActive(old => !old);
-      Alert.alert('Aviso', 'Conta desativada! você não poderá acessar algumas telas agora');
+      Alert.alert(
+        'Aviso',
+        'Conta desativada! você não poderá acessar algumas telas agora'
+      );
     } catch (err) {
       Alert.alert('Erro', 'Houve um problema ao desativar sua conta');
     } finally {
@@ -62,7 +66,7 @@ export const Account = ({ navigation }) => {
             try {
               await api.delete('/clients');
 
-              dispatch(logoutAction());
+              dispatch(authActions.logout());
             } catch (err) {
               Alert.alert('Erro', 'Houve um erro deletar sua conta');
             }
@@ -77,11 +81,14 @@ export const Account = ({ navigation }) => {
 
   return (
     <Container>
-      <Item onPress={() => navigation.navigate('ChangePassword')}>Alterar senha</Item>
+      <Item onPress={() => navigation.navigate('ChangePassword')}>
+        Alterar senha
+      </Item>
       <Divider />
-      <Item loading={activeOrDeactivateLoading} onPress={userActive ? deactivate : active}>{`${
-        userActive ? 'Desativar' : 'Ativar'
-      } conta`}</Item>
+      <Item
+        loading={activeOrDeactivateLoading}
+        onPress={userActive ? deactivate : active}
+      >{`${userActive ? 'Desativar' : 'Ativar'} conta`}</Item>
       <Divider />
       <Item onPress={destroy}>Deletar conta</Item>
       <Divider />

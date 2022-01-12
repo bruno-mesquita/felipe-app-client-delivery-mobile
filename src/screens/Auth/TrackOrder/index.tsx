@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, BackHandler } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
 const lineOne = require('../../../assets/images/line_01.png');
@@ -13,7 +12,8 @@ const wait = require('../../../assets/images/esperando.png');
 const accept = require('../../../assets/images/pedido_aceito.png');
 const delivered = require('../../../assets/images/pedido_entregue.png');
 
-import { clearCart } from '../../../store/ducks/cart/cart.actions';
+import { cartActions } from '@store/reducers/cart';
+import { useAppDispatch } from '@store/hooks';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 import api from '@services/api';
 import { Container, Status, Icon, Title } from './styles';
@@ -26,7 +26,7 @@ export const TrackOrder = ({
   },
 }: ScreenAuthProps<'TrackOrder'>) => {
   const { colors } = useTheme();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [images] = useState([lineOne, lineTwo, lineThree, lineFour]);
   const [icons] = useState([wait, accept, way, delivered]);
@@ -75,7 +75,7 @@ export const TrackOrder = ({
   useEffect(() => {
     verifyStatus();
 
-    if (clear) dispatch(clearCart());
+    if (clear) dispatch(cartActions.clear());
 
     const funcInterval = setInterval(verifyStatus, 8000);
 

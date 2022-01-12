@@ -1,5 +1,4 @@
 import { TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { Formik, FormikHelpers } from 'formik';
 import {
   useToast,
@@ -12,29 +11,24 @@ import {
   Box,
 } from 'native-base';
 
-import { loginAction } from '@store/ducks/auth/auth.actions';
+import { useAppDispatch } from '@store/hooks';
+import { authActions } from '@store/reducers/auth';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
-import api from '@services/api';
 
 import { Layout } from '../_Layout';
-
 import schema from './schema';
 import { Values } from './types';
 
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const toast = useToast();
 
   const onSubmit = async (
-    { email, password }: Values,
+    values: Values,
     { setSubmitting, resetForm }: FormikHelpers<Values>
   ) => {
     try {
-      const { data } = await api.post('/auth/login', { email, password });
-
-      dispatch(loginAction(data.result.token, data.result.refreshToken));
-
-      api.defaults.headers.common.Authorization = `Bearer ${data.result.token}`;
+      await dispatch(authActions.fetchLogin(values)).unwrap();
     } catch (err) {
       const { message } = err.response.data;
 
@@ -68,16 +62,9 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
           touched,
         }) => (
           <Center flex={1} px="3">
-            <FormControl
-              isRequired
-              isInvalid={!!(touched?.email && errors?.email)}
-            >
+            <FormControl isInvalid={!!(touched?.email && errors?.email)}>
               <Stack>
-                <FormControl.Label
-                  _text={{
-                    color: '#fff',
-                  }}
-                >
+                <FormControl.Label _text={{ color: '#fff' }}>
                   Email
                 </FormControl.Label>
                 <Input
@@ -99,15 +86,11 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
             </FormControl>
 
             <FormControl
-              isRequired
+              mt="10px"
               isInvalid={!!(touched?.email && errors?.email)}
             >
               <Stack>
-                <FormControl.Label
-                  _text={{
-                    color: '#fff',
-                  }}
-                >
+                <FormControl.Label _text={{ color: '#fff' }}>
                   Senha
                 </FormControl.Label>
                 <Input

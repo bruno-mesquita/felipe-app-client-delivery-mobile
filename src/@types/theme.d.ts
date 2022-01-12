@@ -10,7 +10,7 @@ declare module 'styled-components/native' {
     };
     metrics: {
       px: (valuePx: number) => number;
-    }
+    };
   }
 }
 

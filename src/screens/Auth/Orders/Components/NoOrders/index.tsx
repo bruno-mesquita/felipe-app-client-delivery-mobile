@@ -9,7 +9,11 @@ export const NoOrders = () => {
 
   return (
     <Container>
-      <MaterialCommunityIcons name="calendar-text" size={150} color={lighten(0.4, colors.primary)} />
+      <MaterialCommunityIcons
+        name="calendar-text"
+        size={150}
+        color={lighten(0.4, colors.primary)}
+      />
       <Title>Sem pedidos</Title>
     </Container>
   );

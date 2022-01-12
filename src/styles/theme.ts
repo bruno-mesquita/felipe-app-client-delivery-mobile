@@ -9,7 +9,7 @@ const theme: DefaultTheme = {
     secundary: '#FFFFFF',
     third: '#F8C200',
   },
-  metrics
+  metrics,
 };
 
 export default theme;

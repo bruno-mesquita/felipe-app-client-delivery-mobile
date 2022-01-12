@@ -4,7 +4,14 @@ import { ModalItem } from '../../ModalItem';
 import { ModalBaseHandle } from '../../ModalBase/props';
 import { CardBase } from '../../CardBase';
 import { Props } from './props';
-import { Container, ImageProduct, Content, Title, Description, Price } from './styles';
+import {
+  Container,
+  ImageProduct,
+  Content,
+  Title,
+  Description,
+  Price,
+} from './styles';
 import formatNumber from '../../../utils/format-number';
 
 const Card = (props: Props) => {
@@ -24,7 +31,11 @@ const Card = (props: Props) => {
 
   return (
     <>
-      <ModalItem modalRef={modalItemRef} {...props} description={formattedDescription(props.description)} />
+      <ModalItem
+        modalRef={modalItemRef}
+        {...props}
+        description={formattedDescription(props.description)}
+      />
       <CardBase onPress={openModal}>
         <Container>
           <ImageProduct style={{ resizeMode: 'cover' }} source={props.image} />

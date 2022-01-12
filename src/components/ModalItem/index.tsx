@@ -1,20 +1,30 @@
 import { useState, useEffect } from 'react';
 import { View, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
 import { ModalButton } from '../ModalButton';
 import { ModalBase } from '../ModalBase';
 
-import { addItem } from '@store/ducks/cart/cart.actions';
+import { cartActions } from '@store/reducers/cart';
 import formatNumber from '@utils/format-number';
+import { useAppDispatch } from '@store/hooks';
+
 import { ModalItemProps } from './props';
-import { PlusOrMin, Prices, ProductInfo, ViewTexts, Title, Description, Header, Content } from './styles';
+import {
+  PlusOrMin,
+  Prices,
+  ProductInfo,
+  ViewTexts,
+  Title,
+  Description,
+  Header,
+  Content,
+} from './styles';
 
 export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { colors } = useTheme();
   const navigation = useNavigation();
 
@@ -47,7 +57,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
 
   const addItemCart = () => {
     dispatch(
-      addItem({
+      cartActions.addItem({
         ...rest,
         itemId: rest.id,
         amount,
@@ -62,7 +72,12 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
     <ModalBase ref={modalRef}>
       <Content>
         <Header>
-          <Ionicons onPress={() => modalRef.current.close()} name="close-circle" size={25} color={colors.primary} />
+          <Ionicons
+            onPress={() => modalRef.current.close()}
+            name="close-circle"
+            size={25}
+            color={colors.primary}
+          />
         </Header>
         <ProductInfo>
           <Image
@@ -81,9 +96,19 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
         </ProductInfo>
         <Prices>
           <PlusOrMin>
-            <MaterialIcons name="remove-circle" color={colors.primary} size={25} onPress={min} />
+            <MaterialIcons
+              name="remove-circle"
+              color={colors.primary}
+              size={25}
+              onPress={min}
+            />
             <Text>{amount}</Text>
-            <MaterialIcons name="add-circle" color={colors.primary} size={25} onPress={plus} />
+            <MaterialIcons
+              name="add-circle"
+              color={colors.primary}
+              size={25}
+              onPress={plus}
+            />
           </PlusOrMin>
           <View>
             <Text>Preço: {formatNumber(rest.price)}</Text>

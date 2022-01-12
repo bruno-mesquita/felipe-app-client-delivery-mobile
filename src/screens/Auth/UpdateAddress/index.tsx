@@ -39,7 +39,12 @@ export const UpdateAddress = ({ route }) => {
 
   return (
     <Container>
-      <Formik onSubmit={onSubmit} initialValues={address} component={AddressForm} enableReinitialize />
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={address}
+        component={AddressForm}
+        enableReinitialize
+      />
     </Container>
   );
 };

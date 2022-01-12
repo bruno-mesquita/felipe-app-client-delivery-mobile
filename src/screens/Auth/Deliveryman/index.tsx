@@ -9,7 +9,9 @@ import { NotFound, Card } from './Components';
 import { DeliverymansProps } from './props';
 import { Container, Deleverymans } from './styles';
 
-export const Deliveryman = ({ navigation }: ScreenAuthProps<'Deliverymans'>) => {
+export const Deliveryman = ({
+  navigation,
+}: ScreenAuthProps<'Deliverymans'>) => {
   const isFocused = useIsFocused();
 
   const [deliverymans, setDeliverymans] = useState<DeliverymansProps[]>([]);
@@ -18,17 +20,24 @@ export const Deliveryman = ({ navigation }: ScreenAuthProps<'Deliverymans'>) => 
 
   const getDeliverymans = useCallback(async (newPage: number) => {
     try {
-      const { data } = await api.get('/deliveryman', { params: { page: newPage } });
+      const { data } = await api.get('/deliveryman', {
+        params: { page: newPage },
+      });
 
       if (newPage === 0) setDeliverymans(data.result);
       else setDeliverymans(old => old.concat(data.result));
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao buscar os motoboys, por favor tente novamente', [
-        {
-          onPress: () => (navigation.canGoBack() ? navigation.goBack() : null),
-          text: 'Ok',
-        },
-      ]);
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao buscar os motoboys, por favor tente novamente',
+        [
+          {
+            onPress: () =>
+              navigation.canGoBack() ? navigation.goBack() : null,
+            text: 'Ok',
+          },
+        ]
+      );
     } finally {
       setRefreshing(false);
     }

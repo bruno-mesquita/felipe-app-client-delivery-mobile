@@ -11,7 +11,10 @@ import { NotFound, Card, FieldSearch } from './Components';
 import { Container, Content, Establishments } from './styles';
 import { Establishment } from './props';
 
-export const Home = ({ navigation, route: { params } }: ScreenAuthProps<'Home'>) => {
+export const Home = ({
+  navigation,
+  route: { params },
+}: ScreenAuthProps<'Home'>) => {
   const isFocused = useIsFocused();
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
@@ -30,12 +33,17 @@ export const Home = ({ navigation, route: { params } }: ScreenAuthProps<'Home'>)
       if (newPage === 0) setEstablishments(data.result);
       else setEstablishments(old => old.concat(data.result));
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao buscar estabelecimentos, por favor tente novamente', [
-        {
-          onPress: () => (navigation.canGoBack() ? navigation.goBack() : null),
-          text: 'Ok',
-        },
-      ]);
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao buscar estabelecimentos, por favor tente novamente',
+        [
+          {
+            onPress: () =>
+              navigation.canGoBack() ? navigation.goBack() : null,
+            text: 'Ok',
+          },
+        ]
+      );
     } finally {
       setRefreshing(false);
     }
@@ -61,7 +69,11 @@ export const Home = ({ navigation, route: { params } }: ScreenAuthProps<'Home'>)
 
   return (
     <Container>
-      <Content refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <Content
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View
           style={{
             alignItems: 'center',
@@ -69,7 +81,11 @@ export const Home = ({ navigation, route: { params } }: ScreenAuthProps<'Home'>)
             paddingBottom: Constans.statusBarHeight * 0.3,
           }}
         >
-          <FieldSearch categoryName={params.categoryName} refreshing={refreshing} response={searchResult} />
+          <FieldSearch
+            categoryName={params.categoryName}
+            refreshing={refreshing}
+            response={searchResult}
+          />
         </View>
 
         <Establishments

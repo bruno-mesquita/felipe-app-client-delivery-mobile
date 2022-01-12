@@ -1,21 +1,29 @@
-import { persistStore } from 'redux-persist';
-import createSagaMiddleware from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
-import createStore from './create-store';
-import persistReducers from './persist-reducers';
+import persistedReducer from './persistedReducer';
 
-import rootReducer from './ducks/root-reducer';
-import rootSaga from './ducks/root-saga';
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
 
-const sagaMonitor = console.tron.createSagaMonitor();
-
-const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
-
-const middlewares = [sagaMiddleware];
-
-const store = createStore(persistReducers(rootReducer), middlewares);
 const persistor = persistStore(store);
 
-sagaMiddleware.run(rootSaga);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
-export { persistor, store };
+export { store, persistor };

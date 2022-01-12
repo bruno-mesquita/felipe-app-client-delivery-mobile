@@ -19,6 +19,10 @@ export const StackNotAuthNavigation = () => (
     <Screen name="ForgotPassword" component={ForgotPassword} />
     <Screen name="CodeToPassword" component={CodeToPassword} />
     <Screen name="TermsUse" component={TermsUse} />
-    <Screen name="ActiveClient" component={ActiveClient} />
+    <Screen
+      name="ActiveClient"
+      initialParams={{ userId: 0 }}
+      component={ActiveClient}
+    />
   </Navigator>
 );

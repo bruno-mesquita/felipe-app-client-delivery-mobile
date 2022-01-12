@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { View, Alert } from 'react-native';
-import { useSelector } from 'react-redux';
+
 import { useNavigation } from '@react-navigation/native';
 import { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,9 +9,10 @@ import { useTheme } from 'styled-components/native';
 import { ModalBase, ModalButton } from '@components';
 import { Field, Select } from '@form';
 import api from '@services/api';
-import { ModalBaseProps } from '../../../../../components/ModalBase/props';
+import { useAppSelector } from '@store/hooks';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 
+import { ModalBaseProps } from '../../../../../components/ModalBase/props';
 import { Container, Content, Header } from './styles';
 import paymentsOptions from './paymentOptions';
 import schema from './schema';
@@ -20,7 +21,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation<NavigationAuthHook<'Cart'>>();
   const { colors } = useTheme();
 
-  const { establishmentId, items, total } = useSelector(({ cart }) => cart);
+  const { establishmentId, items, total } = useAppSelector(({ cart }) => cart);
 
   const [loading, setLoading] = useState(false);
   const [payments, setPayments] = useState<Item[]>([]);

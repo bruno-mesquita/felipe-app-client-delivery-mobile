@@ -2,10 +2,7 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 
 import { store } from '../store/store';
-import {
-  logoutAction,
-  refreshTokenAction,
-} from '../store/ducks/auth/auth.actions';
+import { authActions } from '../store/reducers/auth';
 
 const api = axios.create({
   baseURL: Constants.manifest.extra.apiUrl,
@@ -22,46 +19,24 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const { refreshToken } = (store.getState() as any).auth;
-
-      if (!refreshToken) {
-        store.dispatch(logoutAction());
-        return Promise.reject(error);
-      }
-
       try {
-        const response = await fetch(
-          Constants.manifest.extra.apiUrl + '/auth/refresh',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ refreshToken }),
-          }
-        );
-
-        const { result } = await response.json();
-
-        const { accessToken, refreshToken: newRefreshToken } = result;
-
-        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-        store.dispatch(refreshTokenAction(accessToken, newRefreshToken));
+        const { token } = await store
+          .dispatch(authActions.fetchRefreshToken())
+          .unwrap();
 
         return api({
           ...originalRequest,
           headers: {
             ...originalRequest,
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
       } catch (err) {
-        store.dispatch(logoutAction());
+        store.dispatch(authActions.logout());
         return Promise.reject(error);
       }
     }
+    store.dispatch(authActions.logout());
     return Promise.reject(error);
   }
 );

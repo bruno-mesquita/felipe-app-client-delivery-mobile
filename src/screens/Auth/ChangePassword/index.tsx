@@ -30,7 +30,11 @@ export const ChangePassword = () => {
 
   return (
     <Container>
-      <Formik initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
         {({ values, handleChange, handleSubmit }) => (
           <ViewForm>
             <ViewFields>
