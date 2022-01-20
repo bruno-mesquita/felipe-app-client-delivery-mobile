@@ -15,7 +15,13 @@ const { Navigator, Screen } = createNativeStackNavigator<ScreenNotAuthList>();
 export const StackNotAuthNavigation = () => (
   <Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
     <Screen name="Login" component={Login} />
-    <Screen name="Register" component={Register} />
+    <Screen
+      name="Register"
+      options={{
+        animation: 'slide_from_right',
+      }}
+      component={Register}
+    />
     <Screen name="ForgotPassword" component={ForgotPassword} />
     <Screen name="CodeToPassword" component={CodeToPassword} />
     <Screen name="TermsUse" component={TermsUse} />

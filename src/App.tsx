@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 
 import { NativeBaseProvider } from 'native-base';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import './utils/yup-defaults';
 
@@ -14,11 +15,15 @@ const App = () => (
   <NativeBaseProvider theme={theme}>
     <StoreProvider>
       <ApiConfig>
-        <Notifications />
-        <Styled>
-          <StatusBar />
-          <Navigation />
-        </Styled>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <Notifications />
+            <Styled>
+              <StatusBar />
+              <Navigation />
+            </Styled>
+          </SafeAreaView>
+        </SafeAreaProvider>
       </ApiConfig>
     </StoreProvider>
   </NativeBaseProvider>
