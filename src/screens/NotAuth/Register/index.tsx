@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { ScrollView, Alert, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 import { useToast } from 'native-base';

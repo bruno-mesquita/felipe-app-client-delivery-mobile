@@ -5,10 +5,9 @@ import {
   FormControl,
   Input,
   Stack,
-  Center,
   Button,
   Text,
-  Box,
+  Flex,
 } from 'native-base';
 
 import { useAppDispatch } from '@store/hooks';
@@ -61,7 +60,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
           errors,
           touched,
         }) => (
-          <Center flex={1} px="3">
+          <Flex align="center" w="90%">
             <FormControl isInvalid={!!(touched?.email && errors?.email)}>
               <Stack>
                 <FormControl.Label _text={{ color: '#fff' }}>
@@ -111,11 +110,11 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
               </Stack>
             </FormControl>
 
-            <Box w="100%" my="15px" alignItems="flex-end">
+            <Flex w="100%" my="15px" alignItems="flex-end">
               <TouchableOpacity onPress={forgotPassword}>
                 <Text color="#fff">Esqueci minha senha</Text>
               </TouchableOpacity>
-            </Box>
+            </Flex>
 
             <Button
               w="80%"
@@ -129,7 +128,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
             <Button w="80%" onPress={goRegister}>
               Criar conta
             </Button>
-          </Center>
+          </Flex>
         )}
       </Formik>
     </Layout>

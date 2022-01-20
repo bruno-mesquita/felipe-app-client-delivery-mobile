@@ -1,17 +1,24 @@
 import type { FC } from 'react';
+import { ImageBackground } from 'react-native';
+import { Flex, Image } from 'native-base';
 
-import { Container, ContainerLogo, Logo, BackGround } from './styles';
+export const Layout: FC = ({ children }) => {
+  return (
+    <Flex flex={1} safeArea>
+      <ImageBackground
+        style={{ flex: 1, alignItems: 'center' }}
+        source={require('../../../assets/images/fundo.png')}
+      >
+        <Image
+          alignSelf="center"
+          resizeMode="contain"
+          source={require('../../../assets/images/logo.png')}
+          size="250px"
+          alt="Logo Flipp"
+        />
 
-export const Layout: FC = ({ children }) => (
-  <Container>
-    <BackGround
-      style={{ flex: 1 }}
-      source={require('../../../assets/images/fundo.png')}
-    >
-      <ContainerLogo>
-        <Logo source={require('../../../assets/images/logo.png')} />
-      </ContainerLogo>
-      {children}
-    </BackGround>
-  </Container>
-);
+        {children}
+      </ImageBackground>
+    </Flex>
+  );
+};
