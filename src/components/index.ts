@@ -14,3 +14,4 @@ export { Modal } from './Modal';
 export { Announcement } from './Announcement';
 export { Carousel } from './Carousel';
 export { RegisterNotifications as Notifications } from './Notifications';
+export { ApiConfig } from './ApiConfig';

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Formik, FormikHelpers, ErrorMessage } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
@@ -19,6 +19,7 @@ import { ScreenNotAuthProps } from '@utils/ScreenProps';
 import { Layout } from '../_Layout';
 import { Values } from './types';
 import schema from './schema';
+import { useGetStates, useGetCities } from '@hooks';
 
 export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
   const toast = useToast();
@@ -26,20 +27,10 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
   const [checked, setChecked] = useState(false);
   const cpfInputRef = useRef<TextInputMasked>(null);
   const celInputRef = useRef<TextInputMasked>(null);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
   const [stateId, setStateId] = useState(null);
 
-  useEffect(() => {
-    api.get('/states').then(({ data }) => setStates(data.result));
-  }, []);
-
-  useEffect(() => {
-    if (stateId)
-      api
-        .get(`/states/${stateId}/cities`)
-        .then(({ data }) => setCities(data.result));
-  }, [stateId]);
+  const { states } = useGetStates();
+  const { cities } = useGetCities(stateId);
 
   const initialValues: Values = {
     name: '',
@@ -218,7 +209,7 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                     <Select.Item
                       key={item.id}
                       label={item.name}
-                      value={item.id}
+                      value={item.id.toString()}
                     />
                   ))}
                 </Select>
@@ -247,7 +238,7 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                     <Select.Item
                       key={item.id}
                       label={item.name}
-                      value={item.id}
+                      value={item.id.toString()}
                     />
                   ))}
                 </Select>
