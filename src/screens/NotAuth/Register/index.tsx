@@ -1,18 +1,24 @@
-import { useRef, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { Formik, FormikHelpers } from 'formik';
+import { useRef, useState, useEffect } from 'react';
+import { ScrollView } from 'react-native';
+import { Formik, FormikHelpers, ErrorMessage } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
-import { useToast } from 'native-base';
+import {
+  useToast,
+  Flex,
+  Input,
+  FormControl,
+  Select,
+  Checkbox,
+  Button,
+} from 'native-base';
 
-import { Field, Select, FieldMask, FieldSecure } from '@form';
-import { Button, Checkbox } from '@components';
+import { FieldMask, FieldSecure } from '@form';
 import api from '@services/api';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 
 import { Layout } from '../_Layout';
 import { Values } from './types';
 import schema from './schema';
-import { ContentForm, DivField, Error } from './styles';
 
 export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
   const toast = useToast();
@@ -20,6 +26,20 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
   const [checked, setChecked] = useState(false);
   const cpfInputRef = useRef<TextInputMasked>(null);
   const celInputRef = useRef<TextInputMasked>(null);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [stateId, setStateId] = useState(null);
+
+  useEffect(() => {
+    api.get('/states').then(({ data }) => setStates(data.result));
+  }, []);
+
+  useEffect(() => {
+    if (stateId)
+      api
+        .get(`/states/${stateId}/cities`)
+        .then(({ data }) => setCities(data.result));
+  }, [stateId]);
 
   const initialValues: Values = {
     name: '',
@@ -50,7 +70,7 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
 
       toast.show({
         title: 'Cadastrado com sucesso!',
-        description: 'Parabéns agora só falta você ativar o seu usuário',
+        description: 'Parabéns! agora só falta você ativar a sua conta!',
         status: 'success',
       });
       navigation.navigate('ActiveClient', {
@@ -80,46 +100,85 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
         >
           {({
             values,
-            handleSubmit,
+            submitForm,
             handleChange,
             setFieldValue,
             isSubmitting,
+            touched,
+            errors,
           }) => (
-            <ContentForm>
-              <DivField>
-                <Field
+            <Flex align="center" w="90%">
+              <FormControl
+                isRequired
+                isInvalid={!!(errors?.name && touched?.name)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Nome
+                </FormControl.Label>
+                <Input
                   value={values.name}
                   placeholder="Nome"
                   onChangeText={handleChange('name')}
-                  label="Nome"
                 />
-              </DivField>
-              <Error name="name" />
+                <ErrorMessage
+                  name="name"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
+                />
+              </FormControl>
 
-              <DivField>
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.cpf && touched?.cpf)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  CPF
+                </FormControl.Label>
                 <FieldMask
                   type="cpf"
                   value={values.cpf}
                   placeholder="CPF"
                   onChangeText={handleChange('cpf')}
-                  label="CPF"
                   maskRef={cpfInputRef}
                 />
-              </DivField>
-              <Error name="cpf" />
-
-              <DivField>
-                <Field
-                  autoCapitalize="none"
-                  value={values.email}
-                  placeholder="E-mail"
-                  onChangeText={handleChange('email')}
-                  label="E-mail"
+                <ErrorMessage
+                  name="cpf"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
                 />
-              </DivField>
-              <Error name="email" />
+              </FormControl>
 
-              <DivField>
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.email && touched?.email)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Email
+                </FormControl.Label>
+
+                <Input
+                  value={values.email}
+                  placeholder="email"
+                  onChangeText={handleChange('email')}
+                />
+                <ErrorMessage
+                  name="email"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
+                />
+              </FormControl>
+
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.cellphone && touched?.cellphone)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Celular
+                </FormControl.Label>
+
                 <FieldMask
                   type={'cel-phone'}
                   options={{
@@ -130,82 +189,132 @@ export const Register = ({ navigation }: ScreenNotAuthProps<'Register'>) => {
                   value={values.cellphone}
                   placeholder="Celular"
                   onChangeText={handleChange('cellphone')}
-                  label="Celular"
                   maskRef={celInputRef}
                 />
-              </DivField>
-              <Error name="cellphone" />
-
-              <DivField>
-                <Select
-                  label="Estado"
-                  onChange={value => setFieldValue('state', value)}
-                  path="/states"
-                  value={values.state}
-                  placeholder="Selecione um estado"
+                <ErrorMessage
+                  name="cellphone"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
                 />
-              </DivField>
-              <Error name="state" />
+              </FormControl>
 
-              <DivField>
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.state && touched?.state)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Estado
+                </FormControl.Label>
+
                 <Select
-                  label="Cidade"
-                  onChange={value => setFieldValue('city', value)}
-                  path={values.state !== '' && `/states/${values.state}/cities`}
-                  value={values.city}
-                  placeholder="Selecione uma cidade"
-                />
-              </DivField>
-              <Error name="city" />
+                  selectedValue={values.state}
+                  onValueChange={value => {
+                    setFieldValue('state', value);
+                    setStateId(value);
+                  }}
+                >
+                  {states.map(item => (
+                    <Select.Item
+                      key={item.id}
+                      label={item.name}
+                      value={item.id}
+                    />
+                  ))}
+                </Select>
 
-              <DivField>
+                <ErrorMessage
+                  name="state"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
+                />
+              </FormControl>
+
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.city && touched?.city)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Cidade
+                </FormControl.Label>
+
+                <Select
+                  selectedValue={values.city}
+                  onValueChange={handleChange('city')}
+                >
+                  {cities.map(item => (
+                    <Select.Item
+                      key={item.id}
+                      label={item.name}
+                      value={item.id}
+                    />
+                  ))}
+                </Select>
+
+                <ErrorMessage
+                  name="city"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
+                />
+              </FormControl>
+
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.password && touched?.password)}
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Senha
+                </FormControl.Label>
                 <FieldSecure
                   value={values.password}
                   placeholder="Senha"
                   onChangeText={handleChange('password')}
-                  label="Senha"
                 />
-              </DivField>
-              <Error name="password" />
+                <ErrorMessage
+                  name="password"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
+                />
+              </FormControl>
 
-              <DivField>
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={
+                  !!(errors?.confirmPassword && touched?.confirmPassword)
+                }
+              >
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Confimar senha
+                </FormControl.Label>
                 <FieldSecure
                   value={values.confirmPassword}
                   placeholder="Confimar senha"
                   onChangeText={handleChange('confirmPassword')}
-                  label="Confimar senha"
                 />
-              </DivField>
-              <Error name="confirmPassword" />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+                <ErrorMessage
+                  name="confirmPassword"
+                  component={FormControl.ErrorMessage}
+                  _text={{ color: '#fff' }}
+                />
+              </FormControl>
+
+              <Checkbox mt="10px" isChecked={checked} onChange={setChecked}>
+                Termos de uso
+              </Checkbox>
+
+              <Button
+                w="100%"
+                my="20px"
+                disabled={!checked}
+                isLoading={isSubmitting}
+                onPress={submitForm}
               >
-                <Checkbox checked={checked} onChange={setChecked}>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('TermsUse')}
-                  >
-                    <Text
-                      style={{ color: '#fff', textDecorationLine: 'underline' }}
-                    >
-                      Termos de uso
-                    </Text>
-                  </TouchableOpacity>
-                </Checkbox>
-              </View>
-              <DivField style={{ marginTop: 15 }}>
-                <Button
-                  disabled={!checked}
-                  loading={isSubmitting}
-                  onPress={() => handleSubmit()}
-                >
-                  Cadastrar
-                </Button>
-              </DivField>
-            </ContentForm>
+                Cadastrar
+              </Button>
+            </Flex>
           )}
         </Formik>
       </Layout>

@@ -7,7 +7,7 @@ import { authActions } from '../store/reducers/auth';
 const api = axios.create({
   baseURL: Constants.manifest.extra.apiUrl,
   headers: {
-    api_version: Constants.manifest.version,
+    app_version: Constants.manifest.version,
   },
 });
 
@@ -40,5 +40,8 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const fetcher = url =>
+  api.get(url).then(({ data }) => (data.result ? data.result : data));
 
 export default api;

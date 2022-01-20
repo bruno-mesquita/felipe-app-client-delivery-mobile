@@ -8,7 +8,7 @@ import {
   ActiveClient,
 } from '@screens/NotAuth';
 import { TermsUse } from '@screens/TermsUse';
-import { ScreenNotAuthList } from '@utils/ScreenProps';
+import type { ScreenNotAuthList } from '@utils/ScreenProps';
 
 const { Navigator, Screen } = createNativeStackNavigator<ScreenNotAuthList>();
 

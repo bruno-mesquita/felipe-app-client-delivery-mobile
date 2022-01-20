@@ -1,17 +1,6 @@
 import styled from 'styled-components/native';
 import { TextInputMask } from 'react-native-masked-text';
 
-export const Container = styled.View`
-  height: 69px;
-  margin: 4px;
-`;
-
-export const Label = styled.Text`
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 5px;
-`;
-
 export const ContainerTextField = styled.View`
   width: 100%;
 
@@ -19,7 +8,7 @@ export const ContainerTextField = styled.View`
   justify-content: space-between;
   align-items: center;
 
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: #770202;
 
   padding-left: 10px;

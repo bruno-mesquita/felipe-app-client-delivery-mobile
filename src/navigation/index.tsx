@@ -1,6 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 
-import { Notifications } from '@components';
 import { useAppSelector } from '@store/hooks';
 
 import { DrawerNavigation } from './DrawerNavigation';
@@ -11,14 +10,7 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      {signed ? (
-        <>
-          <DrawerNavigation />
-          <Notifications />
-        </>
-      ) : (
-        <StackNotAuthNavigation />
-      )}
+      {signed ? <DrawerNavigation /> : <StackNotAuthNavigation />}
     </NavigationContainer>
   );
 };

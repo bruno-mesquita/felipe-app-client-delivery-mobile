@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export default StyleSheet.create({
   inputAndroidContainer: {
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: '#770202',
     color: '#ffffff',
     height: 43,

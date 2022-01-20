@@ -8,11 +8,12 @@ import StoreProvider from './store/Provider';
 import { Styled } from './styles/styled';
 import theme from './styles/native-base.theme';
 import Navigation from './navigation';
-import { StatusBar } from './components';
+import { StatusBar, Notifications } from './components';
 
 const App = () => (
   <NativeBaseProvider theme={theme}>
     <StoreProvider>
+      <Notifications />
       <Styled>
         <StatusBar />
         <Navigation />
