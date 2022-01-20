@@ -11,7 +11,6 @@ const initialState: IAuth = {
   token: null,
   refreshToken: null,
   signed: false,
-  establishmentExists: false,
 };
 
 const auth = createSlice({
@@ -19,9 +18,6 @@ const auth = createSlice({
   initialState,
   reducers: {
     logout: () => initialState,
-    setEstablishmentExists: (state, action: PayloadAction<boolean>) => {
-      state.establishmentExists = action.payload;
-    },
   },
   extraReducers: builder => {
     builder.addCase(fetchRefreshToken.rejected, () => {
@@ -42,7 +38,11 @@ const auth = createSlice({
     builder.addMatcher(
       action => action.type === REHYDRATE,
       (_, action: PayloadAction<RootState>) => {
-        if (action.payload && action.payload?.auth) {
+        if (
+          action.payload &&
+          action.payload?.auth &&
+          action.payload.auth.signed
+        ) {
           const { auth } = action.payload;
 
           api.defaults.headers.common.Authorization = `Bearer ${auth.token}`;

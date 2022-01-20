@@ -6,7 +6,7 @@ import rootReducer from './reducers';
 const persistedReducer = persistReducer(
   {
     key: '@flipp-client',
-    whitelist: ['auth', 'pushToken', 'cart'],
+    whitelist: ['auth', 'cart'],
     storage,
   },
   rootReducer

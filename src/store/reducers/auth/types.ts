@@ -2,7 +2,6 @@ export type IAuth = {
   token: string;
   refreshToken: string;
   signed: boolean;
-  establishmentExists: boolean;
 };
 
 export type IFetchLoginPlayload = {

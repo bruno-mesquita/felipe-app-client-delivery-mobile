@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react';
-import Constants from 'expo-constants';
+import Device from 'expo-device';
 import { Subscription } from 'expo-modules-core';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
 import api from '@services/api';
-import { useAppSelector, useAppDispatch } from '@store/hooks';
-import { pushtTokenActions } from '@store/reducers/pushToken';
+import { useAppSelector } from '@store/hooks';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -17,22 +16,17 @@ Notifications.setNotificationHandler({
 });
 
 export const RegisterNotifications = () => {
-  const dispatch = useAppDispatch();
-  const { pushToken, auth } = useAppSelector(({ auth }) => ({
-    pushToken,
-    auth,
-  }));
+  const { signed } = useAppSelector(({ auth }) => auth);
 
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
   useEffect(() => {
     (async () => {
-      if (!pushToken && auth.token) {
+      if (signed) {
         const token = await registerForPushNotificationsAsync();
 
         await api.post('/notifications/register', { token });
-        dispatch(pushtTokenActions.set(token));
       }
     })();
 
@@ -52,14 +46,14 @@ export const RegisterNotifications = () => {
       );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, [auth.token, pushToken]);
+  }, [signed]);
 
   return <></>;
 };
 
 const registerForPushNotificationsAsync = async () => {
   let token;
-  if (Constants.isDevice) {
+  if (Device.isDevice) {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
