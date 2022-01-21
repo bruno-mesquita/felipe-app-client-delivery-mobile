@@ -1,24 +1,14 @@
 import { useRef } from 'react';
-import { Text } from 'react-native';
 import { ErrorMessage, Formik, FormikHelpers } from 'formik';
-import { useToast } from 'native-base';
+import { useToast, Flex, Button, FormControl } from 'native-base';
 import { TextInputMasked } from 'react-native-masked-text';
 
-import { Button } from '@components';
 import { FieldMask } from '@form';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
-
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
-import { Values } from './props';
 import api from '@services/api';
+
+import { Layout } from '../_Layout';
+import { Values } from './props';
 
 export const ForgotPassword = ({
   navigation,
@@ -66,39 +56,44 @@ export const ForgotPassword = ({
   };
 
   return (
-    <Container>
-      <BackGround source={require('../../../assets/images/fundo.png')}>
-        <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
-        </ContainerLogo>
+    <Layout>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        {({ values, handleChange, submitForm, isSubmitting }) => (
+          <Flex align="center">
+            <FormControl w="90%">
+              <FormControl.Label _text={{ color: '#fff' }}>
+                Telefone
+              </FormControl.Label>
+              <FieldMask
+                type={'cel-phone'}
+                options={{
+                  maskType: 'BRL',
+                  withDDD: true,
+                  dddMask: '(99) ',
+                }}
+                value={values.cellphone}
+                placeholder="Telefone"
+                onChangeText={handleChange('cellphone')}
+                maskRef={inputRef}
+              />
+              <ErrorMessage
+                component={FormControl.ErrorMessage}
+                name="cellphone"
+              />
+            </FormControl>
 
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {({ values, handleSubmit, handleChange }) => (
-            <ContentForm>
-              <ContainerInput>
-                <FieldMask
-                  type={'cel-phone'}
-                  options={{
-                    maskType: 'BRL',
-                    withDDD: true,
-                    dddMask: '(99) ',
-                  }}
-                  value={values.cellphone}
-                  placeholder="Telefone"
-                  onChangeText={handleChange('cellphone')}
-                  label="Telefone"
-                  maskRef={inputRef}
-                />
-                <ErrorMessage component={Text} name="cellphone" />
-              </ContainerInput>
-
-              <ContainerButton>
-                <Button onPress={() => handleSubmit()}>Enviar código</Button>
-              </ContainerButton>
-            </ContentForm>
-          )}
-        </Formik>
-      </BackGround>
-    </Container>
+            <Button
+              mt="40px"
+              isLoadingText="Enviando..."
+              isLoading={isSubmitting}
+              isDisabled={isSubmitting}
+              onPress={submitForm}
+            >
+              Enviar código
+            </Button>
+          </Flex>
+        )}
+      </Formik>
+    </Layout>
   );
 };

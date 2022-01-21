@@ -27,7 +27,7 @@ export const StackNotAuthNavigation = () => (
     <Screen name="TermsUse" component={TermsUse} />
     <Screen
       name="ActiveClient"
-      initialParams={{ userId: 0 }}
+      initialParams={{ userId: 0, cellphone: '' }}
       component={ActiveClient}
     />
   </Navigator>

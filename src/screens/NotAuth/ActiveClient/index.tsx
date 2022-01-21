@@ -1,29 +1,16 @@
 import { useState, useRef } from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { ErrorMessage, Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
-import { useToast } from 'native-base';
+import { useToast, Button, Flex, FormControl, Input, Text } from 'native-base';
 
-import { Button } from '@components';
-import { Field, FieldMask } from '@form';
+import { FieldMask } from '@form';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
 import api from '@services/api';
 
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
-import { Values } from './props';
+import { Layout } from '../_Layout';
+
+import type { Values } from './props';
 import schema from './schema';
 
 export const ActiveClient = ({
@@ -91,96 +78,95 @@ export const ActiveClient = ({
   };
 
   return (
-    <Container>
-      <BackGround source={require('../../../assets/images/fundo.png')}>
-        <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
-        </ContainerLogo>
+    <Layout>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={schema}
+      >
+        {({ values, handleSubmit, handleChange, isSubmitting }) => (
+          <Flex align="center" w="100%">
+            {!isNewPhone && (
+              <FormControl w="90%">
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Código
+                </FormControl.Label>
+                <Input
+                  value={values.code}
+                  placeholder="Código"
+                  onChangeText={handleChange('code')}
+                />
+                <ErrorMessage
+                  component={FormControl.ErrorMessage}
+                  name="code"
+                />
+              </FormControl>
+            )}
 
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={schema}
-        >
-          {({ values, handleSubmit, handleChange }) => (
-            <ContentForm>
-              {!isNewPhone && (
-                <ContainerInput>
-                  <Field
-                    value={values.code}
-                    placeholder="Código"
-                    onChangeText={handleChange('code')}
-                    label="Código"
-                  />
-                  <ErrorMessage
-                    component={Text}
-                    style={{ color: '#fff' }}
-                    name="code"
-                  />
-                </ContainerInput>
-              )}
-
-              {isNewPhone && (
-                <ContainerInput>
-                  <FieldMask
-                    type={'cel-phone'}
-                    options={{
-                      maskType: 'BRL',
-                      withDDD: true,
-                      dddMask: '(99) ',
-                    }}
-                    value={newPhone}
-                    placeholder="Celular"
-                    onChangeText={value => setNewPhone(value)}
-                    label="Celular"
-                    maskRef={inputRef}
-                  />
-                </ContainerInput>
-              )}
-
-              {!isNewPhone && (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    width: width * 0.9,
-                    marginTop: 20,
+            {isNewPhone && (
+              <FormControl w="90%" mt="10px">
+                <FormControl.Label _text={{ color: '#fff' }}>
+                  Celular
+                </FormControl.Label>
+                <FieldMask
+                  type={'cel-phone'}
+                  options={{
+                    maskType: 'BRL',
+                    withDDD: true,
+                    dddMask: '(99) ',
                   }}
-                >
-                  <TouchableOpacity onPress={() => setIsNewPhone(true)}>
-                    <Text style={{ color: '#fff' }}>trocar telefone</Text>
-                  </TouchableOpacity>
+                  value={newPhone}
+                  placeholder="Celular"
+                  onChangeText={value => setNewPhone(value)}
+                  maskRef={inputRef}
+                />
+              </FormControl>
+            )}
 
-                  <TouchableOpacity onPress={resendCode}>
-                    <Text style={{ color: '#fff' }}>Reenviar código</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
+            {!isNewPhone && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: width * 0.9,
+                  marginTop: 20,
+                }}
+              >
+                <TouchableOpacity onPress={() => setIsNewPhone(true)}>
+                  <Text color="#fff">trocar telefone</Text>
+                </TouchableOpacity>
 
-              <ContainerButton>
-                <Button
-                  onPress={() => {
-                    if (isNewPhone) setIsNewPhone(false);
-                    else handleSubmit();
-                  }}
-                >
-                  {isNewPhone ? 'Trocar' : 'Ativar'}
-                </Button>
-                {isNewPhone && (
-                  <Button
-                    onPress={() => {
-                      setIsNewPhone(false);
-                      setNewPhone('');
-                    }}
-                  >
-                    Cancelar
-                  </Button>
-                )}
-              </ContainerButton>
-            </ContentForm>
-          )}
-        </Formik>
-      </BackGround>
-    </Container>
+                <TouchableOpacity onPress={resendCode}>
+                  <Text color="#fff">Reenviar código</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            <Button
+              mt="30px"
+              w="70%"
+              onPress={() => {
+                if (isNewPhone) setIsNewPhone(false);
+                else handleSubmit();
+              }}
+            >
+              {isNewPhone ? 'Trocar' : 'Ativar'}
+            </Button>
+            {isNewPhone && (
+              <Button
+                w="70%"
+                mt="10px"
+                onPress={() => {
+                  setIsNewPhone(false);
+                  setNewPhone('');
+                }}
+              >
+                Cancelar
+              </Button>
+            )}
+          </Flex>
+        )}
+      </Formik>
+    </Layout>
   );
 };
