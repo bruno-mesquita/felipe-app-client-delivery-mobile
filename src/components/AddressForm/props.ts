@@ -4,7 +4,7 @@ export interface Values {
   cep: string;
   street: string;
   neighborhood: string;
-  number: string;
-  city: string;
-  state: string;
+  number: number;
+  city: number;
+  state: number;
 }

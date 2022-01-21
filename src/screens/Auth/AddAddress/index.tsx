@@ -1,43 +1,55 @@
-import { Alert } from 'react-native';
 import { FormikHelpers, Formik } from 'formik';
+import { useToast } from 'native-base';
 
+import type { IAddress } from '@hooks';
 import { AddressForm } from '@components';
 import api from '@services/api';
 
-import { Container } from './styles';
+import schema from './schema';
 
 export const AddAddress = () => {
-  const initialValues = {
+  const toast = useToast();
+
+  const initialValues: Omit<IAddress, 'id'> = {
     nickname: '',
     cep: '',
     street: '',
     neighborhood: '',
-    number: '',
-    city: '',
-    state: '',
+    number: 0,
+    city: 0,
+    state: 0,
   };
 
   const onSubmit = async (
-    values: typeof initialValues,
-    { resetForm }: FormikHelpers<typeof initialValues>
+    values: IAddress,
+    { resetForm }: FormikHelpers<Omit<IAddress, 'id'>>
   ) => {
     try {
       await api.post('/adresses-client', values);
 
-      Alert.alert('Endereço adicionado com sucesso');
+      toast.show({
+        w: '80%',
+        title: 'Sucesso!',
+        description: 'Endereço adicionado com sucesso',
+        status: 'success',
+      });
       resetForm();
     } catch (err) {
-      Alert.alert('Erro ao criar');
+      toast.show({
+        w: '80%',
+        title: 'Erro',
+        description: 'Houve um erro, tente novamente',
+        status: 'error',
+      });
     }
   };
 
   return (
-    <Container>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={initialValues}
-        component={AddressForm}
-      />
-    </Container>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      component={AddressForm}
+      validationSchema={schema}
+    />
   );
 };

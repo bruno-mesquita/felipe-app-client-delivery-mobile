@@ -1,107 +1,150 @@
-import { View } from 'react-native';
-import { FormikProps } from 'formik';
+import { Input, FormControl, Button, Select, ScrollView } from 'native-base';
+import { FormikProps, ErrorMessage } from 'formik';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Field, Select, FieldMask } from '../FormUtils';
-import { Button } from '../Button';
+import type { IAddress } from '@hooks';
+import { FieldMask } from '../FormUtils';
 
-import {
-  Container,
-  ViewField,
-  ViewForm,
-  ViewFields,
-  ScrollView,
-  Error,
-} from './styles';
-import { Values } from './props';
+import { useGetCities, useGetStates } from '@hooks';
 
 export const AddressForm = ({
   values,
   handleChange,
   handleSubmit,
-  setFieldValue,
-}: FormikProps<Values>) => (
-  <Container>
-    <ScrollView>
-      <ViewForm>
-        <ViewFields>
-          <ViewField>
-            <Field
-              label="Apelido"
-              labelColor="black"
-              value={values.nickname}
-              onChangeText={handleChange('nickname')}
-            />
-            <Error name="nickname" />
-          </ViewField>
-          <ViewField>
-            <FieldMask
-              type="custom"
-              options={{ mask: '99999-999' }}
-              label="CEP"
-              labelColor="black"
-              value={values.cep}
-              onChangeText={handleChange('cep')}
-            />
-            <Error name="cep" />
-          </ViewField>
-          <ViewField>
-            <Field
-              label="Rua"
-              labelColor="black"
-              value={values.street}
-              onChangeText={handleChange('street')}
-            />
-            <Error name="street" />
-          </ViewField>
-          <ViewField>
-            <Field
-              label="Bairro"
-              labelColor="black"
-              value={values.neighborhood}
-              onChangeText={handleChange('neighborhood')}
-            />
-            <Error name="neighborhood" />
-          </ViewField>
-          <ViewField>
-            <Field
-              label="Número"
-              labelColor="black"
-              value={values.number}
-              keyboardType="number-pad"
-              onChangeText={handleChange('number')}
-            />
-            <Error name="number" />
-          </ViewField>
-          <ViewField>
-            <Select
-              labelColor="black"
-              label="Estado"
-              onChange={value => setFieldValue('state', value)}
-              path="/states"
-              value={values.state}
-              placeholder="Selecione um estado"
-            />
-            <Error name="state" />
-          </ViewField>
+  isSubmitting,
+  errors,
+  touched,
+}: FormikProps<IAddress>) => {
+  const { top } = useSafeAreaInsets();
 
-          <ViewField>
-            <Select
-              label="Cidade"
-              labelColor="black"
-              onChange={value => setFieldValue('city', value)}
-              path={`/states/${values.state}/cities`}
-              value={values.city}
-              placeholder="Selecione uma cidade"
-            />
-            <Error name="city" />
-          </ViewField>
-        </ViewFields>
-        <View style={{ marginBottom: 50 }}>
-          <Button primaryColor onPress={() => handleSubmit()}>
-            {values?.id ? 'Atualizar' : 'Cadastrar'}
-          </Button>
-        </View>
-      </ViewForm>
+  const { states } = useGetStates();
+  const { cities } = useGetCities(Number(values.state) || null);
+
+  return (
+    <ScrollView px="20px" w="100%">
+      <FormControl
+        mt={top}
+        isRequired
+        isInvalid={!!(errors?.nickname && touched?.nickname)}
+      >
+        <FormControl.Label>Nome (Apelido)</FormControl.Label>
+        <Input
+          value={values.nickname}
+          placeholder="nome"
+          onChangeText={handleChange('nickname')}
+        />
+        <ErrorMessage name="nickname" component={FormControl.ErrorMessage} />
+      </FormControl>
+
+      <FormControl
+        mt="10px"
+        isRequired
+        isInvalid={!!(errors?.cep && touched?.cep)}
+      >
+        <FormControl.Label>CEP</FormControl.Label>
+        <FieldMask
+          type="custom"
+          options={{ mask: '99999-999' }}
+          value={values.cep}
+          placeholder="CEP"
+          onChangeText={handleChange('cep')}
+        />
+        <ErrorMessage name="cep" component={FormControl.ErrorMessage} />
+      </FormControl>
+
+      <FormControl
+        mt="10px"
+        isRequired
+        isInvalid={!!(errors?.street && touched?.street)}
+      >
+        <FormControl.Label>Rua</FormControl.Label>
+        <Input
+          value={values.street}
+          placeholder="Rua"
+          onChangeText={handleChange('street')}
+        />
+        <ErrorMessage name="street" component={FormControl.ErrorMessage} />
+      </FormControl>
+
+      <FormControl
+        mt="10px"
+        isRequired
+        isInvalid={!!(errors?.neighborhood && touched?.neighborhood)}
+      >
+        <FormControl.Label>Bairro</FormControl.Label>
+        <Input
+          value={values.neighborhood}
+          placeholder="Bairro"
+          onChangeText={handleChange('neighborhood')}
+        />
+        <ErrorMessage
+          name="neighborhood"
+          component={FormControl.ErrorMessage}
+        />
+      </FormControl>
+
+      <FormControl
+        mt="10px"
+        isRequired
+        isInvalid={!!(errors?.number && touched?.number)}
+      >
+        <FormControl.Label>Número</FormControl.Label>
+        <Input
+          value={values.number.toString()}
+          placeholder="Número"
+          onChangeText={handleChange('number')}
+        />
+        <ErrorMessage name="number" component={FormControl.ErrorMessage} />
+      </FormControl>
+
+      <FormControl
+        mt="10px"
+        isRequired
+        isInvalid={!!(errors?.state && touched?.state)}
+      >
+        <FormControl.Label>Estado</FormControl.Label>
+        <Select
+          placeholder="Estado"
+          selectedValue={values.state.toString()}
+          onValueChange={handleChange('state')}
+        >
+          {states.map(({ id, name }) => (
+            <Select.Item key={id} value={id.toString()} label={name} />
+          ))}
+        </Select>
+
+        <ErrorMessage name="state" component={FormControl.ErrorMessage} />
+      </FormControl>
+
+      <FormControl
+        mt="10px"
+        isRequired
+        isInvalid={!!(errors?.city && touched?.city)}
+      >
+        <FormControl.Label>Cidade</FormControl.Label>
+        <Select
+          placeholder="Cidade"
+          selectedValue={values.city.toString()}
+          onValueChange={handleChange('city')}
+        >
+          {cities.map(({ id, name }) => (
+            <Select.Item key={id} value={id.toString()} label={name} />
+          ))}
+        </Select>
+
+        <ErrorMessage name="city" component={FormControl.ErrorMessage} />
+      </FormControl>
+      <Button
+        my="20px"
+        isLoading={isSubmitting}
+        isDisabled={isSubmitting}
+        alignSelf="center"
+        w="70%"
+        variant="inverted"
+        onPress={() => handleSubmit()}
+      >
+        {values?.id ? 'Atualizar' : 'Cadastrar'}
+      </Button>
     </ScrollView>
-  </Container>
-);
+  );
+};

@@ -1,50 +1,44 @@
-import { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
 import { Formik } from 'formik';
+import { useToast } from 'native-base';
 
 import { AddressForm } from '@components';
 import api from '@services/api';
+import { useGetAddress, IAddress } from '@hooks';
 
-import { Container } from './styles';
-import { Address } from './props';
+import schema from './schema';
 
 export const UpdateAddress = ({ route }) => {
-  const [address, setAddress] = useState({
-    id: '',
-    street: '',
-    cep: '',
-    city: '',
-    neighborhood: '',
-    nickname: '',
-    number: '',
-    state: '',
-  });
+  const toast = useToast();
 
-  useEffect(() => {
-    api
-      .get(`/adresses-client/${route.params.id}`)
-      .then(({ data }) => setAddress(data.result))
-      .catch(() => Alert.alert('Erro', 'Erro ao buscar endereço'));
-  }, [route.params.id]);
+  const { address } = useGetAddress(route.params.id);
 
-  const onSubmit = async (values: Address) => {
+  const onSubmit = async (values: IAddress) => {
     try {
       await api.put(`/adresses-client/${route.params.id}`, values);
 
-      Alert.alert('Sucesso!', 'Endereço atualizado com sucesso');
+      toast.show({
+        w: '80%',
+        title: 'Sucesso!',
+        description: 'Endereço atualizado com sucesso',
+        status: 'success',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao atualizar');
+      toast.show({
+        w: '80%',
+        title: 'Erro',
+        description: 'Houve um erro, tente novamente',
+        status: 'error',
+      });
     }
   };
 
   return (
-    <Container>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={address}
-        component={AddressForm}
-        enableReinitialize
-      />
-    </Container>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={address}
+      component={AddressForm}
+      validationSchema={schema}
+      enableReinitialize
+    />
   );
 };
