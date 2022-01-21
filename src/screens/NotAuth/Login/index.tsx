@@ -29,11 +29,10 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
     try {
       await dispatch(authActions.fetchLogin(values)).unwrap();
     } catch (err) {
-      const { message } = err.response.data;
-
       toast.show({
-        title: 'Houve um erro',
-        description: message || '',
+        w: '80%',
+        title: 'Erro',
+        description: err.message,
         status: 'error',
       });
       resetForm();

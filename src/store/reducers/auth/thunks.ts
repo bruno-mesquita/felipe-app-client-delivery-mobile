@@ -12,15 +12,18 @@ export const fetchLogin = createAsyncThunk<
   IFetchLoginReturned,
   IFetchLoginPlayload
 >('auth/login', async payload => {
-  const { data } = await api.post<
-    IFetchLoginReturned | { result: IFetchLoginReturned }
-  >('/auth/login', payload);
+  try {
+    const { data } = await api.post<{ result: IFetchLoginReturned }>(
+      '/auth/login',
+      payload
+    );
 
-  api.defaults.headers.common.Authorization = `Bearer ${
-    data.result ? data.result.token : data.token
-  }`;
+    api.defaults.headers.common.Authorization = `Bearer ${data.result.token}`;
 
-  return data.result ? data.result : data;
+    return data.result;
+  } catch (err) {
+    throw new Error(err.response.data.message || '');
+  }
 });
 
 export const fetchRefreshToken = createAsyncThunk<IFetchRefreshTokenReturned>(
