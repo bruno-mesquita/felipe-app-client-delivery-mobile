@@ -1,22 +1,14 @@
 import { Text, TouchableOpacity } from 'react-native';
 import { ErrorMessage, Formik, FormikHelpers } from 'formik';
-import { useToast } from 'native-base';
+import { useToast, Button, Flex, FormControl, Input } from 'native-base';
 
-import { Button } from '@components';
-import { Field } from '@form';
 import { ScreenNotAuthProps } from '@utils/ScreenProps';
-
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
-import { Values } from './props';
 import api from '@services/api';
+
+import { Layout } from '../_Layout';
+
+import schema from './schema';
+import type { Values } from './props';
 
 export const CodeToPassword = ({
   navigation,
@@ -80,59 +72,76 @@ export const CodeToPassword = ({
   };
 
   return (
-    <Container>
-      <BackGround source={require('../../../assets/images/fundo.png')}>
-        <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
-        </ContainerLogo>
+    <Layout>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={schema}
+      >
+        {({ values, submitForm, handleChange, isSubmitting }) => (
+          <Flex align="center" w="100%">
+            <FormControl w="90%">
+              <FormControl.Label _text={{ color: '#fff' }}>
+                Código
+              </FormControl.Label>
+              <Input
+                value={values.code}
+                placeholder="Código"
+                onChangeText={handleChange('code')}
+              />
+              <ErrorMessage component={FormControl.ErrorMessage} name="code" />
+            </FormControl>
 
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {({ values, handleSubmit, handleChange }) => (
-            <ContentForm>
-              <ContainerInput>
-                <Field
-                  value={values.code}
-                  placeholder="Código"
-                  onChangeText={handleChange('code')}
-                  label="Código"
-                />
-                <ErrorMessage component={Text} name="code" />
-              </ContainerInput>
+            <FormControl w="90%" mt="10px">
+              <FormControl.Label _text={{ color: '#fff' }}>
+                Nova senha
+              </FormControl.Label>
+              <Input
+                value={values.newPassword}
+                placeholder="Nova senha"
+                onChangeText={handleChange('newPassword')}
+                secureTextEntry
+              />
+              <ErrorMessage
+                component={FormControl.ErrorMessage}
+                name="newPassword"
+              />
+            </FormControl>
 
-              <ContainerInput>
-                <Field
-                  value={values.newPassword}
-                  placeholder="Nova senha"
-                  onChangeText={handleChange('newPassword')}
-                  label="Nova senha"
-                  secureTextEntry
-                />
-                <ErrorMessage component={Text} name="newPassword" />
-              </ContainerInput>
+            <FormControl w="90%" mt="10px">
+              <FormControl.Label _text={{ color: '#fff' }}>
+                Confirmar senha
+              </FormControl.Label>
+              <Input
+                value={values.confirmPassword}
+                placeholder="Confirmar senha"
+                onChangeText={handleChange('confirmPassword')}
+                secureTextEntry
+              />
+              <ErrorMessage
+                component={FormControl.ErrorMessage}
+                name="confirmPassword"
+              />
+            </FormControl>
 
-              <ContainerInput>
-                <Field
-                  value={values.confirmPassword}
-                  placeholder="Confirmar senha"
-                  onChangeText={handleChange('confirmPassword')}
-                  label="Confirmar senha"
-                  secureTextEntry
-                />
-                <ErrorMessage component={Text} name="confirmPassword" />
-              </ContainerInput>
-              <TouchableOpacity onPress={resendCode}>
-                <Text style={{ color: '#fff', marginTop: 20 }}>
-                  Reenviar código
-                </Text>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={resendCode}>
+              <Text style={{ color: '#fff', marginTop: 20 }}>
+                Reenviar código
+              </Text>
+            </TouchableOpacity>
 
-              <ContainerButton>
-                <Button onPress={() => handleSubmit()}>Salvar</Button>
-              </ContainerButton>
-            </ContentForm>
-          )}
-        </Formik>
-      </BackGround>
-    </Container>
+            <Button
+              isLoading={isSubmitting}
+              isDisabled={isSubmitting}
+              w="70%"
+              mt="20px"
+              onPress={() => submitForm()}
+            >
+              Confirmar
+            </Button>
+          </Flex>
+        )}
+      </Formik>
+    </Layout>
   );
 };

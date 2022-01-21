@@ -23,7 +23,11 @@ export const StackNotAuthNavigation = () => (
       component={Register}
     />
     <Screen name="ForgotPassword" component={ForgotPassword} />
-    <Screen name="CodeToPassword" component={CodeToPassword} />
+    <Screen
+      name="CodeToPassword"
+      initialParams={{ cellphone: '' }}
+      component={CodeToPassword}
+    />
     <Screen name="TermsUse" component={TermsUse} />
     <Screen
       name="ActiveClient"
