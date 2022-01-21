@@ -42,23 +42,21 @@ const Menu = ({ openDrawer }) => (
   />
 );
 
-const headerOptions = (name: string) =>
-  ({
-    headerStyle: {
-      backgroundColor: '#9E0404',
-    },
-    headerTitle: name,
-    headerTintColor: '#ffffff',
-  } as any);
-
 export const StackAuthNavigation = ({ navigation }) => (
-  // Começa com Categories
-  <Navigator initialRouteName="Categories">
+  <Navigator
+    initialRouteName="Categories"
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#9E0404',
+      },
+      headerTitleAlign: 'center',
+      headerTintColor: '#ffffff',
+    }}
+  >
     <Screen
       name="Categories"
       component={Categories}
       options={{
-        ...headerOptions(''),
         headerTitle: () => <Header />,
         headerLeft: () => <Menu openDrawer={navigation.openDrawer} />,
       }}
@@ -68,81 +66,71 @@ export const StackAuthNavigation = ({ navigation }) => (
       name="Home"
       component={Home}
       options={{
-        ...headerOptions(''),
         headerTitle: () => <Header />,
         headerLeft: () => <Menu openDrawer={navigation.openDrawer} />,
       }}
     />
-    <Screen
-      name="Profile"
-      component={Profile}
-      options={headerOptions('Perfil')}
-    />
+    <Screen name="Profile" component={Profile} options={{ title: 'Perfil' }} />
     <Screen
       name="ChangePassword"
       component={ChangePassword}
-      options={headerOptions('Alterar senha')}
+      options={{ title: 'Alterar senha' }}
     />
     <Screen
       name="Adresses"
       component={Adresses}
-      options={headerOptions('Endereços')}
+      options={{ title: 'Endereços' }}
     />
     <Screen
       name="AddAddress"
       component={AddAddress}
-      options={headerOptions('Adicionar endereço')}
+      options={{ title: 'Adicionar endereço' }}
     />
     <Screen
       name="UpdateAddress"
       component={UpdateAddress}
-      options={headerOptions('Atualizar endereço')}
+      options={{ title: 'Atualizar endereço' }}
     />
 
     <Screen
       name="Establishment"
       component={Establishment}
-      options={{ ...headerOptions(''), headerTitle: () => <Header /> }}
+      options={{ headerTitle: () => <Header /> }}
     />
+
+    <Screen name="Cart" component={Cart} options={{ title: 'Carrinho' }} />
 
     <Screen
       name="Deliverymans"
       component={Deliveryman}
-      options={headerOptions('Motoboys')}
+      options={{ title: 'Motoboys' }}
     />
 
-    <Screen name="Cart" component={Cart} options={headerOptions('Carrinho')} />
     <Screen
       name="TrackOrder"
       component={TrackOrder}
-      options={headerOptions('Acompanhar pedido')}
+      options={{ title: 'Acompanhar pedido' }}
     />
-    <Screen
-      name="Orders"
-      component={Orders}
-      options={headerOptions('Pedidos')}
-    />
+    <Screen name="Orders" component={Orders} options={{ title: 'Pedidos' }} />
     <Screen
       name="Configuration"
       component={Configuration}
-      options={headerOptions('Configurações')}
+      options={{ title: 'Configurações' }}
     />
     <Screen
       name="TermsUse"
       component={TermsUse}
-      options={headerOptions('Termos de uso')}
+      options={{ title: 'Termos de uso' }}
     />
     <Screen
       name="AboutApp"
       component={AboutApp}
-      options={{
-        headerShown: false,
-      }}
+      options={{ headerShown: false }}
     />
     <Screen
       name="Account"
       component={Account}
-      options={headerOptions('Minha conta')}
+      options={{ title: 'Minha conta' }}
     />
   </Navigator>
 );

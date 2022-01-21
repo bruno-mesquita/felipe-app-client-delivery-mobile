@@ -1,29 +1,27 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Text, View, TouchableOpacity, Alert } from 'react-native';
-import { Formik, ErrorMessage } from 'formik';
+import { TouchableOpacity, Alert } from 'react-native';
+import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
+import {
+  Button,
+  Input,
+  FormControl,
+  useToast,
+  Flex,
+  Avatar,
+} from 'native-base';
 
 import { ScreenAuthProps } from '@utils/ScreenProps';
 import api from '@services/api';
-import { Field, FieldMask } from '@form';
-import { Button } from '@components';
-
-import {
-  Container,
-  ViewField,
-  ViewForm,
-  ViewFields,
-  ViewUser,
-  UserAvatar,
-  ViewUserData,
-} from './styles';
+import { FieldMask } from '@form';
 
 import { UserProfile } from './props';
 
 export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
+  const toast = useToast();
+
   const [user, setUser] = useState<UserProfile>(null);
-  const [loading, setLoading] = useState(false);
 
   const getUser = useCallback(async () => {
     try {
@@ -43,21 +41,31 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
   }, []);
 
   const initialValues = {
-    name: user?.name,
-    email: user?.email,
-    cellphone: user?.cellphone,
+    name: user?.name || '',
+    email: user?.email || '',
+    cellphone: user?.cellphone || '',
   };
 
-  const onSubmit = async (values: typeof initialValues) => {
+  const onSubmit = async (
+    values: typeof initialValues,
+    { setSubmitting }: FormikHelpers<typeof initialValues>
+  ) => {
     try {
-      setLoading(true);
       await api.put('/clients', values);
 
-      Alert.alert('Atualizado!', 'Perfil atualizado com sucesso');
+      toast.show({
+        title: 'Atualizado!',
+        description: 'Perfil atualizado com sucesso',
+        status: 'success',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao atualizar o perfil');
+      toast.show({
+        title: 'Erro',
+        description: 'Houve um erro ao atualizar o perfil',
+        status: 'error',
+      });
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -111,77 +119,83 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
   };
 
   return (
-    <Container>
+    <Flex flex={1} px="20px" justify="space-around">
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ values, handleChange, handleSubmit }) => (
-          <ViewForm>
-            <ViewUser>
-              <TouchableOpacity onPress={pickImage}>
-                {user?.avatar ? (
-                  <UserAvatar source={{ uri: user?.avatar }} />
-                ) : (
-                  <MaterialIcons
-                    name="account-circle"
-                    size={100}
-                    color="#c4c4c4"
-                  />
-                )}
-              </TouchableOpacity>
-              <ViewUserData>
-                <Text style={{ fontWeight: 'bold' }}>{values.name}</Text>
-                <Text style={{ fontWeight: 'bold' }}>
-                  {user?.cpf ? formattedCpf(user?.cpf) : null}
-                </Text>
-                <Text style={{ fontWeight: 'bold' }}>{values.email}</Text>
-              </ViewUserData>
-            </ViewUser>
-            <ViewFields>
-              <ViewField>
-                <Field
-                  labelColor="#000"
-                  label="Nome Completo"
+        {({ values, handleChange, handleSubmit, isSubmitting }) => (
+          <>
+            <TouchableOpacity onPress={pickImage}>
+              {user?.avatar ? (
+                <Avatar
+                  alignSelf="center"
+                  size="125px"
+                  rounded="50px"
+                  source={{ uri: user?.avatar }}
+                />
+              ) : (
+                <MaterialIcons
+                  style={{ alignSelf: 'center' }}
+                  name="account-circle"
+                  size={125}
+                  color="#c4c4c4"
+                />
+              )}
+            </TouchableOpacity>
+            <Flex w="100%" align="center">
+              <FormControl>
+                <FormControl.Label>Nome Completo</FormControl.Label>
+                <Input
                   value={values.name}
                   onChangeText={handleChange('name')}
                 />
-                <ErrorMessage component={View} name="name" />
-              </ViewField>
-              <ViewField>
-                <Field
-                  labelColor="#000"
-                  label="Email"
+                <ErrorMessage
+                  component={FormControl.ErrorMessage}
+                  name="name"
+                />
+              </FormControl>
+
+              <FormControl mt="10px">
+                <FormControl.Label>Email</FormControl.Label>
+                <Input
                   value={values.email}
                   onChangeText={handleChange('email')}
                 />
-                <ErrorMessage component={View} name="email" />
-              </ViewField>
-              <ViewField>
+                <ErrorMessage
+                  component={FormControl.ErrorMessage}
+                  name="email"
+                />
+              </FormControl>
+
+              <FormControl mt="10px">
+                <FormControl.Label>Celular</FormControl.Label>
                 <FieldMask
-                  labelColor="#000"
                   type="cel-phone"
                   options={{ withDDD: true }}
-                  label="Celular"
                   value={values.cellphone}
                   onChangeText={handleChange('phone')}
                 />
-                <ErrorMessage component={View} name="phone" />
-              </ViewField>
-            </ViewFields>
-            <View>
-              <Button
-                loading={loading}
-                primaryColor
-                onPress={() => handleSubmit()}
-              >
-                Atualizar
-              </Button>
-            </View>
-          </ViewForm>
+                <ErrorMessage
+                  component={FormControl.ErrorMessage}
+                  name="cellphone"
+                />
+              </FormControl>
+            </Flex>
+            <Button
+              w="70%"
+              alignSelf="center"
+              isLoading={isSubmitting}
+              isDisabled={isSubmitting}
+              variant="inverted"
+              onPress={() => handleSubmit()}
+            >
+              Atualizar
+            </Button>
+          </>
         )}
       </Formik>
-    </Container>
+    </Flex>
   );
 };
