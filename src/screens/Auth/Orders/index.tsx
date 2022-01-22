@@ -4,12 +4,11 @@ import { useIsFocused } from '@react-navigation/native';
 import { useToast } from 'native-base';
 
 import api from '@services/api';
-import { ScreenAuthProps } from '@utils/ScreenProps';
 import { OrderProvider } from '@contexts/OrderContext';
 import { ModalBaseHandle } from '../../../components/ModalBase/props';
 import { NoOrders, Card, EvaluationModal, OrderInfoModal } from './Components';
 
-const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
+const OrdersScreen = () => {
   const isFocused = useIsFocused();
   const toast = useToast();
 
@@ -73,8 +72,8 @@ const OrdersScreen = ({ navigation }: ScreenAuthProps<'Orders'>) => {
   );
 };
 
-export const Orders = (props: ScreenAuthProps<'Orders'>) => (
+export const Orders = () => (
   <OrderProvider>
-    <OrdersScreen {...props} />
+    <OrdersScreen />
   </OrderProvider>
 );

@@ -1,47 +1,28 @@
-import { useState, useEffect } from 'react';
-import { View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
-import { FormControl, TextArea } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
+import { FormControl, TextArea, Button, Flex, Icon } from 'native-base';
 import { useTheme } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
+import { Formik, ErrorMessage } from 'formik';
 
 import { useSelectedOrder } from '@contexts/OrderContext';
-import { ModalBase, ModalButton } from '@components';
+import { ModalBase } from '@components';
 import api from '@services/api';
+import { useGetRate, IRate } from '@hooks';
 
-import { Container, Header } from './styles';
-import { EvaluationProps } from './props';
+import type { EvaluationProps } from './props';
+import schema from './schema';
 
 export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   const { colors } = useTheme();
-  const navigation = useNavigation();
   const { selectedItem } = useSelectedOrder();
 
-  const [rate, setRate] = useState({ value: 0, message: '' });
+  const { rate } = useGetRate(selectedItem.evaluationId);
 
-  useEffect(() => {
-    if (selectedItem.evaluationId) {
-      api
-        .get(`/rates/${selectedItem.evaluationId}`)
-        .then(({ data }) => setRate(data.result))
-        .catch(() => navigation.goBack());
-    }
-  }, [selectedItem]);
-
-  const onFinishRating = (value: number) => {
-    setRate(old => ({ ...old, value: value }));
-  };
-
-  const onChangeTextArea = (value: string) => {
-    setRate(old => ({ ...old, message: value }));
-  };
-
-  const evaluate = () => {
+  const onSubmit = (values: IRate) => {
     api
       .post('/rates', {
         orderId: selectedItem.orderId,
-        ...rate,
+        ...values,
       })
       .then(() => {
         modalRef.current?.close();
@@ -49,45 +30,73 @@ export const EvaluationModal = ({ modalRef }: EvaluationProps) => {
   };
 
   return (
-    <ModalBase ref={modalRef}>
-      <Container>
-        <Header>
-          <Ionicons
-            onPress={() => modalRef.current?.close()}
-            name="close-circle"
-            size={20}
-            color={colors.primary}
-          />
-        </Header>
-        <FormControl>
-          <TextArea
-            padding={10}
-            numberOfLines={5}
-            value={rate?.message}
-            placeholder="Faça uma avaliação do seu pedido"
-            rounded="1px solid #c4c4c4"
-            isDisabled={!!rate?.value}
-            onChangeText={onChangeTextArea}
-          />
-        </FormControl>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            paddingTop: 10,
-          }}
-        >
-          <AirbnbRating
-            size={20}
-            showRating={false}
-            defaultRating={rate?.value || 0}
-            onFinishRating={onFinishRating}
-          />
-          {!selectedItem.evaluationId ? (
-            <ModalButton onPress={evaluate}>Avaliar</ModalButton>
-          ) : null}
-        </View>
-      </Container>
-    </ModalBase>
+    <Formik
+      initialValues={rate}
+      onSubmit={onSubmit}
+      enableReinitialize
+      validationSchema={schema}
+    >
+      {({
+        values,
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        errors,
+        touched,
+      }) => (
+        <ModalBase ref={modalRef}>
+          <Flex w="100%" align="center" p="15px">
+            <Icon
+              onPress={() => modalRef.current?.close()}
+              size="20px"
+              as={<Ionicons name="close-circle" color={colors.primary} />}
+              color="#9E0404"
+              alignSelf="flex-end"
+            />
+            <FormControl w="100%">
+              <FormControl.Label>Avaliação</FormControl.Label>
+              <TextArea
+                p={3}
+                numberOfLines={5}
+                variant="outline"
+                bg="#fff"
+                value={values.message}
+                placeholder="Faça uma avaliação do seu pedido"
+                isDisabled={values.value === 0}
+                onChangeText={handleChange('message')}
+                onBlur={handleBlur('message')}
+              />
+            </FormControl>
+            <FormControl
+              isRequired
+              isInvalid={!!(errors?.value && touched?.value)}
+            >
+              <AirbnbRating
+                ratingContainerStyle={{ marginVertical: 10 }}
+                size={20}
+                showRating={false}
+                defaultRating={values.value}
+                onFinishRating={handleChange('value')}
+              />
+              <ErrorMessage name="value" component={FormControl.ErrorMessage} />
+            </FormControl>
+            {!selectedItem.evaluationId ? (
+              <Button
+                isDisabled={isSubmitting}
+                isLoading={isSubmitting}
+                isLoadingText="Avaliando..."
+                bg="#F8C200"
+                _text={{ color: '#fff' }}
+                rounded="15px"
+                onPress={() => handleSubmit()}
+              >
+                Avaliar
+              </Button>
+            ) : null}
+          </Flex>
+        </ModalBase>
+      )}
+    </Formik>
   );
 };
