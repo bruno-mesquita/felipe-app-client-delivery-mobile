@@ -7,8 +7,3 @@ export interface Product {
     encoded: string;
   };
 }
-
-export interface Menu {
-  id: number;
-  name: string;
-}

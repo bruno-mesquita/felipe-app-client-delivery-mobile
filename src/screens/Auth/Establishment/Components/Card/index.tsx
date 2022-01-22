@@ -1,32 +1,17 @@
-import { useRef, useCallback } from 'react';
+import { useRef } from 'react';
+import { TouchableOpacity } from 'react-native';
+import ExpoFastImage from 'expo-fast-image';
+import { Flex, Text } from 'native-base';
 
-import { ModalItem, CardBase } from '@components';
+import { ModalItem } from '@components';
 import formatNumber from '@utils/format-number';
 import { ModalBaseHandle } from '../../../../../components/ModalBase/props';
 import { Props } from './props';
-import {
-  Container,
-  ImageProduct,
-  Content,
-  Title,
-  Description,
-  Price,
-} from './styles';
 
 export const Card = (props: Props) => {
   const modalItemRef = useRef<ModalBaseHandle>(null);
 
-  const formattedDescription = (text: string) => {
-    if (text.length > 40) {
-      return `${text.substring(0, 40)}...`;
-    }
-
-    return text;
-  };
-
-  const openModal = useCallback(() => {
-    modalItemRef.current?.open();
-  }, []);
+  const openModal = () => modalItemRef.current?.open();
 
   return (
     <>
@@ -36,24 +21,30 @@ export const Card = (props: Props) => {
         image={props.photo.encoded}
         description={props.description}
       />
-      <CardBase
-        style={{ height: 90, width: '90%', alignSelf: 'center' }}
-        onPress={openModal}
-      >
-        <Container>
-          <ImageProduct
-            style={{ resizeMode: 'cover' }}
+      <TouchableOpacity onPress={openModal}>
+        <Flex
+          mx="20px"
+          flexDirection="row"
+          shadow={1}
+          mb="20px"
+          bg="#fff"
+          rounded="10px"
+        >
+          <ExpoFastImage
+            style={{
+              resizeMode: 'cover',
+              height: 80,
+              width: 80,
+              borderRadius: 9,
+            }}
             source={{ uri: props.photo.encoded }}
           />
-          <Content>
-            <Title>{props.name.trim()}</Title>
-            <Description>
-              {formattedDescription(props.description.trim())}
-            </Description>
-            <Price>{formatNumber(props.price)}</Price>
-          </Content>
-        </Container>
-      </CardBase>
+          <Flex justify="space-between" align="center" p="10px" width="70%">
+            <Text fontWeight={600}>{props.name.trim()}</Text>
+            <Text>{formatNumber(props.price)}</Text>
+          </Flex>
+        </Flex>
+      </TouchableOpacity>
     </>
   );
 };
