@@ -1,7 +1,7 @@
 export interface Props {
   id: number;
   name: string;
-  image: any;
+  image: { encoded: string };
   openingTime: number;
   closingTime: number;
   freightValue: number;

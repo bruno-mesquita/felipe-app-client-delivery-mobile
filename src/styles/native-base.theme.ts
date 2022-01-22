@@ -3,16 +3,17 @@ import { extendTheme } from 'native-base';
 export default extendTheme({
   components: {
     Input: {
-      baseStyle: {
-        bg: '#770202',
-        color: '#fff',
-        borderWidth: '0px',
-      },
       defaultProps: {
         size: 'md',
-        placeholderTextColor: '#C4C4C4',
-        borderWidth: '0px',
-        selectionColor: '#fff',
+        variant: 'primary',
+      },
+      variants: {
+        primary: {
+          bg: '#770202',
+          color: '#fff',
+          selectionColor: '#fff',
+          placeholderTextColor: '#C4C4C4',
+        },
       },
     },
     Button: {

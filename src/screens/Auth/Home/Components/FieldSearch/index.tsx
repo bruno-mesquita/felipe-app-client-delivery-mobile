@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Input } from 'native-base';
 
 import api from '@services/api';
-import { Input, styles } from './styles';
 import { Props } from './props';
 
 export const FieldSearch = ({ response, refreshing, categoryName }: Props) => {
@@ -29,11 +29,23 @@ export const FieldSearch = ({ response, refreshing, categoryName }: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Input placeholder="Pesquise aqui" value={text} onChangeText={setText} />
-      <TouchableOpacity onPress={searchForEstablishment}>
-        <Ionicons name="search" size={24} style={{ color: '#727272' }} />
-      </TouchableOpacity>
-    </View>
+    <Input
+      my="20px"
+      alignSelf="center"
+      w="90%"
+      bg="#fff"
+      variant="outline"
+      placeholder="Pesquise aqui"
+      value={text}
+      onChangeText={setText}
+      rightElement={
+        <TouchableOpacity
+          onPress={searchForEstablishment}
+          style={{ marginRight: 10 }}
+        >
+          <Ionicons name="search" size={24} style={{ color: '#727272' }} />
+        </TouchableOpacity>
+      }
+    />
   );
 };

@@ -1,14 +1,13 @@
 import { useState, useCallback, useEffect } from 'react';
-import { View, Alert, RefreshControl } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import Constans from 'expo-constants';
+import { Flex } from 'native-base';
 
 import { CartButton } from '@components';
 import api from '@services/api';
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
 import { NotFound, Card, FieldSearch } from './Components';
-import { Container, Content, Establishments } from './styles';
 import { Establishment } from './props';
 
 export const Home = ({
@@ -67,37 +66,27 @@ export const Home = ({
     setPage(old => old + 1);
   };
 
-  return (
-    <Container>
-      <Content
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <View
-          style={{
-            alignItems: 'center',
-            paddingTop: Constans.statusBarHeight * 0.3,
-            paddingBottom: Constans.statusBarHeight * 0.3,
-          }}
-        >
-          <FieldSearch
-            categoryName={params.categoryName}
-            refreshing={refreshing}
-            response={searchResult}
-          />
-        </View>
+  const _renderItem = useCallback(({ item }) => <Card {...item} />, []);
 
-        <Establishments
-          data={establishments}
-          ListEmptyComponent={() => <NotFound refreshing={refreshing} />}
-          onEndReachedThreshold={0}
-          onEndReached={loadMore}
-          keyExtractor={(item: any) => String(item.id)}
-          renderItem={({ item }: any) => <Card {...item} />}
-        />
-      </Content>
+  return (
+    <Flex flex={1}>
+      <FieldSearch
+        categoryName={params.categoryName}
+        refreshing={refreshing}
+        response={searchResult}
+      />
+      <FlatList
+        contentContainerStyle={{ paddingHorizontal: 20 }}
+        data={establishments}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        ListEmptyComponent={() => <NotFound refreshing={refreshing} />}
+        onEndReachedThreshold={0}
+        onEndReached={loadMore}
+        keyExtractor={({ id }) => id.toString()}
+        renderItem={_renderItem}
+      />
       <CartButton />
-    </Container>
+    </Flex>
   );
 };
