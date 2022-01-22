@@ -65,10 +65,7 @@ export const StackAuthNavigation = ({ navigation }) => (
     <Screen
       name="Home"
       component={Home}
-      options={{
-        headerTitle: () => <Header />,
-        headerLeft: () => <Menu openDrawer={navigation.openDrawer} />,
-      }}
+      options={{ headerTitle: () => <Header /> }}
     />
     <Screen name="Profile" component={Profile} options={{ title: 'Perfil' }} />
     <Screen
