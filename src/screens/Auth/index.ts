@@ -12,5 +12,4 @@ export { UpdateAddress } from './UpdateAddress';
 export { Configuration } from './Configuration';
 export { AboutApp } from './AboutApp';
 export { TermsUse } from '../TermsUse';
-export { Deliveryman } from './Deliveryman';
 export { Account } from './Account';

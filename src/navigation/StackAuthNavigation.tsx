@@ -19,7 +19,6 @@ import {
   Configuration,
   AboutApp,
   TermsUse,
-  Deliveryman,
   Account,
 } from '../screens/Auth';
 
@@ -96,12 +95,6 @@ export const StackAuthNavigation = ({ navigation }) => (
     />
 
     <Screen name="Cart" component={Cart} options={{ title: 'Carrinho' }} />
-
-    <Screen
-      name="Deliverymans"
-      component={Deliveryman}
-      options={{ title: 'Motoboys' }}
-    />
 
     <Screen
       name="TrackOrder"
