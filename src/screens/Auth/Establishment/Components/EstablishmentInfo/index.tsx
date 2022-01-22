@@ -26,7 +26,7 @@ export const EstablishmentInfo = () => {
           justify="space-around"
           align="center"
         >
-          <Text>{isOpen ? 'Aberto' : 'Fechado'}</Text>
+          {/* <Text>{isOpen ? 'Aberto' : 'Fechado'}</Text> */}
           <Flex flexDirection="row" align="center">
             <Text mr="5px">{formatPrice(fee)}</Text>
             <MaterialIcons name="motorcycle" size={25} />

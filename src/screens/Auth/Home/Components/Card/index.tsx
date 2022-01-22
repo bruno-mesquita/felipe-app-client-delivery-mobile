@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import ExpoImageFast from 'expo-fast-image';
 import { Text, Flex } from 'native-base';
-import { isAfter, setHours } from 'date-fns';
 
 import { NavigationAuthHook } from '@utils/ScreenProps';
 import formatPrice from '@utils/format-number';
@@ -13,15 +12,13 @@ import type { Props } from './props';
 export const Card = (props: Props) => {
   const navigation = useNavigation<NavigationAuthHook<'Home'>>();
 
-  const isOpen = isAfter(new Date(), setHours(new Date(), props.closingTime));
-
   const toStoreDetail = () => {
     navigation.navigate('Establishment', {
       id: props.id,
       image: props.image.encoded,
       fee: props.freightValue,
       name: props.name,
-      isOpen,
+      isOpen: false,
     });
   };
 
