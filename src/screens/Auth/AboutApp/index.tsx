@@ -1,11 +1,12 @@
-import { Text, Image } from 'react-native';
 import Constants from 'expo-constants';
-
-import { Container } from './styles';
+import { Text, Image, Flex } from 'native-base';
 
 export const AboutApp = () => (
-  <Container>
-    <Image source={require('../../../assets/images/logo.png')} />
-    <Text style={{ color: '#fff' }}>Versão: {Constants.manifest.version}</Text>
-  </Container>
+  <Flex flex={1} justify="space-around" align="center" bg="#9E0404">
+    <Image
+      source={require('../../../assets/images/logo.png')}
+      alt="Logo Flipp"
+    />
+    <Text color="#fff">Versão: {Constants.manifest.version}</Text>
+  </Flex>
 );
