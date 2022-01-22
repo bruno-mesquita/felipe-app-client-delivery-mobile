@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "ports": "node scripts/ports.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
