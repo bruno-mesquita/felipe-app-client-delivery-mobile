@@ -2,7 +2,6 @@ export { AddressForm } from './AddressForm';
 export { StatusBar } from './StatusBar';
 export { CardBase } from './CardBase';
 export { ModalBase } from './ModalBase';
-export { ModalButton } from './ModalButton';
 export { ModalItem } from './ModalItem';
 export { Drawer } from './Drawer';
 export { Checkbox } from './CheckBox';

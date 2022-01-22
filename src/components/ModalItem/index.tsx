@@ -3,8 +3,8 @@ import { View, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
+import { Button } from 'native-base';
 
-import { ModalButton } from '../ModalButton';
 import { ModalBase } from '../ModalBase';
 
 import { cartActions } from '@store/reducers/cart';
@@ -26,7 +26,7 @@ import {
 export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const dispatch = useAppDispatch();
   const { colors } = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   const [total, setTotal] = useState(0);
   const [amount, setAmount] = useState(1);
@@ -115,9 +115,15 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
             <Text>Total: {formatNumber(total)}</Text>
           </View>
         </Prices>
-        <View>
-          <ModalButton onPress={addItemCart}>Adicionar ao carrinho</ModalButton>
-        </View>
+
+        <Button
+          bg="#F8C200"
+          _text={{ color: '#fff' }}
+          rounded="15px"
+          onPress={addItemCart}
+        >
+          Adicionar ao carrinho
+        </Button>
       </Content>
     </ModalBase>
   );
