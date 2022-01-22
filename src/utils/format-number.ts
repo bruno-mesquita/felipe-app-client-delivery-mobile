@@ -18,8 +18,8 @@ const formatNumber = (
     return (
       'R$' +
       (negativeSign +
-        (j ? i.substr(0, j) + thousands : '') +
-        i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) +
+        (j ? i.substring(0, j) + thousands : '') +
+        i.substring(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) +
         (decimalCount
           ? decimal +
             Math.abs(amount - i)
