@@ -6,7 +6,7 @@ import {
   MaterialIcons,
   Entypo,
 } from '@expo/vector-icons';
-import { ScrollView, Flex, IconButton, Text } from 'native-base';
+import { Flex, IconButton, Text } from 'native-base';
 
 import { Carousel } from '@components';
 

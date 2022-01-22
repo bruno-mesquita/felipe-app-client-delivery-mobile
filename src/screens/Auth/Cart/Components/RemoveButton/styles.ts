@@ -6,5 +6,6 @@ export const Container = styled.TouchableOpacity`
     background-color: ${lighten(0.2, theme.colors.primary)};
     border-radius: 11px;
     padding: 2px;
+    align-self: flex-end;
   `}
 `;

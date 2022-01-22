@@ -1,4 +1,3 @@
-export { Button } from './Button';
 export { AddressForm } from './AddressForm';
 export { StatusBar } from './StatusBar';
 export { CardBase } from './CardBase';
@@ -8,7 +7,6 @@ export { ModalItem } from './ModalItem';
 export { Drawer } from './Drawer';
 export { Checkbox } from './CheckBox';
 export { Tab } from './Tab';
-export { Tabs } from './Tabs';
 export { CartButton } from './CartButton';
 export { Modal } from './Modal';
 export { Carousel } from './Carousel';
