@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 0.41.1"
+    "version": ">= 0.45.1"
   },
   "build": {
     "development": {
@@ -12,7 +12,7 @@
       "extends": "production"
     },
     "production": {
-      "node": "16.13.0",
+      "node": "16.13.2",
       "env": {
         "API_URL": "https://api.flippdelivery.com.br/api/app"
       }

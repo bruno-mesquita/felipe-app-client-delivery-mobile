@@ -1,65 +1,42 @@
-import { useEffect, useState, useCallback } from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
-import {
-  Button,
-  Input,
-  FormControl,
-  useToast,
-  Flex,
-  Avatar,
-} from 'native-base';
+import { Button, Input, FormControl, useToast, Flex } from 'native-base';
+import ExpoFastImage from 'expo-fast-image';
 
-import { ScreenAuthProps } from '@utils/ScreenProps';
 import api from '@services/api';
 import { FieldMask } from '@form';
+import { useUser, IUser } from '@hooks';
 
-import { UserProfile } from './props';
+type IValues = Pick<IUser, 'name' | 'email' | 'cellphone'>;
 
-export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
+export const Profile = () => {
   const toast = useToast();
+  const { user, mutate } = useUser();
 
-  const [user, setUser] = useState<UserProfile>(null);
-
-  const getUser = useCallback(async () => {
-    try {
-      const { data } = await api.post('/clients/me', {
-        selects: ['name', 'email', 'cellphone', 'avatar', 'cpf'],
-      });
-
-      setUser(data.result);
-    } catch (err) {
-      Alert.alert('Erro', 'Houve um problema ao buscar seus dados', [
-        {
-          text: 'Sair',
-          onPress: () => navigation.goBack(),
-        },
-      ]);
-    }
-  }, []);
-
-  const initialValues = {
-    name: user?.name || '',
-    email: user?.email || '',
-    cellphone: user?.cellphone || '',
+  const initialValues: IValues = {
+    name: user.name,
+    email: user.email,
+    cellphone: user.cellphone,
   };
 
   const onSubmit = async (
-    values: typeof initialValues,
-    { setSubmitting }: FormikHelpers<typeof initialValues>
+    values: IValues,
+    { setSubmitting }: FormikHelpers<IValues>
   ) => {
     try {
       await api.put('/clients', values);
 
       toast.show({
+        w: '90%',
         title: 'Atualizado!',
         description: 'Perfil atualizado com sucesso',
         status: 'success',
       });
     } catch (err) {
       toast.show({
+        w: '90%',
         title: 'Erro',
         description: 'Houve um erro ao atualizar o perfil',
         status: 'error',
@@ -69,38 +46,12 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
     }
   };
 
-  const formattedCpf = (value: string) => {
-    const part1 = value.substring(0, 3);
-    const part2 = value.substring(3, 6);
-    const part3 = value.substring(6, 9);
-    const part4 = value.substring(9, 11);
-
-    return `${part1}.${part2}.${part3}-${part4}`;
-  };
-
-  const permissions = useCallback(async () => {
-    const { status: cameraStaus } =
-      await ImagePicker.requestCameraPermissionsAsync();
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted' || cameraStaus !== 'granted') {
-      Alert.alert(
-        'Atenção!',
-        'Precisamos da sua permissão para adicionar sua foto do perfil!'
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    permissions();
-    getUser();
-  }, []);
-
   const pickImage = async () => {
     try {
-      const result = (await ImagePicker.launchImageLibraryAsync({
+      const result: any = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         base64: true,
-      })) as any;
+      });
 
       if (!result.cancelled) {
         const pathArray = result.uri.split('.') as string[];
@@ -111,10 +62,14 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
 
         await api.post('/avatar', { encoded, name: `${user.name}-image` });
 
-        setUser(old => ({ ...old, avatar: encoded }));
+        mutate(old => ({ ...old, avatar: encoded }));
       }
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao atualizar imagem');
+      toast.show({
+        w: '90%',
+        title: 'Erro',
+        description: 'Erro ao atualizar imagem',
+      });
     }
   };
 
@@ -125,15 +80,26 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ values, handleChange, handleSubmit, isSubmitting }) => (
+        {({
+          values,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+          errors,
+          touched,
+        }) => (
           <>
             <TouchableOpacity onPress={pickImage}>
-              {user?.avatar ? (
-                <Avatar
-                  alignSelf="center"
-                  size="125px"
-                  rounded="50px"
-                  source={{ uri: user?.avatar }}
+              {user.avatar ? (
+                <ExpoFastImage
+                  source={{ uri: user.avatar }}
+                  cacheKey={user.id.toString()}
+                  style={{
+                    alignSelf: 'center',
+                    height: 125,
+                    width: 125,
+                    borderRadius: 100,
+                  }}
                 />
               ) : (
                 <MaterialIcons
@@ -145,7 +111,10 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
               )}
             </TouchableOpacity>
             <Flex w="100%" align="center">
-              <FormControl>
+              <FormControl
+                isRequired
+                isInvalid={!!(errors?.name && touched?.name)}
+              >
                 <FormControl.Label>Nome Completo</FormControl.Label>
                 <Input
                   value={values.name}
@@ -157,7 +126,11 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
                 />
               </FormControl>
 
-              <FormControl mt="10px">
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.email && touched?.email)}
+              >
                 <FormControl.Label>Email</FormControl.Label>
                 <Input
                   value={values.email}
@@ -169,7 +142,11 @@ export const Profile = ({ navigation }: ScreenAuthProps<'Profile'>) => {
                 />
               </FormControl>
 
-              <FormControl mt="10px">
+              <FormControl
+                mt="10px"
+                isRequired
+                isInvalid={!!(errors?.cellphone && touched?.cellphone)}
+              >
                 <FormControl.Label>Celular</FormControl.Label>
                 <FieldMask
                   type="cel-phone"

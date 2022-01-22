@@ -5,7 +5,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "build:android": "eas build --platform android"
+    "build:android": "eas build --platform android",
+    "build:android:apk": "eas build --profile preview --platform android"
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.2.0",

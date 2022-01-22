@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import { Text, Flex, Divider } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -11,18 +10,13 @@ import { authActions } from '@store/reducers/auth';
 export const Account = ({ navigation }) => {
   const dispatch = useAppDispatch();
 
-  const { active: activeHook } = useUser(['active']);
-  const [userActive, setUserActive] = useState(false);
-
-  useEffect(() => {
-    setUserActive(activeHook);
-  }, [activeHook]);
+  const { user, mutate } = useUser();
 
   const deactivate = async () => {
     try {
       await api.put('/clients/deactivate');
 
-      setUserActive(old => !old);
+      mutate(old => ({ ...old, active: false }));
       Alert.alert(
         'Aviso',
         'Conta desativada! você não poderá acessar algumas telas agora'
@@ -36,7 +30,7 @@ export const Account = ({ navigation }) => {
     try {
       await api.put('/clients/activate');
 
-      setUserActive(old => !old);
+      mutate(old => ({ ...old, active: true }));
       Alert.alert('Mensagem', 'Conta ativada!');
     } catch (err) {
       Alert.alert('Erro', 'Houve um problema ao ativar sua conta');
@@ -82,7 +76,7 @@ export const Account = ({ navigation }) => {
         </Flex>
       </TouchableOpacity>
       <Divider />
-      <TouchableOpacity onPress={userActive ? deactivate : active}>
+      <TouchableOpacity onPress={user.active ? deactivate : active}>
         <Flex
           px="10px"
           py="15px"
@@ -90,7 +84,7 @@ export const Account = ({ navigation }) => {
           align="center"
           justify="space-between"
         >
-          <Text>{`${userActive ? 'Desativar' : 'Ativar'} conta`}</Text>
+          <Text>{`${user.active ? 'Desativar' : 'Ativar'} conta`}</Text>
           <MaterialIcons name="keyboard-arrow-right" size={25} />
         </Flex>
       </TouchableOpacity>

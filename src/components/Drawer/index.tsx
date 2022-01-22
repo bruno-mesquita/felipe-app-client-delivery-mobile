@@ -1,12 +1,8 @@
-import { useEffect, useState, useCallback } from 'react';
-import {
-  DrawerContentComponentProps,
-  useDrawerStatus,
-} from '@react-navigation/drawer';
+import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import api from '@services/api';
 import { useAppDispatch } from '@store/hooks';
+import { useUser } from '@hooks';
 import { authActions } from '@store/reducers/auth';
 
 import {
@@ -23,24 +19,9 @@ export const Drawer = ({
   navigation,
   ...props
 }: DrawerContentComponentProps) => {
-  const drawerStatus = useDrawerStatus();
   const dispatch = useAppDispatch();
 
-  const [avatar, setAvatar] = useState(null);
-
-  const getUser = useCallback(async () => {
-    try {
-      const { data } = await api.post('/clients/me', { selects: ['avatar'] });
-
-      setAvatar(data.result.avatar);
-    } catch (err) {
-      setAvatar(null);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (drawerStatus === 'open') getUser();
-  }, [drawerStatus, getUser]);
+  const { user } = useUser();
 
   const logout = () => dispatch(authActions.logout());
 
@@ -57,8 +38,8 @@ export const Drawer = ({
   return (
     <Container {...props}>
       <User>
-        {avatar ? (
-          <UserAvatar source={{ uri: avatar }} />
+        {user.avatar ? (
+          <UserAvatar source={{ uri: user.avatar }} />
         ) : (
           <MaterialIcons name="account-circle" size={125} color="#c4c4c4" />
         )}

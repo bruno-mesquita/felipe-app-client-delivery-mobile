@@ -1,18 +1,32 @@
-import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
-import api from '@services/api';
+export type IUser = {
+  id: number;
+  name: string;
+  cpf: string;
+  email: string;
+  active: boolean;
+  cellphone: string;
+  avatar: string;
+};
 
-export const useUser = (selects = []) => {
-  const [user, setUser] = useState<any>({});
+export const useUser = () => {
+  const { data, error, mutate } = useSWR<IUser>('clients/me', {
+    fallbackData: {
+      id: 0,
+      name: '',
+      cpf: '',
+      email: '',
+      active: false,
+      cellphone: '',
+      avatar: null,
+    },
+  });
 
-  useEffect(() => {
-    if (selects.length > 0) {
-      api
-        .post('/clients/me', { selects })
-        .then(({ data }) => setUser(data.result))
-        .catch(() => setUser({ active: false }));
-    }
-  }, []);
-
-  return user;
+  return {
+    user: data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
 };
