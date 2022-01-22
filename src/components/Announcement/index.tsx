@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react';
+import { memo } from 'react';
 import { Dimensions, StyleSheet, View, Platform } from 'react-native';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
-import api from '@services/api';
-
-import { IAnnouncement } from './props';
+import { useGetAnnouncements } from '@hooks';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 export const Announcement = () => {
-  const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
+  const { announcements } = useGetAnnouncements();
 
-  useEffect(() => {
-    api.get('/announcements').then(({ data }) => setAnnouncements(data.result));
-  }, []);
+  const Item = ({ item }, parallaxProps) => (
+    <View key={item.id} style={styles.item}>
+      <ParallaxImage
+        source={{ uri: item.photo.encoded }}
+        containerStyle={styles.imageContainer}
+        style={styles.image}
+        parallaxFactor={0.4}
+        {...parallaxProps}
+      />
+    </View>
+  );
 
   return (
     <Carousel
@@ -21,17 +27,18 @@ export const Announcement = () => {
       sliderHeight={10}
       itemWidth={screenWidth - 60}
       data={announcements}
-      renderItem={({ item }, parallaxProps) => (
-        <View key={item.id} style={styles.item}>
-          <ParallaxImage
-            source={{ uri: item.photo.encoded }}
-            containerStyle={styles.imageContainer}
-            style={styles.image}
-            parallaxFactor={0.4}
-            {...parallaxProps}
-          />
-        </View>
-      )}
+      renderItem={props => <Item {...props} />}
+      // renderItem={({ item }, parallaxProps) => (
+      //   <View key={item.id} style={styles.item}>
+      //     <ParallaxImage
+      //       source={{ uri: item.photo.encoded }}
+      //       containerStyle={styles.imageContainer}
+      //       style={styles.image}
+      //       parallaxFactor={0.4}
+      //       {...parallaxProps}
+      //     />
+      //   </View>
+      // )}
       hasParallaxImages
       autoplay
       lockScrollWhileSnapping
