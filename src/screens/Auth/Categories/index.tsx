@@ -6,64 +6,115 @@ import {
   MaterialIcons,
   Entypo,
 } from '@expo/vector-icons';
-import { useTheme } from 'styled-components/native';
+import { ScrollView, Flex, IconButton, Text } from 'native-base';
 
-import { Announcement, Carousel } from '@components';
+import { Carousel } from '@components';
 
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
-import { CategoryCard } from './components';
-import { Container, DivContainer } from './styles';
-
 export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
-  const { metrics } = useTheme();
-
   const listCategory = (categoryName: string) =>
     navigation.navigate('Home', { categoryName });
 
-  const iconProps = (name: any) => ({
-    size: metrics.px(50),
-    color: '#fff',
-    name,
-  });
-
   return (
-    <Container>
-      <DivContainer>
-        <CategoryCard name="Comidas" onClick={() => listCategory('Comidas')}>
-          <Ionicons {...iconProps('restaurant')} />
-        </CategoryCard>
+    <Flex flex={1} justify="space-around">
+      <Flex>
+        <Flex flexDirection="row" m="20px" justify="space-between">
+          <Flex align="center">
+            <IconButton
+              p="15px"
+              rounded="100px"
+              onPress={() => listCategory('Comidas')}
+              bg="#9E0404"
+              _icon={{
+                as: Ionicons,
+                name: 'restaurant',
+                color: '#fff',
+              }}
+            />
+            <Text>Comida</Text>
+          </Flex>
 
-        <CategoryCard name="Mercados" onClick={() => listCategory('Mercados')}>
-          <AntDesign {...iconProps('shoppingcart')} />
-        </CategoryCard>
+          <Flex align="center">
+            <IconButton
+              p="15px"
+              rounded="100px"
+              onPress={() => listCategory('Mercados')}
+              bg="#9E0404"
+              _icon={{
+                as: AntDesign,
+                name: 'shoppingcart',
+                color: '#fff',
+              }}
+            />
+            <Text>Mercados</Text>
+          </Flex>
 
-        <CategoryCard
-          name="Farmácias"
-          onClick={() => listCategory('Farmácias')}
-        >
-          <MaterialCommunityIcons {...iconProps('medical-bag')} />
-        </CategoryCard>
-      </DivContainer>
+          <Flex align="center">
+            <IconButton
+              p="15px"
+              rounded="100px"
+              onPress={() => listCategory('Farmácias')}
+              bg="#9E0404"
+              _icon={{
+                as: MaterialCommunityIcons,
+                name: 'medical-bag',
+                color: '#fff',
+              }}
+            />
+            <Text>Farmácias</Text>
+          </Flex>
+        </Flex>
 
-      <DivContainer>
-        <CategoryCard name="Lojas" onClick={() => listCategory('Lojas')}>
-          <Fontisto {...iconProps('shopping-store')} />
-        </CategoryCard>
-        <CategoryCard name="Bebidas" onClick={() => listCategory('Bebidas')}>
-          <Entypo {...iconProps('drink')} />
-        </CategoryCard>
-        <CategoryCard
-          name="Pet shops"
-          onClick={() => listCategory('Pet shops')}
-        >
-          <MaterialIcons {...iconProps('pets')} />
-        </CategoryCard>
-      </DivContainer>
+        <Flex flexDirection="row" m="20px" justify="space-between">
+          <Flex align="center">
+            <IconButton
+              p="15px"
+              rounded="100px"
+              onPress={() => listCategory('Lojas')}
+              bg="#9E0404"
+              _icon={{
+                as: Fontisto,
+                name: 'shopping-store',
+                color: '#fff',
+              }}
+            />
+            <Text>Lojas</Text>
+          </Flex>
 
-      <Announcement />
+          <Flex align="center">
+            <IconButton
+              p="15px"
+              rounded="100px"
+              onPress={() => listCategory('Bebidas')}
+              bg="#9E0404"
+              _icon={{
+                as: Entypo,
+                name: 'drink',
+                color: '#fff',
+              }}
+            />
+            <Text>Bebidas</Text>
+          </Flex>
+
+          <Flex align="center">
+            <IconButton
+              p="15px"
+              rounded="100px"
+              onPress={() => listCategory('Pet shops')}
+              bg="#9E0404"
+              _icon={{
+                as: MaterialIcons,
+                name: 'pets',
+                color: '#fff',
+              }}
+            />
+            <Text>Pet shops</Text>
+          </Flex>
+        </Flex>
+      </Flex>
 
       <Carousel />
-    </Container>
+    </Flex>
   );
 };
