@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
+import { Text, Flex, Divider } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import api from '@services/api';
 import { useAppDispatch } from '@store/hooks';
 import { useUser } from '@hooks';
 import { authActions } from '@store/reducers/auth';
-
-import { Item } from './Components';
-import { Container, Divider } from './styles';
 
 export const Account = ({ navigation }) => {
   const dispatch = useAppDispatch();
@@ -19,13 +18,8 @@ export const Account = ({ navigation }) => {
     setUserActive(activeHook);
   }, [activeHook]);
 
-  const [activeOrDeactivateLoading, setActiveOrDeactivateLoading] =
-    useState(false);
-
   const deactivate = async () => {
     try {
-      setActiveOrDeactivateLoading(true);
-
       await api.put('/clients/deactivate');
 
       setUserActive(old => !old);
@@ -35,23 +29,17 @@ export const Account = ({ navigation }) => {
       );
     } catch (err) {
       Alert.alert('Erro', 'Houve um problema ao desativar sua conta');
-    } finally {
-      setActiveOrDeactivateLoading(false);
     }
   };
 
   const active = async () => {
     try {
-      setActiveOrDeactivateLoading(true);
-
       await api.put('/clients/activate');
 
       setUserActive(old => !old);
       Alert.alert('Mensagem', 'Conta ativada!');
     } catch (err) {
       Alert.alert('Erro', 'Houve um problema ao ativar sua conta');
-    } finally {
-      setActiveOrDeactivateLoading(false);
     }
   };
 
@@ -80,18 +68,47 @@ export const Account = ({ navigation }) => {
   };
 
   return (
-    <Container>
-      <Item onPress={() => navigation.navigate('ChangePassword')}>
-        Alterar senha
-      </Item>
+    <Flex flex={1} px="20px">
+      <TouchableOpacity onPress={() => navigation.navigate('ChangePassword')}>
+        <Flex
+          px="10px"
+          py="15px"
+          flexDirection="row"
+          align="center"
+          justify="space-between"
+        >
+          <Text>Alterar senha</Text>
+          <MaterialIcons name="keyboard-arrow-right" size={25} />
+        </Flex>
+      </TouchableOpacity>
       <Divider />
-      <Item
-        loading={activeOrDeactivateLoading}
-        onPress={userActive ? deactivate : active}
-      >{`${userActive ? 'Desativar' : 'Ativar'} conta`}</Item>
+      <TouchableOpacity onPress={userActive ? deactivate : active}>
+        <Flex
+          px="10px"
+          py="15px"
+          flexDirection="row"
+          align="center"
+          justify="space-between"
+        >
+          <Text>{`${userActive ? 'Desativar' : 'Ativar'} conta`}</Text>
+          <MaterialIcons name="keyboard-arrow-right" size={25} />
+        </Flex>
+      </TouchableOpacity>
       <Divider />
-      <Item onPress={destroy}>Deletar conta</Item>
+
+      <TouchableOpacity onPress={destroy}>
+        <Flex
+          px="10px"
+          py="15px"
+          flexDirection="row"
+          align="center"
+          justify="space-between"
+        >
+          <Text>Deletar conta</Text>
+          <MaterialIcons name="keyboard-arrow-right" size={25} />
+        </Flex>
+      </TouchableOpacity>
       <Divider />
-    </Container>
+    </Flex>
   );
 };
