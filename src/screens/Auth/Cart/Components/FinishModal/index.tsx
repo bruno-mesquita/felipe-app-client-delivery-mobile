@@ -27,7 +27,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const [payments, setPayments] = useState<any[]>([]);
   const [adresses, setAdresses] = useState<any[]>([]);
   const [options, setOptions] = useState<IValues>({
-    address_id: 0,
+    address_id: '0',
     payment: '',
     transshipment: 0,
     establishment_id: establishmentId,
@@ -41,7 +41,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
       setAdresses(
         data.result.map(item => ({
           label: item.nickname,
-          value: item.id,
+          value: item.id.toString(),
           city: item.city.name,
           active: item.active,
         }))
@@ -142,7 +142,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
                 <Select
                   placeholder="Endereço"
                   selectedValue={values.address_id.toString()}
-                  onValueChange={handleChange('.address_id')}
+                  onValueChange={handleChange('address_id')}
                 >
                   {adresses.map(({ value, label }) => (
                     <Select.Item key={value} value={value} label={label} />

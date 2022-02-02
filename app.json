@@ -3,13 +3,16 @@
   "expo": {
     "name": "Flipp",
     "slug": "flipp",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/images/icons/logo_app.png",
     "jsEngine": "hermes",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "cover"
+    },
+    "runtimeVersion": {
+      "policy": "nativeVersion"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,7 +24,7 @@
     },
     "android": {
       "userInterfaceStyle": "light",
-      "versionCode": 5,
+      "versionCode": 7,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#9E0404",
