@@ -7,8 +7,13 @@ export interface IAddress {
   street: string;
   neighborhood: string;
   number: number;
-  city: number;
-  state: number;
+  city: {
+    name: string;
+    state: {
+      name: string;
+    };
+  };
+  active: boolean;
 }
 
 export const useGetAddress = (addressId?: number) => {
@@ -24,6 +29,7 @@ export const useGetAddress = (addressId?: number) => {
         nickname: '',
         number: 0,
         state: 0,
+        active: false,
       },
     }
   );

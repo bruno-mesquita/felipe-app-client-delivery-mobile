@@ -5,3 +5,4 @@ export * from './useGetAddress';
 export * from './useGetMenus';
 export * from './useGetAnnouncements';
 export * from './useGetRate';
+export * from './useGetAdresses';

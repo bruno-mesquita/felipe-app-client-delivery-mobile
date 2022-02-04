@@ -22,8 +22,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <Flex flexDirection="row" m="20px" justify="space-between">
           <Flex align="center">
             <IconButton
-              p="15px"
-              rounded="100px"
+              p="25px"
+              rounded="15px"
               onPress={() => listCategory('Comidas')}
               bg="#9E0404"
               _icon={{
@@ -37,8 +37,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
           <Flex align="center">
             <IconButton
-              p="15px"
-              rounded="100px"
+              p="25px"
+              rounded="15px"
               onPress={() => listCategory('Mercados')}
               bg="#9E0404"
               _icon={{
@@ -52,8 +52,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
           <Flex align="center">
             <IconButton
-              p="15px"
-              rounded="100px"
+              p="25px"
+              rounded="15px"
               onPress={() => listCategory('Farmácias')}
               bg="#9E0404"
               _icon={{
@@ -69,8 +69,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
         <Flex flexDirection="row" m="20px" justify="space-between">
           <Flex align="center">
             <IconButton
-              p="15px"
-              rounded="100px"
+              p="25px"
+              rounded="15px"
               onPress={() => listCategory('Lojas')}
               bg="#9E0404"
               _icon={{
@@ -84,8 +84,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
           <Flex align="center">
             <IconButton
-              p="15px"
-              rounded="100px"
+              p="25px"
+              rounded="15px"
               onPress={() => listCategory('Bebidas')}
               bg="#9E0404"
               _icon={{
@@ -99,8 +99,8 @@ export const Categories = ({ navigation }: ScreenAuthProps<'Categories'>) => {
 
           <Flex align="center">
             <IconButton
-              p="15px"
-              rounded="100px"
+              p="25px"
+              rounded="15px"
               onPress={() => listCategory('Pet shops')}
               bg="#9E0404"
               _icon={{

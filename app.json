@@ -15,8 +15,7 @@
       "policy": "sdkVersion"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/fe1f5a47-723d-40d2-9434-12f7bed76525"
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {

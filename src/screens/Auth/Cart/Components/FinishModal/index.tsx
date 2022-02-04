@@ -1,4 +1,3 @@
-import { useState, useEffect, useCallback } from 'react';
 import { Input, FormControl, Select, Button, useToast } from 'native-base';
 import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 
@@ -16,48 +15,27 @@ import { Container, Content, Header } from './styles';
 import paymentsOptions from './paymentOptions';
 import schema from './schema';
 import type { IValues } from './types';
+import { useGetAdresses } from '@hooks';
 
 export const FinishModal = ({ modalRef }: ModalBaseProps) => {
   const navigation = useNavigation<NavigationAuthHook<'Cart'>>();
   const { colors } = useTheme();
   const toast = useToast();
+  const { establishmentId, items, total } = useAppSelector(({ cart }) => ({
+    establishmentId: cart.establishmentId,
+    total: cart.total,
+    items: cart.items.map(({ image, name, ...rest }) => rest),
+  }));
 
-  const { establishmentId, items, total } = useAppSelector(({ cart }) => cart);
+  const { adresses } = useGetAdresses();
 
-  const [payments, setPayments] = useState<any[]>([]);
-  const [adresses, setAdresses] = useState<any[]>([]);
-  const [options, setOptions] = useState<IValues>({
+  const initialValues: IValues = {
     address_id: '0',
     payment: '',
     transshipment: 0,
     establishment_id: establishmentId,
     note: '',
-  });
-
-  const getAdresses = useCallback(async () => {
-    try {
-      const { data } = await api.get('/adresses-client');
-
-      setAdresses(
-        data.result.map(item => ({
-          label: item.nickname,
-          value: item.id.toString(),
-          city: item.city.name,
-          active: item.active,
-        }))
-      );
-
-      setOptions(old => ({
-        ...old,
-        address_id: data.result.find(item => item.active === true).id,
-      }));
-    } catch (err) {}
-  }, []);
-
-  useEffect(() => {
-    getAdresses();
-    setPayments(paymentsOptions);
-  }, []);
+  };
 
   const onClose = () => modalRef.current?.close();
 
@@ -89,7 +67,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
 
   return (
     <Formik
-      initialValues={options}
+      initialValues={initialValues}
       onSubmit={onSubmit}
       enableReinitialize
       validationSchema={schema}
@@ -123,7 +101,7 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
                   selectedValue={values.payment}
                   onValueChange={handleChange('payment')}
                 >
-                  {payments.map(({ value, label }) => (
+                  {paymentsOptions.map(({ value, label }) => (
                     <Select.Item key={value} value={value} label={label} />
                   ))}
                 </Select>
@@ -144,8 +122,12 @@ export const FinishModal = ({ modalRef }: ModalBaseProps) => {
                   selectedValue={values.address_id.toString()}
                   onValueChange={handleChange('address_id')}
                 >
-                  {adresses.map(({ value, label }) => (
-                    <Select.Item key={value} value={value} label={label} />
+                  {adresses.map(({ id, nickname }) => (
+                    <Select.Item
+                      key={id}
+                      value={id.toString()}
+                      label={nickname}
+                    />
                   ))}
                 </Select>
                 <ErrorMessage

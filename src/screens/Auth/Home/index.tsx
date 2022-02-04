@@ -7,7 +7,7 @@ import { CartButton } from '@components';
 import api from '@services/api';
 import { ScreenAuthProps } from '../../../utils/ScreenProps';
 
-import { NotFound, Card, FieldSearch } from './Components';
+import { Card, FieldSearch } from './Components';
 import { Establishment } from './props';
 
 export const Home = ({
@@ -34,14 +34,7 @@ export const Home = ({
     } catch (err) {
       Alert.alert(
         'Erro',
-        'Houve um erro ao buscar estabelecimentos, por favor tente novamente',
-        [
-          {
-            onPress: () =>
-              navigation.canGoBack() ? navigation.goBack() : null,
-            text: 'Ok',
-          },
-        ]
+        'Houve um erro ao buscar estabelecimentos, por favor tente novamente'
       );
     } finally {
       setRefreshing(false);
@@ -80,7 +73,6 @@ export const Home = ({
         data={establishments}
         refreshing={refreshing}
         onRefresh={onRefresh}
-        ListEmptyComponent={() => <NotFound refreshing={refreshing} />}
         onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={({ id }) => id.toString()}

@@ -9,16 +9,13 @@ import { NavigationAuthHook } from '@utils/ScreenProps';
 
 import { Checkbox } from '../Checkbox';
 import { Container, Header, Body, Footer, Nickname, Content } from './styles';
-import { Address } from '../../props';
+import { useGetAdresses, IAddress } from '@hooks';
 
-export const Card = ({
-  reender,
-  ...props
-}: Address & { reender: () => void; addressActiveId: number }) => {
+export const Card = ({ ...props }: IAddress) => {
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
   const toast = useToast();
+  const { mutate } = useGetAdresses();
 
-  const [address, setAddress] = useState<Address>(null);
   const [fieldDefault, setFieldDefault] = useState(false);
 
   useEffect(() => {
@@ -27,12 +24,10 @@ export const Card = ({
     if (
       props.street === fieldDefault &&
       props.neighborhood === fieldDefault &&
-      props.number === fieldDefault
+      props.number === (fieldDefault as any)
     ) {
       setFieldDefault(true);
     }
-
-    setAddress(props);
   }, []);
 
   const toGoEdit = () => navigation.navigate('UpdateAddress', { id: props.id });
@@ -40,10 +35,18 @@ export const Card = ({
   const onChange = async () => {
     try {
       await api.put(`/adresses-client/${props.id}`, {
-        active: !address.active,
+        active: !props.active,
       });
 
-      setAddress(old => ({ ...old, active: !old.active }));
+      mutate(old => {
+        const index = old.findIndex(e => e.id === props.id);
+
+        const copy = [...old];
+
+        copy[index].active = !copy[index].active;
+
+        return copy;
+      });
       toast.show({
         status: 'success',
         title: 'Endereço padrão atualizado com sucesso',
@@ -59,7 +62,9 @@ export const Card = ({
   };
 
   const deleteAddress = () => {
-    api.delete(`/adresses-client/${props.id}`).then(() => reender());
+    api.delete(`/adresses-client/${props.id}`).then(() => {
+      mutate(old => old.filter(e => e.id !== props.id));
+    });
   };
 
   const onLongPress = () => {
@@ -79,18 +84,18 @@ export const Card = ({
       <Container>
         <Content>
           <Header>
-            <Checkbox checked={address?.active} onChange={() => onChange()} />
-            <Nickname>{address?.nickname}</Nickname>
+            <Checkbox checked={props.active} onChange={() => onChange()} />
+            <Nickname>{props.nickname}</Nickname>
           </Header>
           <Body>
             {fieldDefault ? (
               <Text>Endereço não informado</Text>
             ) : (
-              <Text>{`${address?.street}, ${address?.number} - ${address?.neighborhood}`}</Text>
+              <Text>{`${props.street}, ${props.number} - ${props.neighborhood}`}</Text>
             )}
           </Body>
           <Footer>
-            <Text>{`${address?.city.name} - ${address?.city.state.name}`}</Text>
+            <Text>{`${props.city.name} - ${props.city.state.name}`}</Text>
           </Footer>
         </Content>
       </Container>

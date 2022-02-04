@@ -1,43 +1,17 @@
-import { useState, useCallback } from 'react';
-import { Text, FlatList, Alert } from 'react-native';
+import { Text, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
-import { useIsFocused } from '@react-navigation/native';
 
-import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 
 import { Card } from './Components';
 import { Container, ButtonAdd, Empty } from './styles';
-import { Address } from './props';
-import { useEffect } from 'react';
+import { useGetAdresses } from '@hooks';
 
 export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
   const { colors } = useTheme();
-  const isFocused = useIsFocused();
 
-  const [adresses, setAdresses] = useState<Address[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
-
-  const getAdresses = useCallback(async (newPage: number) => {
-    try {
-      const { data } = await api.get('/adresses-client', {
-        params: { page: newPage },
-      });
-
-      if (newPage === 0) setAdresses(data.result);
-      else setAdresses(old => old.concat(data.result));
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao buscar endereços');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isFocused) getAdresses(page);
-  }, [isFocused, page, getAdresses]);
+  const { adresses } = useGetAdresses();
 
   const EmptyComponent = () => (
     <Empty>
@@ -46,28 +20,14 @@ export const Adresses = ({ navigation }: ScreenAuthProps<'Adresses'>) => {
     </Empty>
   );
 
-  const onRefresh = () => {
-    setLoading(true);
-    setPage(0);
-  };
-
-  const loadMore = () => {
-    setLoading(true);
-    setPage(page + 1);
-  };
-
   return (
     <Container>
       <FlatList
-        refreshing={loading}
-        onRefresh={onRefresh}
-        onEndReachedThreshold={0}
-        onEndReached={loadMore}
         ListEmptyComponent={EmptyComponent}
         contentContainerStyle={{ width: '100%', alignItems: 'center' }}
         style={{ width: '100%' }}
         data={adresses}
-        renderItem={({ item }) => <Card reender={() => setPage(0)} {...item} />}
+        renderItem={({ item }) => <Card {...item} />}
         keyExtractor={item => item.id.toString()}
       />
       <ButtonAdd onPress={() => navigation.navigate('AddAddress')}>
