@@ -1,9 +1,13 @@
+import { useWindowDimensions } from 'react-native';
 import { Flex, Text } from 'native-base';
-import ExpoFastImage from 'expo-fast-image';
+import { AntDesign } from '@expo/vector-icons';
+import { useTheme } from 'styled-components/native';
 
+import { FastImage } from '@components';
 import formatNumber from '@utils/format-number';
+import { useAppDispatch } from '@store/hooks';
+import { cartActions } from '@store/reducers/cart';
 
-import { RemoveButton } from '../RemoveButton';
 import { CardProps } from './props';
 
 export const Card = ({
@@ -14,34 +18,49 @@ export const Card = ({
   name,
   itemId,
 }: CardProps) => {
+  const { width } = useWindowDimensions();
+  const { colors } = useTheme();
+  const dispatch = useAppDispatch();
+
+  const remove = () => dispatch(cartActions.removeItem({ itemId }));
+
   return (
     <Flex
       flexDirection="row"
       m="10px"
-      borderWidth="1px"
-      borderColor="#c4c4c4"
       rounded="11px"
+      alignSelf="center"
+      align="flex-end"
+      w={width * 0.9}
     >
-      <ExpoFastImage
-        style={{ height: 90, width: 90, borderRadius: 11 }}
-        cacheKey={itemId}
+      <FastImage
+        size="80px"
+        rounded="11px"
+        cacheKey={itemId.toString()}
         source={{ uri: image }}
         resizeMode="cover"
       />
-      <Flex justify="space-between" w="75%" p="5px">
-        <RemoveButton id={itemId} />
-        <Text fontWeight={600}>{name}</Text>
-        <Flex
-          flexDirection="row"
-          justify="space-between"
-          w="100%"
-          align="flex-end"
-        >
+      <AntDesign
+        onPress={remove}
+        style={{ position: 'absolute', top: 5, right: 10 }}
+        name="closecircle"
+        size={15}
+        color={colors.primary}
+      />
+      <Flex
+        direction="row"
+        pb="10px"
+        justify="space-around"
+        w={width * 0.9 - 80}
+      >
+        <Flex>
+          <Text fontWeight={600}>{name}</Text>
           <Text>qtd: {amount}</Text>
-          <Flex>
-            <Text>{`Preço: ${formatNumber(price)}`}</Text>
-            <Text>{`Total: ${formatNumber(total)}`}</Text>
-          </Flex>
+        </Flex>
+
+        <Flex>
+          <Text>{`Preço: ${formatNumber(price)}`}</Text>
+          <Text>{`Total: ${formatNumber(total)}`}</Text>
         </Flex>
       </Flex>
     </Flex>

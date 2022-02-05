@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { View, Image, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { View } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
-import { Button } from 'native-base';
+import { Button, Text } from 'native-base';
 
+import { FastImage } from '../FastImage';
 import { ModalBase } from '../ModalBase';
 
 import { cartActions } from '@store/reducers/cart';
@@ -26,22 +26,14 @@ import {
 export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const dispatch = useAppDispatch();
   const { colors } = useTheme();
-  const navigation = useNavigation<any>();
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(() => rest.price);
   const [amount, setAmount] = useState(1);
 
-  useEffect(() => {
-    setTotal(rest.price);
-  }, [rest.price]);
-
   const plus = () => {
-    setAmount(old => {
-      const newCount = old + 1;
-
-      setTotal(rest.price * newCount);
-      return newCount;
-    });
+    const newCount = amount + 1;
+    setAmount(newCount);
+    setTotal(rest.price * newCount);
   };
 
   const min = () => {
@@ -64,7 +56,6 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
       })
     );
 
-    navigation.navigate('Cart');
     modalRef.current.close();
   };
 
@@ -80,14 +71,12 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
           />
         </Header>
         <ProductInfo>
-          <Image
+          <FastImage
+            size="80px"
+            resizeMode="cover"
+            rounded="11px"
             source={{ uri: rest.image }}
-            style={{
-              height: 80,
-              width: 80,
-              resizeMode: 'cover',
-              borderRadius: 11,
-            }}
+            cacheKey={rest.id.toString()}
           />
           <ViewTexts>
             <Title>{rest.name}</Title>

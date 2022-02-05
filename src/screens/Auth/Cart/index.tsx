@@ -76,7 +76,8 @@ export const Cart = ({ navigation }: ScreenAuthProps<'Cart'>) => {
         keyExtractor={item => item.itemId.toString()}
         renderItem={({ item }) => <Card {...item} />}
         ListFooterComponent={Footer}
-        ItemSeparatorComponent={Divider}
+        ListFooterComponentStyle={{ marginBottom: 20 }}
+        ItemSeparatorComponent={() => <Divider my="10px" />}
       />
     </>
   );

@@ -1,5 +1,5 @@
 export interface CardProps {
-  image: any;
+  image: string;
   name: string;
   amount: number;
   price: number;
