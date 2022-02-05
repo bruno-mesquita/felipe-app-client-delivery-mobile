@@ -1,10 +1,15 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
+import * as Device from 'expo-device';
+
+//  'classic' | 'rebuild' | 'merge';
 
 const api = axios.create({
   baseURL: Constants.manifest.extra.apiUrl,
   headers: {
-    app_version: Constants.manifest.version,
+    appversion: Constants.manifest.version,
+    isdevice: Device.isDevice,
+    apitype: 'classic',
   },
 });
 
