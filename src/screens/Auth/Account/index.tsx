@@ -1,6 +1,7 @@
 import { Alert, TouchableOpacity } from 'react-native';
 import { Text, Flex, Divider } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useToast } from 'native-base';
 
 import api from '@services/api';
 import { useAppDispatch } from '@store/hooks';
@@ -9,6 +10,7 @@ import { authActions } from '@store/reducers/auth';
 
 export const Account = ({ navigation }) => {
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const { user, mutate } = useUser();
 
@@ -17,12 +19,17 @@ export const Account = ({ navigation }) => {
       await api.put('/clients/deactivate');
 
       mutate(old => ({ ...old, active: false }));
-      Alert.alert(
-        'Aviso',
-        'Conta desativada! você não poderá acessar algumas telas agora'
-      );
+      toast.show({
+        w: '90%',
+        title: 'Conta desativada!',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um problema ao desativar sua conta');
+      toast.show({
+        w: '90%',
+        title: 'Erro',
+        description: 'Houve um erro ao desativar a conta',
+        status: 'error',
+      });
     }
   };
 
@@ -31,9 +38,17 @@ export const Account = ({ navigation }) => {
       await api.put('/clients/activate');
 
       mutate(old => ({ ...old, active: true }));
-      Alert.alert('Mensagem', 'Conta ativada!');
+      toast.show({
+        w: '90%',
+        title: 'Conta ativada!',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um problema ao ativar sua conta');
+      toast.show({
+        w: '90%',
+        title: 'Erro',
+        description: 'Houve um erro ao ativar a conta',
+        status: 'error',
+      });
     }
   };
 

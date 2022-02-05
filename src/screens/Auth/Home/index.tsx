@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Alert, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { Flex } from 'native-base';
 
@@ -10,10 +10,7 @@ import { ScreenAuthProps } from '../../../utils/ScreenProps';
 import { Card, FieldSearch } from './Components';
 import { Establishment } from './props';
 
-export const Home = ({
-  navigation,
-  route: { params },
-}: ScreenAuthProps<'Home'>) => {
+export const Home = ({ route: { params } }: ScreenAuthProps<'Home'>) => {
   const isFocused = useIsFocused();
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
@@ -32,10 +29,7 @@ export const Home = ({
       if (newPage === 0) setEstablishments(data.result);
       else setEstablishments(old => old.concat(data.result));
     } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Houve um erro ao buscar estabelecimentos, por favor tente novamente'
-      );
+      // TODO
     } finally {
       setRefreshing(false);
     }

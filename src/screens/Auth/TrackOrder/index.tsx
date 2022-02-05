@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, BackHandler } from 'react-native';
 import { useTheme } from 'styled-components/native';
+import { useToast } from 'native-base';
 
 const lineOne = require('../../../assets/images/line_01.png');
 const lineTwo = require('../../../assets/images/line_02.png');
@@ -16,8 +17,8 @@ import { cartActions } from '@store/reducers/cart';
 import { useAppDispatch } from '@store/hooks';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 import api from '@services/api';
+
 import { Container, Status, Icon, Title } from './styles';
-import { Alert } from 'react-native';
 
 export const TrackOrder = ({
   navigation,
@@ -27,6 +28,7 @@ export const TrackOrder = ({
 }: ScreenAuthProps<'TrackOrder'>) => {
   const { colors } = useTheme();
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const [images] = useState([lineOne, lineTwo, lineThree, lineFour]);
   const [icons] = useState([wait, accept, way, delivered]);
@@ -63,12 +65,16 @@ export const TrackOrder = ({
           navigation.goBack();
         } else {
           nextActive(data.result === 'Novo' ? 'Enviado' : data.result);
-          setLoading(false);
         }
       }
     } catch (err) {
+      toast.show({
+        w: '90%',
+        title: 'Error!',
+        description: 'Houve um erro ao atualizar o status do seu pedido',
+      });
+    } finally {
       setLoading(false);
-      Alert.alert('Erro', 'Houve um erro ao atualizar o status do seu pedido');
     }
   };
 
