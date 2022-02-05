@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { AppState } from 'react-native';
 import { SWRConfig } from 'swr';
 import type { AxiosError } from 'axios';
 
@@ -35,6 +36,27 @@ export const ApiConfig: FC = ({ children }) => {
 
           // Retry after 5 seconds.
           setTimeout(() => revalidate({ retryCount }), 5000);
+        },
+        provider: () => new Map(),
+        isVisible: () => {
+          return true;
+        },
+        initFocus(callback) {
+          let appState = AppState.currentState;
+
+          const onAppStateChange = nextAppState => {
+            /* If it's resuming from background or inactive mode to active one */
+            if (
+              appState.match(/inactive|background/) &&
+              nextAppState === 'active'
+            ) {
+              callback();
+            }
+            appState = nextAppState;
+          };
+
+          // Subscribe to the app state change events
+          AppState.addEventListener('change', onAppStateChange);
         },
       }}
     >
