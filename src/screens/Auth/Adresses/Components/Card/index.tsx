@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Text, Alert } from 'react-native';
+import { Alert, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useToast } from 'native-base';
+import { useToast, Checkbox, Text, Flex } from 'native-base';
 
-import { CardBase } from '@components';
 import api from '@services/api';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 
-import { Checkbox } from '../Checkbox';
-import { Container, Header, Body, Footer, Nickname, Content } from './styles';
 import { useGetAdresses, IAddress } from '@hooks';
 
 export const Card = ({ ...props }: IAddress) => {
   const navigation = useNavigation<NavigationAuthHook<'Adresses'>>();
   const toast = useToast();
   const { mutate } = useGetAdresses();
+  const { width } = useWindowDimensions();
 
   const [fieldDefault, setFieldDefault] = useState(false);
 
@@ -80,25 +78,34 @@ export const Card = ({ ...props }: IAddress) => {
   };
 
   return (
-    <CardBase onPress={toGoEdit} onLongPress={onLongPress}>
-      <Container>
-        <Content>
-          <Header>
-            <Checkbox checked={props.active} onChange={() => onChange()} />
-            <Nickname>{props.nickname}</Nickname>
-          </Header>
-          <Body>
-            {fieldDefault ? (
-              <Text>Endereço não informado</Text>
-            ) : (
-              <Text>{`${props.street}, ${props.number} - ${props.neighborhood}`}</Text>
-            )}
-          </Body>
-          <Footer>
-            <Text>{`${props.city.name} - ${props.city.state.name}`}</Text>
-          </Footer>
-        </Content>
-      </Container>
-    </CardBase>
+    <TouchableOpacity onPress={toGoEdit} onLongPress={onLongPress}>
+      <Flex
+        my="10px"
+        bg="#fff"
+        shadow="6"
+        rounded="10px"
+        w={width * 0.8}
+        justify="space-around"
+        py="10px"
+        px="20px"
+      >
+        <Flex direction="row">
+          <Checkbox
+            accessibilityLabel="Ativar ou desativar endereço"
+            isChecked={props.active}
+            onChange={() => onChange()}
+          />
+          <Text fontWeight={600} ml="10px">
+            {props.nickname}
+          </Text>
+        </Flex>
+        {fieldDefault ? (
+          <Text my="5px">Endereço não informado</Text>
+        ) : (
+          <Text my="5px">{`${props.street}, ${props.number} - ${props.neighborhood}`}</Text>
+        )}
+        <Text my="5px">{`${props.city.name} - ${props.city.state.name}`}</Text>
+      </Flex>
+    </TouchableOpacity>
   );
 };
