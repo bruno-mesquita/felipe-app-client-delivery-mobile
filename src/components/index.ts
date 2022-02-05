@@ -12,3 +12,4 @@ export { Carousel } from './Carousel';
 export { RegisterNotifications as Notifications } from './Notifications';
 export { ApiConfig } from './ApiConfig';
 export { MyAppLoading as AppLoading } from './AppLoading';
+export { FastImage } from './FastImage';

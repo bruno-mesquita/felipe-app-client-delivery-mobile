@@ -1,8 +1,8 @@
 import { useRoute } from '@react-navigation/native';
 import { Text, Flex } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
-import ExpoFastImage from 'expo-fast-image';
 
+import { FastImage } from '@components';
 import formatPrice from '@utils/format-number';
 import { RouteAuthHook } from '@utils/ScreenProps';
 
@@ -12,9 +12,11 @@ export const EstablishmentInfo = () => {
 
   return (
     <Flex pt="15px" pl="15px" w="100%" flexDirection="row">
-      <ExpoFastImage
-        style={{ height: 90, width: 90, borderRadius: 100 }}
+      <FastImage
+        size="90px"
+        rounded="100px"
         source={{ uri: image }}
+        cacheKey={name}
       />
       <Flex w="70%" p="15px">
         <Text fontWeight={600} alignSelf="center">

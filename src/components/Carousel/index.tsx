@@ -1,14 +1,13 @@
 import { useCallback } from 'react';
-import { FlatList, useWindowDimensions, TouchableOpacity } from 'react-native';
+import { FlatList, useWindowDimensions } from 'react-native';
 import { Flex } from 'native-base';
-import ExpoFastImage from 'expo-fast-image';
-import { useNavigation } from '@react-navigation/native';
 
 import { useGetAnnouncements } from '@hooks';
 
+import { FastImage } from '../FastImage';
+
 export const Carousel = () => {
   const { width } = useWindowDimensions();
-  const navigation = useNavigation<any>();
 
   const { announcements } = useGetAnnouncements();
 
@@ -17,12 +16,10 @@ export const Carousel = () => {
       { item } // TODO Link
     ) => (
       <Flex w={width} align="center">
-        <ExpoFastImage
-          style={{
-            width: '90%',
-            height: 200,
-            borderRadius: 20,
-          }}
+        <FastImage
+          w="90%"
+          h="200px"
+          rounded="20px"
           source={{ uri: item.photo.encoded }}
           cacheKey={item.id.toString()}
         />

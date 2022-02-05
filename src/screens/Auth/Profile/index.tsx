@@ -3,8 +3,8 @@ import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Button, Input, FormControl, useToast, Flex } from 'native-base';
-import ExpoFastImage from 'expo-fast-image';
 
+import { FastImage } from '@components';
 import api from '@services/api';
 import { FieldMask } from '@form';
 import { useUser, IUser } from '@hooks';
@@ -91,15 +91,12 @@ export const Profile = () => {
           <>
             <TouchableOpacity onPress={pickImage}>
               {user.avatar ? (
-                <ExpoFastImage
+                <FastImage
                   source={{ uri: user.avatar }}
                   cacheKey={user.id.toString()}
-                  style={{
-                    alignSelf: 'center',
-                    height: 125,
-                    width: 125,
-                    borderRadius: 100,
-                  }}
+                  alignSelf="center"
+                  size="125px"
+                  rounded="100px"
                 />
               ) : (
                 <MaterialIcons
