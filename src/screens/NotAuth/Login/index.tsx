@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import {
@@ -9,6 +10,7 @@ import {
   Text,
   Flex,
 } from 'native-base';
+import { Feather } from '@expo/vector-icons';
 
 import { useAppDispatch } from '@store/hooks';
 import { authActions } from '@store/reducers/auth';
@@ -21,6 +23,8 @@ import { Values } from './types';
 export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
   const dispatch = useAppDispatch();
   const toast = useToast();
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const onSubmit = async (
     values: Values,
@@ -92,10 +96,19 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
                   Senha
                 </FormControl.Label>
                 <Input
-                  type="password"
+                  type={passwordVisible ? 'text' : 'password'}
                   onChangeText={handleChange('password')}
                   value={values.password}
                   placeholder="Senha"
+                  rightElement={
+                    <Feather
+                      onPress={() => setPasswordVisible(old => !old)}
+                      name={passwordVisible ? 'eye' : 'eye-off'}
+                      size={20}
+                      color="#fff"
+                      style={{ marginRight: 10 }}
+                    />
+                  }
                 />
                 <FormControl.ErrorMessage
                   alignSelf="center"
@@ -117,7 +130,7 @@ export const Login = ({ navigation }: ScreenNotAuthProps<'Login'>) => {
 
             <Button
               w="80%"
-              disabled={isSubmitting}
+              isDisabled={isSubmitting}
               isLoading={isSubmitting}
               onPress={() => handleSubmit()}
               mb="20px"
