@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, BackHandler } from 'react-native';
-import { useTheme } from 'styled-components/native';
-import { useToast } from 'native-base';
+import { useToast, Flex, Image, Text } from 'native-base';
+
+import { cartActions } from '@store/reducers/cart';
+import { useAppDispatch } from '@store/hooks';
+import { ScreenAuthProps } from '@utils/ScreenProps';
+import api from '@services/api';
 
 const lineOne = require('../../../assets/images/line_01.png');
 const lineTwo = require('../../../assets/images/line_02.png');
@@ -13,20 +17,12 @@ const wait = require('../../../assets/images/esperando.png');
 const accept = require('../../../assets/images/pedido_aceito.png');
 const delivered = require('../../../assets/images/pedido_entregue.png');
 
-import { cartActions } from '@store/reducers/cart';
-import { useAppDispatch } from '@store/hooks';
-import { ScreenAuthProps } from '@utils/ScreenProps';
-import api from '@services/api';
-
-import { Container, Status, Icon, Title } from './styles';
-
 export const TrackOrder = ({
   navigation,
   route: {
     params: { id, clear = false },
   },
 }: ScreenAuthProps<'TrackOrder'>) => {
-  const { colors } = useTheme();
   const dispatch = useAppDispatch();
   const toast = useToast();
 
@@ -102,18 +98,18 @@ export const TrackOrder = ({
   }, [clear, dispatch, navigation]);
 
   return (
-    <Container>
+    <Flex flex={1} justify="center" align="center">
       {loading ? (
-        <ActivityIndicator color={colors.primary} size={50} />
+        <ActivityIndicator color="#9E0404" size={50} />
       ) : (
         <>
-          <Status source={images[active]} resizeMode="contain" />
+          <Image w="100%" source={images[active]} resizeMode="contain" />
           {icons[active] ? (
-            <Icon source={icons[active]} resizeMode="contain" />
+            <Image w="70%" source={icons[active]} resizeMode="contain" />
           ) : null}
-          <Title>{status[active]}</Title>
+          <Text>{status[active]}</Text>
         </>
       )}
-    </Container>
+    </Flex>
   );
 };

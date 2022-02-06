@@ -1,5 +1,9 @@
-import { TextInputMaskProps } from 'react-native-masked-text';
+import type { StyledProps } from 'native-base';
+import type { PlatformProps } from 'native-base/lib/typescript/components/types';
+import type { TextInputMaskProps } from 'react-native-masked-text';
 
-export interface FieldProps extends TextInputMaskProps {
+type Input = TextInputMaskProps & StyledProps & PlatformProps<StyledProps>;
+
+export interface FieldProps extends Omit<Input, 'children'> {
   maskRef?: any;
 }

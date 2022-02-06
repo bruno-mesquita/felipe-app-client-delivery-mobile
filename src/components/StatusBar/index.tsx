@@ -1,8 +1,8 @@
-import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
+import { StatusBar as ExpoStatusBar, StatusBarProps } from 'expo-status-bar';
 
 import { useTheme } from 'styled-components/native';
 
-export const StatusBar = props => {
+export const StatusBar = (props: StatusBarProps) => {
   const { colors } = useTheme();
 
   return (

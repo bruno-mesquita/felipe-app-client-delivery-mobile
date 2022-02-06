@@ -4,7 +4,6 @@ export { CardBase } from './CardBase';
 export { ModalBase } from './ModalBase';
 export { ModalItem } from './ModalItem';
 export { Drawer } from './Drawer';
-export { Checkbox } from './CheckBox';
 export { Tab } from './Tab';
 export { CartButton } from './CartButton';
 export { Modal } from './Modal';
