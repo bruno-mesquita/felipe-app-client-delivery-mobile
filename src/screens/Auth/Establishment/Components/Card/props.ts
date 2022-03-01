@@ -1,11 +1,10 @@
-export interface Props {
+export interface CardProps {
   id: number;
   name: string;
-  description: string;
   photo: {
+    id: number;
     encoded: string;
   };
   price: number;
-  establishmentId: number;
-  fee: number;
+  onPress: () => void;
 }

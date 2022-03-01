@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
-import { Button, Text } from 'native-base';
+import { Button, Text, Flex } from 'native-base';
 
 import { FastImage } from '../FastImage';
 import { ModalBase } from '../ModalBase';
@@ -11,29 +12,25 @@ import { cartActions } from '@store/reducers/cart';
 import formatNumber from '@utils/format-number';
 import { useAppDispatch } from '@store/hooks';
 
-import { ModalItemProps } from './props';
-import {
-  PlusOrMin,
-  Prices,
-  ProductInfo,
-  ViewTexts,
-  Title,
-  Description,
-  Header,
-  Content,
-} from './styles';
+import type { ModalItemProps } from './props';
+import { ProductInfo, ViewTexts, Header } from './styles';
+import { useGetProduct } from '@hooks';
 
-export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
+export const ModalItem = ({ modalRef, productId, menuId }: ModalItemProps) => {
   const dispatch = useAppDispatch();
   const { colors } = useTheme();
+  const { id: establishmentId, fee } = useRoute().params as {
+    id: number;
+    fee: number;
+  };
 
-  const [total, setTotal] = useState(() => rest.price);
+  const { data: product } = useGetProduct(productId, menuId);
+
   const [amount, setAmount] = useState(1);
 
   const plus = () => {
     const newCount = amount + 1;
     setAmount(newCount);
-    setTotal(rest.price * newCount);
   };
 
   const min = () => {
@@ -42,7 +39,6 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
 
       const newCount = old - 1;
 
-      setTotal(rest.price * newCount);
       return newCount;
     });
   };
@@ -50,9 +46,13 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
   const addItemCart = () => {
     dispatch(
       cartActions.addItem({
-        ...rest,
-        itemId: rest.id,
+        establishmentId,
+        fee,
         amount,
+        image: product.photo.encoded,
+        itemId: productId,
+        name: product.name,
+        price: product.price,
       })
     );
 
@@ -61,7 +61,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
 
   return (
     <ModalBase ref={modalRef}>
-      <Content>
+      <Flex px="20px" pt="10px" pb="20px">
         <Header>
           <Ionicons
             onPress={() => modalRef.current.close()}
@@ -71,41 +71,50 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
           />
         </Header>
         <ProductInfo>
-          <FastImage
-            size="80px"
-            resizeMode="cover"
-            rounded="11px"
-            source={{ uri: rest.image }}
-            cacheKey={rest.id.toString()}
-          />
+          {product.photo.encoded !== '' && (
+            <FastImage
+              size="80px"
+              resizeMode="cover"
+              rounded="11px"
+              source={{ uri: product?.photo.encoded }}
+              cacheKey={product?.photo.id.toString()}
+            />
+          )}
           <ViewTexts>
-            <Title>{rest.name}</Title>
-            <Description>{rest.description}</Description>
+            <Text fontWeight="bold">{product?.name}</Text>
+            <Text>{product?.description}</Text>
           </ViewTexts>
         </ProductInfo>
-        <Prices>
-          <PlusOrMin>
-            <MaterialIcons
-              name="remove-circle"
-              color={colors.primary}
-              size={25}
-              onPress={min}
-            />
-            <Text>{amount}</Text>
-            <MaterialIcons
-              name="add-circle"
-              color={colors.primary}
-              size={25}
-              onPress={plus}
-            />
-          </PlusOrMin>
-          <View>
-            <Text>Preço: {formatNumber(rest.price)}</Text>
-            <Text>Total: {formatNumber(total)}</Text>
-          </View>
-        </Prices>
+        <Flex direction="row" justify="space-between">
+          <Flex direction="row" align="center" justify="space-between">
+            <TouchableOpacity onPress={min}>
+              <MaterialIcons
+                name="remove-circle"
+                color={colors.primary}
+                size={25}
+              />
+            </TouchableOpacity>
+            <Text mx="10px">{`${amount * product?.unit} ${
+              product?.unitType
+            }`}</Text>
+            <TouchableOpacity onPress={plus}>
+              <MaterialIcons
+                name="add-circle"
+                color={colors.primary}
+                size={25}
+              />
+            </TouchableOpacity>
+          </Flex>
+          <Flex>
+            <Text>Preço: {formatNumber(product?.price)}</Text>
+            <Text>Total: {formatNumber(amount * product?.price)}</Text>
+          </Flex>
+        </Flex>
 
         <Button
+          w="70%"
+          mt="20px"
+          alignSelf="center"
           bg="#F8C200"
           _text={{ color: '#fff' }}
           rounded="15px"
@@ -113,7 +122,7 @@ export const ModalItem = ({ modalRef, ...rest }: ModalItemProps) => {
         >
           Adicionar ao carrinho
         </Button>
-      </Content>
+      </Flex>
     </ModalBase>
   );
 };

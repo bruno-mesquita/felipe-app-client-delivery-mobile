@@ -1,4 +1,4 @@
-import { ExpoConfig, ConfigContext } from '@expo/config';
+import type { ExpoConfig, ConfigContext } from '@expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   return {
@@ -6,7 +6,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: config.name,
     slug: config.slug,
     extra: {
-      apiUrl: process.env.API_URL ?? 'http://192.168.15.24:3333/api/app',
+      apiUrl: process.env.API_URL ?? 'http://192.168.15.24:3030/api/app',
     },
   };
 };

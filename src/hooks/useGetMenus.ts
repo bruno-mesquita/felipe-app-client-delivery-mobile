@@ -5,15 +5,13 @@ type IMenu = Readonly<{
   name: string;
 }>;
 
-export const useGetMenus = (establishmentId?: number) => {
-  const { data, error } = useSWR<IMenu[]>(
-    establishmentId && `/establishments/${establishmentId}/menus`,
-    { fallbackData: [] }
-  );
+type onSucessFunc = (menus: IMenu[]) => void;
 
-  return {
-    menus: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
-};
+export const useGetMenus = (
+  establishmentId?: number,
+  onSuccess: onSucessFunc = () => {} // eslint-disable-line
+) =>
+  useSWR<IMenu[]>(
+    establishmentId && `/establishments/${establishmentId}/menus`,
+    { fallbackData: [], onSuccess }
+  );

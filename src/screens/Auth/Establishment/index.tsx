@@ -1,8 +1,8 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import { Flex, Divider } from 'native-base';
 
-import { CartButton, Tab } from '@components';
+import { CartButton, Tab, ModalItem } from '@components';
 import api from '@services/api';
 import { ScreenAuthProps } from '@utils/ScreenProps';
 import { useGetMenus } from '@hooks';
@@ -14,17 +14,17 @@ export const Establishment = ({
   route: { params },
 }: ScreenAuthProps<'Establishment'>) => {
   const [menuSelected, setMenuSelected] = useState<number>(null);
+  const [selectedItem, setSelectedItem] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
+  const modalRef = useRef(null);
 
-  const { menus } = useGetMenus(params.id);
-
-  useEffect(() => {
-    if (menus.length > 0 && !menuSelected) {
-      setMenuSelected(menus[0].id);
+  const { data: menus } = useGetMenus(params.id, values => {
+    if (values.length > 0 && !menuSelected) {
+      setMenuSelected(values[0].id);
     }
-  }, [menus]);
+  });
 
   useEffect(() => {
     if (menuSelected) {
@@ -58,38 +58,48 @@ export const Establishment = ({
     setPage(page + 1);
   };
 
+  const onPressProduct = (productId: number) => {
+    setSelectedItem(productId);
+    modalRef?.current?.open();
+  };
+
   const _renderItem = useCallback(
-    ({ item }) => (
-      <Card {...item} establishmentId={params.id} fee={params.fee} />
-    ),
+    ({ item }) => <Card {...item} onPress={() => onPressProduct(item.id)} />,
     []
   );
 
   return (
-    <Flex flex={1} align="center">
-      <EstablishmentInfo />
-      <Divider my="2" />
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {menus.map(menu => (
-          <Tab
-            key={menu.id.toString()}
-            {...menu}
-            onPress={onPressMenu}
-            selected={menuSelected}
-          />
-        ))}
-      </ScrollView>
-      <FlatList
-        contentContainerStyle={{ marginTop: 10 }}
-        refreshing={loading}
-        onRefresh={onRefresh}
-        onEndReached={loadMore}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id.toString()}
-        data={products}
-        renderItem={_renderItem}
+    <>
+      <ModalItem
+        modalRef={modalRef}
+        menuId={menuSelected}
+        productId={selectedItem}
       />
-      <CartButton />
-    </Flex>
+      <Flex flex={1} align="center">
+        <EstablishmentInfo />
+        <Divider my="2" />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {menus.map(menu => (
+            <Tab
+              key={menu.id.toString()}
+              {...menu}
+              onPress={onPressMenu}
+              selected={menuSelected}
+            />
+          ))}
+        </ScrollView>
+        <FlatList
+          contentContainerStyle={{ marginTop: 10 }}
+          refreshing={loading}
+          onRefresh={onRefresh}
+          onEndReached={loadMore}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={({ id }) => id.toString()}
+          data={products}
+          renderItem={_renderItem}
+        />
+        <CartButton />
+      </Flex>
+    </>
   );
 };
