@@ -7,3 +7,4 @@ export * from './useGetAnnouncements';
 export * from './useGetRate';
 export * from './useGetAdresses';
 export * from './useGetProduct';
+export * from './useGetImage';

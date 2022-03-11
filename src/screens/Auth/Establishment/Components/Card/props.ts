@@ -7,4 +7,5 @@ export interface CardProps {
   };
   price: number;
   onPress: () => void;
+  image_id: number;
 }

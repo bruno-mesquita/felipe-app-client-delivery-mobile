@@ -5,4 +5,6 @@ export interface Props {
   openingTime: number;
   closingTime: number;
   freightValue: number;
+  image_id: number;
+  imageId: number;
 }

@@ -1,21 +1,24 @@
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import ExpoImageFast from 'expo-fast-image';
 import { Text, Flex } from 'native-base';
 
+import { FastImage } from '@components';
 import { NavigationAuthHook } from '@utils/ScreenProps';
 import formatPrice from '@utils/format-number';
+import { useGetImage } from '@hooks';
 
 import type { Props } from './props';
 
 export const Card = (props: Props) => {
   const navigation = useNavigation<NavigationAuthHook<'Home'>>();
 
+  const { data: image } = useGetImage(props.imageId || props.image_id);
+
   const toStoreDetail = () => {
     navigation.navigate('Establishment', {
       id: props.id,
-      image: props.image.encoded,
+      image: image.encoded,
       fee: props.freightValue,
       name: props.name,
       isOpen: false,
@@ -36,16 +39,15 @@ export const Card = (props: Props) => {
         shadow="2"
         mb="20px"
       >
-        <ExpoImageFast
-          cacheKey={props.id}
-          source={{ uri: props.image.encoded }}
-          style={{
-            resizeMode: 'cover',
-            height: 65,
-            width: 65,
-            borderRadius: 100,
-          }}
-        />
+        {image && (
+          <FastImage
+            cacheKey={image.id.toString()}
+            source={{ uri: image.encoded }}
+            size="65px"
+            rounded="100px"
+            resizeMode="cover"
+          />
+        )}
         <Text alignSelf="center" textAlign="left" w="50%">
           {props.name}
         </Text>
