@@ -35,6 +35,7 @@ export const Establishment = ({
             page === 0 ? data.result : old.concat(data.result)
           );
         })
+        .catch(err => console.log(err.response))
         .finally(() => setLoading(false));
     }
   }, [menuSelected, page]);

@@ -1,7 +1,9 @@
+import { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, Flex } from 'native-base';
+import { getHours } from 'date-fns';
 
 import { FastImage } from '@components';
 import { NavigationAuthHook } from '@utils/ScreenProps';
@@ -15,13 +17,15 @@ export const Card = (props: Props) => {
 
   const { data: image } = useGetImage(props.imageId || props.image_id);
 
+  const isOpen = useMemo(() => props.closingTime > getHours(new Date()), []);
+
   const toStoreDetail = () => {
     navigation.navigate('Establishment', {
       id: props.id,
       image: image.encoded,
       fee: props.freightValue,
       name: props.name,
-      isOpen: false,
+      isOpen,
     });
   };
 
@@ -48,9 +52,19 @@ export const Card = (props: Props) => {
             resizeMode="cover"
           />
         )}
-        <Text alignSelf="center" textAlign="left" w="50%">
-          {props.name}
-        </Text>
+        <Flex w="50%" align="flex-start">
+          <Text>{props.name}</Text>
+          <Flex
+            mt="5px"
+            align="center"
+            justify="center"
+            rounded="8px"
+            bg={isOpen ? 'green.600' : 'red.600'}
+            px="10px"
+          >
+            <Text color="#fff">{isOpen ? 'Aberto' : 'Fechado'}</Text>
+          </Flex>
+        </Flex>
         <Flex align="center" justify="space-between">
           <Text color="green" fontWeight={600}>
             {props.openingTime}h - {props.closingTime}h

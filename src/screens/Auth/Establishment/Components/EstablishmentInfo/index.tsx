@@ -22,13 +22,22 @@ export const EstablishmentInfo = () => {
         <Text fontWeight={600} alignSelf="center">
           {name}
         </Text>
+
         <Flex
           mt="10px"
           flexDirection="row"
           justify="space-around"
           align="center"
         >
-          {/* <Text>{isOpen ? 'Aberto' : 'Fechado'}</Text> */}
+          <Flex
+            align="center"
+            justify="center"
+            rounded="8px"
+            bg={isOpen ? 'green.600' : 'red.600'}
+            px="10px"
+          >
+            <Text color="#fff">{isOpen ? 'Aberto' : 'Fechado'}</Text>
+          </Flex>
           <Flex flexDirection="row" align="center">
             <Text mr="5px">{formatPrice(fee)}</Text>
             <MaterialIcons name="motorcycle" size={25} />
