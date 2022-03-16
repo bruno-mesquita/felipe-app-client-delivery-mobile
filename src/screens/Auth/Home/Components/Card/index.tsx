@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -17,7 +16,7 @@ export const Card = (props: Props) => {
 
   const { data: image } = useGetImage(props.imageId || props.image_id);
 
-  const isOpen = useMemo(() => props.closingTime > getHours(new Date()), []);
+  const isOpen = props.closingTime > getHours(new Date());
 
   const toStoreDetail = () => {
     navigation.navigate('Establishment', {
