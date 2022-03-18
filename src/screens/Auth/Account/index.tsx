@@ -12,7 +12,7 @@ export const Account = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const toast = useToast();
 
-  const { user, mutate } = useUser();
+  const { data: user, mutate } = useUser();
 
   const deactivate = async () => {
     try {

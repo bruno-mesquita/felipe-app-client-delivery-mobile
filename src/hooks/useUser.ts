@@ -10,8 +10,8 @@ export type IUser = {
   avatar: string;
 };
 
-export const useUser = () => {
-  const { data, error, mutate } = useSWR<IUser>('clients/me', {
+export const useUser = () =>
+  useSWR<IUser>('clients/me', {
     fallbackData: {
       id: 0,
       name: '',
@@ -22,11 +22,3 @@ export const useUser = () => {
       avatar: null,
     },
   });
-
-  return {
-    user: data,
-    isLoading: !error && !data,
-    isError: error,
-    mutate,
-  };
-};

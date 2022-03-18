@@ -6,6 +6,7 @@ const api = axios.create({
   baseURL: Constants.manifest?.extra?.apiUrl,
   headers: {
     apiversion: Constants.manifest?.version,
+    appversion: Constants.manifest?.version,
     isdevice: Device.isDevice,
   },
 });

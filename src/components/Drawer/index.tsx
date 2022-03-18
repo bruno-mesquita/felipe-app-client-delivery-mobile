@@ -10,7 +10,7 @@ import { authActions } from '@store/reducers/auth';
 export const Drawer = ({ navigation }: DrawerContentComponentProps) => {
   const dispatch = useAppDispatch();
 
-  const { user } = useUser();
+  const { data: user } = useUser();
 
   const logout = () => dispatch(authActions.logout());
 

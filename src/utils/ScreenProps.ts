@@ -1,4 +1,4 @@
-import { RouteProp, NavigationProp } from '@react-navigation/native';
+import type { RouteProp, NavigationProp } from '@react-navigation/native';
 
 export type ScreenAuthList = {
   Home: {

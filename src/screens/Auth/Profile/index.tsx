@@ -13,7 +13,7 @@ type IValues = Pick<IUser, 'name' | 'email' | 'cellphone'>;
 
 export const Profile = () => {
   const toast = useToast();
-  const { user, mutate } = useUser();
+  const { data: user, mutate } = useUser();
 
   const initialValues: IValues = {
     name: user.name,
