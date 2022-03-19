@@ -17,6 +17,10 @@ const wait = require('../../../assets/images/esperando.png');
 const accept = require('../../../assets/images/pedido_aceito.png');
 const delivered = require('../../../assets/images/pedido_entregue.png');
 
+const images = [lineOne, lineTwo, lineThree, lineFour];
+const icons = [wait, accept, way, delivered];
+const status = ['Enviado', 'Aceito', 'Em preparo', 'Saiu para entrega'];
+
 export const TrackOrder = ({
   navigation,
   route: {
@@ -26,14 +30,6 @@ export const TrackOrder = ({
   const dispatch = useAppDispatch();
   const toast = useToast();
 
-  const [images] = useState([lineOne, lineTwo, lineThree, lineFour]);
-  const [icons] = useState([wait, accept, way, delivered]);
-  const [status] = useState([
-    'Enviado',
-    'Aceito',
-    'Em preparo',
-    'Saiu para entrega',
-  ]);
   const [active, setActive] = useState(0);
   const [finish, setFinish] = useState(false);
   const [func, setFunc] = useState(null);
