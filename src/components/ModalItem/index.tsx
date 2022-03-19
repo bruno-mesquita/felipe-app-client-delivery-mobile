@@ -14,7 +14,7 @@ import { useAppDispatch } from '@store/hooks';
 
 import type { ModalItemProps } from './props';
 import { ProductInfo, ViewTexts, Header } from './styles';
-import { useGetProduct } from '@hooks';
+import { useGetImage, useGetProduct } from '@hooks';
 
 export const ModalItem = ({ modalRef, productId, menuId }: ModalItemProps) => {
   const dispatch = useAppDispatch();
@@ -25,6 +25,7 @@ export const ModalItem = ({ modalRef, productId, menuId }: ModalItemProps) => {
   };
 
   const { data: product } = useGetProduct(productId, menuId);
+  const { data: image } = useGetImage(product.image_id);
 
   const [amount, setAmount] = useState(1);
 
@@ -49,7 +50,7 @@ export const ModalItem = ({ modalRef, productId, menuId }: ModalItemProps) => {
         establishmentId,
         fee,
         amount,
-        image: product.photo.encoded,
+        image: image.encoded,
         itemId: productId,
         name: product.name,
         price: product.price,
@@ -71,13 +72,13 @@ export const ModalItem = ({ modalRef, productId, menuId }: ModalItemProps) => {
           />
         </Header>
         <ProductInfo>
-          {product.photo.encoded !== '' && (
+          {image.encoded !== '' && (
             <FastImage
               size="80px"
               resizeMode="cover"
               rounded="11px"
-              source={{ uri: product?.photo.encoded }}
-              cacheKey={product?.photo.id.toString()}
+              source={{ uri: image.encoded }}
+              cacheKey={image.id.toString()}
             />
           )}
           <ViewTexts>

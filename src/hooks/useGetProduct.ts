@@ -7,6 +7,7 @@ export type IProduct = Readonly<{
   description: string;
   unit: number;
   unitType: string;
+  image_id: number;
   photo: {
     id: number;
     encoded: string;
@@ -24,6 +25,7 @@ export const useGetProduct = (productId: number, menuId: number) =>
         price: 0,
         unit: 1,
         unitType: 'Un',
+        image_id: 0,
         photo: {
           id: 0,
           encoded: '',
