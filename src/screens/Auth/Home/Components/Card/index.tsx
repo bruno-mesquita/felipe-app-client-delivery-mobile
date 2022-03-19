@@ -2,7 +2,6 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text, Flex } from 'native-base';
-import { getHours } from 'date-fns';
 
 import { FastImage } from '@components';
 import { NavigationAuthHook } from '@utils/ScreenProps';
@@ -16,7 +15,9 @@ export const Card = (props: Props) => {
 
   const { data: image } = useGetImage(props.imageId || props.image_id);
 
-  const isOpen = props.closingTime > getHours(new Date());
+  const currentHour = new Date().getHours();
+  const isOpen =
+    props.openingTime <= currentHour && props.closingTime >= currentHour;
 
   const toStoreDetail = () => {
     navigation.navigate('Establishment', {
